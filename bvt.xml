@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="false">
+    <test name="Test">
+        <classes>
+            <class name="erknm_gui_autotest.src.java.testCases.auth.AuthTest">
+                <methods>
+                    <include name="authorizationSomeTest" />
+                    <include name="choiсeModeERKNMTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.listEvents.ListEventsTest">
+                <methods>
+                    <include name="createEventStatusProcessCompletionTest" />
+                    <include name="transferEventStatusReadyApprovalTest" />
+                    <include name="transferEventStatusOnApprovalTest" />
+                    <include name="transferEventStatusAgreedTest" />
+                    <include name="transferEventStatusWaitCompletionsTest" />
+                    <include name="transferEventStatusWaitCompletedTest" />
+                    <include name="deleteEventTest" />
+                    <include name="createTemplateMandatoryRequirementsERKNMTest" />
+                    <include name="createTemplateTestSheetsERKNMTest" />
+                    <include name="addResresentativesERKNMTest" />
+                    <include name="signKNMUnpinnedSignatureTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.listPlans.ListPlansTest">
+                <methods>
+                    <include name="createPlanTest" />
+                    <include name="deletePlanTest" />
+                    <include name="addPlannedKNMInPlanTest" />
+                    <include name="transferPlanStatusOnConsiderationTest" />
+                    <include name="transferPlanStatusApprovedTest" />
+                    <include name="exceptionKNMFromApprovedPlanTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.listPreventionEvents.ListPreventionEventsTest">
+                <methods>
+                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest" />
+                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest" />
+                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest" />
+                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest" />
+                    <include name="transferPEventPreventiveVisitStatusAwaitingTest" />
+                    <include name="transferPEventPreventiveVisitStatusCompletedTest" />
+                    <include name="deletePMEventTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.news.NewsTest">
+                <methods>
+                    <include name="createNewsTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.personalAccount.PersonalAccountTest">
+                <methods>
+                    <include name="createTemplateMandatoryRequirementsERPTest" />
+                    <include name="createTemplateTestSheetsERPTest" />
+                    <include name="addResresentativesERPTest" />
+                </methods>
+            </class>
+            <class name="erknm_gui_autotest.src.java.testCases.searchEvents.SearchEventsTest">
+                <methods>
+                    <include name="checkFunctionalitySearchKNMTest" />
+
+                </methods>
+            </class>
+
+        </classes>
+    </test>
+</suite>
