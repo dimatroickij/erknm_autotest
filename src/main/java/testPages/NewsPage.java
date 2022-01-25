@@ -2,10 +2,8 @@ package testPages;
 
 import org.openqa.selenium.By;
 
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Calendar;
 import java.util.Date;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -34,6 +32,7 @@ public class NewsPage extends Common {
     public String saveWithoutPublicationsNewsButton = "//button[text()='Сохранить без публикации']";
     public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']";
     public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']";
+    public String apply = "//button[text()='Применить']";
 
 
     /**
@@ -41,6 +40,13 @@ public class NewsPage extends Common {
      */
     public void goToManagmentNews() {
         $(By.xpath(managementNewsItemMenu)).click();
+    }
+
+    /**
+     * Переход в редактирование новости
+     */
+    public void goToNews(String prefix) {
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + prefix + "')]")).click();
     }
 
     /**
@@ -84,8 +90,7 @@ public class NewsPage extends Common {
      * Заполнение текста новости
      */
     public void setTextNewsField(String text) {
-        $(By.xpath(textNewsField)).scrollIntoView(true);
-        $(By.xpath(textNewsField)).setValue(text);
+        $(By.xpath(textNewsField)).append(text);
     }
 
     /**
@@ -117,6 +122,13 @@ public class NewsPage extends Common {
     }
 
     /**
+     * Клик по кнопке Применить при редактировании опубликованной новости
+     */
+    public void clickApplyWithPublicationsNewsButton() {
+        $(By.xpath(apply)).click();
+    }
+
+    /**
      * Заполнение поля Дата публикации
      */
     public void setDataPublicationField() {
@@ -127,8 +139,8 @@ public class NewsPage extends Common {
     /**
      * Поиск новости в таблице новостей
      */
-    public void searchNewsInTable(String news){
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '"+news+"')]")).should(appear);
+    public void searchNewsInTable(String news) {
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + news + "')]")).should(appear);
     }
 
 

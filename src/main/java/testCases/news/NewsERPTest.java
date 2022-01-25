@@ -2,17 +2,17 @@ package testCases.news;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-import testPages.NewsERPPage;
+import testPages.NewsPage;
 
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$;
 
-public class NewsERPTest extends NewsERPPage {
+public class NewsERPTest extends NewsPage {
 
     // Новости в режиме ЕРП
-    String prefix = UUID.randomUUID().toString(); //"bcca8d09-6487-486f-9fb8-cb52c02fe89";
+    String prefix = "bcca8d09-6487-486f-9fb8-cb52c02fe89";//UUID.randomUUID().toString();
 
     String newPrefix = UUID.randomUUID().toString();
 
@@ -40,21 +40,21 @@ public class NewsERPTest extends NewsERPPage {
         System.out.println("STOP");
     }
 
-//    @Test(description = "2 - Редактирование новости в режиме ЕРП")
-//    public void editNewsERPTest() {
-//        authorization("admin");
-//        choiceERP(); // переход в режим ЕРП
-//        System.out.println("Идентификатор - " + prefix);
-//        goToManagmentNews();
-//        goToNews(prefix);
-//
-//        setTypeNewsField(typeItemNews);
-//        setTitleNewsField(newPrefix + "автотест Заголовок");
-//        setShortTextNewsField(newPrefix + "автотест Краткий текст новости");
-//        setTextNewsField(newPrefix + "автотест Текст новости");
-//        clickSaveNewsButton();
-//        clickApplyWithPublicationsNewsButton();
-//        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + newPrefix + "')]")).should(appear);
-//        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and not contains(string(), '" + prefix + "')]")).should(appear);
-//    }
+    @Test(description = "2 - Редактирование новости в режиме ЕРП")
+    public void editNewsERPTest() {
+        authorization("admin");
+        choiceERP(); // переход в режим ЕРП
+        System.out.println("Идентификатор - " + prefix);
+        goToManagmentNews();
+        goToNews(prefix);
+
+        setTypeNewsField(typeItemNews);
+        setTitleNewsField(newPrefix + "автотест Заголовок");
+        setShortTextNewsField(newPrefix + "автотест Краткий текст новости");
+        setTextNewsField(newPrefix + "автотест Текст новости");
+        clickSaveNewsButton();
+        clickApplyWithPublicationsNewsButton();
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + newPrefix + "')]")).should(appear);
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and not contains(string(), '" + prefix + "')]")).should(appear);
+    }
 }

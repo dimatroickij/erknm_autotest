@@ -27,7 +27,7 @@ public class NewsTest extends NewsPage {
         setTextNewsField(prefix + "автотестТекст новости");
         setDataPublicationField();
         clickSaveNewsButton();
-        clickSaveWithPublicationsNewsButton();
+        //clickSaveWithPublicationsNewsButton();
         searchNewsInTable(prefix + "автотестЗаголовок");
         clickToText(nameAdmin);
         clickExitButton();
