@@ -3,6 +3,10 @@ package testPages;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListPreventionEventsPage extends Common {
@@ -40,6 +44,10 @@ public class ListPreventionEventsPage extends Common {
 
     String numberPM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'ПМ 6') or contains(string(), 'ПМ 7'))]";
 
+    String addInformationDirectionObjectionButton =""; //кнопка Добавить в разделе Сведения о направлении возражения на предостережение
+    String addInformationResultPMButton="";// кнопка Добавить в разделе Сведения о результатах ПМ
+    String resultPMField="";//поле результат ПМ
+
 
     /**
      * Заполнение выпадающего списка Контрольный (надзорный) орган
@@ -68,9 +76,9 @@ public class ListPreventionEventsPage extends Common {
     /**
      * Заполнение поля Дата начала
      */
-    //TODO: сделать выбор текущей даты и следующие 2 выпадайки
-    public void setStartDate(String date) {
-        $(By.xpath(startDateField)).setValue(date);
+    public void setStartDate(Calendar date) {
+        String dateStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(startDateField)).setValue(dateStr);
     }
 
     /**
@@ -191,4 +199,23 @@ public class ListPreventionEventsPage extends Common {
         clickToText(post);
     }
 
+    /**
+     * Нажатие на кнопку Добавить в разделе Сведения о направлении возражения на предостережение
+     */
+    public void clickAddInformationDirectionObjectionButton(){
+        $(By.xpath(addInformationDirectionObjectionButton)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в разделе Сведения о результатах ПМ
+     */
+    public void clickAddInformationResultPMButton(){
+        $(By.xpath(addInformationResultPMButton)).click();
+    }
+/**
+ * Заполнение поля результат ПМ
+ */
+public void setResultPMField(String result){
+    $(By.xpath(resultPMField)).setValue(result);
+}
 }

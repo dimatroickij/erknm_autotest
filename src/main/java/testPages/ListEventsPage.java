@@ -2,6 +2,9 @@ package testPages;
 
 import org.openqa.selenium.By;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListEventsPage extends Common {
@@ -19,7 +22,7 @@ public class ListEventsPage extends Common {
     String startKNMDate = "//*[@id='startDateBlock']/div[2]/div[1]/div/div/input"; //Дата начала КНМ
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']/div/div[1]"; //Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; //ИНН
-    String innListField = "//*[@class='ant-select-item-option-content']"; //появившийся спискок ИНН
+    String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; //появившийся спискок ИНН
 
     String numberPlanField = "//*[@id='planId']"; //номер плана
     String durationDaysField = "//*[@name='durationDays']"; //срок проведения(дней)
@@ -44,7 +47,7 @@ public class ListEventsPage extends Common {
 
     String addListActionsButton = "//*[@id='eventsBlock']/span/button";//кнопка Добавить в разделе Перечень действий
     String typeActionsDropDown = "//*[@id='eventsErknm[0].type']";//Выберете тип действия
-    String typeActions ="Осмотр";
+    String typeActions = "Осмотр";
     String dateStartActions = "/html/body/div/div/main/form/div[2]/div[3]/div[8]/ul/li/div/div[2]/div/div[1]/div/div/input"; //Дата начала
     String dateEndActions = "/html/body/div/div/main/form/div[2]/div[3]/div[8]/ul/li/div/div[3]/div/div[1]/div/div/input"; //Дата окончания
 
@@ -54,17 +57,31 @@ public class ListEventsPage extends Common {
     //public String actionButton = "//button[text()='Действия']";
     String actionButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; // кнопка Действия
     String signButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div/div/div/ul/li[4]/span/button"; //кнопка Подписать в подменю Действия
-    String signOnFormButton ="/html/body/div[2]/div/div[2]/div/div[2]/div/div/button"; //кнопка Подписать на форме подписание паспорта КНМ
+    String signOnFormButton = "/html/body/div[2]/div/div[2]/div/div[2]/div/div/button"; //кнопка Подписать на форме подписание паспорта КНМ
 
-    String dateTimePublicationDecisionField="/html/body/div/div/main/form/div[2]/div[1]/div[7]/div[2]/div/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
-    String solutionNumberField ="//*[@id='numberDecision']"; //поле Номер решения в разделе Решение о проведении КНМ
-    String placeDecisionField="//*[@id='placeDecision']";// поле Место вынесения решения
-    String nameOfficialField="//*[@id='fioSigner']";// поле ФИО должностного лица
-    String positionPersonSignedDecisionsDropDown="//*[@id='titleSigner']";// поле Должность лица, подписавшего решение
-    String durationEventHoursField="//*[@name='durationHours']";//поле срок проведения (часов)
-    String addGroundConducting="/html/body/div/div/main/form/div[2]/div[1]/div[17]/div[2]/span/button";//нажатие на кнопку Добавить в разделе Основания проведения КНМ
+    String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/div[1]/div[7]/div[2]/div/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
+    String solutionNumberField = "//*[@id='numberDecision']"; //поле Номер решения в разделе Решение о проведении КНМ
+    String placeDecisionField = "//*[@id='placeDecision']";// поле Место вынесения решения
+    String nameOfficialField = "//*[@id='fioSigner']";// поле ФИО должностного лица
+    String positionPersonSignedDecisionsDropDown = "//*[@id='titleSigner']";// поле Должность лица, подписавшего решение
+    String positionDirector = "Руководитель Росздравнадзора";
+    String durationEventHoursField = "//*[@name='durationHours']";//поле срок проведения (часов)
+    String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/div[1]/div[17]/div[2]/span/button";//нажатие на кнопку Добавить в разделе Основания проведения КНМ
+    String groundConduсtingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выапдающий список Основание регистрации КНМ
+    String groundConduction = "4.0.5 (ФЗ 248) Наличие у контрольного (надзорного) органа сведений о причинении вреда (ущерба) или об угрозе причинения вреда (ущерба) охраняемым законом ценностям";
+    String needCoordinationDropDown = "//*[@id ='approveRequired']";//выпадающий список Необходимость согласования
+    String needCoordination = "Требует согласования";
+    String addFoundationButton = "//*[text()='Добавить основание']";
+    String typeDocumentDropDown = "//*[@id='reasonDocuments[0].type']"; // выпадающий список Тип документа
+    String typeDocument = "Мотивированное представление о проведении контрольного (надзорного)";
+    String addFileButton = "/html/body/div/div/main/form/div[2]/div[1]/div[18]/ul/li/div/div[2]/button";//кнопка Добавить у блока Файл
 
-
+    String addMandatoryRequirementsButton = "/html/body/div/div/main/form/div[2]/div[4]/div[1]/div/button";//кнопка Добавить в блоке обязательные требования, подлежащие проверке
+    String mandatoryRequirementsDropDown = "/html/body/div/div/main/form/div[2]/div[4]/div[1]/table/tbody/tr/td[2]/div/div/div/div[1]";//выпадающий список Обязательные требования
+    String addNewMandatoryRequirementsButton = "//*[text()='Создать новый']"; //создать новое обязательное требование
+    String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']";//поле Наименование в блоке ОТ
+    String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']";//поле Наименование НПА в блоке ОТ
+    String dateNPAMandatoryRequirementsField = "/html/body/div/div/main/form/div[2]/div[4]/div[1]/table/tbody/tr/td[4]/div/div/div/div/input";//поле Дата НПА
 
 
     /**
@@ -134,11 +151,10 @@ public class ListEventsPage extends Common {
 
     /**
      * Получение номера КНМ
-     *
      */
     public String getNumberKNM() {
         String number = $(By.xpath(numberKNM)).getOwnText();
-        System.out.println("НОМЕР КНМ - " +number);
+        System.out.println("НОМЕР КНМ - " + number);
         // TODO: Нужно ли обрезать буквенную часть номера ? поиск работает и с ним
       /*  numberKNM = numberKNM.substring(4);
         System.out.println("НОМЕР без - " +numberKNM);*/
@@ -159,6 +175,13 @@ public class ListEventsPage extends Common {
      */
     public void setDurationDaysField(String days) {
         $(By.xpath(durationDaysField)).setValue(days);
+    }
+
+    /**
+     * Заполнение поля Срок проведения(часов)
+     */
+    public void setDurationEventHoursField(String hours) {
+        $(By.xpath(durationEventHoursField)).setValue(hours);
     }
 
     /**
@@ -195,6 +218,7 @@ public class ListEventsPage extends Common {
      * Заполнение поля Местонахождение
      */
     public void setAdressField(String adress) {
+        //   $(By.xpath("/html/body/div/div/main/form/div[2]/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div/button")).click();
         $(By.xpath(adressField)).setValue(adress);
     }
 
@@ -209,7 +233,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Вида объекта
      */
-    public void setKindObjectDropDown(){
+    public void setKindObjectDropDown() {
         $(By.xpath(kindObjectDropDown)).click();
         clickToText(kingObject);
     }
@@ -217,7 +241,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Подвида объекта
      */
-    public void setSubkindObjectDropDown(){
+    public void setSubkindObjectDropDown() {
         $(By.xpath(subkindObjectDropDown)).click();
         clickToText(kingObject);
     }
@@ -225,7 +249,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Класса опасности
      */
-    public void setdangerClassDropDown(){
+    public void setdangerClassDropDown() {
         $(By.xpath(dangerClassDropDown)).click();
         clickToText(dangerClass);
     }
@@ -233,14 +257,14 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Перечень действий, осуществляемый в рамках КНМ
      */
-    public void clickAddListActionsButton(){
+    public void clickAddListActionsButton() {
         $(By.xpath(addListActionsButton)).click();
     }
 
     /**
      * Выберете Тип действия в разделе Перечень действий
      */
-    public void setTypeActionsDropDown(){
+    public void setTypeActionsDropDown() {
         $(By.xpath(typeActionsDropDown)).click();
         clickToText(typeActions);
     }
@@ -248,49 +272,179 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение Дата начала в Перечне действий
      */
-    public void setDateStartActions(String date){
+    public void setDateStartActions(String date) {
         $(By.xpath(dateStartActions)).setValue(date);
     }
 
     /**
      * Заполнение Дата окончания в Перечне действий
      */
-    public void setDateEndActions(String date){
+    public void setDateEndActions(String date) {
         $(By.xpath(dateEndActions)).setValue(date);
     }
 
     /**
      * Нажать кнопку Добавить в разделе Место (места) проведения КНМ
      */
-    public void clickAddVenueButton(){
+    public void clickAddVenueButton() {
         $(By.xpath(addVenueButton)).click();
     }
 
     /**
      * Заполнение поля Введите место
      */
-    public void setVenueField(String venue){
+    public void setVenueField(String venue) {
         $(By.xpath(venueField)).setValue(venue);
     }
 
     /**
      * Нажатие на кнопку Действия
      */
-    public void clickActionsButton(){
+    public void clickActionsButton() {
         $(By.xpath(actionButton)).click();
     }
 
     /**
      * Нажатие на кнопку Подписать в подменю Действие
      */
-    public void clickSignButton(){
+    public void clickSignButton() {
         $(By.xpath(signButton)).click();
     }
 
     /**
      * Нажатие на кнопку Подписать на форме Подписание паспорта КНМ
      */
-    public void clickSigOnFormButton(){
+    public void clickSigOnFormButton() {
         $(By.xpath(signOnFormButton)).click();
+    }
+
+    /**
+     * Заполнение поля Дата и время издания решения в разделе о проведении КНМ
+     */
+    public void setDateTimePublicationDecisionField() {
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(dateTimePublicationDecisionField)).setValue(currentDate);
+    }
+
+    /**
+     * Заполнение поля Номер решения в разделе Решение о проведении КНМ
+     */
+    public void setSolutionNumberField(String number) {
+        $(By.xpath(solutionNumberField)).setValue(number);
+    }
+
+    /**
+     * Заполнение поля Место вынесения решения
+     */
+    public void setPlaceDecisionField(String place) {
+        $(By.xpath(placeDecisionField)).setValue(place);
+    }
+
+    /**
+     * Заполнение поля ФИО должностного лица
+     */
+    public void setNameOfficialField(String name) {
+        $(By.xpath(nameOfficialField)).setValue(name);
+    }
+
+    /**
+     * Выбор из выпадающего списка Должность лица, подписавшего решение
+     */
+    public void setPositionPersonSignedDecisionsDropDown() {
+        $(By.xpath(positionPersonSignedDecisionsDropDown)).click();
+        clickToText(positionDirector);
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в блоке Основания проведения КНМ
+     */
+    public void clickAddGroundConductingButton() {
+        $(By.xpath(addGroundConductingButton)).click();
+    }
+
+    /**
+     * Заполнение выпадающего списка Основание регистрации КНМ
+     */
+    public void setGroundConduсtingDropDown() {
+        $(By.xpath(groundConduсtingDropDown)).click();
+        clickToText(groundConduction);
+    }
+
+    /**
+     * Заполнение выпадающего списка Необходимость согласования
+     */
+    public void setNeedCoordinationDropDown() {
+        $(By.xpath(needCoordinationDropDown)).click();
+        clickToText(needCoordination);
+    }
+
+    /**
+     * Нажатие на кнопку Добавить основание
+     */
+    public void clickAddFoundationButton() {
+        $(By.xpath(addFoundationButton)).click();
+    }
+
+    /**
+     * Выбор из выпадающего списка Тип документа
+     */
+    public void setTypeDocumentDropDown() {
+        $(By.xpath(typeDocumentDropDown)).click();
+        clickToText(typeDocument);
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в разделе Файл
+     */
+    public void clickAddFileButton() {
+        $(By.xpath(addFileButton)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
+     */
+    public void clickAddMandatoryRequirementsButton() {
+        $(By.xpath(addMandatoryRequirementsButton)).click();
+    }
+
+    /**
+     * Открытие выпадающего списка ОТ
+     */
+    public void setMandatoryRequirementsDropDown() {
+        $(By.xpath(mandatoryRequirementsDropDown)).click();
+        clickToText(addNewMandatoryRequirementsButton);
+    }
+
+    /**
+     * Заполнение Наименования ОТ
+     */
+    public void setNameMandatoryRequirementsField(String name) {
+        $(By.xpath(nameMandatoryRequirementsField)).setValue(name);
+    }
+
+    /**
+     * Заполнение поля Наименование НПА в блоке ОТ
+     */
+    public void setNpaMandatoryRequirementsField(String nameNPA) {
+        $(By.xpath(npaMandatoryRequirementsField)).setValue(nameNPA);
+    }
+
+    /**
+     * Заполнение даты НПА
+     */
+    public void setDateNPAMandatoryRequirementsField(String currentDate) {
+       // String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(dateNPAMandatoryRequirementsField)).setValue(currentDate);
+    }
+
+    /**
+     * Добавление нового обязательного требования
+     */
+    public void createMandatoryRequirements(String name, String nameNPA, String currentDate) {
+        clickAddMandatoryRequirementsButton();
+        setMandatoryRequirementsDropDown();
+        setNameMandatoryRequirementsField(name);
+        setNpaMandatoryRequirementsField(nameNPA);
+        setDateNPAMandatoryRequirementsField(currentDate);
     }
 }

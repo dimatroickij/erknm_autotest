@@ -1,6 +1,7 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -20,6 +21,7 @@ public class Common {
     public String nameSupervisor = "Иванов Семён";
     public String nameOmbudsman = "Иванов Омбудсмен Семён";
     public String nameAdmin = "Администратор системы";
+    public String exitButton = "//*[text()= 'Выйти']";
 
     //режимы ЕРКНМ и ЕРП
     public String modeERKNM = "//*[text()='ЕРКНМ']";
@@ -203,7 +205,7 @@ public class Common {
     /**
      * Переход в список КНМ
      */
-    public void gotoListKNM() {
+    public void gotoListKNMPage() {
         // $(By.xpath(tests.listEvents)).shouldHave(text("Список КНМ")).click();
         clickToText(listEvents);
     }
@@ -211,7 +213,7 @@ public class Common {
     /**
      * Переход в список ПМ
      */
-    public void gotoListPreventionEvents() {
+    public void gotoListPreventionEventsPage() {
         // $(By.xpath(tests.listPreventionEvents)).shouldHave(text("Список ПМ")).click();
         clickToText(listPreventionEvents);
     }
@@ -219,7 +221,7 @@ public class Common {
     /**
      * Переход в список планов
      */
-    public void gotoListPlans() {
+    public void gotoListPlansPage() {
         // $(By.xpath(tests.listPlans)).shouldHave(text("Список планов")).click();
         clickToText(listPlans);
     }
@@ -227,10 +229,18 @@ public class Common {
     /**
      * Переход в отчеты
      */
-    public void gotoReports() {
+    public void gotoReportsPage() {
         //$(By.xpath(tests.reports)).shouldHave(text("Отчеты")).click();
         clickToText(reports);
     }
+
+    /**
+     * Переход в новости
+     */
+    public void gotoNewsPage() {
+        clickToText(news);
+    }
+
 
     /**
      * Универсальный метод для поиска по тексту и клик на это место
@@ -299,6 +309,12 @@ public class Common {
         $(By.xpath(deleteButton)).shouldBe(visible).click();
     }
 
+    /**
+     * Нажать на кнопку Выйти
+     */
+    public void clickExitButton() {
+        $(By.xpath(exitButton)).click();
+    }
 }
 
 

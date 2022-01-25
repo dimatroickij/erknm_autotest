@@ -2,12 +2,17 @@ package testPages;
 
 import org.openqa.selenium.By;
 
+import java.sql.SQLOutput;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Calendar;
+import java.util.Date;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
-public class NewsPage extends Common{
+public class NewsPage extends Common {
     // раздел Новости
     public String managementNewsItemMenu = "//*[text()='Управление новостями']";
     public String addNewsButton = "//button[text()='Добавить новость']";
@@ -23,13 +28,12 @@ public class NewsPage extends Common{
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
     public String titleField = "//*[@name='title']"; //поле Заголовок
     public String shortTextField = "//*[@name='shortText']"; //поле Краткий текст новости
-    public String textNewsField = "//*[@role= 'textbox']"; //поле Текст новости - TODO: не успевает?
-   // public String dataPublicationField =""; //TODO: поле Дата публикация пока без даты сохраняем
+    public String textNewsField = "//*[@role= 'textbox']//span[@data-offset-key='key-0-0']"; //поле Текст новости
+    public String dataPublicationField = "/html/body/div/div/main/div/form/div[7]/div/div[2]/div/div/div/input"; //поле Дата публикации
     public String saveNewsButton = "//*[@type='submit']";
     public String saveWithoutPublicationsNewsButton = "//button[text()='Сохранить без публикации']";
     public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']";
     public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']";
-
 
 
     /**
@@ -63,52 +67,68 @@ public class NewsPage extends Common{
     }
 
     /**
-    Заполнение заголовка новости
+     * Заполнение заголовка новости
      */
-    public void setTitleNewsField(String title){
-        $(By.xpath(titleField)).setValue(title); // Префикс - рандом+авто
+    public void setTitleNewsField(String title) {
+        $(By.xpath(titleField)).setValue(title);
     }
 
     /**
-     Заполнение краткого текста новости
+     * Заполнение краткого текста новости
      */
-    public void setShortTextNewsField(String shortText){
-        $(By.xpath(shortTextField)).setValue(shortText); // Префикс - рандом+авто
+    public void setShortTextNewsField(String shortText) {
+        $(By.xpath(shortTextField)).setValue(shortText);
     }
 
     /**
-     Заполнение текста новости
+     * Заполнение текста новости
      */
-    public void setTextNewsField(String text){
-        $(By.xpath(textNewsField)).setValue(text); // Префикс - рандом+авто
+    public void setTextNewsField(String text) {
+        $(By.xpath(textNewsField)).scrollIntoView(true);
+        $(By.xpath(textNewsField)).setValue(text);
     }
 
     /**
      * Клик по кнопке Сохранить при создании новости
      */
-    public void clickSaveNewsButton(){
+    public void clickSaveNewsButton() {
         $(By.xpath(saveNewsButton)).shouldHave(text("Сохранить"), Duration.ofSeconds(3)).click();
     }
 
     /**
      * Клик по кнопке Сохранить без публикации
      */
-    public void clickSaveWithoutPublicationsNewsButton(){
+    public void clickSaveWithoutPublicationsNewsButton() {
         $(By.xpath(saveWithoutPublicationsNewsButton)).click();
     }
 
     /**
      * Клик по кнопке Опубликовать
      */
-    public void clickSaveWithPublicationsNewsButton(){
+    public void clickSaveWithPublicationsNewsButton() {
         $(By.xpath(saveWithPublicationsNewsButton)).click();
     }
 
     /**
      * Клик по кнопке Убрать из публикации
      */
-    public void clickRemoveFromPublicationNewsButton(){
+    public void clickRemoveFromPublicationNewsButton() {
         $(By.xpath(removeFromPublicationNewsButton)).click();
+    }
+
+    /**
+     * Заполнение поля Дата публикации
+     */
+    public void setDataPublicationField() {
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(dataPublicationField)).setValue(currentDate);
+    }
+
+    /**
+     * Поиск новости в таблице новостей
+     */
+    public void searchNewsInTable(String news){
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '"+news+"')]")).should(appear);
     }
 
 

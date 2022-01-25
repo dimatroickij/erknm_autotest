@@ -1,12 +1,10 @@
 package testCases.news;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.NewsPage;
 
 import java.util.Random;
 
-import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$;
 
 public class NewsTest extends NewsPage {
@@ -20,8 +18,6 @@ public class NewsTest extends NewsPage {
     @Test(description = "1 - Добавление новости")
     public void createNewsTest() throws InterruptedException {
         authorization("admin");
-        //double randomNumber = Math.random();
-        System.out.println("Идентификатор - " + prefix);
         goToManagmentNews();
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
@@ -29,14 +25,15 @@ public class NewsTest extends NewsPage {
         setTitleNewsField(prefix + "автотестЗаголовок");
         setShortTextNewsField(prefix + "автотестКраткий текст новости");
         setTextNewsField(prefix + "автотестТекст новости");
-        Thread.sleep(4000);
-        //TODO: ЕРКНМ не видит заполненное поле текст - повляется надпись, что поле должно быть обязательно заполнено
+        setDataPublicationField();
         clickSaveNewsButton();
         clickSaveWithPublicationsNewsButton();
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '33333')]")).should(appear);
-        //проверить на видимость у пользователя
-
-        System.out.println("STOP");
+        searchNewsInTable(prefix + "автотестЗаголовок");
+        clickToText(nameAdmin);
+        clickExitButton();
+        authorization("prosecutor");
+        gotoNewsPage();
+        searchNewsInTable(prefix + "автотестЗаголовок");
 
 
     }

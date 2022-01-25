@@ -11,8 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class PersonalAccountPage extends Common {
 
     //разделы личного кабинета
-    //TODO: при необходимости данные вынести в конфигурационный файл
-    public String personalAccount = "Личный кабинет";
+
     public String commonInformation = "Общая информация";
     public String authorizedToConduct = "Уполномоченные на проведение КНМ";
     public String checkSheets = "Проверочные листы";
@@ -25,7 +24,7 @@ public class PersonalAccountPage extends Common {
     public String managementNews = "Управление новостями";
     public String typeStateControl = "Выборочный контроль качества биомедицинских клеточных продуктов.";
 
-
+    public String personalAccount = "//*[contains(@class,'DropdownItem_MenuButton') and contains(string(), 'Личный кабинет')]";
     // поля для добавления уполномоченных
     String nameField = "//*[@name='inspectors[0].fullName']";
     String positionField = "//*[@name='inspectors[0].position']";
@@ -54,7 +53,7 @@ public class PersonalAccountPage extends Common {
      * Переход в личный кабинет
      */
     public void clickPersonalAccount() {
-        clickToText(personalAccount);
+        $(By.xpath(personalAccount)).click();
     }
 
     /**
@@ -177,8 +176,8 @@ public class PersonalAccountPage extends Common {
      * Заполнение поля Дата НПА
      * @param date
      */
-    public void setDateNPAField(Calendar date) {
-        String dateStr = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    public void setDateNPAField() {
+        String dateStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dateNPAField)).setValue(dateStr);
     }
 

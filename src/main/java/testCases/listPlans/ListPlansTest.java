@@ -17,7 +17,7 @@ public class ListPlansTest extends ListPlanPage {
     public void createPlanTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPlans();
+        gotoListPlansPage();
         clickAddButton();
         //нужно менять прокуратуру и орган контроля?
         clickCreateButton();
@@ -25,7 +25,7 @@ public class ListPlansTest extends ListPlanPage {
         System.out.println("НОМЕР " + getNumberPlan());
         // checkObject("успешно создан");
         openRequest(numberPlan);
-        // checkObject("Новый");
+        // checkObject("Новый"); или в процессе формирования
 
 
     }
@@ -37,7 +37,7 @@ public class ListPlansTest extends ListPlanPage {
     public void deletePlanTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPlans();
+        gotoListPlansPage();
         createPlanTest(); //создаем и удаляем
         searchRequest(numberPlan);
         $(By.xpath("//*[@id=" + numberPlan + "]")).click(); //выбор чек-бокса в списке
@@ -55,10 +55,10 @@ public class ListPlansTest extends ListPlanPage {
     public void addPlannedKNMInPlanTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListKNM();
+        gotoListKNMPage();
         clickEnterButton();
         clickAddButton();
-        //решить в каком порядке запускать, что бы создавать в ListEvent, а использовать здесь или пилить новое добавление КНМ
+        //решить в каком порядке запускать, что бы создавать в ListEvent, а использовать здесь или пилить новое добавление КНМ (нужна плановая), можно создать планоаую
         /*setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(controlPurchase);
         setCharacterKNMDropDown(unplannedCheck);
@@ -77,7 +77,7 @@ public class ListPlansTest extends ListPlanPage {
     public void transferPlanStatusOnConsiderationTest() {
         authorization("prosecutor");
         choiceERKNM();
-        gotoListKNM();
+        gotoListKNMPage();
         openRequest(numberPlan);
         checkObject("На рассмотрении");
 
@@ -90,7 +90,7 @@ public class ListPlansTest extends ListPlanPage {
     public void transferPlanStatusApprovedTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListKNM();
+        gotoListKNMPage();
         openRequest(numberPlan);
         checkObject("Утвержден");
     }

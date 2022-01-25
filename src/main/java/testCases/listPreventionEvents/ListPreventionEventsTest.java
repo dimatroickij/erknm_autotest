@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import testPages.ListPreventionEventsPage;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Random;
 
 public class ListPreventionEventsTest extends ListPreventionEventsPage {
@@ -24,12 +25,12 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     public void createPMEventWarningAnnouncementStatusProcessCompletionTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPreventionEvents();
+        gotoListPreventionEventsPage();
         clickAddButton();
         setNameKNOPMDropDown(nameKNO);
         setKindControlAndNumberPMDropDown(viewKNO);
         setKindPMDropDown(typeAnnouncementWarningsPM);
-        setStartDate(dataStart);
+        setStartDate(Calendar.getInstance());
         setInnField(INN);
         setTypeObjectField(typeObject);
         setViewObjectField(viewObject);
@@ -48,14 +49,15 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPreventionEvents();
+        gotoListPreventionEventsPage();
         //openRequest(numberPM);
         openRequest("ПМ 77220660001100054148");
-        //TODO разобраться, может проблема с новой вкладкой. Не находит элементы
+        //TODO разобраться, может проблема с новой вкладкой. Не находит элементы, попробовать работающие методы и потом добавить переключение вкладок
         setStopDate(dataStop);
         setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
         clickAddDocumentButton();
+        //TODO нужно переделать срипт
         // Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceDoc.exe");
         Runtime.getRuntime().exec(".\\erknm_gui_autotest\\testUtils\\choiceDoc.exe");
         clickAddSignatureButton();
@@ -64,13 +66,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickUploadButton();
         clickAddGroundsButton();
         setGroundDropDown(ground);
+        //TODO сделать методы по добавлению, где в одном методе сразу нажатие кнопки и заполнение
         clickOfficialButton();
         setOfficialField(prefix + "авто ФИО");
         setOfficialPostDropDown(officialPost);
         clickSaveButton();
         clickActionButton();
         clickSignatureButton();
-        //выбор подписи и бывает алерт
+        //TODO autoit выбор подписи и бывает алерт
         clickSignatureButton();
         clickSaveButton();
 
@@ -82,12 +85,12 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
     public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() {
-        //открываем ПМ созданную в тесте 1 ранее
-        authorization("supervisor");
-        choiceERKNM();
-        gotoListPreventionEvents();
-        //openRequest(numberPM);
-        openRequest("ПМ 77220660001100054148");
+        createPMEventWarningAnnouncementStatusProcessCompletionTest();
+//TODO добавить пункты из предыдущего теста (сократить методы)
+
+        clickAddInformationDirectionObjectionButton();
+        //Добавление документа и подписи
+        checkObject("Есть возражение");
     }
 
     /*
@@ -97,12 +100,12 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     public void createPEventPreventiveVisitStatusProcessCompletionTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPreventionEvents();
+        gotoListPreventionEventsPage();
         clickAddButton();
         setNameKNOPMDropDown(nameKNO);
         setKindControlAndNumberPMDropDown(viewKNO);
         setKindPMDropDown(typePreventiveVisitPM);
-        setStartDate(dataStart);
+       // setStartDate(dataStart);
         setInnField(INN);
         setTypeObjectField(typeObject);
         setViewObjectField(viewObject);
@@ -120,21 +123,30 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     public void transferPEventPreventiveVisitStatusAwaitingTest() throws IOException {
         authorization("supervisor");
         choiceERKNM();
-        gotoListPreventionEvents();
+        gotoListPreventionEventsPage();
         //openRequest(numberPM);
         openRequest("ПМ 77220660001100054149");
         //TODO разобраться, может проблема с новой вкладкой. Не находит элементы
         setStopDate(dataStop);
-        setNoteWarningField(prefix + "авто Описание");
+        /*setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
         clickAddDocumentButton();
         Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceDoc.exe");
         clickAddSignatureButton();
         Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceSign.exe");
-        clickUploadButton();
+        clickUploadButton();*/
         clickAddGroundsButton();
         setGroundDropDown(ground);
-        checkObject("Предостережение объявлено");
+        clickOfficialButton();
+        setOfficialField(prefix + "авто ФИО");
+        setOfficialPostDropDown(officialPost);
+        clickSaveButton();
+        clickActionButton();
+        clickSignatureButton();
+        //TODO autoit выбор подписи и бывает алерт
+        clickSignatureButton();
+        clickSaveButton();
+        checkObject("Ожидание проведения");
     }
 
     /*
@@ -143,6 +155,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "6 - Перевод Профилактического визита в статус Завершено")
     public void transferPEventPreventiveVisitStatusCompletedTest() {
         //открываем КНМ созданную в тесте 1 ранее
+        clickAddInformationResultPMButton();
+        setResultPMField(prefix+"авто результат");
+        checkObject("Завершено");
+
     }
 
     /*

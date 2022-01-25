@@ -9,7 +9,6 @@ import java.util.Random;
 public class PersonalAccountTest extends PersonalAccountPage {
     String typeInspector = "Проверяющий";
     String typeExpert = "Эксперт";
-    //  String dateNPA = "11.01.2022";
     Random rnd = new Random();
     int prefix = rnd.nextInt(1000000);
 
@@ -33,8 +32,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setFormulationField(prefix + "авто Формулировка");
         setNameNPAField(prefix + "авто Наименование НПА");
         setNumberNPAField(prefix + "1");
-        setDateNPAField(Calendar.getInstance());
-        //без необязательных полей - пункт, часть, статья
+        setDateNPAField();
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
 

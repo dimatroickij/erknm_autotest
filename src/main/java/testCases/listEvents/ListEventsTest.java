@@ -3,10 +3,14 @@ package testCases.listEvents;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 //раздел Список КНМ
 public class ListEventsTest extends ListEventsPage {
 
     public String numberKNM = "";
+
 
     /*
      author Frolova S.I 01.2022
@@ -15,16 +19,16 @@ public class ListEventsTest extends ListEventsPage {
     public void createEventStatusProcessCompletionTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListKNM();
+        gotoListKNMPage();
         clickAddButton();
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(controlPurchase);
         setCharacterKNMDropDown(unplannedCheck);
-        //TODO какую дату вводить? + где брать инн, который всегда есть
         setStartKNMDate(dateStart);
         setNameProsecutorDropDown(prosecutorsOffice);
         setInnField(INN);
+       // setAdressField("fl");
         setTypeObjectDropDown();
         setKindObjectDropDown();
         clickSaveButton();
@@ -54,12 +58,30 @@ public class ListEventsTest extends ListEventsPage {
         numberKNM = getNumberKNM();*/
         authorization("supervisor");
         choiceERKNM();
-        gotoListKNM();
+        gotoListKNMPage();
         openRequest("ПМ 77220660001100054148");
+        setDateTimePublicationDecisionField();
+        setSolutionNumberField("prefix");
+        setPlaceDecisionField("prefix + автотестМесто");
+        setNameOfficialField("prefix + autoFIO");
+        setPositionPersonSignedDecisionsDropDown();
+        setDurationDaysField("1");
+        clickAddGroundConductingButton();
+        setGroundConduсtingDropDown();
+        setNeedCoordinationDropDown();
+        clickAddFoundationButton();
+        setTypeDocumentDropDown();
+        clickAddFileButton();
+        //добавить автоит
+        clickAddListActionsButton();
+        setTypeActionsDropDown();
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        setDateStartActions(currentDate);
+        setDateEndActions(currentDate);
+        createMandatoryRequirements("","", currentDate);
 
-
-
-        
+        clickAddVenueButton();
+        setVenueField("prefix + автотестместо");
 
     }
 
