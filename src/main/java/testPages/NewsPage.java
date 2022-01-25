@@ -1,24 +1,25 @@
 package testPages;
 
+import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class NewsPage extends Common {
     // раздел Новости
     public String managementNewsItemMenu = "//*[text()='Управление новостями']";
     public String addNewsButton = "//button[text()='Добавить новость']";
-    public String typeNewsDropDown = "//*[contains(@class, 'SelectInput_SelectInput') and contains(string(), 'Тип')]";
+    public String typeNewsDropDown = "//form//div[@class='shared-row'][1]//*[contains(@class, 'SelectInput_SelectInput')]";
     public String typeItemNews = "//*[text()='Новость']";
     public String typeItemAnnouncement = "//*[text()='Анонс']";
     public String typeItemSurvey = "//*[text()='Опрос']";
-    public String visibleNewsDropDown = "//*[contains(@class, 'SelectInput_SelectInput') and contains(string(), 'Для кого видна новость')]";
+    public String visibleNewsDropDown = "//form//div[@class='shared-row'][2]//*[contains(@class, 'SelectInput_SelectInput')]";
     public String visibleNewsItemKNO = "//*[text()='Сотрудник КНО']";
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
     public String visibleNewsItemOmbudsmen = "//*[text()='Омбудсмен']";
@@ -32,21 +33,22 @@ public class NewsPage extends Common {
     public String saveWithoutPublicationsNewsButton = "//button[text()='Сохранить без публикации']";
     public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']";
     public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']";
-    public String apply = "//button[text()='Применить']";
+    public String applyButton = "//button[text()='Применить']";
+    public String backButton = "//button[text()='Назад']";
 
 
     /**
      * Переход в пункт меню Управление новостями
      */
-    public void goToManagmentNews() {
+    public void goToManagementNews() {
         $(By.xpath(managementNewsItemMenu)).click();
     }
 
     /**
      * Переход в редактирование новости
      */
-    public void goToNews(String prefix) {
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + prefix + "')]")).click();
+    public void goToNews() {
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), 'Опубликована')]")).click();
     }
 
     /**
@@ -60,7 +62,7 @@ public class NewsPage extends Common {
      * Выбор Типа новости
      */
     public void setTypeNewsField(String type) {
-        $(By.xpath(typeNewsDropDown)).click(); // клик на выпадающем списке Тип
+        $(By.xpath(typeNewsDropDown)).should(exist).click(); // клик на выпадающем списке Тип
         $(By.xpath(type)).click(); // клик на типе Новость
     }
 
@@ -68,7 +70,7 @@ public class NewsPage extends Common {
      * Выбор Для кого видна новость
      */
     public void setVisibleNewsDropDown(String visible) {
-        $(By.xpath(visibleNewsDropDown)).click(); // клик на выпадающем списке Для кого видна новость
+        $(By.xpath(visibleNewsDropDown)).should(exist).click(); // клик на выпадающем списке Для кого видна новость
         $(By.xpath(visible)).click(); // клик на роли
     }
 
@@ -76,13 +78,21 @@ public class NewsPage extends Common {
      * Заполнение заголовка новости
      */
     public void setTitleNewsField(String title) {
-        $(By.xpath(titleField)).setValue(title);
+        $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A");
+        $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE);
+        $(By.xpath(titleField)).append(title);
+    }
+
+    public String getTitleNewsField() {
+        return $(By.xpath(titleField)).should(exist).getValue();
     }
 
     /**
      * Заполнение краткого текста новости
      */
     public void setShortTextNewsField(String shortText) {
+        $(By.xpath(shortTextField)).sendKeys(Keys.CONTROL + "A");
+        $(By.xpath(shortTextField)).sendKeys(Keys.BACK_SPACE);
         $(By.xpath(shortTextField)).setValue(shortText);
     }
 
@@ -125,7 +135,14 @@ public class NewsPage extends Common {
      * Клик по кнопке Применить при редактировании опубликованной новости
      */
     public void clickApplyWithPublicationsNewsButton() {
-        $(By.xpath(apply)).click();
+        $(By.xpath(applyButton)).click();
+    }
+
+    /**
+     * Клик по кнопке Назад для возврата на страницу "Управление новостями"
+     */
+    public void clickBackButton() {
+        $(By.xpath(backButton)).click();
     }
 
     /**
@@ -137,18 +154,23 @@ public class NewsPage extends Common {
     }
 
     /**
-     * Поиск новости в таблице новостей у Администратора
+     * Поиск новости в таблице новостей у админа
      */
-    public void searchNewsInTableAdmin(String news) {
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + news + "')]")).should(appear);
+
+    public void searchNewsInTableAdmin(String news, boolean exist) {
+        Condition condition = exist ? appear : not(appear);
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + news + "')]")).should(condition);
     }
 
     /**
      * Поиск новости в таблице новостей у Пользователя
      */
-    public void searchNewsInTableUser(String news) {
-        $(By.xpath("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '" + news + "')]")).should(appear);
+    public void searchNewsInTableUser(String news, boolean exist) {
+        Condition condition = exist ? appear : not(appear);
+        $(By.xpath("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '" + news + "')]")).should(condition);
     }
+
+
 
 
 }

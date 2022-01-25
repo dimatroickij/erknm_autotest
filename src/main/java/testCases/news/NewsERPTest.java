@@ -1,60 +1,78 @@
 package testCases.news;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.NewsPage;
 
 import java.util.UUID;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Selenide.$;
-
 public class NewsERPTest extends NewsPage {
-
     // Новости в режиме ЕРП
-    String prefix = "bcca8d09-6487-486f-9fb8-cb52c02fe89";//UUID.randomUUID().toString();
-
-    String newPrefix = UUID.randomUUID().toString();
 
     /*
      author Troickij D. I. 01.2022
      */
     @Test(description = "1 - Добавление новости в режиме ЕРП")
-    public void createNewsERPTest() {
+    public void createNewsERPTest() throws InterruptedException {
         authorization("admin");
-        choiceERP(); // переход в режим ЕРП
-        System.out.println("Идентификатор - " + prefix);
-        goToManagmentNews();
+        choiceERP();
+        goToManagementNews();
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
         setVisibleNewsDropDown(visibleNewsItemProsecutor);
+        String prefix = UUID.randomUUID().toString();
         setTitleNewsField(prefix + "автотест Заголовок");
         setShortTextNewsField(prefix + "автотест Краткий текст новости");
         setTextNewsField(prefix + "автотест Текст новости");
-
+        setDataPublicationField();
         clickSaveNewsButton();
-        clickSaveWithPublicationsNewsButton();
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + prefix + "')]")).should(appear);
-        //проверить на видимость у пользователя
-
-        System.out.println("STOP");
+        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        logout();
+        authorization("prosecutor");
+        choiceERP();
+        gotoNewsPage();
+        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        logout();
     }
 
     @Test(description = "2 - Редактирование новости в режиме ЕРП")
-    public void editNewsERPTest() {
-        authorization("admin");
-        choiceERP(); // переход в режим ЕРП
-        System.out.println("Идентификатор - " + prefix);
-        goToManagmentNews();
-        goToNews(prefix);
-
-        setTypeNewsField(typeItemNews);
-        setTitleNewsField(newPrefix + "автотест Заголовок");
-        setShortTextNewsField(newPrefix + "автотест Краткий текст новости");
-        setTextNewsField(newPrefix + "автотест Текст новости");
+    public void editNewsERPTest() throws InterruptedException {
+        authorization("admin", false);
+        choiceERP();
+        goToManagementNews();
+        goToNews();
+        String prefix = UUID.randomUUID().toString();
+        String lastTitleNewsField = getTitleNewsField();
+        setTitleNewsField(prefix + "автотест Заголовок");
+        setShortTextNewsField(prefix + "автотест Краткий текст новости");
+        setTextNewsField(prefix + "автотест Текст новости");
         clickSaveNewsButton();
         clickApplyWithPublicationsNewsButton();
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + newPrefix + "')]")).should(appear);
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and not contains(string(), '" + prefix + "')]")).should(appear);
+        clickBackButton();
+        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        searchNewsInTableAdmin(lastTitleNewsField, false);
+        logout();
+        authorization("prosecutor", false);
+        choiceERP();
+        gotoNewsPage();
+        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(lastTitleNewsField, false);
+        logout();
+    }
+
+    @Test(description = "3 - Удаление новости в режиме ЕРП")
+    public void deleteNewsERPTest() throws InterruptedException {
+        authorization("admin", false);
+        choiceERP();
+        goToManagementNews();
+        goToNews();
+        String lastTitleNewsField = getTitleNewsField();
+        clickRemoveFromPublicationNewsButton();
+        clickBackButton();
+        logout();
+        authorization("prosecutor", false);
+        choiceERP();
+        gotoNewsPage();
+        searchNewsInTableUser(lastTitleNewsField, false);
+        logout();
     }
 }

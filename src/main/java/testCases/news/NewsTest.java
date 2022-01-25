@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import testPages.NewsPage;
 
 import java.util.Random;
+import java.util.UUID;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -16,59 +17,69 @@ public class NewsTest extends NewsPage {
      author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавление новости")
-    public void createNewsTest() throws InterruptedException {
+    public void createNewsERPTest() throws InterruptedException {
         authorization("admin");
-        goToManagmentNews();
+        choiceERKNM();
+        goToManagementNews();
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
         setVisibleNewsDropDown(visibleNewsItemProsecutor);
-        setTitleNewsField(prefix + "автотестЗаголовок");
-        setShortTextNewsField(prefix + "автотестКраткий текст новости");
-        setTextNewsField(prefix + "автотестТекст новости");
+        String prefix = UUID.randomUUID().toString();
+        setTitleNewsField(prefix + "автотест Заголовок");
+        setShortTextNewsField(prefix + "автотест Краткий текст новости");
+        setTextNewsField(prefix + "автотест Текст новости");
         setDataPublicationField();
         clickSaveNewsButton();
-        //clickSaveWithPublicationsNewsButton();
-        searchNewsInTableAdmin(prefix + "автотестЗаголовок");
-        clickToText(nameAdmin);
-        clickExitButton();
+        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        logout();
         authorization("prosecutor");
+        choiceERKNM();
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотестЗаголовок");
-
-
+        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        logout();
     }
 
-  /*  @Test(description = "2 - Редактирование новости")
-    public void editNews() {
-//поиск  созданной новости/редактирование
-        authorization("admin");
-        //double randomNumber = Math.random();
-        System.out.println(randomNumber);
-        goToManagmentNews();
-        //переход в созданную новость
-        setTypeNewsField(typeItemNews);
-        setVisibleNewsDropDown(visibleNewsItemProsecutor);
-        setTitleNewsField(randomNumber + "автотестРедЗаголовок");
-        setShortTextNewsField(randomNumber + "автотестКраткий текст ред новости");
-        setTextNewsField(randomNumber + "автотестТекст Ред новости ");
+    @Test(description = "2 - Редактирование новости")
+    public void editNewsERPTest() throws InterruptedException {
+        authorization("admin", false);
+        choiceERKNM();
+        goToManagementNews();
+        goToNews();
+        String prefix = UUID.randomUUID().toString();
+        String lastTitleNewsField = getTitleNewsField();
+        setTitleNewsField(prefix + "автотест Заголовок");
+        setShortTextNewsField(prefix + "автотест Краткий текст новости");
+        setTextNewsField(prefix + "автотест Текст новости");
         clickSaveNewsButton();
-        clickSaveWithPublicationsNewsButton();
-//проверить,что есть новые название и нет старых Проверка на изменеие типа и видящего, что есть у новых и нет у старых
-        System.out.println("STOP");
-
+        clickApplyWithPublicationsNewsButton();
+        clickBackButton();
+        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        searchNewsInTableAdmin(lastTitleNewsField, false);
+        logout();
+        authorization("prosecutor", false);
+        choiceERKNM();
+        gotoNewsPage();
+        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(lastTitleNewsField, false);
+        logout();
     }
 
-    @Test(description = "3 -  Удаление новости")
-    public void deleteNews() {
-//поиск предыдущей новости/ удаление
+    @Test(description = "3 - Удаление новости")
+    public void deleteNewsERPTest() throws InterruptedException {
         authorization("admin");
-        //double randomNumber = Math.random();
-        System.out.println(randomNumber);
-        goToManagmentNews();
-        //переход в созданную новость
+        choiceERKNM();
+        goToManagementNews();
+        goToNews();
+        String lastTitleNewsField = getTitleNewsField();
         clickRemoveFromPublicationNewsButton();
-
-    }*/
+        clickBackButton();
+        logout();
+        authorization("prosecutor", false);
+        choiceERKNM();
+        gotoNewsPage();
+        searchNewsInTableUser(lastTitleNewsField, false);
+        logout();
+    }
 
 
 
