@@ -28,12 +28,12 @@ public class NewsTest extends NewsPage {
         setDataPublicationField();
         clickSaveNewsButton();
         //clickSaveWithPublicationsNewsButton();
-        searchNewsInTable(prefix + "автотестЗаголовок");
+        searchNewsInTableAdmin(prefix + "автотестЗаголовок");
         clickToText(nameAdmin);
         clickExitButton();
         authorization("prosecutor");
         gotoNewsPage();
-        searchNewsInTable(prefix + "автотестЗаголовок");
+        searchNewsInTableUser(prefix + "автотестЗаголовок");
 
 
     }

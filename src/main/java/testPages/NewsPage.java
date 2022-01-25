@@ -137,10 +137,17 @@ public class NewsPage extends Common {
     }
 
     /**
-     * Поиск новости в таблице новостей
+     * Поиск новости в таблице новостей у Администратора
      */
-    public void searchNewsInTable(String news) {
+    public void searchNewsInTableAdmin(String news) {
         $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + news + "')]")).should(appear);
+    }
+
+    /**
+     * Поиск новости в таблице новостей у Пользователя
+     */
+    public void searchNewsInTableUser(String news) {
+        $(By.xpath("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '" + news + "')]")).should(appear);
     }
 
 
