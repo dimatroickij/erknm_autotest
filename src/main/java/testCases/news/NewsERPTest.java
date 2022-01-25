@@ -1,39 +1,60 @@
 package testCases.news;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-import testPages.NewsPage;
+import testPages.NewsERPPage;
 
-import java.util.Random;
+import java.util.UUID;
 
-public class NewsERPTest extends NewsPage {
-    //новости в режиме ЕРП
-    Random rnd = new Random();
-    int randomNumber = rnd.nextInt(1000000);
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Selenide.$;
+
+public class NewsERPTest extends NewsERPPage {
+
+    // Новости в режиме ЕРП
+    String prefix = UUID.randomUUID().toString(); //"bcca8d09-6487-486f-9fb8-cb52c02fe89";
+
+    String newPrefix = UUID.randomUUID().toString();
 
     /*
-     author Frolova S.I 01.2022
+     author Troickij D. I. 01.2022
      */
-    //TODO рефактор
     @Test(description = "1 - Добавление новости в режиме ЕРП")
     public void createNewsERPTest() {
-        //TODO отредактировать
         authorization("admin");
-        //double randomNumber = Math.random();
-        //перейти в режим ЕРП
-        System.out.println(randomNumber);
+        choiceERP(); // переход в режим ЕРП
+        System.out.println("Идентификатор - " + prefix);
         goToManagmentNews();
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
         setVisibleNewsDropDown(visibleNewsItemProsecutor);
+        setTitleNewsField(prefix + "автотест Заголовок");
+        setShortTextNewsField(prefix + "автотест Краткий текст новости");
+        setTextNewsField(prefix + "автотест Текст новости");
+
         clickSaveNewsButton();
-        setTitleNewsField(randomNumber + "автотестЗаголовок");
-        setShortTextNewsField(randomNumber + "автотестКраткий текст новости");
-        setTextNewsField(randomNumber + "автотестТекст новости");
+        clickSaveWithPublicationsNewsButton();
+        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + prefix + "')]")).should(appear);
+        //проверить на видимость у пользователя
 
-
-
-        System.out.println(":le");
-
-
+        System.out.println("STOP");
     }
+
+//    @Test(description = "2 - Редактирование новости в режиме ЕРП")
+//    public void editNewsERPTest() {
+//        authorization("admin");
+//        choiceERP(); // переход в режим ЕРП
+//        System.out.println("Идентификатор - " + prefix);
+//        goToManagmentNews();
+//        goToNews(prefix);
+//
+//        setTypeNewsField(typeItemNews);
+//        setTitleNewsField(newPrefix + "автотест Заголовок");
+//        setShortTextNewsField(newPrefix + "автотест Краткий текст новости");
+//        setTextNewsField(newPrefix + "автотест Текст новости");
+//        clickSaveNewsButton();
+//        clickApplyWithPublicationsNewsButton();
+//        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + newPrefix + "')]")).should(appear);
+//        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and not contains(string(), '" + prefix + "')]")).should(appear);
+//    }
 }
