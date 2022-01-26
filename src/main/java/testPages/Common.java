@@ -9,8 +9,8 @@ import static com.codeborne.selenide.Condition.*;
 
 public class Common {
 
-    public String url = "http://private.proverki.local/";
-    //public String url = "http://private.proverki.local/private/knms";
+    //public String url = "http://private.proverki.local/";
+    public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
 
     String message = "Подтверждаю ознакомление с информацией";
