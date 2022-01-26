@@ -9,16 +9,16 @@ import static com.codeborne.selenide.Condition.*;
 
 public class Common {
 
-     public String url = "http://private.proverki.local/";
-    //public String url = "http://private.proverki.local/private/knms";
+    // public String url = "http://private.proverki.local/";
+    public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
 
     String message = "Подтверждаю ознакомление с информацией";
     String messageButton = "//button[text()='Подтверждаю ознакомление с информацией']"; //кнопка на временной форме с информацией
     public String nameProsecutor = "Сергеев Прокурор Пётр";
     //public String nameSupervisor = "Петров КНО Сергей";
-    public String nameSupervisor = "Петров Сергей";
-   // public String nameSupervisor = "Иванов Семён";
+    //public String nameSupervisor = "Петров Сергей";
+    public String nameSupervisor = "Иванов Семён";
     public String nameOmbudsman = "Иванов Омбудсмен Семён";
     public String nameAdmin = "Администратор системы";
     public String exitButton = "//*[text()= 'Выйти']";
@@ -95,10 +95,8 @@ public class Common {
      * Нажатие на кнопку подтверждающая ознакомеление с информацией
      */
     public void clickMessageButton() {
-       /* boolean message = $(By.xpath(messageButton)).shouldBe(visible);
-        if ($(By.xpath(messageButton)).shouldBe(visible)){*/
         $(By.xpath(messageButton)).shouldHave(text(message)).click();
-    }//}
+    }
 
     /**
      * Переключиться в режим ЕРКНМ
@@ -183,7 +181,7 @@ public class Common {
     /**
      * Открытие найденной карточки
      */
-    public void openCard(String value) {
+    public void openRequest(String value) {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
@@ -286,7 +284,6 @@ public class Common {
         }
         setPassword(password);
         clickEnterButton();
-        //проверка
     }
 
     /**
@@ -300,7 +297,7 @@ public class Common {
      * Проверка отсутствия объекта
      */
     public void checkAbsenceObject(String name) {
-        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldNotBe(exist);
+        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
     }
 
     /**
