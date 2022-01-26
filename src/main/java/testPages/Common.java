@@ -286,6 +286,7 @@ public class Common {
         }
         setPassword(password);
         clickEnterButton();
+        //проверка
     }
 
     /**
