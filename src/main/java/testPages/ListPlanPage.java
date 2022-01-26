@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class ListPlanPage extends Common {
     //раздел Список планов
     String addKNMButton = "//*[text()='Добавить КНМ']";
-    String numberPlan = "//*[contains(@class,'Notification_ClosingNotificationText_') and contains(string(),'План 2')]"; //для получения номера
+    String numberPlan = "//*[contains(@class,'Notification_ClosingNotificationText_') and contains(string(),'План 2')]"; //для получения номера плана
     String confirmationDeleteButton = "/html/body/div/div/main/div/div[1]/div[3]/div/div[3]/button[1]"; //подтверждение удаления
     String submitReviewButton = "//*[text()='Отправить на рассмотрение']";
     String signInBrowserButton = "//*[text()='Подписать в браузере']";
@@ -22,14 +22,17 @@ public class ListPlanPage extends Common {
     /**
      * Получение номера плана
      */
-
     public String getNumberPlan() {
-        String number = $(By.xpath(numberPlan)).getOwnText();
-        System.out.println("НОМЕР ДАТА - " + number);
-        // TODO: Нужно ли обрезать буквенную часть номера ? поиск работает и с ним
-      /*  numberPlan = numberPlan.substring(4);
-        System.out.println("НОМЕР без - " +numberPlan);*/
+        String messageNumber = $(By.xpath(numberPlan)).getText();
+        String number = messageNumber.replaceAll("\\D+","");
         return number;
+    }
+
+    /**
+     * Выбор чек-бокса по номеру плана
+     */
+    public void clickCheckBoxListPlan(String number){
+        $(By.xpath("//*[@id='" + number + "']")).click();
     }
 
     /**

@@ -1,11 +1,14 @@
 package testCases.listPreventionEvents;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.ListPreventionEventsPage;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Random;
+
+import static com.codeborne.selenide.Selenide.$;
 
 public class ListPreventionEventsTest extends ListPreventionEventsPage {
     //раздел Список ПМ
@@ -46,13 +49,15 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      author Frolova S.I 01.2022
      */
     @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
-    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
+    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException, InterruptedException {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
-        openRequest("ПМ 77220660001100054148");
-        //TODO разобраться, может проблема с новой вкладкой. Не находит элементы, попробовать работающие методы и потом добавить переключение вкладок
+        openCard("ПМ 77220660001100054351");
+        $(By.xpath("//*[text()='Объект №1']")).click();
+        setClassDangerField(classDanger2);
+        clickSaveButton();
         setStopDate(dataStop);
         setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
@@ -125,7 +130,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
-        openRequest("ПМ 77220660001100054149");
+        openCard("ПМ 77220660001100054149");
         //TODO разобраться, может проблема с новой вкладкой. Не находит элементы
         setStopDate(dataStop);
         /*setNoteWarningField(prefix + "авто Описание");

@@ -20,14 +20,15 @@ public class ListPreventionEventsPage extends Common {
     public String typeObject = "Деятельность и действия";
     public String viewObject = "используемые контролируемыми лицами при осуществлении деятельности в сфере обращения лекарственных средств помещения, к которым предъявляются обязательные требования";
     public String classDanger = "Первый";
+    public String classDanger2 = "Второй";
+
 
     // String startDateField = "//*[@id='startDateBlock']"; // поле Дата начала
     String startDateField = "/html/body/div/div/main/form/div[2]/div[1]/div[6]/div[2]/div[1]/div/div/input"; // поле Дата начала
     //String stopDateField = "//*[@id='stopDateBlock']"; // поле Дата окончания
     String stopDateField = "//*[@id='stopDateBlock']/div[2]/div/div/div/input"; // поле Дата окончания
     String innField = "//*[(@name='inn')]"; //Поле ИНН
-   // String innListField = "//*[(@class='ant-select-item-option-content')]"; //выбор из выпадающего списка ИНН
-    String innListField = "/html/body/div/div/main/form/div[2]/div[4]/div[2]/div[4]/ul/li"; //выбор из выпадающего списка ИНН
+    String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; //выбор из выпадающего списка ИНН
     String typeObjectField = "//*[(@id='objectsPm[0].objectType')]"; // выбор типа объекта
     String viewObjectField = "//*[(@id='objectsPm[0].objectKind')]"; // выбор вида объекта
     String classDangerField = "//*[(@id='objectsPm[0].dangerClass')]"; // выбор класса опасности
@@ -156,9 +157,6 @@ public class ListPreventionEventsPage extends Common {
      */
     public String getNumberPM() {
         String number = $(By.xpath(numberPM)).getOwnText();
-        // TODO: Нужно ли обрезать буквенную часть номера ? поиск работает и с ним
-      /*  numberPM = numberPM.substring(3);
-        System.out.println("НОМЕР без - " +numberPM);*/
         return number;
     }
 

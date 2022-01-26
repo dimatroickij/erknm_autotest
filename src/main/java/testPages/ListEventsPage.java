@@ -10,8 +10,6 @@ import static com.codeborne.selenide.Selenide.$;
 public class ListEventsPage extends Common {
 //раздел Список КНМ
 
-    public String dateStart = "11.01.2022";
-
     String numberKNM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'КНМ 0') or contains(string(), 'КНМ 7'))]";//объект для получения номера КНМ
 //.//h3[starts-with(@class,'KnmHeader_Title_')]
 
@@ -125,10 +123,20 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Заполненеи поля Дата начала КНМ
+     * Заполнение поля Дата начала КНМ текущей датой
      */
-    public void setStartKNMDate(String date) {
-        $(By.xpath(startKNMDate)).setValue(date); //заполнение поля
+    public void setStartKNMDate() {
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(startKNMDate)).setValue(currentDate);
+    }
+
+    /**
+     * Заполнение поля Дата начала КНМ следующим годом
+     */
+    public void setStartKNMDateNextYear() {
+      //  String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+       // $(By.xpath(startKNMDate)).setValue(currentDate);
+        $(By.xpath(startKNMDate)).setValue("25.01.2023");
     }
 
     /**
@@ -154,10 +162,8 @@ public class ListEventsPage extends Common {
      */
     public String getNumberKNM() {
         String number = $(By.xpath(numberKNM)).getOwnText();
-        System.out.println("НОМЕР КНМ - " + number);
-        // TODO: Нужно ли обрезать буквенную часть номера ? поиск работает и с ним
-      /*  numberKNM = numberKNM.substring(4);
-        System.out.println("НОМЕР без - " +numberKNM);*/
+        number = number.substring(4,25);
+        System.out.println("НОМЕР - " +number);
         return number;
     }
 
@@ -324,6 +330,15 @@ public class ListEventsPage extends Common {
     public void setDateTimePublicationDecisionField() {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dateTimePublicationDecisionField)).setValue(currentDate);
+    }
+
+    /**
+     * Заполнение поля Дата и время издания решения в разделе о проведении КНМ на следующий год
+     */
+    public void setDateTimePublicationDecisionNextYearField() {
+        /*String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(dateTimePublicationDecisionField)).setValue(currentDate);*/
+        $(By.xpath(dateTimePublicationDecisionField)).setValue("25.01.2023");
     }
 
     /**

@@ -25,7 +25,7 @@ public class ListEventsTest extends ListEventsPage {
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(controlPurchase);
         setCharacterKNMDropDown(unplannedCheck);
-        setStartKNMDate(dateStart);
+        setStartKNMDate();
         setNameProsecutorDropDown(prosecutorsOffice);
         setInnField(INN);
        // setAdressField("fl");
@@ -59,7 +59,7 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceERKNM();
         gotoListKNMPage();
-        openRequest("ПМ 77220660001100054148");
+        openCard("ПМ 77220660001100054148");
         setDateTimePublicationDecisionField();
         setSolutionNumberField("prefix");
         setPlaceDecisionField("prefix + автотестМесто");
