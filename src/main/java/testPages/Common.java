@@ -89,6 +89,7 @@ public class Common {
 
     public String INN = "7811689828";
 
+    public String menuButton = "//header//div[contains(@class,'Dropdown')]//button";
 
     /**
      * Нажатие на кнопку подтверждающая ознакомеление с информацией
@@ -268,6 +269,11 @@ public class Common {
      * @param person
      */
     public void authorization(String person) {
+        authorization(person, true);
+        clickMessageButton();
+    }
+
+    public void authorization(String person, boolean message){
         open(url);
         if (person == "admin") {
             setLogin(loginAdmin);
@@ -280,7 +286,6 @@ public class Common {
         }
         setPassword(password);
         clickEnterButton();
-        clickMessageButton();
     }
 
     /**
@@ -314,7 +319,8 @@ public class Common {
     /**
      * Нажать на кнопку Выйти
      */
-    public void clickExitButton() {
+    public void logout() {
+        $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
     }
 }
