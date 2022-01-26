@@ -12,7 +12,7 @@ public class SearchEventsTest extends Common {
      */
     @Test(description = "1 - Проверка работоспособности поиска КНМ")
     public void checkFunctionalitySearchKNMTest(){
-        // TODO подставить номер созданной КНМ - numberKNM
+        // TODO нахождение опубликованной КНМ
         searchRequest(numberKNM);
         checkObject(numberKNM);
 

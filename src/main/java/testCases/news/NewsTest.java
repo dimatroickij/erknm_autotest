@@ -17,7 +17,7 @@ public class NewsTest extends NewsPage {
      author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавление новости")
-    public void createNewsERPTest() throws InterruptedException {
+    public void createNewsTest() throws InterruptedException {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
@@ -40,7 +40,7 @@ public class NewsTest extends NewsPage {
     }
 
     @Test(description = "2 - Редактирование новости")
-    public void editNewsERPTest() throws InterruptedException {
+    public void editNewsTest() throws InterruptedException {
         authorization("admin", false);
         choiceERKNM();
         goToManagementNews();
@@ -65,7 +65,7 @@ public class NewsTest extends NewsPage {
     }
 
     @Test(description = "3 - Удаление новости")
-    public void deleteNewsERPTest() throws InterruptedException {
+    public void deleteNewsTest() throws InterruptedException {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();

@@ -181,7 +181,7 @@ public class Common {
     /**
      * Открытие найденной карточки
      */
-    public void openRequest(String value) {
+    public void openCard(String value) {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
