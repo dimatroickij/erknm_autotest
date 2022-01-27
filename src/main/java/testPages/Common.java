@@ -9,8 +9,8 @@ import static com.codeborne.selenide.Condition.*;
 
 public class Common {
 
-    //public String url = "http://private.proverki.local/";
-    public String url = "http://private.proverki.local/private/knms";
+    public String url = "http://private.proverki.local/";
+    //public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
 
     String message = "Подтверждаю ознакомление с информацией";
@@ -33,7 +33,7 @@ public class Common {
 
     public String loginProsecutor = "prosecutor"; //логин прокурора
     //public String loginSupervisor = "supervisor"; //логин сотрудника КНО
-    public String loginSupervisor = "supervisor1"; //логин сотрудника КНО
+    public String loginSupervisor = "supervisor"; //логин сотрудника КНО
     public String loginOmbudsman = "ombudsman"; //логин омбудсмена
     public String loginAdmin = "admin"; //логин администратора
     public String password = "%%%%%%%%"; //пароль ко всем ролям
@@ -314,6 +314,13 @@ public class Common {
      */
     public void clickDeleteButton() {
         $(By.xpath(deleteButton)).shouldBe(visible).click();
+    }
+
+    /**
+     * Закрытие уведомления
+     */
+    public void closeNotification() {
+        $(By.xpath("//button[contains(@class, 'Notification')]")).click();
     }
 
     /**
