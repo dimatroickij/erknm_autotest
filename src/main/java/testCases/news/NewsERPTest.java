@@ -32,6 +32,11 @@ public class NewsERPTest extends NewsPage {
         gotoNewsPage();
         searchNewsInTableUser(prefix + "автотест Заголовок", true);
         logout();
+        authorization("supervisor");
+        choiceERP();
+        gotoNewsPage();
+        searchNewsInTableUser(prefix + "автотест Заголовок", false);
+        logout();
     }
 
     @Test(description = "2 - Редактирование новости в режиме ЕРП")

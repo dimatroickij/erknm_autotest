@@ -78,11 +78,14 @@ public class NewsPage extends Common {
      * Заполнение заголовка новости
      */
     public void setTitleNewsField(String title) {
-        $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A");
-        $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE);
-        $(By.xpath(titleField)).append(title);
+        $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A"); // Выделение текста в поле
+        $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE); // Очистка поля
+        $(By.xpath(titleField)).append(title); // Ввод нового значения поля
     }
 
+    /**
+     * Получение заголовка новости
+     */
     public String getTitleNewsField() {
         return $(By.xpath(titleField)).should(exist).getValue();
     }
