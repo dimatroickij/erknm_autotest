@@ -29,6 +29,7 @@ public class Common {
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
+    public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
 
     public String loginProsecutor = "prosecutor"; //логин прокурора
@@ -45,6 +46,7 @@ public class Common {
 
     //Основное меню (на всех страницах)
     public String listEvents = "Список КНМ";
+    public String listEventsERP = "Список проверок";
     public String listPreventionEvents = "Список ПМ";
     public String listPlans = "Список планов";
     public String importExport = "Импорт/Экспорт";
@@ -62,12 +64,23 @@ public class Common {
     public String monitoringPurchase = "Мониторинговая закупка";
     public String documentaryVerification = "Документарная проверка";
     public String onsiteInspection = "Выездная проверка";
+    public String unscheduledCheck = "Внеплановая проверка";
+    public String scheduleCheck = "Плановая проверка";
 
     //Характер КНМ
     public String plannedCheck = "Плановое КНМ";
     public String plannedCheckFZ = "Плановая проверка по 248-ФЗ(утвержденная по плану 294-ФЗ)";
     public String unplannedCheck = "Внеплановое КНМ";
 
+    // Форма КНМ
+    public String onsiteForm = "Выездная";
+    public String documentaryForm = "Документарная";
+    public String onsiteAndDocumentaryForm = "Документарная и выездная";
+
+    // Тип субъекта КНМ
+    public String legalEntity = "ЮЛ/ИП";
+    public String publicAuthority = "ОГВ";
+    public String localGovernment = "ОМС";
 
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
@@ -212,6 +225,14 @@ public class Common {
     }
 
     /**
+     * Переход в список КНМ в режиме ЕРП
+     */
+    public void gotoERPListKNMPage() {
+        // $(By.xpath(tests.listEvents)).shouldHave(text("Список КНМ")).click();
+        clickToText(listEventsERP);
+    }
+
+    /**
      * Переход в список ПМ
      */
     public void gotoListPreventionEventsPage() {
@@ -271,7 +292,7 @@ public class Common {
         clickMessageButton();
     }
 
-    public void authorization(String person, boolean message){
+    public void authorization(String person, boolean message) {
         open(url);
         if (person == "admin") {
             setLogin(loginAdmin);
