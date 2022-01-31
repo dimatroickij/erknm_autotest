@@ -56,8 +56,9 @@ public class ListEventsERPPage extends Common {
     String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'KnmErpRequirementsModal_Footer')]//*[text()='Добавить']";
 
     String KNMNumber = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
-    String searchKNMField = "//input[@name='searchString']"; // поле для поиска КНМ на странице Список проверок
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
+
+    String objectsKNMButton = "//*[@id='objectsBlock']//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
 
     /**
      * Выбор из выпадающего списка Вид КНМ
@@ -192,9 +193,10 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Заполнение поля в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
+     *
      * @param text Значение поля
      */
-    public void setListControlMeasuresField(String text){
+    public void setListControlMeasuresField(String text) {
         $(By.xpath(listControlMeasuresField)).setValue(text);
     }
 
@@ -213,15 +215,15 @@ public class ListEventsERPPage extends Common {
         clickToText(groundRegistration);
     }
 
-    /**
-     * Выбор из выпадающего списка Наименование органа контроля
-     *
-     * @param name Орган контроля
-     */
-    public void setNameKNODropDown(String name) {
-        $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
-        clickToText(name); // клик на нужной организации
-    }
+//    /**
+//     * Выбор из выпадающего списка Наименование органа контроля
+//     *
+//     * @param name Орган контроля
+//     */
+//    public void setNameKNODropDown(String name) {
+//        $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
+//        clickToText(name); // клик на нужной организации
+//    }
 
     /**
      * Выбор из выпадающего списка Вид контроля
@@ -255,6 +257,7 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Получение номера КНМ у созданной проверки
+     *
      * @return Номер КНМ
      */
     public String getKnmNumber() {
@@ -262,12 +265,18 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Поиск КНМ на странице Список проверок
+     * проверка смуществования КНМ на странице Список проверок
+     *
      * @param knm Номер КНМ
      */
-    public void searchKNM(String knm) {
-        $(By.xpath(searchKNMField)).setValue(knm);
-        clickSearchButton();
+    public void checkKNM(String knm) {
         $(By.xpath(knmListCell)).should(Text.text(knm));
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в блоке Объекты проведения КНМ
+     */
+    public void clickObjectsKNMButton() {
+        $(By.xpath(objectsKNMButton)).click();
     }
 }
