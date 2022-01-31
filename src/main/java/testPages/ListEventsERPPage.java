@@ -1,5 +1,6 @@
 package testPages;
 
+import com.codeborne.selenide.conditions.Text;
 import org.openqa.selenium.By;
 
 import java.text.SimpleDateFormat;
@@ -53,6 +54,10 @@ public class ListEventsERPPage extends Common {
     String addMandatoryRequirementsButton = "//*[@id='requirementsTitleBlock']//button";//кнопка Добавить в блоке Подлежащие проверке обязательные требования
     String mandatoryRequirementsDropDown = "//div[contains(@class, 'KnmErpRequirementsModal_Body')]/div[2]";//выпадающий список Обязательные требования
     String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'KnmErpRequirementsModal_Footer')]//*[text()='Добавить']";
+
+    String KNMNumber = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
+    String searchKNMField = "//input[@name='searchString']"; // поле для поиска КНМ на странице Список проверок
+    String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
     /**
      * Выбор из выпадающего списка Вид КНМ
@@ -248,4 +253,21 @@ public class ListEventsERPPage extends Common {
         //clickToText(addNewMandatoryRequirementsButton);
     }
 
+    /**
+     * Получение номера КНМ у созданной проверки
+     * @return Номер КНМ
+     */
+    public String getKnmNumber() {
+        return $(By.xpath(KNMNumber)).getText().split(" ")[1];
+    }
+
+    /**
+     * Поиск КНМ на странице Список проверок
+     * @param knm Номер КНМ
+     */
+    public void searchKNM(String knm) {
+        $(By.xpath(searchKNMField)).setValue(knm);
+        clickSearchButton();
+        $(By.xpath(knmListCell)).should(Text.text(knm));
+    }
 }

@@ -34,8 +34,13 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, "Тест");
         setMandatoryRequirementsDropDown();
-        //clickSaveButton();
-        Thread.sleep(4000);
+        clickSaveButton();
+        closeNotification();
+        String knmNumber = getKnmNumber();
+        System.out.println(knmNumber);
+        gotoERPListKNMPage();
+        searchKNM(knmNumber);
+        Thread.sleep(2000);
     }
 
     @Test(description = "2 - Перевод проверки в статус  в процессе проведения")
