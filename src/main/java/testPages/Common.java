@@ -1,8 +1,9 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
+
+import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
@@ -73,14 +74,29 @@ public class Common {
     public String unplannedCheck = "Внеплановое КНМ";
 
     // Форма КНМ
-    public String onsiteForm = "Выездная";
+    public String exitForm = "Выездная";
     public String documentaryForm = "Документарная";
-    public String onsiteAndDocumentaryForm = "Документарная и выездная";
+    public String exitAndDocumentaryForm = "Документарная и выездная";
 
     // Тип субъекта КНМ
     public String legalEntity = "ЮЛ/ИП";
     public String publicAuthority = "ОГВ";
     public String localGovernment = "ОМС";
+
+    // Тип места блока Объекты проведения КНМ
+    public String locationLE = "Место нахождения юридического лица";
+
+    // тип объекта проведения блока Объекты проведения КНМ
+    public String branch = "Филиал";
+
+    // Категория риска
+    public String righRisk = "Высокий риск (2 класс)";
+
+    // Статусы проверки в режиме ЕРП
+    public String statusProcessConducting = "В процессе проведения";
+    public String statusProcessFormation = "В процессе формирования";
+    public String statusCompleted = "Завершено";
+    public String statusDeleted = "Удалено";
 
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
@@ -198,6 +214,7 @@ public class Common {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
+        switchTo().window(1);
 
     }
 
@@ -341,7 +358,7 @@ public class Common {
      * Закрытие уведомления
      */
     public void closeNotification() {
-        $(By.xpath("//button[contains(@class, 'Notification')]")).click();
+        $(By.xpath("//button[contains(@class, 'Notification')]")).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**

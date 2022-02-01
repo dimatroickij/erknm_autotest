@@ -1,5 +1,6 @@
 package testPages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.conditions.Text;
 import org.openqa.selenium.By;
 
@@ -8,18 +9,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-
+    String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
     String viewKNMDropDown = "//form/div[2]/div[1]/div[1]/div[2]/div"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//form/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[1]"; //Выпадающий список Форма КНМ
-    String exitForm = "Выездная";
-    String documentaryForm = "Документарная";
-    String exitAndDocumentaryForm = "Документарная и выездная";
     String typeSubjectDropDown = "//form/div[2]/div[1]/div[3]/div[2]/div[1]/div/div[1]"; //выпадающий список Тип субъекта КНМ
-    String typeUlIp = "ЮЛ/ИП";
     String numberOrdersField = "//*[@name='orderNumber']"; //поле Номер приказа
     //String dateOrdersField = "/html/body/div/div/main/form/div[2]/div[2]/div[3]/div[2]/div[1]/div/div/input"; // поле Дата приказа
     String dateOrdersField = "//*[@id='orderDateBlock']/div[2]/div[1]/div/div/input"; // поле Дата приказа
@@ -58,7 +58,18 @@ public class ListEventsERPPage extends Common {
     String KNMNumber = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
-    String objectsKNMButton = "//*[@id='objectsBlock']//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
+    String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
+    String addressField = "//textarea[@name='objects[0].addressText']"; // поле Местоположение в блоке Объекты проведения КНМ
+    String addressTypeDropDown = "//*[@id='objects[0].addressType']"; // Выпадающий список Тип места в блоке Объекты проведения КНМ
+    String typeObjectDropDown = "//*[@id='objects[0].objectType']"; // Выпадающий список Тип объекта проведения в блоке Объекты проведения КНМ
+    String riskCategoryDropDown = "//*[@id='objects[0].riskCategory']"; // Выпадающий список Категория риска в блоке Объекты проведения КНМ
+
+    String listResultButton = "//*[@id='results']/div[1]//button"; // кнопка Добавить в блоке Список результатов
+    String objectKNMDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[1]/div[2]"; // Объект проведения КНМ в блоке Список результатов
+    String dateTimeActField = "//div[contains(@id, 'objectsResults')]/div[2]/div[2]/div[2]//input"; // Дата и время составления акта о проведении КНМ в блоке Список результатов
+    String resultAddressField = "//textarea[@name='objectsResults[0].actAddress']"; // Место составления акта о проведении КНМ в блоке Список результатов
+    String resultAddressTypeDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[4]/div[2]/div[1]"; // Тип места в блоке Список результатов
+    String dateTimeKNMField = "//div[contains(@id, 'objectsResults')]/div[2]/div[5]/div[2]//input"; // Дата и время проведения КНМ в блоке Список результатов
 
     /**
      * Выбор из выпадающего списка Вид КНМ
@@ -73,7 +84,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Выбор из выпадающего списка форма КНМ
      *
-     * @param form
+     * @param form Значение поля
      */
     public void setFormKMNDropDown(String form) {
         $(By.xpath(formKMNDropDown)).click(); // клик на выпадающем списке форма КНМ
@@ -83,7 +94,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Выбор из выпадающего списка тип субъекта КНМ
      *
-     * @param type
+     * @param type Значение поля
      */
     public void setTypeSubjectDropDown(String type) {
         $(By.xpath(typeSubjectDropDown)).click(); // клик на выпадающем списке тип субъекта КНМ
@@ -93,7 +104,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Номер приказа
      *
-     * @param number
+     * @param number Номер приказа
      */
     public void setNumberOrdersField(String number) {
         $(By.xpath(numberOrdersField)).setValue(number);
@@ -144,7 +155,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Нормативно-правовые акты
      *
-     * @param text
+     * @param text НПА
      */
     public void setLegalGroundsConductingField(String text) {
         $(By.xpath((LegalGroundsConductingField))).setValue(text);
@@ -160,7 +171,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Цели, задачи, предмет КНМ
      *
-     * @param text
+     * @param text Значение поля
      */
     public void setGoalsTasksSubjectField(String text) {
         $(By.xpath(goalsTasksSubjectField)).setValue(text);
@@ -169,7 +180,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Срок проведения (дней)
      *
-     * @param days
+     * @param days Значение поля
      */
     public void setDurationEventDaysField(String days) {
         $(By.xpath(durationEventDaysField)).setValue(days);
@@ -269,14 +280,109 @@ public class ListEventsERPPage extends Common {
      *
      * @param knm Номер КНМ
      */
-    public void checkKNM(String knm) {
-        $(By.xpath(knmListCell)).should(Text.text(knm));
+    public void checkKNM(String knm, String status, boolean exist) {
+        Condition condition = exist ? appear : not(appear);
+        if (exist)
+            $(By.xpath(knmListCell)).should(Text.text(knm)).parent().should(Text.text(status));
+        else
+            $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
     }
 
     /**
      * Нажатие на кнопку Добавить в блоке Объекты проведения КНМ
      */
     public void clickObjectsKNMButton() {
-        $(By.xpath(objectsKNMButton)).click();
+        $(By.xpath(objectsKNMButton + "//..//..")).click();
+        $(By.xpath(objectsKNMButton)).scrollIntoView(false).click();
+    }
+
+    /**
+     * Заполнение поля Местонахождение в блоке Объекты проведения КНМ
+     *
+     * @param text Местонахождение
+     */
+    public void setAddressField(String text) {
+        $(By.xpath(addressField)).setValue(text);
+    }
+
+    /**
+     * Выбор значений в выпадающем списке Тип места в блоке Объекты проведения КНМ
+     *
+     * @param text Значение поля
+     */
+    public void setAddressTypeDropDown(String text) {
+        $(By.xpath(addressTypeDropDown)).click();
+        clickToText(text);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Тип объекта проведения в блоке Объекты проведения КНМ
+     *
+     * @param text Значение поля
+     */
+    public void setTypeObjectDropDown(String text) {
+        $(By.xpath(typeObjectDropDown)).click();
+        clickToText(text);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Категория риска в блоке Объекты проведения КНМ
+     *
+     * @param text Значение поля
+     */
+    public void setRiskCategoryDropDown(String text) {
+        $(By.xpath(riskCategoryDropDown)).click();
+        clickToText(text);
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в разделе Список результатов
+     */
+    public void clickListResultButton() {
+        $(By.xpath(listResultButton)).click();
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Объекты проведения КНМ в блоке Список результатов
+     */
+    public void setObjectKNMDropDown() {
+        $(By.xpath(objectKNMDropDown)).click();
+        $(By.xpath(objectKNMDropDown + "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+    }
+
+    public void setDateTimeActField() {
+        $(By.xpath(dateTimeActField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов
+     * @param text Значение поля
+     */
+    public void setResultAddressField(String text) {
+        $(By.xpath(resultAddressField)).setValue(text);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Тип места в блоке Список результатов
+     *
+     * @param text Значение поля
+     */
+    public void setResultAddressTypeDropDown(String text) {
+        $(By.xpath(resultAddressTypeDropDown)).click();
+        clickToText(text);
+    }
+
+    /**
+     * Заполнение поля Дата и время проведения КНМ в блоке Список результатов
+     */
+    public void setDateTimeKNMField() {
+        $(By.xpath(dateTimeKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
+    }
+
+    /**
+     * Нажатие на кнопку Действия на странице Список проверок
+     */
+    public void clickActionsButton() {
+        $(By.xpath(actionButton)).click();
     }
 }

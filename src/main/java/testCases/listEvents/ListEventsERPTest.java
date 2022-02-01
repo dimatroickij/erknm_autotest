@@ -6,7 +6,7 @@ import testPages.ListEventsERPPage;
 public class ListEventsERPTest extends ListEventsERPPage {
     //раздел Список проверок в режиме ЕРП
 
-    public String knmNumber = "772200008554";
+    public String knmNumber = "772200008548";
 //    public String knmNumber;
 
     /*
@@ -19,7 +19,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         clickAddButton();
         setViewKNMDropDown(unscheduledCheck);
-        setFormKMNDropDown(onsiteAndDocumentaryForm);
+        setFormKMNDropDown(exitAndDocumentaryForm);
         setTypeSubjectDropDown(legalEntity);
         setNumberOrdersField(String.valueOf(122345));
         setDateOrdersField();
@@ -47,7 +47,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
-        checkKNM(knmNumber);
+        checkKNM(knmNumber, statusProcessFormation, true);
 //        logout();
     }
 
@@ -55,21 +55,66 @@ public class ListEventsERPTest extends ListEventsERPPage {
      author Troickij D. A. 01.2022
      */
     @Test(description = "2 - Перевод проверки в статус  в процессе проведения")
-    public void transferEventStatusProcessConductingTest() throws InterruptedException {
+    public void transferEventStatusProcessConductingTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
         openCard(knmNumber);
         clickObjectsKNMButton();
-        Thread.sleep(4000);
+        setAddressField("Автотест");
+        setAddressTypeDropDown(locationLE);
+        setTypeObjectDropDown(branch);
+        setRiskCategoryDropDown(righRisk);
+        clickSaveButton();
+        closeNotification();
+        gotoERPListKNMPage();
+        setSearchField(knmNumber);
+        clickSearchButton();
+        checkKNM(knmNumber, statusProcessConducting, true);
+//        logout();
     }
 
+    /*
+    author Troickij D. A. 02.2022
+    */
     @Test(description = "3 - Перевод проверки в статус завершено")
     public void transferEventStatusCompletedTest() {
+        authorization("supervisor");
+        choiceERP();
+        gotoERPListKNMPage();
+        openCard(knmNumber);
+        clickListResultButton();
+        setObjectKNMDropDown();
+        setDateTimeActField();
+        setResultAddressField("Автотест");
+        setResultAddressTypeDropDown(locationLE);
+        setDateTimeKNMField();
+        clickSaveButton();
+        closeNotification();
+        gotoERPListKNMPage();
+        setSearchField(knmNumber);
+        clickSearchButton();
+        checkKNM(knmNumber, statusCompleted, true);
+//        logout();
     }
 
+    /*
+    author Troickij D. A. 02.2022
+    */
     @Test(description = "4 - Удаление проверки")
     public void deletedEventTest() {
+        authorization("supervisor");
+        choiceERP();
+        gotoERPListKNMPage();
+        openCard(knmNumber);
+        clickActionsButton();
+        clickDeleteButton();
+        closeNotification();
+        gotoERPListKNMPage();
+        setSearchField(knmNumber);
+        clickSearchButton();
+        checkKNM(knmNumber, statusCompleted, false);
+        logout();
     }
 
     @Test(description = "5 - Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
