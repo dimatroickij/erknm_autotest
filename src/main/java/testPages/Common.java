@@ -144,7 +144,7 @@ public class Common {
     /**
      * Заполнение поля Логин
      *
-     * @param login
+     * @param login Логин
      */
     public void setLogin(String login) {
         $(By.xpath(loginField)).setValue(login);
@@ -153,7 +153,7 @@ public class Common {
     /**
      * Заполнение поля Пароль
      *
-     * @param pass
+     * @param pass Пароль
      */
     public void setPassword(String pass) {
         $(By.xpath(passwordField)).setValue(pass);
@@ -184,7 +184,7 @@ public class Common {
     /**
      * Заполнение поиска
      *
-     * @param value
+     * @param value Поисковый запрос
      */
     public void setSearchField(String value) {
         $(By.xpath(searchField)).setValue(value);
@@ -200,7 +200,7 @@ public class Common {
     /**
      * Поиск
      *
-     * @param value
+     * @param value Поисковый запрос
      */
     public void searchRequest(String value) {
         setSearchField(value);
@@ -209,6 +209,8 @@ public class Common {
 
     /**
      * Открытие найденной карточки
+     *
+     * @param value Номер карточки
      */
     public void openCard(String value) {
         setSearchField(value);
@@ -284,7 +286,7 @@ public class Common {
     /**
      * Универсальный метод для поиска по тексту и клик на это место
      *
-     * @param text
+     * @param text Название поля
      */
     public void clickToText(String text) {
         String newXpath = "//*[text()='" + text + "']";
@@ -302,7 +304,7 @@ public class Common {
     /**
      * Авторизация в системе
      *
-     * @param person
+     * @param person Логин
      */
     public void authorization(String person) {
         authorization(person, true);
@@ -328,6 +330,8 @@ public class Common {
 
     /**
      * Проверка созданного объекта
+     *
+     * @param name Объект
      */
     public void checkObject(String name) {
         $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(visible);
@@ -335,6 +339,8 @@ public class Common {
 
     /**
      * Проверка отсутствия объекта
+     *
+     * @param name Объект
      */
     public void checkAbsenceObject(String name) {
         $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);

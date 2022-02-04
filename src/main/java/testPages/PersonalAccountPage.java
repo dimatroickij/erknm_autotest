@@ -4,10 +4,8 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PersonalAccountPage extends Common {
@@ -69,7 +67,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в Раздел общая информация
      */
-    public void goToСommonInformationtMenu() {
+    public void gotoCommonInformationMenu() {
         clickToText(commonInformation);
     }
 
@@ -191,7 +189,6 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Дата НПА
-     * @param date
      */
     public void setDateNPAField() {
         String dateStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
