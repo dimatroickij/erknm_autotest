@@ -1,3 +1,5 @@
 ControlFocus("Выгрузка файла","","Edit1")
-ControlSetText("Выгрузка файла","","Edit1", "C:\t\erknm_gui_autotest28\erknm_gui_autotest\erknm_gui_autotest\src\data\Документ Microsoft Word.docx\")
+$dir = @ScriptDir
+$dir_parent = StringLeft($dir,StringInStr($dir,"\",0,-1)-1)
+ControlSetText("Выгрузка файла","","Edit1", $dir_parent & "..\file\sign.docx")
 ControlClick("Выгрузка файла","","Button1")

@@ -20,8 +20,7 @@
                     <include name="deleteEventTest" />
                     <include name="createTemplateMandatoryRequirementsERKNMTest" />
                     <include name="createTemplateTestSheetsERKNMTest" />
-                    <include name="addResresentativesERKNMTest" />
-                    <include name="signKNMUnpinnedSignatureTest" />
+                    <include name="addRepresentativesERKNMTest" />
                 </methods>
             </class>
             <class name="erknm_gui_autotest.src.java.testCases.listPlans.ListPlansTest">
@@ -54,7 +53,7 @@
                 <methods>
                     <include name="createTemplateMandatoryRequirementsERPTest" />
                     <include name="createTemplateTestSheetsERPTest" />
-                    <include name="addResresentativesERPTest" />
+                    <include name="addRepresentativesERPTest" />
                 </methods>
             </class>
             <class name="erknm_gui_autotest.src.java.testCases.searchEvents.SearchEventsTest">

@@ -1,5 +1,6 @@
 package testPages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -15,6 +16,7 @@ public class ListPlanPage extends Common {
     /**
      * Нажатие на кнопку добавить КНМ
      */
+    @Step("Нажатие на кнопку добавить КНМ")
     public void clickAddKNMButton() {
     $(By.xpath(addKNMButton)).click();
     }
@@ -22,6 +24,7 @@ public class ListPlanPage extends Common {
     /**
      * Получение номера плана
      */
+    @Step("Получение номера плана - {number}")
     public String getNumberPlan() {
         String messageNumber = $(By.xpath(numberPlan)).getText();
         String number = messageNumber.replaceAll("\\D+","");
@@ -31,6 +34,7 @@ public class ListPlanPage extends Common {
     /**
      * Выбор чек-бокса по номеру плана
      */
+    @Step("Выбор чек-бокса по номеру плана - {number}")
     public void clickCheckBoxListPlan(String number){
         $(By.xpath("//*[@id='" + number + "']")).click();
     }
@@ -38,13 +42,15 @@ public class ListPlanPage extends Common {
     /**
      * Нажатие на кнопку Удалить на форме подтверждения удаления
      */
-    public void clickСonfirmationDeleteButton() {
+    @Step("Нажатие на кнопку Удалить на форме подтверждения удаления")
+    public void clickConfirmationDeleteButton() {
         $(By.xpath(confirmationDeleteButton)).click();
     }
 
     /**
      * Нажатие на кнопку отправить на рассмотрение
      */
+    @Step("Нажатие на кнопку отправить на рассмотрение")
     public void clickSubmitReviewButton(){
         $(By.xpath(submitReviewButton)).click();
     }
@@ -52,6 +58,7 @@ public class ListPlanPage extends Common {
     /**
      * Нажатие на кнопку подписать в браузере
      */
+    @Step("Нажатие на кнопку подписать в браузере")
     public void clickSignInBrowserButton(){
         $(By.xpath(signInBrowserButton)).click();
     }

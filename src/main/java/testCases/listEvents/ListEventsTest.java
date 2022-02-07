@@ -3,54 +3,35 @@ package testCases.listEvents;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 //раздел Список КНМ
 public class ListEventsTest extends ListEventsPage {
 
     public String numberKNM = "";
 
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Создание внеплановой КНМ требующей согласования
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "1 - Добавление внеплановой КНМ требующей согласования (статус в процессе заполнения)")
+    @Test(description = "1 - Добавление внеплановой КНМ требующей согласования (статус в процессе заполнения)", priority=1)
     public void createEventStatusProcessCompletionTest() {
         authorization("supervisor");
         choiceERKNM();
         gotoListKNMPage();
-        clickAddButton();
-        setNameKNODropDown(nameKNO);
-        setKindControlAndNumberDropDown(viewKNO);
-        setKindKNMDropDown(controlPurchase);
-        setCharacterKNMDropDown(unplannedCheck);
-        setStartKNMDate();
-        setNameProsecutorDropDown(prosecutorsOffice);
-        setInnField(INN);
-       // setAdressField("fl");
-        setTypeObjectDropDown();
-        setKindObjectDropDown();
-        clickSaveButton();
-        //400 ошибка в апи
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
+        checkObject("В процессе заполнения");
         numberKNM = getNumberKNM();
-
-      /**
-       * Логирование аллюр
-       * SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false)); // или savePageSource(true))
-
-        Capture selenium logs:
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().enableLogs(LogType.BROWSER, Level.ALL));
-        https://github.com/SeleniumHQ/selenium/wiki/Logging
-**/
+        //
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевод КНМ в статус готово к согласованию
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Перевод КНМ в статус готово к согласованию")
+    @Test(description = "2 - Перевод КНМ в статус готово к согласованию", dependsOnMethods={"createEventStatusProcessCompletionTest"})
     public void transferEventStatusReadyApprovalTest() {
-
      /*   open("http://private.proverki.local/private/knm/808253");
         setLogin(loginProsecutor);
         setPassword(password);
@@ -60,7 +41,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceERKNM();
         gotoListKNMPage();
         openCard("ПМ 77220660001100054148");
-        setDateTimePublicationDecisionField();
+        setDateTimePublicationDecisionField(currentDate);
         setSolutionNumberField("prefix");
         setPlaceDecisionField("prefix + автотестМесто");
         setNameOfficialField("prefix + autoFIO");
@@ -75,86 +56,103 @@ public class ListEventsTest extends ListEventsPage {
         //добавить автоит
         clickAddListActionsButton();
         setTypeActionsDropDown();
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         setDateStartActions(currentDate);
         setDateEndActions(currentDate);
-        createMandatoryRequirements("","", currentDate);
+        createMandatoryRequirements("","",currentDate);
 
         clickAddVenueButton();
         setVenueField("prefix + автотестместо");
 
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевод КНМ в статус на согласовании
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "3 - Перевод КНМ в статус на согласовании")
+    @Test(description = "3 - Перевод КНМ в статус на согласовании", dependsOnMethods={"transferEventStatusReadyApprovalTest"})
     public void transferEventStatusOnApprovalTest() {
         //открываем КНМ созданную в тесте 1 ранее
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевод КНМ в статус согласована
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "4 - Перевод КНМ в статус согласована")
+    @Test(description = "4 - Перевод КНМ в статус согласована", dependsOnMethods={"transferEventStatusOnApprovalTest"})
     public void transferEventStatusAgreedTest() {
         //открываем КНМ созданную в тесте 1 ранее
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевод КНМ в статус завершена
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "5 - Перевод КНМ в статус ожидает завершения")
-    public void transferEventStatusWaitCompletionsTest() {
-        //открываем КНМ созданную в тесте 1 ранее
-    }
-
-    /*
-     author Frolova S.I 01.2022
-     */
-    @Test(description = "6 - Перевод КНМ в статус завершена")
+    @Test(description = "5 - Перевод КНМ в статус завершена", dependsOnMethods={"transferEventStatusAgreedTest"})
     public void transferEventStatusWaitCompletedTest() {
         //открываем КНМ созданную в тесте 1 ранее
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевод КНМ в статус ожидает завершения
+     * HP ALM
+     * @author Frolova S.I 01.2022
+     */
+    @Test(description = "6 - Перевод КНМ в статус ожидает завершения")
+    public void transferEventStatusWaitCompletionsTest() {
+        //открываем КНМ созданную в тесте 1 ранее // создаем c датой в будущем и переводим
+    }
+
+    /**
+     * Цель: Удаление КНМ
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "7 - Удаление КНМ")
     public void deleteEventTest() {
-        //создаем новую и удаляем
+        //createEventStatusProcessCompletionTest();
+        authorization("supervisor");
+        choiceERKNM();
+        gotoListKNMPage();
+        searchRequest("77220660001100054553");
+        choiceERKNM();
+        clickActionButton();
+        clickDeleteButton();
+        checkObject("Удалено");
+        gotoListKNMPage();
+
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Создание шаблонов обязательных требований (для ЕРКНМ)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Создание шаблонов обязательных требований (для ЕРКНМ)")
     public void createTemplateMandatoryRequirementsERKNMTest() {
         //создаем новую и добавляем ОТ
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Создание шаблонов проверочных листов (для ЕРКНМ)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРКНМ)")
     public void createTemplateTestSheetsERKNMTest() {
         //создаем новую и добавляем проверочные листы
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Добавление уполномоченных на проведение проверки (для ЕРКНМ)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРКНМ)")
-    public void addResresentativesERKNMTest() {
+    public void addRepresentativesERKNMTest() {
         //создаем новую и добавляем уполномоченных
-    }
-
-    /*
-     author Frolova S.I 01.2022
-     */
-    @Test(description = "4 - Подписание КНМ открепленной подписью")
-    public void  signKNMUnpinnedSignatureTest() {
-        //создаем новую и подписываем через загрузить подпись
     }
 
 }

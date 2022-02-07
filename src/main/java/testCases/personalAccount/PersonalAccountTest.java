@@ -3,7 +3,6 @@ package testCases.personalAccount;
 import org.testng.annotations.Test;
 import testPages.PersonalAccountPage;
 
-import java.util.Calendar;
 import java.util.Random;
 
 public class PersonalAccountTest extends PersonalAccountPage {
@@ -14,8 +13,10 @@ public class PersonalAccountTest extends PersonalAccountPage {
 
     //проверки в Личном кабинете для ЕРП
 
-    /*
-      author Frolova S.I 01.2022
+    /**
+     * Цель: Создание шаблонов обязательных требований (для ЕРП)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Создание шаблонов обязательных требований (для ЕРП)")
     public void createTemplateMandatoryRequirementsERPTest() {
@@ -32,14 +33,16 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setFormulationField(prefix + "авто Формулировка");
         setNameNPAField(prefix + "авто Наименование НПА");
         setNumberNPAField(prefix + "1");
-        setDateNPAField();
+        setDateNPAField(currentDate);
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
 
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Создание шаблонов проверочных листов (для ЕРП)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРП)")
     public void createTemplateTestSheetsERPTest() {
@@ -58,11 +61,13 @@ public class PersonalAccountTest extends PersonalAccountPage {
         checkObject(prefix + "авто Наименование");
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Добавление уполномоченных на проведение проверки (для ЕРП)
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
-    public void addResresentativesERPTest() {
+    public void addRepresentativesERPTest() {
         authorization("supervisor");
         clickToText(nameSupervisor);
         clickPersonalAccount();
@@ -72,7 +77,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setPositionField(prefix + "авто Должность");
         setTypeInspectorDropDown(typeInspector);
         clickSaveButton();
-        checkResresentatives(prefix + "авто ФИО");
+        checkRepresentatives(prefix + "авто ФИО");
     }
 
 

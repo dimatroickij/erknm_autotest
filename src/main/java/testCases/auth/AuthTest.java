@@ -7,8 +7,9 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class AuthTest extends Common {
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Авторизация
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Авторизация")
     public void authorizationSomeTest() {
@@ -16,11 +17,13 @@ public class AuthTest extends Common {
         setLogin(loginProsecutor);
         setPassword(password);
         clickEnterButton();
-        //TODO или добавить проверку для теста или сделать метод - Авторизация
+        //добавить проверку для теста или убрать?
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП
+     * HP ALM
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
     public void choiсeModeERKNMTest(){

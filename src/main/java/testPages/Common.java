@@ -2,7 +2,15 @@ package testPages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Step;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
+import org.testng.annotations.BeforeSuite;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
@@ -10,15 +18,20 @@ import static com.codeborne.selenide.Condition.*;
 public class Common {
 
     //public String url = "http://private.proverki.local/";
-    public String url = "http://private.proverki.local/private/knms";
+   // public String url = "http://private.proverki.local/private/knms";
+    public String url = "http://private.proverki.local/private/lk/info";
     // public String url ="http://private.proverki.local/";
+    public String openUrl = "http://proverki.local"; //открытая часть
+
+    public String scriptAddDocument = ".\\testUtils\\choiceDoc.exe";
+    public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";
 
     String message = "Подтверждаю ознакомление с информацией";
     String messageButton = "//button[text()='Подтверждаю ознакомление с информацией']"; //кнопка на временной форме с информацией
     public String nameProsecutor = "Сергеев Прокурор Пётр";
     //public String nameSupervisor = "Петров КНО Сергей";
-    //public String nameSupervisor = "Петров Сергей";
-    public String nameSupervisor = "Иванов Семён";
+    public String nameSupervisor = "Петров Сергей";
+    //public String nameSupervisor = "Иванов Семён";
     public String nameOmbudsman = "Иванов Омбудсмен Семён";
     public String nameAdmin = "Администратор системы";
     public String exitButton = "//*[text()= 'Выйти']";
@@ -30,10 +43,11 @@ public class Common {
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
+    public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
     public String loginProsecutor = "prosecutor"; //логин прокурора
-    //public String loginSupervisor = "supervisor"; //логин сотрудника КНО
-    public String loginSupervisor = "supervisor1"; //логин сотрудника КНО
+    public String loginSupervisor = "supervisor"; //логин сотрудника КНО
+    //public String loginSupervisor = "supervisor1"; //логин сотрудника КНО
     public String loginOmbudsman = "ombudsman"; //логин омбудсмена
     public String loginAdmin = "admin"; //логин администратора
     public String password = "%%%%%%%%"; //пароль ко всем ролям
@@ -80,34 +94,65 @@ public class Common {
     String saveButton = "//*[text()='Сохранить']"; //кнопка Сохранить
     String createButton = "//*[text()='Создать']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
-    //String actionsButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    // String actionsButton = "//button[text()='Действия']"; //кнопка для открытия выпадающего списка Действия
-    String actionsButton = "//*[@id=\"root\"]/div/header/div/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
+    String actionsButton = "//button[text()='Действия']"; //кнопка для открытия выпадающего списка Действия на странице с таблицей
+    String actionsOnCardButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div"; //кнопка для открытия выпадающего списка Действия на карточке
     public String deleteButton = "//button[text()='Удалить']";
+    public String confirmDeleteButton = "//*[contains(@class,'ConfirmModal_ApplyButton')]";
     public String signatureButton = "//button[text()='Подписать']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
+    public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
+
+    //общее для новостей
+    public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
+    public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
+    public String typeItemNews = "//*[text()='Новость']";
 
     public String INN = "7811689828";
 
     public String menuButton = "//header//div[contains(@class,'Dropdown')]//button";
+    public String currentDate = "";
+    public String futureDate = "";
+
+    @BeforeSuite
+    static void setupAllureReports() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
+        // либо для тонкой настройки:
+       /* SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(false)
+                .savePageSource(true)
+        );*/
+    }
+
+    @BeforeSuite //получение текущей даты и будущей даты
+    public void setupDate() {
+        currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
+
+    }
 
     /**
      * Нажатие на кнопку подтверждающая ознакомеление с информацией
      */
+    @Step("Нажатие на кнопку подтверждающая ознакомеление с информацией")
     public void clickMessageButton() {
         $(By.xpath(messageButton)).shouldHave(text(message)).click();
     }
 
     /**
-     * Переключиться в режим ЕРКНМ
+     * Переключение в режим ЕРКНМ
      */
+    @Step("Переключение в режим ЕРКНМ")
     public void choiceERKNM() {
         $(By.xpath(modeERKNM)).click();
     }
 
     /**
-     * Переключиться в режим ЕРП
+     * Переключение в режим ЕРП
      */
+    @Step("Переключение в режим ЕРП")
     public void choiceERP() {
         $(By.xpath(modeERP)).click();
     }
@@ -117,6 +162,7 @@ public class Common {
      *
      * @param login
      */
+    @Step("Заполнение поля Логин - {login}")
     public void setLogin(String login) {
         $(By.xpath(loginField)).setValue(login);
     }
@@ -126,6 +172,7 @@ public class Common {
      *
      * @param pass
      */
+    @Step("Заполнение поля Пароль - {pass}")
     public void setPassword(String pass) {
         $(By.xpath(passwordField)).setValue(pass);
     }
@@ -133,14 +180,15 @@ public class Common {
     /**
      * Нажатие на кнопку Войти
      */
+    @Step("Нажатие на кнопку Войти")
     public void clickEnterButton() {
         $(By.xpath(enterButton)).shouldHave(text("Войти")).click();
-        //$(By.xpath(enterButton)).click();
     }
 
     /**
      * Нажатие на кнопку Загрузить
      */
+    @Step("Нажатие на кнопку Загрузить")
     public void clickUploadButton() {
         $(By.xpath(uploadButton)).click();
     }
@@ -148,6 +196,7 @@ public class Common {
     /**
      * Нажатие на кнопку Подписать
      */
+    @Step("Нажатие на кнопку Подписать")
     public void clickSignatureButton() {
         $(By.xpath(signatureButton)).click();
     }
@@ -157,13 +206,15 @@ public class Common {
      *
      * @param value
      */
+    @Step("Заполнение поиска - {value}")
     public void setSearchField(String value) {
         $(By.xpath(searchField)).setValue(value);
     }
 
     /**
-     * Кнопка Искать
+     * Нажатие на кнопку Искать
      */
+    @Step("Нажатие на кнопку Искать")
     public void clickSearchButton() {
         $(By.xpath(searchButton)).shouldHave(text("Искать")).click();
     }
@@ -173,6 +224,7 @@ public class Common {
      *
      * @param value
      */
+    @Step("Поиск по значению - {value}")
     public void searchRequest(String value) {
         setSearchField(value);
         clickSearchButton();
@@ -181,24 +233,26 @@ public class Common {
     /**
      * Открытие найденной карточки
      */
+    @Step("Открытие найденной карточки - {value}")
     public void openCard(String value) {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
-
     }
 
     /**
-     * Кнопка Добавить
+     * Нажатие на кнопку Добавить
      */
+    @Step("Нажатие на кнопку Добавить")
     public void clickAddButton() {
         $(By.xpath(addButton)).shouldHave(Condition.text("Добавить")).click();
     }
 
 
     /**
-     * Кнопка Сохранить
+     * Нажатие на кнопку Сохранить
      */
+    @Step("Нажатие на кнопку Сохранить")
     public void clickSaveButton() {
         $(By.xpath(saveButton)).shouldHave(text("Сохранить")).click();
     }
@@ -206,6 +260,7 @@ public class Common {
     /**
      * Переход в список КНМ
      */
+    @Step("Переход в список КНМ")
     public void gotoListKNMPage() {
         // $(By.xpath(tests.listEvents)).shouldHave(text("Список КНМ")).click();
         clickToText(listEvents);
@@ -214,6 +269,7 @@ public class Common {
     /**
      * Переход в список ПМ
      */
+    @Step("Переход в список ПМ")
     public void gotoListPreventionEventsPage() {
         // $(By.xpath(tests.listPreventionEvents)).shouldHave(text("Список ПМ")).click();
         clickToText(listPreventionEvents);
@@ -222,6 +278,7 @@ public class Common {
     /**
      * Переход в список планов
      */
+    @Step("Переход в список планов")
     public void gotoListPlansPage() {
         // $(By.xpath(tests.listPlans)).shouldHave(text("Список планов")).click();
         clickToText(listPlans);
@@ -230,6 +287,7 @@ public class Common {
     /**
      * Переход в отчеты
      */
+    @Step("Переход в отчеты")
     public void gotoReportsPage() {
         //$(By.xpath(tests.reports)).shouldHave(text("Отчеты")).click();
         clickToText(reports);
@@ -238,6 +296,7 @@ public class Common {
     /**
      * Переход в новости
      */
+    @Step("Переход в новости")
     public void gotoNewsPage() {
         clickToText(news);
     }
@@ -255,23 +314,27 @@ public class Common {
 
 
     /**
-     * Нажать кнопку Создать
+     * Нажатие на кнопку Создать
      */
+    @Step("Нажатие на кнопку Создать")
     public void clickCreateButton() {
         $(By.xpath(createButton)).click();
     }
+
 
     /**
      * Авторизация в системе
      *
      * @param person
      */
+    @Step("Авторизация. Пользователь - {person}")
     public void authorization(String person) {
         authorization(person, true);
         clickMessageButton();
     }
 
-    public void authorization(String person, boolean message){
+    @Step("Авторизация. Пользователь - {person}")
+    public void authorization(String person, boolean message) {
         open(url);
         if (person == "admin") {
             setLogin(loginAdmin);
@@ -284,13 +347,20 @@ public class Common {
         }
         setPassword(password);
         clickEnterButton();
-        //проверка 2
-        //проверка 3
+    }
+
+    /**
+     * Переход в открытую часть ЕРКНМ
+     */
+    @Step("Переход в открытую часть ЕРКНМ")
+    public void openERKNM() {
+        open(openUrl);
     }
 
     /**
      * Проверка созданного объекта
      */
+    @Step("Проверка созданния - {name}")
     public void checkObject(String name) {
         $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(visible);
     }
@@ -298,30 +368,59 @@ public class Common {
     /**
      * Проверка отсутствия объекта
      */
+    @Step("Проверка отсутствия - {name}")
     public void checkAbsenceObject(String name) {
         $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
     }
 
     /**
-     * Нажатие на кнопку Действия
+     * Нажатие на кнопку Действия на странице с таблицей
      */
+    @Step("Нажатие на кнопку Действия на странице с таблицей")
     public void clickActionButton() {
         $(By.xpath(actionsButton)).click();
     }
 
     /**
-     * Нажать на кнопку Удалить
+     * Нажатие на кнопку Действия на карточке
      */
+    @Step("Нажатие на кнопку Действия на карточке")
+    public void clickActionsOnCardButton() {
+
+        $(By.xpath(actionsOnCardButton)).scrollTo().click();
+    }
+
+    /**
+     * Нажатие на кнопку Удалить
+     */
+    @Step("Нажатие на кнопку Удалить")
     public void clickDeleteButton() {
         $(By.xpath(deleteButton)).shouldBe(visible).click();
     }
 
     /**
-     * Нажать на кнопку Выйти
+     * Нажатие на кнопку УДалить на форме подтверждения удаления
      */
+    @Step("Нажатие на кнопку УДалить на форме подтверждения удаления")
+    public void clickConfirmDeleteButton() {
+        $(By.xpath(confirmDeleteButton)).shouldBe(visible).click();
+    }
+
+    /**
+     * Нажатие на кнопку Выйти
+     */
+    @Step("Нажатие на кнопку Выйти")
     public void logout() {
         $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
+    }
+
+    /**
+     * Нажатие на крестик закрытия сообщения
+     */
+    @Step("Нажатие на крестик закрытия сообщения")
+    public void clickCloseMessageButton(){
+        $(By.xpath(closeMessageButton)).click();
     }
 }
 

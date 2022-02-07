@@ -1,29 +1,29 @@
 package testCases.listPreventionEvents;
 
+import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.ListPreventionEventsPage;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Random;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ListPreventionEventsTest extends ListPreventionEventsPage {
     //раздел Список ПМ
     Random rnd = new Random();
     int prefix = rnd.nextInt(1000000);
 
-    String dataStart = "12.01.2022";
-    String dataStop = "12.01.2022";
     public String numberPM = "";
-    String ground = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
     String officialPost = "Руководитель Территориального органа Росздравнадзора";
 
-    /*
-         author Frolova S.I 01.2022
-         */
+    /**
+     * Цель: Создание ПМ, вид Объявление предостережения, статус В процессе заполнения
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=537
+     * @author Frolova S.I 01.2022
+     */
     @Test(description = "1 - Добавляем ПМ, вид Объявление предостережения (статус в процессе заполнения)")
     public void createPMEventWarningAnnouncementStatusProcessCompletionTest() {
         authorization("supervisor");
@@ -33,11 +33,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         setNameKNOPMDropDown(nameKNO);
         setKindControlAndNumberPMDropDown(viewKNO);
         setKindPMDropDown(typeAnnouncementWarningsPM);
-        setStartDate(Calendar.getInstance());
+        setStartDate(currentDate);
         setInnField(INN);
-        setTypeObjectField(typeObject);
-        setViewObjectField(viewObject);
-        setClassDangerField(classDanger);
+        addObjectData(typeObject, viewObject, classDanger);
         clickSaveButton();
         checkObject("В процессе заполнения");
         numberPM = getNumberPM();
@@ -45,64 +43,61 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
 
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевести Объявление предостережения в в статус Предостережение объявлено
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=538
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
+    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException, InterruptedException {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
-        openCard("ПМ 77220660001100054351");
-        $(By.xpath("//*[text()='Объект №1']")).click();
-        setClassDangerField(classDanger2);
-        clickSaveButton();
-        setStopDate(dataStop);
+       // openCard("77220660001100054411");
+        openCard("77220660001100054495");
+        switchTo().window(1);
+        setStopDate(currentDate);
         setNoteWarningField(prefix + "авто Описание");
+        //addDocument();
         clickAddContentWarningButton();
         clickAddDocumentButton();
-        //TODO нужно переделать срипт
-        // Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceDoc.exe");
-        Runtime.getRuntime().exec(".\\erknm_gui_autotest\\testUtils\\choiceDoc.exe");
+        Runtime.getRuntime().exec(scriptAddDocument);
+        //Runtime.getRuntime().exec("cmd /c start C:\\erknm_autotest\\file\\startscript.bat");
         clickAddSignatureButton();
-        // Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceSign.exe");
-        Runtime.getRuntime().exec("..\\erknm_gui_autotest\\erknm_gui_autotest\\testUtils\\choiceSign.exe");
+        Runtime.getRuntime().exec(scriptAddSignature);
         clickUploadButton();
-        clickAddGroundsButton();
-        setGroundDropDown(ground);
-        //TODO сделать методы по добавлению, где в одном методе сразу нажатие кнопки и заполнение
-        clickOfficialButton();
-        setOfficialField(prefix + "авто ФИО");
-        setOfficialPostDropDown(officialPost);
-        clickSaveButton();
+        addGrounds(grounds);
+        addOfficial(prefix + "авто ФИО", officialPost);
         clickActionButton();
         clickSignatureButton();
-        //TODO autoit выбор подписи и бывает алерт
+        Selenide.confirm();
         clickSignatureButton();
         clickSaveButton();
 
         checkObject("Предостережение объявлено");
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевести Объявление предостережения в статус Есть возражение
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=539
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
     public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() {
         createPMEventWarningAnnouncementStatusProcessCompletionTest();
-//TODO добавить пункты из предыдущего теста (сократить методы)
-
         clickAddInformationDirectionObjectionButton();
         //Добавление документа и подписи
         checkObject("Есть возражение");
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Создание ПМ, вид профилактический визит, статус В процессе заполнения
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=533
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "4 - Добавляем ПМ, вид профилактический визит (статус в процессе заполнения)")
-    public void createPEventPreventiveVisitStatusProcessCompletionTest() {
+    public void createPMEventPreventiveVisitStatusProcessCompletionTest() {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
@@ -110,29 +105,32 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         setNameKNOPMDropDown(nameKNO);
         setKindControlAndNumberPMDropDown(viewKNO);
         setKindPMDropDown(typePreventiveVisitPM);
-       // setStartDate(dataStart);
+        // setStartDate(dataStart);
         setInnField(INN);
-        setTypeObjectField(typeObject);
-        setViewObjectField(viewObject);
-        setClassDangerField(classDanger);
+        setTypeObjectDropDown(typeObject);
+        setViewObjectDropDown(viewObject);
+        setClassDangerDropDown(classDanger);
         clickSaveButton();
         checkObject("В процессе заполнения");
         numberPM = getNumberPM();
         System.out.println("НОМЕР ПМ - " + numberPM);
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевести Профилактический визит в статус Ожидает проведения
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=534
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
-    public void transferPEventPreventiveVisitStatusAwaitingTest() throws IOException {
+    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
+    public void transferPMEventPreventiveVisitStatusAwaitingTest() throws IOException {
         authorization("supervisor");
+       //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
         openCard("ПМ 77220660001100054149");
-        //TODO разобраться, может проблема с новой вкладкой. Не находит элементы
-        setStopDate(dataStop);
+        switchTo().window(1);
+        setStopDate(futureDate);
         /*setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
         clickAddDocumentButton();
@@ -141,40 +139,49 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceSign.exe");
         clickUploadButton();*/
         clickAddGroundsButton();
-        setGroundDropDown(ground);
+        setGroundDropDown(grounds);
         clickOfficialButton();
         setOfficialField(prefix + "авто ФИО");
         setOfficialPostDropDown(officialPost);
         clickSaveButton();
         clickActionButton();
         clickSignatureButton();
-        //TODO autoit выбор подписи и бывает алерт
+        //TODO autoit выбор подписи и бывает алерт и ок нажатие через селенид
         clickSignatureButton();
         clickSaveButton();
         checkObject("Ожидание проведения");
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Перевести Профлактический визит в статус Завершено
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=535
+     * @author Frolova S.I 01.2022
      */
-    @Test(description = "6 - Перевод Профилактического визита в статус Завершено")
-    public void transferPEventPreventiveVisitStatusCompletedTest() {
+    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods={"transferPMEventPreventiveVisitStatusAwaitingTest"})
+    public void transferPMEventPreventiveVisitStatusCompletedTest() {
         //открываем КНМ созданную в тесте 1 ранее
         clickAddInformationResultPMButton();
-        setResultPMField(prefix+"авто результат");
+        setResultPMField(prefix + "авто результат");
         checkObject("Завершено");
 
     }
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Удаление ПМ
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3319
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "7 - Удаление ПМ")
     public void deletePMEventTest() {
         createPMEventWarningAnnouncementStatusProcessCompletionTest();
-        //TODO разобраться с кнопкой действия
-        clickActionButton();
+        clickCloseMessageButton();
+       // gotoListPreventionEventsPage();
+       // openCard(numberPM);
+       // switchTo().window(1);
+        clickActionsOnCardButton();
         clickDeleteButton();
+        checkObject("Удалено");
+        gotoListPreventionEventsPage();
         searchRequest(numberPM);
         checkAbsenceObject(numberPM);
 
