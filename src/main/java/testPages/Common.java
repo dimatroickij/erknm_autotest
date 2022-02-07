@@ -34,7 +34,6 @@ public class Common {
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
 
     public String loginProsecutor = "prosecutor"; //логин прокурора
-    //public String loginSupervisor = "supervisor"; //логин сотрудника КНО
     public String loginSupervisor = "supervisor"; //логин сотрудника КНО
     public String loginOmbudsman = "ombudsman"; //логин омбудсмена
     public String loginAdmin = "admin"; //логин администратора
@@ -53,6 +52,7 @@ public class Common {
     public String importExport = "Импорт/Экспорт";
     public String matchResolution = "Разрешение совпадений";
     public String searchEvents = "Поиск мероприятий";
+    public String searchEventsERP = "Поиск проверок";
     public String news = "Новости";
     public String reports = "Отчеты";
     public String feedback = "Обратная связь";
@@ -97,6 +97,11 @@ public class Common {
     public String statusProcessFormation = "В процессе формирования";
     public String statusCompleted = "Завершено";
     public String statusDeleted = "Удалено";
+
+    // Переменные для поиска созданной информации во время bvt теста
+    public String templateSheets; // Проверочный лист, созданный при помощи bvt
+    public String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
+    public String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
 
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
@@ -280,6 +285,13 @@ public class Common {
      */
     public void gotoNewsPage() {
         clickToText(news);
+    }
+
+    /**
+     * Переход в Поиск проверок, режим ЕРП
+     */
+    public void gotoSearchEvents() {
+        clickToText(searchEventsERP);
     }
 
 

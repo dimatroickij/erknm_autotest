@@ -26,7 +26,8 @@ public class PersonalAccountTest extends PersonalAccountPage {
         goToMandatoryRequirementsMenu();
         clickToTemplateRecord();
         clickAddButton();
-        setTemplateNameField(prefix + "авто Наименование");
+        templateMandatoryRequirements = prefix + "авто Наименование";
+        setTemplateNameField(templateMandatoryRequirements);
         setNameOrganizationFieldDropDown(nameKNO);
         setTypeOrganizationFieldDropDown(typeStateControl);
         clickAddRequirementsButton();
@@ -45,14 +46,16 @@ public class PersonalAccountTest extends PersonalAccountPage {
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРП)")
     public void createTemplateTestSheetsERPTest() {
-        //authorization("supervisor");
+        authorization("supervisor");
         System.out.println("Идентификатор - " + prefix);
         clickPersonalAccount();
         scrollTopHtml();
         goToCheckSheetsMenu();
         clickToTemplateRecord();
         clickAddButton();
-        setTemplateNameField(prefix + "авто Наименование");
+        templateSheets = prefix + "авто Наименование";
+        setTemplateNameField(templateSheets);
+        setNameOrganizationFieldDropDown(nameKNO);
         setApprovalDetailsField(prefix + "авто Сведения");
         clickAddSecurityQuestionButton();
         setQuestionField(prefix + "авто Вопрос");
@@ -60,7 +63,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
         closeNotification();
-        //logout();
+        logout();
     }
 
     /*
@@ -73,7 +76,8 @@ public class PersonalAccountTest extends PersonalAccountPage {
         scrollTopHtml();
         goToAuthorizedToConductMenu();
         clickAddButton();
-        setNameField(prefix + "авто ФИО");
+        resresentative = prefix + "авто ФИО";
+        setNameField(resresentative);
         setPositionField(prefix + "авто Должность");
         setTypeInspectorDropDown(typeInspector);
         clickSaveButton();

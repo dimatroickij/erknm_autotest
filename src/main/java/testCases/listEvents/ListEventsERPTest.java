@@ -36,10 +36,10 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setListControlMeasuresField("Автотест");
         clickAddGroundRegistrationButton();
         setGroundRegistrationDropDown();
-        //setNameKNODropDown(nameKNO);
+        setNameKNODropDown(nameKNO);
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, "Тест");
-        setMandatoryRequirementsDropDown();
+        setMandatoryRequirementsDropDown(false);
         clickSaveButton();
         closeNotification();
         knmNumber = getKnmNumber();
@@ -118,8 +118,44 @@ public class ListEventsERPTest extends ListEventsERPPage {
     }
 
     @Test(description = "5 - Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
-    //из bvt для личного кабинета ЕРП (4 кейс)
     public void addTemplatesInCheckCardTest() {
-        //создаем новую и подписываем через загрузить подпись
+        authorization("supervisor");
+        choiceERP();
+        gotoERPListKNMPage();
+        clickAddButton();
+        setViewKNMDropDown(unscheduledCheck);
+        setFormKMNDropDown(exitAndDocumentaryForm);
+        setTypeSubjectDropDown(legalEntity);
+        setNumberOrdersField(String.valueOf(122345));
+        setDateOrdersField();
+        setDateStartKNMField();
+        setDateStopKNMField();
+        clickAddLegalGroundsConductingButton();
+        clickAbsenceDirectoryRadioButton();
+        setLegalGroundsConductingField("НПА");
+        clickSaveLegalGroundsConductingButton();
+        setGoalsTasksSubjectField("Автотест");
+        setDurationEventDaysField("30");
+        setDurationEventHoursField("30");
+        clickAddListControlMeasuresButton();
+        setListControlMeasuresField("Автотест");
+        clickAddGroundRegistrationButton();
+        setGroundRegistrationDropDown();
+        setNameKNODropDown(nameKNO);
+        setKindControlDropDown(viewKNOERP);
+        setInnField(INN, "Тест");
+        templateMandatoryRequirements = "236812авто Наименование";
+        setMandatoryRequirementsDropDown(true);
+        resresentative = "800550авто ФИО";
+        setResresentativesDropDown(true);
+        clickSaveButton();
+        closeNotification();
+        knmNumber = getKnmNumber();
+        System.out.println(knmNumber);
+        gotoERPListKNMPage();
+        setSearchField(knmNumber);
+        clickSearchButton();
+        checkKNM(knmNumber, statusProcessFormation, true);
+//        logout();
     }
 }

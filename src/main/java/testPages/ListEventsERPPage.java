@@ -43,7 +43,7 @@ public class ListEventsERPPage extends Common {
     String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']/../ul/li[1]//div[contains(@class, 'SelectInput_Control')]"; //выпадающий список Основание регистрации КНМ
     String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
 
-    String nameKNODropDown = "//*[@id='']"; //выпадающий список Наименование органа контроля
+    String nameKNODropDown = "//div[@id='knoOrganizationBlock']/div[2]"; //выпадающий список Наименование органа контроля
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора)
 
     String innField = "//*[@id='inn']"; //ИНН
@@ -70,6 +70,9 @@ public class ListEventsERPPage extends Common {
     String resultAddressField = "//textarea[@name='objectsResults[0].actAddress']"; // Место составления акта о проведении КНМ в блоке Список результатов
     String resultAddressTypeDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[4]/div[2]/div[1]"; // Тип места в блоке Список результатов
     String dateTimeKNMField = "//div[contains(@id, 'objectsResults')]/div[2]/div[5]/div[2]//input"; // Дата и время проведения КНМ в блоке Список результатов
+
+    String addInspectorsButton = "//div[@id='inspectorsTitle']";
+    String inspectorsDropDown = "//li[contains(@id,'inspectors')]/div[1]/div[1]";
 
     /**
      * Выбор из выпадающего списка Вид КНМ
@@ -226,15 +229,15 @@ public class ListEventsERPPage extends Common {
         clickToText(groundRegistration);
     }
 
-//    /**
-//     * Выбор из выпадающего списка Наименование органа контроля
-//     *
-//     * @param name Орган контроля
-//     */
-//    public void setNameKNODropDown(String name) {
-//        $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
-//        clickToText(name); // клик на нужной организации
-//    }
+    /**
+     * Выбор из выпадающего списка Наименование органа контроля
+     *
+     * @param name Орган контроля
+     */
+    public void setNameKNODropDown(String name) {
+        $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
+        clickToText(name); // клик на нужной организации
+    }
 
     /**
      * Выбор из выпадающего списка Вид контроля
@@ -258,12 +261,17 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
      */
-    public void setMandatoryRequirementsDropDown() {
+    public void setMandatoryRequirementsDropDown(boolean addedTest) {
         $(By.xpath(addMandatoryRequirementsButton)).scrollIntoView(false).click(); // Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
         $(By.xpath(mandatoryRequirementsDropDown)).click(); // Открытие выпадающего списка ОТ
-        $(By.xpath(mandatoryRequirementsDropDown + "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+        if (addedTest)
+            $(By.xpath(mandatoryRequirementsDropDown +
+                    "//div[contains(@class,'select-field__menu-list')]//div[contains(text(), '" +
+                    templateMandatoryRequirements + "')]")).click();
+        else
+            $(By.xpath(mandatoryRequirementsDropDown +
+                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
         $(By.xpath(saveButtonMandatoryRequirementsButton)).click();
-        //clickToText(addNewMandatoryRequirementsButton);
     }
 
     /**
@@ -356,6 +364,7 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов
+     *
      * @param text Значение поля
      */
     public void setResultAddressField(String text) {
@@ -377,6 +386,16 @@ public class ListEventsERPPage extends Common {
      */
     public void setDateTimeKNMField() {
         $(By.xpath(dateTimeKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
+    }
+
+    public void setResresentativesDropDown(boolean addedTest) {
+        $(By.xpath(addInspectorsButton)).click();
+        $(By.xpath(inspectorsDropDown)).click();
+        System.out.println($(By.xpath(inspectorsDropDown)).innerHtml());
+        //if (addedTest)
+        //    $(By.xpath(inspectorsDropDown + "//li[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
+        //else
+        //    $(By.xpath(inspectorsDropDown)).click();
     }
 
     /**

@@ -32,6 +32,7 @@ public class PersonalAccountPage extends Common {
 
     //поля для проверочных листов
     String templateNameField = "//*[@name='templateName']";
+    String organizationDropDown = "//div[contains(@class, 'CheckListForm_FieldBlock')][2]/div[2]";
     String approvalDetailsField = "//*[@name='approvalDetails']";
     String questionField = "//*[@name='questions[0].question']";
     String requisitesField = "//*[@name='questions[0].npaProps']";
