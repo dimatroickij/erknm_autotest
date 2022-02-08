@@ -1,6 +1,7 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.text.SimpleDateFormat;
@@ -53,6 +54,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в личный кабинет
      */
+    @Step("Переход в личный кабинет")
     public void clickPersonalAccount() {
         $(By.xpath(menuButton)).click();
         $(By.xpath(personalAccount)).click();
@@ -68,6 +70,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в Раздел общая информация
      */
+    @Step("Переход в Раздел общая информация")
     public void gotoCommonInformationMenu() {
         clickToText(commonInformation);
     }
@@ -75,6 +78,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в раздел Уполномоченные на проведение КНМ
      */
+    @Step("Переход в раздел Уполномоченные на проведение КНМ")
     public void goToAuthorizedToConductMenu() {
         clickToText(authorizedToConduct);
     }
@@ -82,6 +86,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в раздел Проверочные листы
      */
+    @Step("Переход в раздел Проверочные листы")
     public void goToCheckSheetsMenu() {
         clickToText(checkSheets);
     }
@@ -89,6 +94,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Переход в раздел Обязательные требования
      */
+    @Step("Переход в раздел Обязательные требования")
     public void goToMandatoryRequirementsMenu() {
         clickToText(mandatoryRequirements);
     }
@@ -97,6 +103,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля ФИО
      */
+    @Step("Заполнение поля ФИО - {name}")
     public void setNameField(String name) {
         $(By.xpath(nameField)).setValue(name);
     }
@@ -104,6 +111,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Должность
      */
+    @Step("Заполнение поля Должность - {position}")
     public void setPositionField(String position) {
         $(By.xpath(positionField)).setValue(position);
     }
@@ -111,6 +119,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Выбор типа проверяющего
      */
+    @Step("Выбор типа проверяющего - {type}")
     public void setTypeInspectorDropDown(String type) {
         $(By.xpath(typeFieldDropDown)).click(); // клик на выпадающем списке Тип проверяющего
         $(By.xpath("//*[text()='" + type + "']")).click(); // клик на нужном типе
@@ -126,6 +135,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля наименование в проверочных листах и обязательные требования
      */
+    @Step("Заполнение поля наименование в проверочных листах и обязательные требования - {name}")
     public void setTemplateNameField(String name) {
         $(By.xpath(templateNameField)).shouldHave(Condition.empty).setValue(name);
     }
@@ -133,6 +143,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Сведения об утверждении
      */
+    @Step("Заполнение поля Сведения об утверждении - {details}")
     public void setApprovalDetailsField(String details) {
         $(By.xpath(approvalDetailsField)).setValue(details);
     }
@@ -140,6 +151,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Вопрос в разделе контрольные вопросы
      */
+    @Step("Заполнение поля Вопрос в разделе контрольные вопросы - {question}")
     public void setQuestionField(String question) {
         $(By.xpath(questionField)).setValue(question);
     }
@@ -147,6 +159,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Реквизиты в разделе контрольные вопросы
      */
+    @Step("Заполнение поля Реквизиты в разделе контрольные вопросы - {requisites}")
     public void setRequisitesField(String requisites) {
         $(By.xpath(requisitesField)).setValue(requisites);
     }
@@ -154,6 +167,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Организация
      */
+    @Step("Заполнение поля Организация - {name}")
     public void setNameOrganizationFieldDropDown(String name) {
         $(By.xpath(nameOrganizationFieldDropDown)).click();
         clickToText(name);
@@ -162,6 +176,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Вид государственного контроля (надзора)
      */
+    @Step("Заполнение поля Вид государственного контроля (надзора) - {type}")
     public void setTypeOrganizationFieldDropDown(String type) {
         $(By.xpath(typeOrganizationFieldDropDown)).click();
         clickToText(type);
@@ -170,6 +185,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Формулировка обязательного требования
      */
+    @Step("Заполнение поля Формулировка обязательного требования - {data}")
     public void setFormulationField(String data) {
         $(By.xpath(formulationField)).setValue(data);
     }
@@ -177,6 +193,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Наименования НПА
      */
+    @Step("Заполнение поля Наименования НПА - {name}")
     public void setNameNPAField(String name) {
         $(By.xpath(nameNPAField)).setValue(name);
     }
@@ -184,6 +201,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Номер НПА
      */
+    @Step("Заполнение поля Номер НПА - {number}")
     public void setNumberNPAField(String number) {
         $(By.xpath(numberNPAField)).setValue(number);
     }
@@ -191,21 +209,23 @@ public class PersonalAccountPage extends Common {
     /**
      * Заполнение поля Дата НПА
      */
-    public void setDateNPAField() {
-        String dateStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dateNPAField)).setValue(dateStr);
+    @Step("Заполнение поля Дата НПА")
+    public void setDateNPAField(String date) {
+        $(By.xpath(dateNPAField)).setValue(date);
     }
 
     /**
-     * Нажатие на кнопке Добавить требования
+     * Нажатие на кнопку Добавить требования
      */
+    @Step("Нажатие на кнопку Добавить требования")
     public void clickAddRequirementsButton() {
         $(By.xpath(addRequirements)).click();
     }
 
     /**
-     * Нажатие на кнопке Добавить контрольный вопрос
+     * Нажатие на кнопку Добавить контрольный вопрос
      */
+    @Step("Нажатие на кнопку Добавить контрольный вопрос")
     public void clickAddSecurityQuestionButton() {
         $(By.xpath(addSecurityQuestion)).click();
     }
@@ -213,9 +233,9 @@ public class PersonalAccountPage extends Common {
     /**
      * Проверка созданного уполномоченного на проведение КНМ
      */
-    public void checkResresentatives(String name) {
+    @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
+    public void checkRepresentatives(String name) {
         $(By.xpath("//*[@value='" + name + "']")).shouldBe(com.codeborne.selenide.Condition.visible);
-
     }
 
 

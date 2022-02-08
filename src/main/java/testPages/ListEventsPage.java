@@ -1,9 +1,7 @@
 package testPages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -25,7 +23,6 @@ public class ListEventsPage extends Common {
     String numberPlanField = "//*[@id='planId']"; //номер плана
     String durationDaysField = "//*[@name='durationDays']"; //срок проведения(дней)
 
-    //поправить, если не работает
     // String addGroundsIncludePlanButton="//*[(@id='reasonsBlock') and contains(string(),'Добавить')]"; //Кнопка добавить в основания включения в план
     String addGroundsIncludePlanButton = "/html/body/div/div/main/form/div[2]/div[1]/div[18]/div[2]/span/button"; //Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']";//основания включения в план
@@ -57,15 +54,15 @@ public class ListEventsPage extends Common {
     String signButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div/div/div/ul/li[4]/span/button"; //кнопка Подписать в подменю Действия
     String signOnFormButton = "/html/body/div[2]/div/div[2]/div/div[2]/div/div/button"; //кнопка Подписать на форме подписание паспорта КНМ
 
-    String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/div[1]/div[7]/div[2]/div/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
+    String dateTimePublicationDecisionField = "//*[@id='info']/div[8]/div[2]/div/div/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
     String solutionNumberField = "//*[@id='numberDecision']"; //поле Номер решения в разделе Решение о проведении КНМ
     String placeDecisionField = "//*[@id='placeDecision']";// поле Место вынесения решения
     String nameOfficialField = "//*[@id='fioSigner']";// поле ФИО должностного лица
     String positionPersonSignedDecisionsDropDown = "//*[@id='titleSigner']";// поле Должность лица, подписавшего решение
     String positionDirector = "Руководитель Росздравнадзора";
     String durationEventHoursField = "//*[@name='durationHours']";//поле срок проведения (часов)
-    String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/div[1]/div[17]/div[2]/span/button";//нажатие на кнопку Добавить в разделе Основания проведения КНМ
-    String groundConduсtingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выапдающий список Основание регистрации КНМ
+    String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/div[1]/div[17]/div[2]/span/button";//кнопка Добавить в разделе Основания проведения КНМ
+    String groundConductingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выпадающий список Основание регистрации КНМ
     String groundConduction = "4.0.5 (ФЗ 248) Наличие у контрольного (надзорного) органа сведений о причинении вреда (ущерба) или об угрозе причинения вреда (ущерба) охраняемым законом ценностям";
     String needCoordinationDropDown = "//*[@id ='approveRequired']";//выпадающий список Необходимость согласования
     String needCoordination = "Требует согласования";
@@ -87,6 +84,7 @@ public class ListEventsPage extends Common {
      *
      * @param name
      */
+    @Step("Выбор из выпадающего списка Наименование органа контроля - {name}")
     public void setNameKNODropDown(String name) {
         $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
         clickToText(name); // клик на нужной организации
@@ -97,6 +95,7 @@ public class ListEventsPage extends Common {
      *
      * @param kind
      */
+    @Step("Выбор из выпадающего списка Вид контроля - {kind}")
     public void setKindControlAndNumberDropDown(String kind) {
         $(By.xpath(kindControlAndNumberDropDown)).click(); // клик на выпадающем списке Вид контроля
         clickToText(kind); // клик на нужном виде контроля
@@ -107,6 +106,7 @@ public class ListEventsPage extends Common {
      *
      * @param kind
      */
+    @Step("Выбор из выпадающего списка Вид КНМ - {kind}")
     public void setKindKNMDropDown(String kind) {
         $(By.xpath(kindKNMDropDown)).click(); // клик на выпадающем списке Вид КНМ
         clickToText(kind); // клик на нужном виде КНМ
@@ -117,26 +117,18 @@ public class ListEventsPage extends Common {
      *
      * @param kind
      */
+    @Step("Выбор из выпадающего списка Характер КНМ - {kind}")
     public void setCharacterKNMDropDown(String kind) {
         $(By.xpath(characterKNMDropDown)).click(); // клик на выпадающем списке Характер КНМ
         clickToText(kind); // клик на нужном характере КНМ
     }
 
     /**
-     * Заполнение поля Дата начала КНМ текущей датой
+     * Заполнение поля Дата начала КНМ
      */
-    public void setStartKNMDate() {
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(startKNMDate)).setValue(currentDate);
-    }
-
-    /**
-     * Заполнение поля Дата начала КНМ следующим годом
-     */
-    public void setStartKNMDateNextYear() {
-      //  String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-       // $(By.xpath(startKNMDate)).setValue(currentDate);
-        $(By.xpath(startKNMDate)).setValue("25.01.2023");
+    @Step("Заполнение поля Дата начала КНМ - {date}")
+    public void setStartKNMDate(String date) {
+        $(By.xpath(startKNMDate)).setValue(date);
     }
 
     /**
@@ -144,6 +136,7 @@ public class ListEventsPage extends Common {
      *
      * @param name
      */
+    @Step("Выбор из выпадающего списка Наименование прокуратуры - {name}")
     public void setNameProsecutorDropDown(String name) {
         $(By.xpath(nameProsecutorDropDown)).click(); // клик на выпадающем списке Наименование прокуратуры
         clickToText(name); // клик на нужной прокуратуре
@@ -152,6 +145,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнить поле ИНН, выбрать из появившегося окна
      */
+    @Step("Заполнить поле ИНН, выбрать из появившегося окна - {INN}")
     public void setInnField(String INN) {
         $(By.xpath(innField)).setValue(INN);
         $(By.xpath(innListField)).click();
@@ -160,6 +154,7 @@ public class ListEventsPage extends Common {
     /**
      * Получение номера КНМ
      */
+    @Step("Получение номера КНМ")
     public String getNumberKNM() {
         String number = $(By.xpath(numberKNM)).getOwnText();
         number = number.substring(4,25);
@@ -172,20 +167,25 @@ public class ListEventsPage extends Common {
      *
      * @param number
      */
+    @Step("Заполнение поля Номер плана - {number}")
     public void setNumberPlanField(String number) {
         $(By.xpath(numberPlanField)).setValue(number);
     }
 
     /**
      * Заполнение поля Срок проведения(дней)
+     * @param days
      */
+    @Step("Заполнение поля Срок проведения(дней) - {days} дней")
     public void setDurationDaysField(String days) {
         $(By.xpath(durationDaysField)).setValue(days);
     }
 
     /**
      * Заполнение поля Срок проведения(часов)
+     * @param hours
      */
+    @Step("Заполнение поля Срок проведения(часов) - {hours} часов")
     public void setDurationEventHoursField(String hours) {
         $(By.xpath(durationEventHoursField)).setValue(hours);
     }
@@ -193,6 +193,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Основания включения в план
      */
+    @Step("Нажатие на кнопку Добавить в разделе Основания включения в план")
     public void clickAddGroundsIncludePlanButton() {
         $(By.xpath(addGroundsIncludePlanButton)).click();
     }
@@ -200,22 +201,34 @@ public class ListEventsPage extends Common {
     /**
      * Выбор основания регистрации КНМ
      */
+    @Step("Выбор основания регистрации КНМ - {GIP}")
     public void setGroundsIncludePlanDropDown() {
         $(By.xpath(groundsIncludePlanDropDown)).click();
         clickToText(GIP);
     }
 
     /**
+     * Заполнение основания включения в план
+     */
+    @Step("Заполнение основания включения в план")
+    public void addGroundsIncludePlan(String date){
+        clickAddGroundsIncludePlanButton();
+        setGroundsIncludePlanDropDown();
+        setDateGIPField(date);
+    }
+
+    /**
      * Заполнение даты в разделе Основания включения в план
      */
-    //TODO: Выбор текущей даты? или какой
+    @Step("Заполнение даты в разделе Основания включения в план")
     public void setDateGIPField(String date) {
         $(By.xpath(dateGIPField)).setValue(date);
     }
 
     /**
-     * Нажатие на кнопке Добавить в разделе СВедения об объектах контроля
+     * Нажатие на кнопку Добавить в разделе Сведения об объектах контроля
      */
+    @Step("Нажатие на кнопку Добавить в разделе Сведения об объектах контроля")
     public void clickAddObjectControlButton() {
         $(By.xpath(addObjectControlButton)).click();
     }
@@ -223,14 +236,15 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Местонахождение
      */
-    public void setAdressField(String adress) {
-        //   $(By.xpath("/html/body/div/div/main/form/div[2]/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div/button")).click();
-        $(By.xpath(adressField)).setValue(adress);
+    @Step("Заполнение поля Местонахождение - {address}")
+    public void setAddressField(String address) {
+        $(By.xpath(adressField)).setValue(address);
     }
 
     /**
      * Выбор Типа объекта
      */
+    @Step("Выбор Типа объекта - {typeObject}")
     public void setTypeObjectDropDown() {
         $(By.xpath(typeObjectDropDown)).click();
         clickToText(typeObject);
@@ -239,6 +253,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Вида объекта
      */
+    @Step("Выбор Вида объекта - {kindObject}")
     public void setKindObjectDropDown() {
         $(By.xpath(kindObjectDropDown)).click();
         clickToText(kingObject);
@@ -247,6 +262,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Подвида объекта
      */
+    @Step("Выбор Подвида объекта - {}")
     public void setSubkindObjectDropDown() {
         $(By.xpath(subkindObjectDropDown)).click();
         clickToText(kingObject);
@@ -255,6 +271,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор Класса опасности
      */
+    @Step("Выбор Класса опасности - {dangerClass}")
     public void setdangerClassDropDown() {
         $(By.xpath(dangerClassDropDown)).click();
         clickToText(dangerClass);
@@ -263,6 +280,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Перечень действий, осуществляемый в рамках КНМ
      */
+    @Step("Нажатие на кнопку Добавить в разделе Перечень действий, осуществляемый в рамках КНМ")
     public void clickAddListActionsButton() {
         $(By.xpath(addListActionsButton)).click();
     }
@@ -270,6 +288,7 @@ public class ListEventsPage extends Common {
     /**
      * Выберете Тип действия в разделе Перечень действий
      */
+    @Step("Выберете Тип действия в разделе Перечень действий - {typeActions}")
     public void setTypeActionsDropDown() {
         $(By.xpath(typeActionsDropDown)).click();
         clickToText(typeActions);
@@ -278,6 +297,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение Дата начала в Перечне действий
      */
+    @Step("Заполнение Дата начала в Перечне действий - {date}")
     public void setDateStartActions(String date) {
         $(By.xpath(dateStartActions)).setValue(date);
     }
@@ -285,6 +305,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение Дата окончания в Перечне действий
      */
+    @Step("Заполнение Дата окончания в Перечне действий - {date}")
     public void setDateEndActions(String date) {
         $(By.xpath(dateEndActions)).setValue(date);
     }
@@ -292,6 +313,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажать кнопку Добавить в разделе Место (места) проведения КНМ
      */
+    @Step("Нажать кнопку Добавить в разделе Место (места) проведения КНМ")
     public void clickAddVenueButton() {
         $(By.xpath(addVenueButton)).click();
     }
@@ -299,6 +321,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Введите место
      */
+    @Step("Заполнение поля Введите место - {venue}")
     public void setVenueField(String venue) {
         $(By.xpath(venueField)).setValue(venue);
     }
@@ -306,6 +329,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Действия
      */
+    @Step("Нажатие на кнопку Действия")
     public void clickActionsButton() {
         $(By.xpath(actionButton)).click();
     }
@@ -313,6 +337,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Подписать в подменю Действие
      */
+    @Step("Нажатие на кнопку Подписать в подменю Действие")
     public void clickSignButton() {
         $(By.xpath(signButton)).click();
     }
@@ -320,6 +345,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Подписать на форме Подписание паспорта КНМ
      */
+    @Step("Нажатие на кнопку Подписать на форме Подписание паспорта КНМ")
     public void clickSigOnFormButton() {
         $(By.xpath(signOnFormButton)).click();
     }
@@ -327,23 +353,15 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Дата и время издания решения в разделе о проведении КНМ
      */
-    public void setDateTimePublicationDecisionField() {
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dateTimePublicationDecisionField)).setValue(currentDate);
-    }
-
-    /**
-     * Заполнение поля Дата и время издания решения в разделе о проведении КНМ на следующий год
-     */
-    public void setDateTimePublicationDecisionNextYearField() {
-        /*String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dateTimePublicationDecisionField)).setValue(currentDate);*/
-        $(By.xpath(dateTimePublicationDecisionField)).setValue("25.01.2023");
+    @Step("Заполнение поля Дата и время издания решения в разделе о проведении КНМ - {date}")
+    public void setDateTimePublicationDecisionField(String date) {
+        $(By.xpath(dateTimePublicationDecisionField)).setValue(date);
     }
 
     /**
      * Заполнение поля Номер решения в разделе Решение о проведении КНМ
      */
+    @Step("Заполнение поля Номер решения в разделе Решение о проведении КНМ - {number}")
     public void setSolutionNumberField(String number) {
         $(By.xpath(solutionNumberField)).setValue(number);
     }
@@ -351,6 +369,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Место вынесения решения
      */
+    @Step("Заполнение поля Место вынесения решения - {place}")
     public void setPlaceDecisionField(String place) {
         $(By.xpath(placeDecisionField)).setValue(place);
     }
@@ -358,6 +377,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля ФИО должностного лица
      */
+    @Step("Заполнение поля ФИО должностного лица - {name}")
     public void setNameOfficialField(String name) {
         $(By.xpath(nameOfficialField)).setValue(name);
     }
@@ -365,6 +385,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Должность лица, подписавшего решение
      */
+    @Step("Выбор из выпадающего списка Должность лица, подписавшего решение - {positionDirector}")
     public void setPositionPersonSignedDecisionsDropDown() {
         $(By.xpath(positionPersonSignedDecisionsDropDown)).click();
         clickToText(positionDirector);
@@ -373,6 +394,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в блоке Основания проведения КНМ
      */
+    @Step("Нажатие на кнопку Добавить в блоке Основания проведения КНМ")
     public void clickAddGroundConductingButton() {
         $(By.xpath(addGroundConductingButton)).click();
     }
@@ -380,14 +402,16 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение выпадающего списка Основание регистрации КНМ
      */
+    @Step("Заполнение выпадающего списка Основание регистрации КНМ - {groundConduction}")
     public void setGroundConduсtingDropDown() {
-        $(By.xpath(groundConduсtingDropDown)).click();
+        $(By.xpath(groundConductingDropDown)).click();
         clickToText(groundConduction);
     }
 
     /**
      * Заполнение выпадающего списка Необходимость согласования
      */
+    @Step("Заполнение выпадающего списка Необходимость согласования - {needCoordination}")
     public void setNeedCoordinationDropDown() {
         $(By.xpath(needCoordinationDropDown)).click();
         clickToText(needCoordination);
@@ -396,6 +420,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить основание
      */
+    @Step("Нажатие на кнопку Добавить основание")
     public void clickAddFoundationButton() {
         $(By.xpath(addFoundationButton)).click();
     }
@@ -403,6 +428,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Тип документа
      */
+    @Step("Выбор из выпадающего списка Тип документа - {typeDocument}")
     public void setTypeDocumentDropDown() {
         $(By.xpath(typeDocumentDropDown)).click();
         clickToText(typeDocument);
@@ -411,6 +437,7 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Файл
      */
+    @Step("Нажатие на кнопку Добавить в разделе Файл")
     public void clickAddFileButton() {
         $(By.xpath(addFileButton)).click();
     }
@@ -418,13 +445,15 @@ public class ListEventsPage extends Common {
     /**
      * Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
      */
+    @Step("Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки")
     public void clickAddMandatoryRequirementsButton() {
         $(By.xpath(addMandatoryRequirementsButton)).click();
     }
 
     /**
-     * Открытие выпадающего списка ОТ
+     * Открытие выпадающего списка ОТ и нажатие на кнопку Создать новое ОТ
      */
+    @Step("Открытие выпадающего списка ОТ и нажатие на кнопку Создать новое ОТ")
     public void setMandatoryRequirementsDropDown() {
         $(By.xpath(mandatoryRequirementsDropDown)).click();
         clickToText(addNewMandatoryRequirementsButton);
@@ -433,6 +462,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение Наименования ОТ
      */
+    @Step("Заполнение Наименования ОТ - {name}")
     public void setNameMandatoryRequirementsField(String name) {
         $(By.xpath(nameMandatoryRequirementsField)).setValue(name);
     }
@@ -440,6 +470,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Наименование НПА в блоке ОТ
      */
+    @Step("Заполнение поля Наименование НПА в блоке ОТ - {nameNPA}")
     public void setNpaMandatoryRequirementsField(String nameNPA) {
         $(By.xpath(npaMandatoryRequirementsField)).setValue(nameNPA);
     }
@@ -447,19 +478,44 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение даты НПА
      */
-    public void setDateNPAMandatoryRequirementsField(String currentDate) {
-       // String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dateNPAMandatoryRequirementsField)).setValue(currentDate);
+    @Step("Заполнение даты НПА - {date}")
+    public void setDateNPAMandatoryRequirementsField(String date) {
+        $(By.xpath(dateNPAMandatoryRequirementsField)).setValue(date);
     }
 
     /**
      * Добавление нового обязательного требования
      */
-    public void createMandatoryRequirements(String name, String nameNPA, String currentDate) {
+    @Step("Добавление нового обязательного требования")
+    public void createMandatoryRequirements(String name, String nameNPA, String date) {
         clickAddMandatoryRequirementsButton();
         setMandatoryRequirementsDropDown();
         setNameMandatoryRequirementsField(name);
         setNpaMandatoryRequirementsField(nameNPA);
-        setDateNPAMandatoryRequirementsField(currentDate);
+        setDateNPAMandatoryRequirementsField(date);
+    }
+
+    /**
+     * Создание КНМ
+     * @param nameKNO Наименование органа контроля
+     * @param viewKNO Вид контроля (надзора) и его нормер
+     * @param kind Вид КНМ
+     * @param nameProsecutor Наименование прокуратуры
+     * @param inn ИНН
+     */
+
+    @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, Дата начала КНМ - {date}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String date, String nameProsecutor, String inn){
+        clickAddButton();
+        setNameKNODropDown(nameKNO);
+        setKindControlAndNumberDropDown(viewKNO);
+        setKindKNMDropDown(kind);
+        setCharacterKNMDropDown(unplannedCheck);
+        setStartKNMDate(date);
+        setNameProsecutorDropDown(nameProsecutor);
+        setInnField(inn);
+        setTypeObjectDropDown();
+        setKindObjectDropDown();
+        clickSaveButton();
     }
 }

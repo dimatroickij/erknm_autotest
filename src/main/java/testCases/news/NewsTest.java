@@ -9,38 +9,41 @@ import java.util.UUID;
 import static com.codeborne.selenide.Selenide.$;
 
 public class NewsTest extends NewsPage {
-// раздел Новости
+    // раздел Новости
     Random rnd = new Random();
     int prefix = rnd.nextInt(1000000);
+    String titleNews = prefix + "автотест Заголовок";
+    String shortText = prefix + "автотест Краткий текст новости";
+    String textNews = prefix + "автотест Текст новости";
 
-    /*
-     author Frolova S.I 01.2022
+    /**
+     * Цель: Добавление новости
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=54
+     * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавление новости")
     public void createNewsTest() throws InterruptedException {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
-        clickAddNewsButton();
-        setTypeNewsField(typeItemNews);
-        setVisibleNewsDropDown(visibleNewsItemProsecutor);
-        String prefix = UUID.randomUUID().toString();
-        setTitleNewsField(prefix + "автотест Заголовок");
-        setShortTextNewsField(prefix + "автотест Краткий текст новости");
-        setTextNewsField(prefix + "автотест Текст новости");
-        setDataPublicationField();
-        clickSaveNewsButton();
-        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews, currentDate);
+        searchNewsInTableAdmin(titleNews, true);
         logout();
         authorization("prosecutor");
         choiceERKNM();
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(titleNews, true);
         logout();
     }
 
+    /**
+     * Цель: Редактирование новости
+     * HP ALM
+     *
+     * @author Troickij D. I. 01.2022
+     */
     @Test(description = "2 - Редактирование новости")
-    public void editNewsTest() throws InterruptedException {
+    public void editNewsTest() {
         authorization("admin", false);
         choiceERKNM();
         goToManagementNews();
@@ -64,6 +67,13 @@ public class NewsTest extends NewsPage {
         logout();
     }
 
+    /**
+     * Цель: Удаление новости
+     * HP ALM
+     *
+     * @throws InterruptedException
+     * @author Troickij D. I. 01.2022
+     */
     @Test(description = "3 - Удаление новости")
     public void deleteNewsTest() throws InterruptedException {
         authorization("admin");
@@ -80,7 +90,6 @@ public class NewsTest extends NewsPage {
         searchNewsInTableUser(lastTitleNewsField, false);
         logout();
     }
-
 
 
 }
