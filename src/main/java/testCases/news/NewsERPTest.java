@@ -40,7 +40,7 @@ public class NewsERPTest extends NewsPage {
     }
 
     @Test(description = "2 - Редактирование новости в режиме ЕРП")
-    public void editNewsERPTest() throws InterruptedException {
+    public void editNewsERPTest() {
         authorization("admin", false);
         choiceERP();
         goToManagementNews();

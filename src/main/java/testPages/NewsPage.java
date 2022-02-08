@@ -5,7 +5,9 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -172,8 +174,9 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение поля Дата публикации
+     * @param date Дата публикации
      */
-    public void setDataPublicationField() {
+    public void setDataPublicationField(String date) {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dataPublicationField)).setValue(currentDate);
     }

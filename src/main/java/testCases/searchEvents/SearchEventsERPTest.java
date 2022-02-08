@@ -17,5 +17,6 @@ public class SearchEventsERPTest extends SearchERPPage {
         setSearchField(knm);
         clickSearchButton();
         checkKNM(knm, true);
+        logout();
     }
 }

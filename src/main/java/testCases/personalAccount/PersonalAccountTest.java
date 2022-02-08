@@ -20,7 +20,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      */
     @Test(description = "1 - Создание шаблонов обязательных требований (для ЕРП)")
     public void createTemplateMandatoryRequirementsERPTest() {
-        //authorization("supervisor");
+        authorization("supervisor");
         System.out.println("Идентификатор - " + prefix);
         clickPersonalAccount();
         scrollTopHtml();
@@ -35,11 +35,11 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setFormulationField(prefix + "авто Формулировка");
         setNameNPAField(prefix + "авто Наименование НПА");
         setNumberNPAField(prefix + "1");
-        setDateNPAField();
+        setDateNPAField(currentDate);
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
         closeNotification();
-        //logout();
+        logout();
     }
 
     /**
@@ -86,9 +86,9 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setPositionField(prefix + "авто Должность");
         setTypeInspectorDropDown(typeInspector);
         clickSaveButton();
-        checkResresentatives(prefix + "авто ФИО");
+        checkRepresentatives(prefix + "авто ФИО");
         closeNotification();
-        //logout();
+        logout();
     }
 
 

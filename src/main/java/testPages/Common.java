@@ -19,8 +19,8 @@ import static com.codeborne.selenide.Condition.*;
 
 public class Common {
 
-    public String url = "http://private.proverki.local/";
-    //public String url = "http://private.proverki.local/private/knms";
+    //public String url = "http://private.proverki.local/";
+    public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
     public String openUrl = "http://proverki.local"; //открытая часть
 
@@ -29,12 +29,6 @@ public class Common {
 
     String message = "Подтверждаю ознакомление с информацией";
     String messageButton = "//button[text()='Подтверждаю ознакомление с информацией']"; //кнопка на временной форме с информацией
-    public String nameProsecutor = "Сергеев Прокурор Пётр";
-    //public String nameSupervisor = "Петров КНО Сергей";
-    //public String nameSupervisor = "Петров Сергей";
-    public String nameSupervisor = "Иванов Семён";
-    public String nameOmbudsman = "Иванов Омбудсмен Семён";
-    public String nameAdmin = "Администратор системы";
     public String exitButton = "//*[text()= 'Выйти']";
 
     //режимы ЕРКНМ и ЕРП
@@ -129,7 +123,7 @@ public class Common {
     String createButton = "//*[text()='Создать']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     //String actionsButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    // String actionsButton = "//button[text()='Действия']"; //кнопка для открытия выпадающего списка Действия
+    String actionsOnCardButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div"; //кнопка для открытия выпадающего списка Действия на карточке
     String actionsButton = "//*[@id=\"root\"]/div/header/div/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
     public String deleteButton = "//button[text()='Удалить']";
     public String confirmDeleteButton = "//*[contains(@class,'ConfirmModal_ApplyButton')]";
@@ -456,10 +450,11 @@ public class Common {
     }
 
     /**
-     * Закрытие уведомления
+     * Нажатие на крестик закрытия сообщения
      */
+    @Step("Нажатие на крестик закрытия сообщения")
     public void closeNotification() {
-        $(By.xpath("//button[contains(@class, 'Notification')]")).should(visible, Duration.ofSeconds(10)).click();
+        $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**
@@ -477,14 +472,6 @@ public class Common {
     public void logout() {
         $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
-    }
-
-    /**
-     * Нажатие на крестик закрытия сообщения
-     */
-    @Step("Нажатие на крестик закрытия сообщения")
-    public void clickCloseMessageButton(){
-        $(By.xpath(closeMessageButton)).click();
     }
 }
 
