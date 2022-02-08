@@ -30,7 +30,7 @@ public class ListEventsPage extends Common {
     String dateGIPField = "/html/body/div/div/main/form/div[2]/div[1]/div[18]/ul/li/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план
 
     String addObjectControlButton = "//*[@id='objectsBlock']/span/button";//кнопка Добавить в разделе Сведения об объектах контроля
-    String adressField = "//*[@name='objectsErknm[0].addressText']";//поле Местонахождение
+    String addressField = "//*[@name='objectsErknm[0].addressText']";//поле Местонахождение
     String typeObjectDropDown = "//*[@id='objectsErknm[0].objectType']";//тип объекта
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']";//вид объекта
@@ -238,7 +238,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Заполнение поля Местонахождение - {address}")
     public void setAddressField(String address) {
-        $(By.xpath(adressField)).setValue(address);
+        $(By.xpath(addressField)).setValue(address);
     }
 
     /**
