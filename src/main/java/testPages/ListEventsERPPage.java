@@ -12,32 +12,27 @@ import java.util.GregorianCalendar;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.switchTo;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-    String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
-    String viewKNMDropDown = "//form/div[2]/div[1]/div[1]/div[2]/div"; //выпадающий список Вид КНМ
-    String formKMNDropDown = "//form/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[1]"; //Выпадающий список Форма КНМ
-    String typeSubjectDropDown = "//form/div[2]/div[1]/div[3]/div[2]/div[1]/div/div[1]"; //выпадающий список Тип субъекта КНМ
+    String viewKNMDropDown = "//div[@id='typeBlock']/div[2]"; //выпадающий список Вид КНМ
+    String formKMNDropDown = "//div[@id='kindBlock']/div[2]"; //Выпадающий список Форма КНМ
+    String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; //выпадающий список Тип субъекта КНМ
     String numberOrdersField = "//*[@name='orderNumber']"; //поле Номер приказа
-    //String dateOrdersField = "/html/body/div/div/main/form/div[2]/div[2]/div[3]/div[2]/div[1]/div/div/input"; // поле Дата приказа
-    String dateOrdersField = "//*[@id='orderDateBlock']/div[2]/div[1]/div/div/input"; // поле Дата приказа
-    // String dateStartKNMField = "/html/body/div/div/main/form/div[2]/div[2]/div[5]/div[2]/div[1]/div/div/input"; //поле Дата начала КНМ
-    String dateStartKNMField = "//*[@id='startDateBlock']/div[2]/div[1]/div/div/input"; //поле Дата начала КНМ
-    //String dateStopKNMField = "/html/body/div/div/main/form/div[2]/div[2]/div[6]/div[2]/div[1]/div/div/input"; //поле Дата окончания КНМ
-    String dateStopKNMField = "//*[@id='stopDateBlock']/div[2]/div[1]/div/div/input"; //поле Дата окончания КНМ
+    String dateOrdersField = "//*[@id='orderDateBlock']//input"; // поле Дата приказа
+    String dateStartKNMField = "//*[@id='startDateBlock']//input"; //поле Дата начала КНМ
+    String dateStopKNMField = "//*[@id='stopDateBlock']//input"; //поле Дата окончания КНМ
 
     String addLegalGroundsConductingButton = "//*[@id='legalBasesTitle']/span/button"; //кнопка Добавить в разделе Правовые основания проведения КНМ
     String absenceDirectoryRadioButton = "//*[@id='legalBasesNotExist']"; //радиобатон Отсутствует в справочнике
-    String LegalGroundsConductingField = "//html[1]/body[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[2]/textarea[1]"; // поле для ввода в разделе Выберите нормативно-правовые акты
-    String saveLegalGroundsConductingButton = "//body/div[2]/div[1]/div[3]/button[1]"; //кнопка Сохранить в разделе Выберите нормативно-правовые акты
+    String LegalGroundsConductingField = "//textarea[@name='notExistLegalBasisText']"; // поле для ввода в разделе Выберите нормативно-правовые акты
+    String saveLegalGroundsConductingButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; //кнопка Сохранить в разделе Выберите нормативно-правовые акты
     String goalsTasksSubjectField = "//*[@id='check-sheets']/div[3]/textarea"; // текстовое поле Цели, задачи, предмет КНМ
     String durationEventDaysField = "//*[@id='durationDays']"; //поле Срок проведения (дней)
     String durationEventHoursField = "//*[@id='durationHours']";//поле Срок проведения (часов)
 
-    String addListControlMeasuresButton = "//*[@id='eventsBlock']/div/span/button"; // кнопка Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
-    String listControlMeasuresField = "//*[@id='eventsBlock']/ul/li[1]//textarea"; // поле для ввода в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
+    String addListControlMeasuresButton = "//*[@id='eventsBlock']//button"; // кнопка Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
+    String listControlMeasuresField = "//textarea[@name='events[0].name']"; // поле для ввода в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
 
     String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']/span/button"; // кнопка Добавить в разделе Основания регистрации  КНМ
     String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']/../ul/li[1]//div[contains(@class, 'SelectInput_Control')]"; //выпадающий список Основание регистрации КНМ
@@ -52,8 +47,8 @@ public class ListEventsERPPage extends Common {
     String namePersonCheckField = "//*[@name='organizationName']";
 
     String addMandatoryRequirementsButton = "//*[@id='requirementsTitleBlock']//button";//кнопка Добавить в блоке Подлежащие проверке обязательные требования
-    String mandatoryRequirementsDropDown = "//div[contains(@class, 'KnmErpRequirementsModal_Body')]/div[2]";//выпадающий список Обязательные требования
-    String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'KnmErpRequirementsModal_Footer')]//*[text()='Добавить']";
+    String mandatoryRequirementsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]";//выпадающий список Обязательные требования
+    String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'ModalActions_Container')]//*[text()='Добавить']"; // Кнопка Добавить в модальном окне Добавление обязательного требования
 
     String KNMNumber = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
@@ -73,6 +68,8 @@ public class ListEventsERPPage extends Common {
 
     String addInspectorsButton = "//div[@id='inspectorsTitle']";
     String inspectorsDropDown = "//li[contains(@id,'inspectors')]/div[1]/div[1]";
+
+    String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
 
     /**
      * Выбор из выпадающего списка Вид КНМ
@@ -269,8 +266,10 @@ public class ListEventsERPPage extends Common {
                     "//div[contains(@class,'select-field__menu-list')]//div[contains(text(), '" +
                     templateMandatoryRequirements + "')]")).click();
         else
+        {
+            System.out.println($(By.xpath(mandatoryRequirementsDropDown)).innerHtml());
             $(By.xpath(mandatoryRequirementsDropDown +
-                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();}
         $(By.xpath(saveButtonMandatoryRequirementsButton)).click();
     }
 
@@ -399,7 +398,7 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Нажатие на кнопку Действия на странице Список проверок
+     * Нажатие на кнопку Действия на странице КНМ
      */
     public void clickActionsButton() {
         $(By.xpath(actionButton)).click();
