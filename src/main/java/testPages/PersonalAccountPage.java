@@ -1,7 +1,11 @@
 package testPages;
 
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -29,15 +33,18 @@ public class PersonalAccountPage extends Common {
 
     //поля для проверочных листов
     String templateNameField = "//*[@name='templateName']";
+    String organizationDropDown = "//div[contains(@class, 'CheckListForm_FieldBlock')][2]/div[2]";
     String approvalDetailsField = "//*[@name='approvalDetails']";
     String questionField = "//*[@name='questions[0].question']";
     String requisitesField = "//*[@name='questions[0].npaProps']";
 
     //поля для обязательных требований
-    String nameOrganizationFieldDropDown = "/html/body/div[1]/div/main/div/div/div[2]/div/div/div[2]/form/div[2]/div[2]/div[1]/div/div[1]"; // выпадающий список Организация
-    String typeOrganizationFieldDropDown = "/html/body/div[1]/div/main/div/div/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div/div[1]"; //Выпадающий список Вид государственного контроля (надзора)
-    String addRequirements = "/html/body/div/div/main/div/div/div[2]/div/div/div[2]/form/div[4]/button"; // кнопка Добавить требования
-    String addSecurityQuestion = "/html/body/div/div/main/div/div/div[2]/div/div/div[2]/form/div[4]/button"; // кнопка Добавить контрольные вопросы
+    //TODO: переделать xpath
+    //String nameOrganizationField = "//*[contains(@class,'SelectInput_Indicators')] "; // выпадающий список Организация
+    String nameOrganizationFieldDropDown = "//form/div[2]/div[2]/div[1]/div/div[1]"; // выпадающий список Организация
+    String typeOrganizationFieldDropDown = "//form/div[3]/div[2]/div[1]/div/div[1]"; //Выпадающий список Вид государственного контроля (надзора)
+    String addRequirements = "//form/div[4]/button"; // кнопка Добавить требования
+    String addSecurityQuestion = "//form/div[4]/button"; // кнопка Добавить контрольные вопросы
     String formulationField = "//*[@name='requirements[0].props']";//формулировка обязательного требования
     String nameNPAField = "//*[@name='requirements[0].name']"; // наименование НПА
     String numberNPAField = "//*[@name='requirements[0].number']"; // номер НПА
@@ -49,14 +56,22 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Переход в личный кабинет")
     public void clickPersonalAccount() {
+        $(By.xpath(menuButton)).click();
         $(By.xpath(personalAccount)).click();
+    }
+
+    /**
+     * Скролл по странице в начало
+     */
+    public void scrollTopHtml(){
+        $(By.xpath("//h1[contains(@class, 'PersonalAccount_Header')]")).scrollIntoView(false);
     }
 
     /**
      * Переход в Раздел общая информация
      */
     @Step("Переход в Раздел общая информация")
-    public void goToСommonInformationtMenu() {
+    public void gotoCommonInformationMenu() {
         clickToText(commonInformation);
     }
 
@@ -84,6 +99,7 @@ public class PersonalAccountPage extends Common {
         clickToText(mandatoryRequirements);
     }
 
+
     /**
      * Заполнение поля ФИО
      */
@@ -110,11 +126,18 @@ public class PersonalAccountPage extends Common {
     }
 
     /**
+     * Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовночти страницы к созданию новых записей)
+     */
+    public void clickToTemplateRecord(){
+        $(By.xpath("//ul[contains(@class, 'TemplatesList')]//li[2]")).click();
+    }
+
+    /**
      * Заполнение поля наименование в проверочных листах и обязательные требования
      */
     @Step("Заполнение поля наименование в проверочных листах и обязательные требования - {name}")
     public void setTemplateNameField(String name) {
-        $(By.xpath(templateNameField)).setValue(name);
+        $(By.xpath(templateNameField)).shouldHave(Condition.empty).setValue(name);
     }
 
     /**

@@ -22,11 +22,13 @@ public class PersonalAccountTest extends PersonalAccountPage {
     public void createTemplateMandatoryRequirementsERPTest() {
         authorization("supervisor");
         System.out.println("Идентификатор - " + prefix);
-        clickToText(nameSupervisor);
         clickPersonalAccount();
+        scrollTopHtml();
         goToMandatoryRequirementsMenu();
+        clickToTemplateRecord();
         clickAddButton();
-        setTemplateNameField(prefix + "авто Наименование");
+        templateMandatoryRequirements = prefix + "авто Наименование";
+        setTemplateNameField(templateMandatoryRequirements);
         setNameOrganizationFieldDropDown(nameKNO);
         setTypeOrganizationFieldDropDown(typeStateControl);
         clickAddRequirementsButton();
@@ -36,7 +38,8 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setDateNPAField(currentDate);
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
-
+        closeNotification();
+        logout();
     }
 
     /**
@@ -48,17 +51,22 @@ public class PersonalAccountTest extends PersonalAccountPage {
     public void createTemplateTestSheetsERPTest() {
         authorization("supervisor");
         System.out.println("Идентификатор - " + prefix);
-        clickToText(nameSupervisor);
         clickPersonalAccount();
+        scrollTopHtml();
         goToCheckSheetsMenu();
+        clickToTemplateRecord();
         clickAddButton();
-        setTemplateNameField(prefix + "авто Наименование");
+        templateSheets = prefix + "авто Наименование";
+        setTemplateNameField(templateSheets);
+        setNameOrganizationFieldDropDown(nameKNO);
         setApprovalDetailsField(prefix + "авто Сведения");
         clickAddSecurityQuestionButton();
         setQuestionField(prefix + "авто Вопрос");
         setRequisitesField(prefix + "авто Реквизиты");
         clickSaveButton();
         checkObject(prefix + "авто Наименование");
+        closeNotification();
+        logout();
     }
 
     /**
@@ -69,15 +77,18 @@ public class PersonalAccountTest extends PersonalAccountPage {
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
     public void addRepresentativesERPTest() {
         authorization("supervisor");
-        clickToText(nameSupervisor);
         clickPersonalAccount();
+        scrollTopHtml();
         goToAuthorizedToConductMenu();
         clickAddButton();
-        setNameField(prefix + "авто ФИО");
+        resresentative = prefix + "авто ФИО";
+        setNameField(resresentative);
         setPositionField(prefix + "авто Должность");
         setTypeInspectorDropDown(typeInspector);
         clickSaveButton();
         checkRepresentatives(prefix + "авто ФИО");
+        closeNotification();
+        logout();
     }
 
 

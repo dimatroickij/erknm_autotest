@@ -49,7 +49,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
-    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException, InterruptedException {
+    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
@@ -122,7 +122,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
-    public void transferPMEventPreventiveVisitStatusAwaitingTest() throws IOException {
+    public void transferPMEventPreventiveVisitStatusAwaitingTest() {
         authorization("supervisor");
        //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
         choiceERKNM();
@@ -174,7 +174,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "7 - Удаление ПМ")
     public void deletePMEventTest() {
         createPMEventWarningAnnouncementStatusProcessCompletionTest();
-        clickCloseMessageButton();
+        closeNotification();
        // gotoListPreventionEventsPage();
        // openCard(numberPM);
        // switchTo().window(1);

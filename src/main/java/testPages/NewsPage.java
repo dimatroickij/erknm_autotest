@@ -5,7 +5,9 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -91,9 +93,9 @@ public class NewsPage extends Common {
      */
     @Step("Заполнение заголовка новости - {title}")
     public void setTitleNewsField(String title) {
-        $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A");
-        $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE);
-        $(By.xpath(titleField)).append(title);
+        $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A"); // Выделение текста в поле
+        $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE); // Очистка поля
+        $(By.xpath(titleField)).append(title); // Ввод нового значения поля
     }
 
     /**
@@ -172,10 +174,11 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение поля Дата публикации
+     * @param date Дата публикации
      */
-    @Step("Заполнение поля Дата публикации - {date}")
     public void setDataPublicationField(String date) {
-        $(By.xpath(dataPublicationField)).setValue(date);
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        $(By.xpath(dataPublicationField)).setValue(currentDate);
     }
 
     /**
