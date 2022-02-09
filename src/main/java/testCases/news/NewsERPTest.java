@@ -23,7 +23,7 @@ public class NewsERPTest extends NewsPage {
         setTitleNewsField(prefix + "автотест Заголовок");
         setShortTextNewsField(prefix + "автотест Краткий текст новости");
         setTextNewsField(prefix + "автотест Текст новости");
-        setDataPublicationField(currentDate);
+        setDataPublicationField();
         clickSaveNewsButton();
         searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
         logout();

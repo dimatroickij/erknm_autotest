@@ -2,6 +2,7 @@ package testPages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.conditions.Text;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.text.SimpleDateFormat;
@@ -9,8 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListEventsERPPage extends Common {
@@ -50,7 +49,7 @@ public class ListEventsERPPage extends Common {
     String mandatoryRequirementsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]";//выпадающий список Обязательные требования
     String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'ModalActions_Container')]//*[text()='Добавить']"; // Кнопка Добавить в модальном окне Добавление обязательного требования
 
-    String KNMNumber = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
+    String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
     String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
@@ -71,11 +70,22 @@ public class ListEventsERPPage extends Common {
 
     String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
 
+    // Значения переменных для создания проверки
+    public String numberOrders = "122345"; // Номер приказа
+    public String legalGroundsConducting = "НПА"; // Название нормативно-правового акта
+    public String goalsTasksSubject = "Автотест"; // Поле Цели, задачи, предмет КНМ
+    public String durationEventDays = "30"; // Срок проведения (дней)
+    public String durationEventHours = "30"; // Срок проведения (часов)
+    public String listControlMeasures = "Автотест"; // Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
+    public String nameINN = "Тест"; // Наименование проверяемого лица
+    public String address = "Автотест"; // Местонахождение в блоке Объекты проведения КНМ
+
     /**
      * Выбор из выпадающего списка Вид КНМ
      *
      * @param view Вид КНМ
      */
+    @Step("Выбор из выпадающего списка Вид КНМ - {view}")
     public void setViewKNMDropDown(String view) {
         $(By.xpath(viewKNMDropDown)).click(); // клик на выпадающем списке Вид КНМ
         clickToText(view); // клик на нужном виде КНМ
@@ -86,6 +96,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param form Значение поля
      */
+    @Step("Выбор из выпадающего списка форма КНМ - {form}")
     public void setFormKMNDropDown(String form) {
         $(By.xpath(formKMNDropDown)).click(); // клик на выпадающем списке форма КНМ
         clickToText(form); // клик на нужной форме КНМ
@@ -96,6 +107,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param type Значение поля
      */
+    @Step("Выбор из выпадающего списка тип субъекта КНМ - {type}")
     public void setTypeSubjectDropDown(String type) {
         $(By.xpath(typeSubjectDropDown)).click(); // клик на выпадающем списке тип субъекта КНМ
         clickToText(type); // клик на нужном типе субъекта КНМ
@@ -106,6 +118,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param number Номер приказа
      */
+    @Step("Заполнение поля Номер приказа - {number}")
     public void setNumberOrdersField(String number) {
         $(By.xpath(numberOrdersField)).setValue(number);
     }
@@ -113,6 +126,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Дата приказа
      */
+    @Step("Заполнение поля Дата приказа текущей датой")
     public void setDateOrdersField() {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dateOrdersField)).setValue(currentDate);
@@ -121,6 +135,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Дата начала КНМ
      */
+    @Step("Заполнение поля Дата начала КНМ. Значение поля - текущая дата - 1 день")
     public void setDateStartKNMField() {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
@@ -131,6 +146,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Дата окончания КНМ
      */
+    @Step("Заполнение поля Дата окончания КНМ. Значение поля - текущая дата + 2 дня")
     public void setDateStopKNMField() {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
@@ -141,6 +157,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Правовые основания проведения КНМ
      */
+    @Step("Нажатие на кнопку Добавить в разделе Правовые основания проведения КНМ")
     public void clickAddLegalGroundsConductingButton() {
         $(By.xpath(addLegalGroundsConductingButton)).click();
     }
@@ -148,6 +165,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на радиобатон Отсутствует в справочнике
      */
+    @Step("Нажатие на радиобатон Отсутствует в справочнике")
     public void clickAbsenceDirectoryRadioButton() {
         $(By.xpath(absenceDirectoryRadioButton)).click();
     }
@@ -155,15 +173,17 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Нормативно-правовые акты
      *
-     * @param text НПА
+     * @param npa НПА
      */
-    public void setLegalGroundsConductingField(String text) {
-        $(By.xpath((LegalGroundsConductingField))).setValue(text);
+    @Step("Заполнение поля Нормативно-правовые акты - {npa}")
+    public void setLegalGroundsConductingField(String npa) {
+        $(By.xpath((LegalGroundsConductingField))).setValue(npa);
     }
 
     /**
      * Нажатие на кнопку Сохранить в модальном окне Выберите нормативно-правовые акты
      */
+    @Step("Нажатие на кнопку Сохранить в модальном окне Выберите нормативно-правовые акты")
     public void clickSaveLegalGroundsConductingButton() {
         $(By.xpath(saveLegalGroundsConductingButton)).click();
     }
@@ -173,6 +193,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param text Значение поля
      */
+    @Step("Заполнение поля Цели, задачи, предмет КНМ - {text}")
     public void setGoalsTasksSubjectField(String text) {
         $(By.xpath(goalsTasksSubjectField)).setValue(text);
     }
@@ -182,6 +203,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param days Значение поля
      */
+    @Step("Заполнение поля Срок проведения (дней) - {days}")
     public void setDurationEventDaysField(String days) {
         $(By.xpath(durationEventDaysField)).setValue(days);
     }
@@ -191,6 +213,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param hours Значение поля
      */
+    @Step("Заполнение поля Срок проведения (часов) - {hours}")
     public void setDurationEventHoursField(String hours) {
         $(By.xpath(durationEventHoursField)).setValue(hours);
     }
@@ -198,6 +221,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на кнопку Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
      */
+    @Step("Нажатие на кнопку Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ")
     public void clickAddListControlMeasuresButton() {
         $(By.xpath(addListControlMeasuresButton)).click();
     }
@@ -207,6 +231,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param text Значение поля
      */
+    @Step("Заполнение поля в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ - {text}")
     public void setListControlMeasuresField(String text) {
         $(By.xpath(listControlMeasuresField)).setValue(text);
     }
@@ -214,6 +239,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на кнопку Добавить в блоке Основания регистрации КНМ
      */
+    @Step("Нажатие на кнопку Добавить в блоке Основания регистрации КНМ")
     public void clickAddGroundRegistrationButton() {
         $(By.xpath(addGroundRegistrationButton)).click();
     }
@@ -221,6 +247,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение выпадающего списка Основание регистрации КНМ
      */
+    @Step("Заполнение выпадающего списка Основание регистрации КНМ")
     public void setGroundRegistrationDropDown() {
         $(By.xpath(groundRegistrationDropDown)).click();
         clickToText(groundRegistration);
@@ -231,6 +258,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param name Орган контроля
      */
+    @Step("Выбор из выпадающего списка Наименование органа контроля - {name}")
     public void setNameKNODropDown(String name) {
         $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
         clickToText(name); // клик на нужной организации
@@ -241,14 +269,19 @@ public class ListEventsERPPage extends Common {
      *
      * @param kind вид контроля
      */
+    @Step("Выбор из выпадающего списка Вид контроля - {kind}")
     public void setKindControlDropDown(String kind) {
         $(By.xpath(kindControlDropDown)).click(); // клик на выпадающем списке Вид контроля
         clickToText(kind); // клик на нужном виде контроля
     }
 
     /**
-     * Заполнить поле ИНН, выбрать из появившегося окна
+     * Заполнение поля ИНН и выбор значения из появившегося окна
+     *
+     * @param INN  ИНН
+     * @param name Наименование проверяемого лица
      */
+    @Step("Заполнение поля ИНН и выбор значения из появившегося окна - {INN} - {name}")
     public void setInnField(String INN, String name) {
         $(By.xpath(innField)).setValue(INN);
         $(By.xpath(namePersonCheckField)).setValue(name);
@@ -257,7 +290,10 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
+     *
+     * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
      */
+    @Step("Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки")
     public void setMandatoryRequirementsDropDown(boolean addedTest) {
         $(By.xpath(addMandatoryRequirementsButton)).scrollIntoView(false).click(); // Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
         $(By.xpath(mandatoryRequirementsDropDown)).click(); // Открытие выпадающего списка ОТ
@@ -265,30 +301,23 @@ public class ListEventsERPPage extends Common {
             $(By.xpath(mandatoryRequirementsDropDown +
                     "//div[contains(@class,'select-field__menu-list')]//div[contains(text(), '" +
                     templateMandatoryRequirements + "')]")).click();
-        else
-        {
+        else {
             System.out.println($(By.xpath(mandatoryRequirementsDropDown)).innerHtml());
             $(By.xpath(mandatoryRequirementsDropDown +
-                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();}
+                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+        }
         $(By.xpath(saveButtonMandatoryRequirementsButton)).click();
     }
 
     /**
-     * Получение номера КНМ у созданной проверки
+     * Проверка существования КНМ на странице Список проверок
      *
-     * @return Номер КНМ
+     * @param knm    Номер КНМ
+     * @param exist  Должна ли найтись проверка с указанным статусом
+     * @param status Наименование статуса, на который нужно провести проверку
      */
-    public String getKnmNumber() {
-        return $(By.xpath(KNMNumber)).getText().split(" ")[1];
-    }
-
-    /**
-     * проверка смуществования КНМ на странице Список проверок
-     *
-     * @param knm Номер КНМ
-     */
+    @Step("Проверка существования КНМ на странице Список проверок - {knm}, {status}, {exist}")
     public void checkKNM(String knm, String status, boolean exist) {
-        Condition condition = exist ? appear : not(appear);
         if (exist)
             $(By.xpath(knmListCell)).should(Text.text(knm)).parent().should(Text.text(status));
         else
@@ -298,6 +327,7 @@ public class ListEventsERPPage extends Common {
     /**
      * Нажатие на кнопку Добавить в блоке Объекты проведения КНМ
      */
+    @Step("Нажатие на кнопку Добавить в блоке Объекты проведения КНМ")
     public void clickObjectsKNMButton() {
         $(By.xpath(objectsKNMButton + "//..//..")).click();
         $(By.xpath(objectsKNMButton)).scrollIntoView(false).click();
@@ -306,45 +336,50 @@ public class ListEventsERPPage extends Common {
     /**
      * Заполнение поля Местонахождение в блоке Объекты проведения КНМ
      *
-     * @param text Местонахождение
+     * @param location Местонахождение
      */
-    public void setAddressField(String text) {
-        $(By.xpath(addressField)).setValue(text);
+    @Step("Заполнение поля Местонахождение в блоке Объекты проведения КНМ - {location}")
+    public void setAddressField(String location) {
+        $(By.xpath(addressField)).setValue(location);
     }
 
     /**
      * Выбор значений в выпадающем списке Тип места в блоке Объекты проведения КНМ
      *
-     * @param text Значение поля
+     * @param type Значение поля
      */
-    public void setAddressTypeDropDown(String text) {
+    @Step("Выбор значений в выпадающем списке Тип места в блоке Объекты проведения КНМ {type}")
+    public void setAddressTypeDropDown(String type) {
         $(By.xpath(addressTypeDropDown)).click();
-        clickToText(text);
+        clickToText(type);
     }
 
     /**
      * Выбор значения в выпадающем списке Тип объекта проведения в блоке Объекты проведения КНМ
      *
-     * @param text Значение поля
+     * @param type Значение поля
      */
-    public void setTypeObjectDropDown(String text) {
+    @Step("Выбор значения в выпадающем списке Тип объекта проведения в блоке Объекты проведения КНМ - {type}")
+    public void setTypeObjectDropDown(String type) {
         $(By.xpath(typeObjectDropDown)).click();
-        clickToText(text);
+        clickToText(type);
     }
 
     /**
      * Выбор значения в выпадающем списке Категория риска в блоке Объекты проведения КНМ
      *
-     * @param text Значение поля
+     * @param risk Значение поля
      */
-    public void setRiskCategoryDropDown(String text) {
+    @Step("Выбор значения в выпадающем списке Категория риска в блоке Объекты проведения КНМ - {risk}")
+    public void setRiskCategoryDropDown(String risk) {
         $(By.xpath(riskCategoryDropDown)).click();
-        clickToText(text);
+        clickToText(risk);
     }
 
     /**
      * Нажатие на кнопку Добавить в разделе Список результатов
      */
+    @Step("Нажатие на кнопку Добавить в разделе Список результатов")
     public void clickListResultButton() {
         $(By.xpath(listResultButton)).click();
     }
@@ -352,11 +387,16 @@ public class ListEventsERPPage extends Common {
     /**
      * Выбор значения в выпадающем списке Объекты проведения КНМ в блоке Список результатов
      */
+    @Step("Выбор значения в выпадающем списке Объекты проведения КНМ в блоке Список результатов")
     public void setObjectKNMDropDown() {
         $(By.xpath(objectKNMDropDown)).click();
         $(By.xpath(objectKNMDropDown + "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
     }
 
+    /**
+     * Ввод даты формирования акта
+     */
+    @Step("Ввод даты формирования акта")
     public void setDateTimeActField() {
         $(By.xpath(dateTimeActField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
     }
@@ -364,43 +404,90 @@ public class ListEventsERPPage extends Common {
     /**
      * Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов
      *
-     * @param text Значение поля
+     * @param location Значение поля
      */
-    public void setResultAddressField(String text) {
-        $(By.xpath(resultAddressField)).setValue(text);
+    @Step("Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов - {location}")
+    public void setResultAddressField(String location) {
+        $(By.xpath(resultAddressField)).setValue(location);
     }
 
     /**
      * Выбор значения в выпадающем списке Тип места в блоке Список результатов
      *
-     * @param text Значение поля
+     * @param type Значение поля
      */
-    public void setResultAddressTypeDropDown(String text) {
+    @Step("Выбор значения в выпадающем списке Тип места в блоке Список результатов - {type}")
+    public void setResultAddressTypeDropDown(String type) {
         $(By.xpath(resultAddressTypeDropDown)).click();
-        clickToText(text);
+        clickToText(type);
     }
 
     /**
      * Заполнение поля Дата и время проведения КНМ в блоке Список результатов
      */
+    @Step("Заполнение поля Дата и время проведения КНМ в блоке Список результатов")
     public void setDateTimeKNMField() {
         $(By.xpath(dateTimeKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
     }
 
+    /**
+     * Заполнение блока Уполномоченные на проведение КНМ
+     *
+     * @param addedTest true - заполнение созданными ранее данными, false - случайный выбор значения поля
+     */
+    @Step("Заполнение блока Уполномоченные на проведение КНМ - {addedTest}")
     public void setResresentativesDropDown(boolean addedTest) {
         $(By.xpath(addInspectorsButton)).click();
         $(By.xpath(inspectorsDropDown)).click();
         System.out.println($(By.xpath(inspectorsDropDown)).innerHtml());
-        //if (addedTest)
-        //    $(By.xpath(inspectorsDropDown + "//li[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
-        //else
-        //    $(By.xpath(inspectorsDropDown)).click();
+        if (addedTest)
+            $(By.xpath(inspectorsDropDown +
+                    "//div[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
+        else
+            $(By.xpath(inspectorsDropDown + "//div[contains(@class, 'SelectInput_Option')][1]")).click();
     }
 
     /**
      * Нажатие на кнопку Действия на странице КНМ
      */
+    @Step("Нажатие на кнопку Действия на странице КНМ")
     public void clickActionsButton() {
         $(By.xpath(actionButton)).click();
+    }
+
+    /**
+     * Создание проверки
+     * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
+     * @param isResresentatives - true - Берется уполномоченный, созданный автотестом
+     */
+    @Step("Создание проверки - {isMandatoryRequirements}, {isResresentatives}")
+    public String createEvent(boolean isMandatoryRequirements, boolean isResresentatives) {
+        clickAddButton();
+        setViewKNMDropDown(unscheduledCheck);
+        setFormKMNDropDown(exitAndDocumentaryForm);
+        setTypeSubjectDropDown(legalEntity);
+        setNumberOrdersField(numberOrders);
+        setDateOrdersField();
+        setDateStartKNMField();
+        setDateStopKNMField();
+        clickAddLegalGroundsConductingButton();
+        clickAbsenceDirectoryRadioButton();
+        setLegalGroundsConductingField(legalGroundsConducting);
+        clickSaveLegalGroundsConductingButton();
+        setGoalsTasksSubjectField(goalsTasksSubject);
+        setDurationEventDaysField(durationEventDays);
+        setDurationEventHoursField(durationEventHours);
+        clickAddListControlMeasuresButton();
+        setListControlMeasuresField(listControlMeasures);
+        clickAddGroundRegistrationButton();
+        setGroundRegistrationDropDown();
+        setNameKNODropDown(nameKNO);
+        setKindControlDropDown(viewKNOERP);
+        setInnField(INN, nameINN);
+        setMandatoryRequirementsDropDown(isMandatoryRequirements);
+        setResresentativesDropDown(isResresentatives);
+        clickSaveButton();
+        closeNotification();
+        return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
     }
 }

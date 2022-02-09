@@ -33,14 +33,11 @@ public class PersonalAccountPage extends Common {
 
     //поля для проверочных листов
     String templateNameField = "//*[@name='templateName']";
-    String organizationDropDown = "//div[contains(@class, 'CheckListForm_FieldBlock')][2]/div[2]";
     String approvalDetailsField = "//*[@name='approvalDetails']";
     String questionField = "//*[@name='questions[0].question']";
     String requisitesField = "//*[@name='questions[0].npaProps']";
 
     //поля для обязательных требований
-    //TODO: переделать xpath
-    //String nameOrganizationField = "//*[contains(@class,'SelectInput_Indicators')] "; // выпадающий список Организация
     String nameOrganizationFieldDropDown = "//form/div[2]/div[2]/div[1]/div/div[1]"; // выпадающий список Организация
     String typeOrganizationFieldDropDown = "//form/div[3]/div[2]/div[1]/div/div[1]"; //Выпадающий список Вид государственного контроля (надзора)
     String addRequirements = "//form/div[4]/button"; // кнопка Добавить требования
@@ -63,7 +60,8 @@ public class PersonalAccountPage extends Common {
     /**
      * Скролл по странице в начало
      */
-    public void scrollTopHtml(){
+    @Step("Скролл по странице в начало")
+    public void scrollTopHtml() {
         $(By.xpath("//h1[contains(@class, 'PersonalAccount_Header')]")).scrollIntoView(false);
     }
 
@@ -99,9 +97,9 @@ public class PersonalAccountPage extends Common {
         clickToText(mandatoryRequirements);
     }
 
-
     /**
      * Заполнение поля ФИО
+     * @param name ФИО
      */
     @Step("Заполнение поля ФИО - {name}")
     public void setNameField(String name) {
@@ -110,6 +108,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Должность
+     * @param position Должность
      */
     @Step("Заполнение поля Должность - {position}")
     public void setPositionField(String position) {
@@ -118,6 +117,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Выбор типа проверяющего
+     * @param type Тип проверяющего
      */
     @Step("Выбор типа проверяющего - {type}")
     public void setTypeInspectorDropDown(String type) {
@@ -128,12 +128,14 @@ public class PersonalAccountPage extends Common {
     /**
      * Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовночти страницы к созданию новых записей)
      */
-    public void clickToTemplateRecord(){
+    @Step("Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовночти страницы к созданию новых записей)")
+    public void clickToTemplateRecord() {
         $(By.xpath("//ul[contains(@class, 'TemplatesList')]//li[2]")).click();
     }
 
     /**
      * Заполнение поля наименование в проверочных листах и обязательные требования
+     * @param name Значение поля
      */
     @Step("Заполнение поля наименование в проверочных листах и обязательные требования - {name}")
     public void setTemplateNameField(String name) {
@@ -142,6 +144,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Сведения об утверждении
+     * @param details Значение поля
      */
     @Step("Заполнение поля Сведения об утверждении - {details}")
     public void setApprovalDetailsField(String details) {
@@ -150,6 +153,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Вопрос в разделе контрольные вопросы
+     * @param question Вопрос
      */
     @Step("Заполнение поля Вопрос в разделе контрольные вопросы - {question}")
     public void setQuestionField(String question) {
@@ -158,6 +162,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Реквизиты в разделе контрольные вопросы
+     * @param requisites Реквизиты
      */
     @Step("Заполнение поля Реквизиты в разделе контрольные вопросы - {requisites}")
     public void setRequisitesField(String requisites) {
@@ -166,6 +171,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Организация
+     * @param name организация
      */
     @Step("Заполнение поля Организация - {name}")
     public void setNameOrganizationFieldDropDown(String name) {
@@ -175,6 +181,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Вид государственного контроля (надзора)
+     * @param type Вид государственного контроля
      */
     @Step("Заполнение поля Вид государственного контроля (надзора) - {type}")
     public void setTypeOrganizationFieldDropDown(String type) {
@@ -184,6 +191,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Формулировка обязательного требования
+     * @param data - Формулировка обязательного требования
      */
     @Step("Заполнение поля Формулировка обязательного требования - {data}")
     public void setFormulationField(String data) {
@@ -192,6 +200,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Наименования НПА
+     * @param name Наименование НПА
      */
     @Step("Заполнение поля Наименования НПА - {name}")
     public void setNameNPAField(String name) {
@@ -200,6 +209,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Номер НПА
+     * @param number Номер НПА
      */
     @Step("Заполнение поля Номер НПА - {number}")
     public void setNumberNPAField(String number) {
@@ -208,6 +218,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Дата НПА
+     * @param date Дата НПА
      */
     @Step("Заполнение поля Дата НПА")
     public void setDateNPAField(String date) {
@@ -232,6 +243,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Проверка созданного уполномоченного на проведение КНМ
+     * @param name ФИО уполномоченного
      */
     @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
     public void checkRepresentatives(String name) {

@@ -16,6 +16,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
     /**
      * Цель: Создание шаблонов обязательных требований (для ЕРП)
      * HP ALM
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Создание шаблонов обязательных требований (для ЕРП)")
@@ -45,6 +46,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
     /**
      * Цель: Создание шаблонов проверочных листов (для ЕРП)
      * HP ALM
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРП)")
@@ -72,6 +74,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
     /**
      * Цель: Добавление уполномоченных на проведение проверки (для ЕРП)
      * HP ALM
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
@@ -90,7 +93,4 @@ public class PersonalAccountTest extends PersonalAccountPage {
         closeNotification();
         logout();
     }
-
-
-
 }

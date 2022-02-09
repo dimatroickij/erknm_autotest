@@ -56,6 +56,7 @@ public class NewsPage extends Common {
 
     /**
      * Переход в редактирование новости по префиксу
+     * @param prefix Префикс
      */
     @Step("Переход в редактирование новости по префиксу - {prefix}")
     public void goToNews(String prefix) {
@@ -72,6 +73,7 @@ public class NewsPage extends Common {
 
     /**
      * Выбор из выпадающего списка Типа новости
+     * @param type Тип новости
      */
     @Step("Выбор из выпадающего списка Типа новости - {type}")
     public void setTypeNewsField(String type) {
@@ -81,6 +83,7 @@ public class NewsPage extends Common {
 
     /**
      * Выбор из выпадающего списка Для кого видна новость
+     * @param visible Значение поля
      */
     @Step("Выбор из выпадающего списка Для кого видна новость - {visible}")
     public void setVisibleNewsDropDown(String visible) {
@@ -90,6 +93,7 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение заголовка новости
+     * @param title Заголовок новости
      */
     @Step("Заполнение заголовка новости - {title}")
     public void setTitleNewsField(String title) {
@@ -108,6 +112,7 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение краткого текста новости
+     * @param shortText Кратний текст новости
      */
     @Step("Заполнение краткого текста новости - {shortText}")
     public void setShortTextNewsField(String shortText) {
@@ -118,6 +123,7 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение текста новости
+     * @param text Текст новости
      */
     @Step("Заполнение текста новости - {text}")
     public void setTextNewsField(String text) {
@@ -174,15 +180,16 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение поля Дата публикации
-     * @param date Дата публикации
      */
-    public void setDataPublicationField(String date) {
+    public void setDataPublicationField() {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dataPublicationField)).setValue(currentDate);
     }
 
     /**
      * Поиск новости в таблице новостей у админа
+     * @param exist true - проверка на сущестовование новости
+     * @param news Название новости
      */
     @Step("Поиск новости - {news}, в таблице новостей у админа - {news}")
     public void searchNewsInTableAdmin(String news, boolean exist) {
@@ -192,6 +199,8 @@ public class NewsPage extends Common {
 
     /**
      * Поиск новости в таблице новостей у Пользователя
+     * @param exist true - проверка на сущестовование новости
+     * @param news Название новости
      */
     @Step("Поиск новости - {news} в таблице новостей у Пользователя")
     public void searchNewsInTableUser(String news, boolean exist) {
@@ -201,16 +210,21 @@ public class NewsPage extends Common {
 
     /**
      * Добавление новости
+     * @param text Текст новости
+     * @param shortText Краткий текст новости
+     * @param title Заголовок новости
+     * @param typeItem Тип новости
+     * @param visible Для кого видна новость
      */
     @Step("Добавление новости")
-    public void addNews(String typeItem, String visible, String title, String shortText, String text, String date){
+    public void addNews(String typeItem, String visible, String title, String shortText, String text){
         clickAddNewsButton();
         setTypeNewsField(typeItem);
         setVisibleNewsDropDown(visible);
         setTitleNewsField(title);
         setShortTextNewsField(shortText);
         setTextNewsField(text);
-        setDataPublicationField(date);
+        setDataPublicationField();
         clickSaveNewsButton();
     }
 

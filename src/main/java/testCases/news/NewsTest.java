@@ -26,7 +26,7 @@ public class NewsTest extends NewsPage {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
-        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews, currentDate);
+        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews);
         searchNewsInTableAdmin(titleNews, true);
         logout();
         authorization("prosecutor");
@@ -71,7 +71,6 @@ public class NewsTest extends NewsPage {
      * Цель: Удаление новости
      * HP ALM
      *
-     * @throws InterruptedException
      * @author Troickij D. I. 01.2022
      */
     @Test(description = "3 - Удаление новости")

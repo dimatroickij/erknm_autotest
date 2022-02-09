@@ -76,7 +76,7 @@ public class OpenPartTest extends OpenPartPage {
         choiceERKNM();
         NewsPage news = new NewsPage();
         news.goToManagementNews();
-        news.addNews(typeItemNews, visibleNewsItemOpenPart, titleNews, shortText, textNews, currentDate);
+        news.addNews(typeItemNews, visibleNewsItemOpenPart, titleNews, shortText, textNews);
         logout();
         openERKNM();
         gotoNewsOpenPage();

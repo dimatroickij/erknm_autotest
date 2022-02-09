@@ -6,62 +6,36 @@ import testPages.ListEventsERPPage;
 public class ListEventsERPTest extends ListEventsERPPage {
     //раздел Список проверок в режиме ЕРП
 
-    public String knmNumber = "772200008548";
-//    public String knmNumber;
+    //    public String knmNumber = "772200008566";
+    public String knmNumber;
 
     /*
      author Troickij D. A. 01.2022
      */
     @Test(description = "1 - Добавление проверки (статус в процессе формирования)")
-    public void createEventStatusProcessCompletionTest() {
+    public void createEventStatusProcessCompletionERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        clickAddButton();
-        setViewKNMDropDown(unscheduledCheck);
-        setFormKMNDropDown(exitAndDocumentaryForm);
-        setTypeSubjectDropDown(legalEntity);
-        setNumberOrdersField(String.valueOf(122345));
-        setDateOrdersField();
-        setDateStartKNMField();
-        setDateStopKNMField();
-        clickAddLegalGroundsConductingButton();
-        clickAbsenceDirectoryRadioButton();
-        setLegalGroundsConductingField("НПА");
-        clickSaveLegalGroundsConductingButton();
-        setGoalsTasksSubjectField("Автотест");
-        setDurationEventDaysField("30");
-        setDurationEventHoursField("30");
-        clickAddListControlMeasuresButton();
-        setListControlMeasuresField("Автотест");
-        clickAddGroundRegistrationButton();
-        setGroundRegistrationDropDown();
-        setNameKNODropDown(nameKNO);
-        setKindControlDropDown(viewKNOERP);
-        setInnField(INN, "Тест");
-        setMandatoryRequirementsDropDown(false);
-        clickSaveButton();
-        closeNotification();
-        knmNumber = getKnmNumber();
-        System.out.println(knmNumber);
+        knmNumber = createEvent(false, false);
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
         checkKNM(knmNumber, statusProcessFormation, true);
-//        logout();
+        logout();
     }
 
     /*
      author Troickij D. A. 01.2022
      */
     @Test(description = "2 - Перевод проверки в статус  в процессе проведения")
-    public void transferEventStatusProcessConductingTest() {
+    public void transferEventStatusProcessConductingERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
         openCard(knmNumber);
         clickObjectsKNMButton();
-        setAddressField("Автотест");
+        setAddressField(address);
         setAddressTypeDropDown(locationLE);
         setTypeObjectDropDown(branch);
         setRiskCategoryDropDown(righRisk);
@@ -71,14 +45,14 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setSearchField(knmNumber);
         clickSearchButton();
         checkKNM(knmNumber, statusProcessConducting, true);
-//        logout();
+        logout();
     }
 
     /*
     author Troickij D. A. 02.2022
     */
     @Test(description = "3 - Перевод проверки в статус завершено")
-    public void transferEventStatusCompletedTest() {
+    public void transferEventStatusCompletedERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
@@ -86,7 +60,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         clickListResultButton();
         setObjectKNMDropDown();
         setDateTimeActField();
-        setResultAddressField("Автотест");
+        setResultAddressField(address);
         setResultAddressTypeDropDown(locationLE);
         setDateTimeKNMField();
         clickSaveButton();
@@ -95,14 +69,14 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setSearchField(knmNumber);
         clickSearchButton();
         checkKNM(knmNumber, statusCompleted, true);
-//        logout();
+        logout();
     }
 
     /*
     author Troickij D. A. 02.2022
     */
     @Test(description = "4 - Удаление проверки")
-    public void deletedEventTest() {
+    public void deletedEventERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
@@ -118,44 +92,18 @@ public class ListEventsERPTest extends ListEventsERPPage {
     }
 
     @Test(description = "5 - Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
-    public void addTemplatesInCheckCardTest() {
+    public void addTemplatesInCheckCardERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        clickAddButton();
-        setViewKNMDropDown(unscheduledCheck);
-        setFormKMNDropDown(exitAndDocumentaryForm);
-        setTypeSubjectDropDown(legalEntity);
-        setNumberOrdersField(String.valueOf(122345));
-        setDateOrdersField();
-        setDateStartKNMField();
-        setDateStopKNMField();
-        clickAddLegalGroundsConductingButton();
-        clickAbsenceDirectoryRadioButton();
-        setLegalGroundsConductingField("НПА");
-        clickSaveLegalGroundsConductingButton();
-        setGoalsTasksSubjectField("Автотест");
-        setDurationEventDaysField("30");
-        setDurationEventHoursField("30");
-        clickAddListControlMeasuresButton();
-        setListControlMeasuresField("Автотест");
-        clickAddGroundRegistrationButton();
-        setGroundRegistrationDropDown();
-        setNameKNODropDown(nameKNO);
-        setKindControlDropDown(viewKNOERP);
-        setInnField(INN, "Тест");
-        templateMandatoryRequirements = "236812авто Наименование";
-        setMandatoryRequirementsDropDown(true);
-        resresentative = "800550авто ФИО";
-        setResresentativesDropDown(true);
-        clickSaveButton();
-        closeNotification();
-        knmNumber = getKnmNumber();
-        System.out.println(knmNumber);
+        //templateMandatoryRequirements = "236812авто Наименование";
+        //resresentative = "54796авто ФИО";
+        knmNumber = createEvent(true, true);
+        // TODO Для бобавления проверочных листов проверка должна быть плановой, но для этого нужно заполнять больше полей
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
         checkKNM(knmNumber, statusProcessFormation, true);
-//        logout();
+        logout();
     }
 }

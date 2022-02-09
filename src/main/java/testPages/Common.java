@@ -13,14 +13,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 
 public class Common {
 
-    //public String url = "http://private.proverki.local/";
-    public String url = "http://private.proverki.local/private/knms";
+    public String url = "http://private.proverki.local/";
+    //public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
     public String openUrl = "http://proverki.local"; //открытая часть
 
@@ -383,13 +384,13 @@ public class Common {
     @Step("Авторизация. Пользователь - {person}")
     public void authorization(String person, boolean message) {
         open(url);
-        if (person == "admin") {
+        if (Objects.equals(person, "admin")) {
             setLogin(loginAdmin);
-        } else if (person == "prosecutor") {
+        } else if (Objects.equals(person, "prosecutor")) {
             setLogin(loginProsecutor);
-        } else if (person == "supervisor") {
+        } else if (Objects.equals(person, "supervisor")) {
             setLogin(loginSupervisor);
-        } else if (person == "ombudsmen") {
+        } else if (Objects.equals(person, "ombudsmen")) {
             setLogin(loginOmbudsman);
         }
         setPassword(password);
