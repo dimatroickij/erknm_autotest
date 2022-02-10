@@ -6,44 +6,63 @@ import testPages.ListPlanERPPage;
 public class ListPlansERPTest extends ListPlanERPPage {
     // работа с планами в режиме ЕРП
 
-    /*
-    author Troickij D. A. 01.2022
-    */
-    @Test(description = "1 - Создание плана (Статус Новый) в ЕРП")
-    public void createPlanERPTest() throws InterruptedException {
+    /**
+     * Цель: Создание плана (Статус Новый) в ЕРП
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=195
+     *
+     * @author Troickij D. A. 02.2022
+     */
+    @Test(description = "Создание плана (Статус Новый) в ЕРП", enabled = false)
+    public void createPlanERPTest() {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        clickAddButton();
-        setControlAuthorityDropDown(nameKNO);
-        setProsecutorOfficeDropDown(prosecutorsOffice);
-        setTypePlanDropDown(summaryPlan294);
-        clickCreateButton();
-        Thread.sleep(4000);
-        //СОздание плана + добавление КНМ или создание КНМ с номером созданного плана в ЕРП
+        numberPlan = createPlan();
+        logout();
     }
 
-    @Test(description = "2 - Удаление плана в ЕРП")
+    /**
+     * Цель: Удаление плана в ЕРП
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=199
+     *
+     * @author Troickij D. A. 02.2022
+     */
+    @Test(description = "Удаление плана в ЕРП", enabled = false)
     public void deletePlanERPTest() {
-
+        authorization("prosecutor");
+        choiceERP();
+        gotoListPlansPage();
+        numberPlan = createPlan();
+        //numberPlan = "2022037676";
+        clickPlanCheckBox(numberPlan);
+        clickDeleteButton();
+        clickConfirmationDeleteButton();
+        closeNotification();
+        searchPlan(numberPlan, false);
+        logout();
     }
 
-    @Test(description = "3 - Перевод плана в статус На согласовании в ЕРП")
-    public void transferPlanStatusOnApprovalTest() {
-
+    @Test(description = "Перевод плана в статус На согласовании в ЕРП", enabled = false)
+    public void transferPlanStatusOnApprovalTest() throws InterruptedException {
+        authorization("prosecutor");
+        choiceERP();
+        gotoListPlansPage();
+        numberPlan = "2022037658";
+        clickPlanCellMenuButton(numberPlan);
+        Thread.sleep(3000);
     }
 
-    @Test(description = "4 - Перевод плана в статус На доработке в ЕРП")
+    @Test(description = "Перевод плана в статус На доработке в ЕРП", enabled = false)
     public void transferPlanStatusFrRevisionTest() {
 
     }
 
-    @Test(description = "5 - Перевод плана в статус Согласован в ЕРП")
+    @Test(description = "Перевод плана в статус Согласован в ЕРП", enabled = false)
     public void transferPlanStatusAgreedTest() {
 
     }
 
-    @Test(description = "6 - Перевод плана в статус Утвержден в ЕРП")
+    @Test(description = "Перевод плана в статус Утвержден в ЕРП", enabled = false)
     public void transferPlanStatusApprovedTest() {
 
     }
