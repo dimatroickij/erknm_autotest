@@ -8,76 +8,94 @@ import java.util.UUID;
 public class NewsERPTest extends NewsPage {
     // Новости в режиме ЕРП
 
-    /*
-     author Troickij D. I. 01.2022
+    /**
+     * Цель: Добавление новости в режиме ЕРП
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=54
+     * @author Troickij D. A. 01.2022
      */
-    @Test(description = "1 - Добавление новости в режиме ЕРП")
-    public void createNewsERPTest() throws InterruptedException {
-        authorization("admin");
+    @Test(description = "Добавление новости в режиме ЕРП")
+    public void createNewsERPTest() {
+        authorization("sysadmin");
+        closeNotification();
+        closeNotification();
         choiceERP();
         goToManagementNews();
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
         setVisibleNewsDropDown(visibleNewsItemProsecutor);
-        String prefix = UUID.randomUUID().toString();
-        setTitleNewsField(prefix + "автотест Заголовок");
-        setShortTextNewsField(prefix + "автотест Краткий текст новости");
-        setTextNewsField(prefix + "автотест Текст новости");
+        setTitleNewsField(prefixNews + titleNews);
+        setShortTextNewsField(prefixNews + shortTextNews);
+        setTextNewsField(prefixNews + textNews);
         setDataPublicationField();
         clickSaveNewsButton();
-        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();
         authorization("prosecutor");
         choiceERP();
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(prefixNews + titleNews, true);
         logout();
         authorization("supervisor");
         choiceERP();
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотест Заголовок", false);
+        searchNewsInTableUser(prefixNews + titleNews, false);
         logout();
     }
 
-    @Test(description = "2 - Редактирование новости в режиме ЕРП")
+    /**
+     * Цель: Редактирование новости в режиме ЕРП
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=549
+     * @author Troickij D. A. 01.2022
+     */
+    @Test(description = "Редактирование новости в режиме ЕРП")
     public void editNewsERPTest() {
-        authorization("admin", false);
+        authorization("sysadmin", false);
+        closeNotification();
+        closeNotification();
         choiceERP();
         goToManagementNews();
-        goToNews();
-        String prefix = UUID.randomUUID().toString();
-        String lastTitleNewsField = getTitleNewsField();
-        setTitleNewsField(prefix + "автотест Заголовок");
-        setShortTextNewsField(prefix + "автотест Краткий текст новости");
-        setTextNewsField(prefix + "автотест Текст новости");
+        //prefixNews = "bce30994-b55d-490b-bc8b-a7d502de7fa0";
+        goToNews(prefixNews + titleNews);
+        String lastTitleNewsField = prefixNews + titleNews;
+        prefixNews = UUID.randomUUID().toString();
+        setTitleNewsField(prefixNews + titleNews);
+        setShortTextNewsField(prefixNews + shortTextNews);
+        setTextNewsField(prefixNews + textNews);
         clickSaveNewsButton();
         clickApplyWithPublicationsNewsButton();
         clickBackButton();
-        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        searchNewsInTableAdmin(prefixNews + titleNews, true);
         searchNewsInTableAdmin(lastTitleNewsField, false);
         logout();
         authorization("prosecutor", false);
         choiceERP();
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(prefixNews + titleNews, true);
         searchNewsInTableUser(lastTitleNewsField, false);
         logout();
     }
 
-    @Test(description = "3 - Удаление новости в режиме ЕРП")
-    public void deleteNewsERPTest() throws InterruptedException {
-        authorization("admin", false);
+    /**
+     * Цель: Удаление новости в режиме ЕРП
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=545
+     * @author Troickij D. A. 01.2022
+     */
+    @Test(description = "Удаление новости в режиме ЕРП")
+    public void deleteNewsERPTest() {
+        authorization("sysadmin");
+        closeNotification();
+        closeNotification();
         choiceERP();
         goToManagementNews();
-        goToNews();
-        String lastTitleNewsField = getTitleNewsField();
+        //prefixNews = "004c8543-0c2b-4ef0-b44e-b5acd79b5afd";
+        goToNews(prefixNews + titleNews);
         clickRemoveFromPublicationNewsButton();
         clickBackButton();
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERP();
         gotoNewsPage();
-        searchNewsInTableUser(lastTitleNewsField, false);
+        searchNewsInTableUser(prefixNews + textNews, false);
         logout();
     }
 }

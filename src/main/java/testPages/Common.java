@@ -45,7 +45,7 @@ public class Common {
     public String loginProsecutor = "prosecutor"; //логин прокурора
     public String loginSupervisor = "supervisor"; //логин сотрудника КНО
     public String loginOmbudsman = "ombudsman"; //логин омбудсмена
-    public String loginAdmin = "admin"; //логин администратора
+    public String loginAdmin = "sysadmin"; //логин администратора
     public String password = "%%%%%%%%"; //пароль ко всем ролям
     //public String password = "%%%%%%%%"; //пароль к сотруднику КНО на СГК
     public String wrongLogin = "wrongLogin"; //некорректный логин
@@ -384,7 +384,7 @@ public class Common {
     @Step("Авторизация. Пользователь - {person}")
     public void authorization(String person, boolean message) {
         open(url);
-        if (Objects.equals(person, "admin")) {
+        if (Objects.equals(person, "sysadmin")) {
             setLogin(loginAdmin);
         } else if (Objects.equals(person, "prosecutor")) {
             setLogin(loginProsecutor);

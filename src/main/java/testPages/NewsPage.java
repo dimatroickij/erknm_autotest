@@ -8,9 +8,11 @@ import org.openqa.selenium.Keys;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.refresh;
 
 public class NewsPage extends Common {
     // раздел Новости
@@ -29,13 +31,19 @@ public class NewsPage extends Common {
     public String titleField = "//*[@name='title']"; //поле Заголовок
     public String shortTextField = "//*[@name='shortText']"; //поле Краткий текст новости
     public String textNewsField = "//*[@role= 'textbox']//span[@data-offset-key='key-0-0']"; //поле Текст новости
-    public String dataPublicationField = "/html/body/div/div/main/div/form/div[7]/div/div[2]/div/div/div/input"; //поле Дата публикации
+    public String dataPublicationField = "//form/div[7]//input"; //поле Дата публикации
     public String saveNewsButton = "//*[@type='submit']"; //кнопка Сохранить новость
     public String saveWithoutPublicationsNewsButton = "//button[text()='Сохранить без публикации']";
     public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']";
     public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']";
     public String applyButton = "//button[text()='Применить']";
     public String backButton = "//button[text()='Назад']";
+
+    // Переменные, которые будут использоваться совместно несколькими тестами
+    public String prefixNews = UUID.randomUUID().toString(); // Префикс для уникальных названий
+    public String titleNews = "автотест Заголовок"; // Заголовок новости
+    public String shortTextNews = "автотест Краткий текст новости"; // Краткий текст новости
+    public String textNews = "автотест Текст новости";
 
 
     /**
@@ -69,6 +77,7 @@ public class NewsPage extends Common {
     @Step("Нажатие на кнопку Добавить новость")
     public void clickAddNewsButton() {
         $(By.xpath(addNewsButton)).click();
+        refresh();
     }
 
     /**
@@ -181,6 +190,7 @@ public class NewsPage extends Common {
     /**
      * Заполнение поля Дата публикации
      */
+    @Step("Заполнение поля Дата публикации")
     public void setDataPublicationField() {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         $(By.xpath(dataPublicationField)).setValue(currentDate);

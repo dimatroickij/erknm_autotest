@@ -15,7 +15,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
 
     /**
      * Цель: Создание шаблонов обязательных требований (для ЕРП)
-     * HP ALM
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=43
      *
      * @author Frolova S.I 01.2022
      */
@@ -45,7 +45,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
 
     /**
      * Цель: Создание шаблонов проверочных листов (для ЕРП)
-     * HP ALM
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=42
      *
      * @author Frolova S.I 01.2022
      */
@@ -73,7 +73,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
 
     /**
      * Цель: Добавление уполномоченных на проведение проверки (для ЕРП)
-     * HP ALM
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=291
      *
      * @author Frolova S.I 01.2022
      */
