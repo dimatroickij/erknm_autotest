@@ -25,6 +25,7 @@ public class SearchEventsTest extends Common {
         //опубликовать эту кнм и найти ее
         searchRequest(numberKNM);
         checkObject(numberKNM);
-
+//Документарная проверка
+//Выездная проверка
     }
 }
