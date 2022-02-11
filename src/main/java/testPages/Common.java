@@ -23,7 +23,10 @@ public class Common {
     public String url = "http://private.proverki.local/";
     //public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
-    public String openUrl = "http://proverki.local"; //открытая часть
+    //public String openUrl = "http://proverki.local"; //открытая часть
+    public String openUrl = "http://proverki.local/portal"; //открытая часть
+
+
 
     public String scriptAddDocument = ".\\testUtils\\choiceDoc.exe";
     public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";

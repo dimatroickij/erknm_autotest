@@ -189,11 +189,11 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение поля Дата публикации
+     * @param date Дата публикации
      */
     @Step("Заполнение поля Дата публикации")
-    public void setDataPublicationField() {
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dataPublicationField)).setValue(currentDate);
+    public void setDataPublicationField(String date) {
+        $(By.xpath(dataPublicationField)).setValue(date);
     }
 
     /**
@@ -227,14 +227,14 @@ public class NewsPage extends Common {
      * @param visible Для кого видна новость
      */
     @Step("Добавление новости")
-    public void addNews(String typeItem, String visible, String title, String shortText, String text){
+    public void addNews(String typeItem, String visible, String title, String shortText, String text, String date){
         clickAddNewsButton();
         setTypeNewsField(typeItem);
         setVisibleNewsDropDown(visible);
         setTitleNewsField(title);
         setShortTextNewsField(shortText);
         setTextNewsField(text);
-        setDataPublicationField();
+        setDataPublicationField(date);
         clickSaveNewsButton();
     }
 
