@@ -177,8 +177,7 @@ public class NewsPage extends Common {
      * @param date Дата публикации
      */
     public void setDataPublicationField(String date) {
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dataPublicationField)).setValue(currentDate);
+        $(By.xpath(dataPublicationField)).setValue(date);
     }
 
     /**
