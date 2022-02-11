@@ -73,8 +73,7 @@ public class OpenPartTest extends OpenPartPage {
     @Test(description = "3 - Проверка доступности новости для открытой части")
     public void displayNewsOnNewsPage() {
         authorization("admin");
-        choiceERKNM();
-        NewsPage news = new NewsPage();
+        choiceERKNM();NewsPage news = new NewsPage();
         news.goToManagementNews();
         news.addNews(typeItemNews, visibleNewsItemOpenPart, titleNews, shortText, textNews, currentDate);
         logout();
