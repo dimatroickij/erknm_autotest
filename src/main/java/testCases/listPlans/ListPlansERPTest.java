@@ -42,7 +42,13 @@ public class ListPlansERPTest extends ListPlanERPPage {
         logout();
     }
 
-    @Test(description = "Перевод плана в статус На согласовании в ЕРП", enabled = false)
+    /**
+     * Цель: Перевод плана в статус На согласовании в ЕРП
+     * HP ALM
+     *
+     * @author Troickij D. A. 02.2022
+     */
+    @Test(description = "Перевод плана в статус На согласовании в ЕРП")
     public void transferPlanStatusOnApprovalTest() throws InterruptedException {
         authorization("prosecutor");
         choiceERP();

@@ -106,7 +106,7 @@ public class ListPlanERPPage extends Common {
 
     public void clickPlanCellMenuButton(String number) {
         $(By.xpath(String.format(planCellMenuButton, number))).click();
-        $(By.xpath(button1)).click();
+        $(By.xpath("//*[@text='Изменить статус']")).hover();
     }
 
 }

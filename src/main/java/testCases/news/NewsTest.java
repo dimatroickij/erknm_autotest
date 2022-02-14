@@ -22,11 +22,11 @@ public class NewsTest extends NewsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавление новости")
-    public void createNewsTest() throws InterruptedException {
+    public void createNewsTest() {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
-        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews);
+        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews, currentDate);
         searchNewsInTableAdmin(titleNews, true);
         logout();
         authorization("prosecutor");
@@ -74,7 +74,7 @@ public class NewsTest extends NewsPage {
      * @author Troickij D. I. 01.2022
      */
     @Test(description = "3 - Удаление новости")
-    public void deleteNewsTest() throws InterruptedException {
+    public void deleteNewsTest() {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
