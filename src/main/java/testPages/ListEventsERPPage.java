@@ -6,9 +6,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -16,11 +14,12 @@ public class ListEventsERPPage extends Common {
     //Список проверок
     String viewKNMDropDown = "//div[@id='typeBlock']/div[2]"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//div[@id='kindBlock']/div[2]"; //Выпадающий список Форма КНМ
-    String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; //выпадающий список Тип субъекта КНМ
+    String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; // Выпадающий список Тип субъекта КНМ
     String numberOrdersField = "//*[@name='orderNumber']"; //поле Номер приказа
     String dateOrdersField = "//*[@id='orderDateBlock']//input"; // поле Дата приказа
     String dateStartKNMField = "//*[@id='startDateBlock']//input"; //поле Дата начала КНМ
     String dateStopKNMField = "//*[@id='stopDateBlock']//input"; //поле Дата окончания КНМ
+    String monthKNMDropDown = "//*[@id='monthBlock']//div[2]"; // Выпадающий список Месяц проведения КНМ
 
     String addLegalGroundsConductingButton = "//*[@id='legalBasesTitle']/span/button"; //кнопка Добавить в разделе Правовые основания проведения КНМ
     String absenceDirectoryRadioButton = "//*[@id='legalBasesNotExist']"; //радиобатон Отсутствует в справочнике
@@ -127,31 +126,42 @@ public class ListEventsERPPage extends Common {
      * Заполнение поля Дата приказа
      */
     @Step("Заполнение поля Дата приказа текущей датой")
-    public void setDateOrdersField() {
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        $(By.xpath(dateOrdersField)).setValue(currentDate);
+    public void setDateOrdersField(String date) {
+        $(By.xpath(dateOrdersField)).setValue(date);
     }
 
     /**
      * Заполнение поля Дата начала КНМ
      */
     @Step("Заполнение поля Дата начала КНМ. Значение поля - текущая дата - 1 день")
-    public void setDateStartKNMField() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(GregorianCalendar.DAY_OF_MONTH, -1);
-        $(By.xpath(dateStartKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
+    public void setDateStartKNMField(String date) {
+//        Calendar calendar = GregorianCalendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.add(GregorianCalendar.DAY_OF_MONTH, -1);
+//        $(By.xpath(dateStartKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
+        $(By.xpath(dateStartKNMField)).setValue(date);
     }
 
     /**
      * Заполнение поля Дата окончания КНМ
      */
     @Step("Заполнение поля Дата окончания КНМ. Значение поля - текущая дата + 2 дня")
-    public void setDateStopKNMField() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(GregorianCalendar.DAY_OF_MONTH, 2);
-        $(By.xpath(dateStopKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
+    public void setDateStopKNMField(String date) {
+//        Calendar calendar = GregorianCalendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.add(GregorianCalendar.DAY_OF_MONTH, 2);
+        $(By.xpath(dateStopKNMField)).setValue(date);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Месяц проведения КНМ
+     * @param month номер месяца
+     */
+    //TODO Доделать
+    public void setMonthKNMDropDown(Integer month){
+        $(By.xpath(monthKNMDropDown)).click(); // клик на выпадающем списке Месяц проведения КНМ
+        System.out.println($(By.xpath(monthKNMDropDown)).innerHtml());
+        //clickToText(month); // клик на нужном месяце
     }
 
     /**
@@ -395,10 +405,12 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Ввод даты формирования акта
+     *
+     * @param date Дата формирования акта
      */
     @Step("Ввод даты формирования акта")
-    public void setDateTimeActField() {
-        $(By.xpath(dateTimeActField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
+    public void setDateTimeActField(String date) {
+        $(By.xpath(dateTimeActField)).setValue(date);
     }
 
     /**
@@ -426,8 +438,8 @@ public class ListEventsERPPage extends Common {
      * Заполнение поля Дата и время проведения КНМ в блоке Список результатов
      */
     @Step("Заполнение поля Дата и время проведения КНМ в блоке Список результатов")
-    public void setDateTimeKNMField() {
-        $(By.xpath(dateTimeKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date()));
+    public void setDateTimeKNMField(String dateTime) {
+        $(By.xpath(dateTimeKNMField)).setValue(dateTime);
     }
 
     /**
@@ -456,20 +468,71 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Создание проверки
+     * Создание внеплановой проверки
+     *
+     * @param dateOrders              Дата приказа
+     * @param dateStart               Дата начала КНМ
+     * @param dateStop                Дата окончания КНМ
      * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
-     * @param isResresentatives - true - Берется уполномоченный, созданный автотестом
+     * @param isResresentatives       - true - Берется уполномоченный, созданный автотестом
      */
-    @Step("Создание проверки - {isMandatoryRequirements}, {isResresentatives}")
-    public String createEvent(boolean isMandatoryRequirements, boolean isResresentatives) {
+    @Step("Создание внеплановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
+            "{isResresentatives}")
+    public String createUnscheduledEvent(String dateOrders, String dateStart, String dateStop,
+                                         boolean isMandatoryRequirements, boolean isResresentatives) {
         clickAddButton();
         setViewKNMDropDown(unscheduledCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
         setTypeSubjectDropDown(legalEntity);
         setNumberOrdersField(numberOrders);
-        setDateOrdersField();
-        setDateStartKNMField();
-        setDateStopKNMField();
+        setDateOrdersField(dateOrders);
+        setDateStartKNMField(dateStart);
+        setDateStopKNMField(dateStop);
+        clickAddLegalGroundsConductingButton();
+        clickAbsenceDirectoryRadioButton();
+        setLegalGroundsConductingField(legalGroundsConducting);
+        clickSaveLegalGroundsConductingButton();
+        setGoalsTasksSubjectField(goalsTasksSubject);
+        setDurationEventDaysField(durationEventDays);
+        setDurationEventHoursField(durationEventHours);
+        clickAddListControlMeasuresButton();
+        setListControlMeasuresField(listControlMeasures);
+        clickAddGroundRegistrationButton();
+        setGroundRegistrationDropDown();
+        setNameKNODropDown(nameKNO);
+        setKindControlDropDown(viewKNOERP);
+        setInnField(INN, nameINN);
+        setMandatoryRequirementsDropDown(isMandatoryRequirements);
+        setResresentativesDropDown(isResresentatives);
+        clickSaveButton();
+        closeNotification();
+        return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
+    }
+
+    /**
+     * Создание внеплановой проверки
+     *
+     * @param dateOrders              Дата приказа
+     * @param dateStart               Дата начала КНМ
+     * @param dateStop                Дата окончания КНМ
+     * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
+     * @param isResresentatives       - true - Берется уполномоченный, созданный автотестом
+     */
+    // TODO Доделать
+    @Step("Создание плановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
+            "{isResresentatives}")
+    public String createScheduledEvent(String dateOrders, String dateStart, String dateStop,
+                                         boolean isMandatoryRequirements, boolean isResresentatives) {
+        clickAddButton();
+        setViewKNMDropDown(scheduleCheck);
+        setFormKMNDropDown(exitAndDocumentaryForm);
+        setTypeSubjectDropDown(legalEntity);
+        //setNumberOrdersField(numberOrders);
+        //setDateOrdersField(dateOrders);
+        setDateStartKNMField(dateStart);
+        //setDateStopKNMField(dateStop);
+
+        setMonthKNMDropDown(1);
         clickAddLegalGroundsConductingButton();
         clickAbsenceDirectoryRadioButton();
         setLegalGroundsConductingField(legalGroundsConducting);

@@ -10,17 +10,27 @@ public class ListPlanERPPage extends Common {
 
     public String controlAuthorityDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[1]/div[2]"; // Выпадающий список Орган контроля
     public String prosecutorOfficeDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]/div[2]"; // Выпадающий список Орган прокуратуры
-    public String typePlanDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[3]/div[2]"; // Выпадающий список Тип плана КНМ
+    public String typePlanDropDown = "//div[contains(@class, 'CreatePlanModal_SelectLabel') and text()='Тип плана КНМ']/../div[2]"; // Выпадающий список Тип плана КНМ
     public String selectValue = "//div[contains(@class, 'select-field__option') and text()='%s']"; // Локатор для выбора определенного значения в выпадающем списке
+    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания
 
     public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
+    public String planStatusText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellStatus')]"; // Ячейка со статусом плана
     public String confirmationDeleteButton = "//div[contains(@class, 'ConfirmModal_Footer')]/button"; // Кнопка Удалить в модальном окне подтверждения удаления
 
-    public String planCellMenuButton = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellMenu')]//button";
-    public String button1 = "//ul[contains(@class, 'Dropdown_AdditionalMenu')]/li[2]/button";
+    public String planCellMenuButton = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellMenu')]//button"; // Кнопка - гамбургер у плана
+    public String changeStatusButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[2]"; // Кнопка Изменить статус в меню - гамбургере
+    public String statusButton = "//ul[contains(@class, 'Dropdown_Menu')]//ul//button[text()='%s']"; // Кнопка с названием статуса плана из меню - гамбургера
 
     public String prosecutorsOffice = "Генеральная прокуратура Российской Федерации";
     public String summaryPlan294 = "Сводный 294ФЗ";
+
+    // Статусы планов
+    public String newPlan = "Новый";
+    public String onApprovalPlan = "На согласовании";
+    public String onRevisionPlan = "На доработке";
+    public String agreedPlan = "Согласован";
+    public String approvedPlan = "Утвержден";
 
     public String numberPlan; // номер плана. Для использования в нескольких автотестах
 
@@ -67,7 +77,7 @@ public class ListPlanERPPage extends Common {
         setProsecutorOfficeDropDown(prosecutorsOffice);
         setTypePlanDropDown(summaryPlan294);
         clickCreateButton();
-        return "";
+        return $(By.xpath(numberPlanNotificationText)).getText();
     }
 
     /**
@@ -89,7 +99,21 @@ public class ListPlanERPPage extends Common {
     }
 
     /**
-     * Выбор чек-бокса по номеру плана
+     * Перевод плана в указанный статус
+     *
+     * @param status Новый статус плана
+     */
+    @Step("Перевод плана в указанный статус {status}")
+    public void workToPlan(String status) {
+        setSearchField(numberPlan);
+        clickSearchButton();
+        transferOfPlanToStatus(numberPlan, status);
+        closeNotification();
+        searchPlan(numberPlan, status, true);
+    }
+
+    /**
+     * Поиск плана по номеру
      *
      * @param number  Номер плана
      * @param isExist true - план должен быть в списке, false - план должен отсутствовать в списке
@@ -104,9 +128,34 @@ public class ListPlanERPPage extends Common {
             $(By.xpath(String.format(planCheckBox, number))).shouldNot(Condition.exist);
     }
 
-    public void clickPlanCellMenuButton(String number) {
+    /**
+     * Поиск плана по номеру и статусу
+     *
+     * @param number  Номер плана
+     * @param status  Статус плана
+     * @param isExist true - план должен быть в списке, false - план должен отсутствовать в списке
+     */
+    @Step("Поиск плана по номеру {number} и статусу {status}, {isExist}")
+    public void searchPlan(String number, String status, boolean isExist) {
+        //setSearchField(number);
+        //clickSearchButton();
+        if (isExist)
+            $(By.xpath(String.format(planStatusText, number))).should(Condition.text(status));
+        else
+            $(By.xpath(String.format(planStatusText, number))).shouldNot(Condition.text(status));
+    }
+
+    /**
+     * Изменение статуса плана ЕРП
+     *
+     * @param number Номер плана ЕРП
+     * @param status Новый статус плана ЕРП
+     */
+    @Step("Перевод плана {number} в статус '{status}'")
+    public void transferOfPlanToStatus(String number, String status) {
         $(By.xpath(String.format(planCellMenuButton, number))).click();
-        $(By.xpath("//*[@text='Изменить статус']")).hover();
+        $(By.xpath(changeStatusButton)).hover();
+        $(By.xpath(String.format(statusButton, status))).click();
     }
 
 }

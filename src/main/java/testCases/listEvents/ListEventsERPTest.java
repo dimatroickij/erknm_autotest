@@ -3,6 +3,10 @@ package testCases.listEvents;
 import org.testng.annotations.Test;
 import testPages.ListEventsERPPage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class ListEventsERPTest extends ListEventsERPPage {
     //раздел Список проверок в режиме ЕРП
 
@@ -12,12 +16,16 @@ public class ListEventsERPTest extends ListEventsERPPage {
     /*
      author Troickij D. A. 01.2022
      */
+    // TODO Переделать
     @Test(description = "1 - Добавление проверки (статус в процессе формирования)")
     public void createEventStatusProcessCompletionERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        knmNumber = createEvent(false, false);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String startDate = LocalDateTime.from((new Date()).toInstant()).minusDays(1).format(formatter);
+        String stopDate = LocalDateTime.from((new Date()).toInstant()).plusDays(2).format(formatter);
+        knmNumber = createUnscheduledEvent(currentDate, startDate, stopDate, false, false);
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
@@ -59,10 +67,10 @@ public class ListEventsERPTest extends ListEventsERPPage {
         openCard(knmNumber);
         clickListResultButton();
         setObjectKNMDropDown();
-        setDateTimeActField();
+        setDateTimeActField(currentDate);
         setResultAddressField(address);
         setResultAddressTypeDropDown(locationLE);
-        setDateTimeKNMField();
+        setDateTimeKNMField(currentDateTime);
         clickSaveButton();
         closeNotification();
         gotoERPListKNMPage();
@@ -91,6 +99,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         logout();
     }
 
+    // TODO переделать
     @Test(description = "5 - Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
     public void addTemplatesInCheckCardERPTest() {
         authorization("supervisor");
@@ -98,8 +107,11 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         //templateMandatoryRequirements = "236812авто Наименование";
         //resresentative = "54796авто ФИО";
-        knmNumber = createEvent(true, true);
-        // TODO Для бобавления проверочных листов проверка должна быть плановой, но для этого нужно заполнять больше полей
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String startDate = LocalDateTime.from((new Date()).toInstant()).minusDays(1).format(formatter);
+        String stopDate = LocalDateTime.from((new Date()).toInstant()).plusDays(2).format(formatter);
+        knmNumber = createUnscheduledEvent(currentDate, startDate, stopDate, true, true);
+        // TODO Для добавления проверочных листов проверка должна быть плановой, но для этого нужно заполнять больше полей
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();

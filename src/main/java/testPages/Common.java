@@ -1,7 +1,6 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -142,8 +141,9 @@ public class Common {
 
     public String INN = "7811689828";
 
-    public String menuButton = "//header//div[contains(@class,'Dropdown')]//button";
+    public String menuButton = "//header/div/div[last()]//button";
     public String currentDate = "";
+    public String currentDateTime = "";
     public String futureDate = "";
 
     @BeforeSuite
@@ -160,7 +160,7 @@ public class Common {
     @BeforeSuite //получение текущей даты и будущей даты
     public void setupDate() {
         currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-
+        currentDateTime = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
         Calendar calendar = Calendar.getInstance();
         futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
 
@@ -241,7 +241,7 @@ public class Common {
      */
     @Step("Заполнение поиска - {value}")
     public void setSearchField(String value) {
-        $(By.xpath(searchField)).setValue(value);
+        $(By.xpath(searchField)).scrollIntoView(false).setValue(value);
     }
 
     /**
@@ -474,6 +474,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Выйти")
     public void logout() {
+        $(By.xpath("//div[@id='root']")).scrollIntoView(false);
         $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
     }
