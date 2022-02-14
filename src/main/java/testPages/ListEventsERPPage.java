@@ -25,7 +25,7 @@ public class ListEventsERPPage extends Common {
     String absenceDirectoryRadioButton = "//*[@id='legalBasesNotExist']"; //радиобатон Отсутствует в справочнике
     String LegalGroundsConductingField = "//textarea[@name='notExistLegalBasisText']"; // поле для ввода в разделе Выберите нормативно-правовые акты
     String saveLegalGroundsConductingButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; //кнопка Сохранить в разделе Выберите нормативно-правовые акты
-    String goalsTasksSubjectField = "//*[@id='check-sheets']/div[3]/textarea"; // текстовое поле Цели, задачи, предмет КНМ
+    String goalsTasksSubjectField = "//*[@id='check-sheets']//textarea"; // текстовое поле Цели, задачи, предмет КНМ
     String durationEventDaysField = "//*[@id='durationDays']"; //поле Срок проведения (дней)
     String durationEventHoursField = "//*[@id='durationHours']";//поле Срок проведения (часов)
 
@@ -34,7 +34,8 @@ public class ListEventsERPPage extends Common {
 
     String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']/span/button"; // кнопка Добавить в разделе Основания регистрации  КНМ
     String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']/../ul/li[1]//div[contains(@class, 'SelectInput_Control')]"; //выпадающий список Основание регистрации КНМ
-    String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
+    public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
+    public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
 
     String nameKNODropDown = "//div[@id='knoOrganizationBlock']/div[2]"; //выпадающий список Наименование органа контроля
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора)
@@ -155,12 +156,13 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Выбор значения в выпадающем списке Месяц проведения КНМ
+     *
      * @param month номер месяца
      */
     //TODO Доделать
-    public void setMonthKNMDropDown(Integer month){
+    public void setMonthKNMDropDown(String month) {
         $(By.xpath(monthKNMDropDown)).click(); // клик на выпадающем списке Месяц проведения КНМ
-        System.out.println($(By.xpath(monthKNMDropDown)).innerHtml());
+        $(By.xpath(monthKNMDropDown + "//div[contains(@class, 'SelectInput_Option')][" + month + "]")).click();
         //clickToText(month); // клик на нужном месяце
     }
 
@@ -256,11 +258,13 @@ public class ListEventsERPPage extends Common {
 
     /**
      * Заполнение выпадающего списка Основание регистрации КНМ
+     *
+     * @param text Основание регистрации КНМ
      */
     @Step("Заполнение выпадающего списка Основание регистрации КНМ")
-    public void setGroundRegistrationDropDown() {
+    public void setGroundRegistrationDropDown(String text) {
         $(By.xpath(groundRegistrationDropDown)).click();
-        clickToText(groundRegistration);
+        clickToText(text);
     }
 
     /**
@@ -312,7 +316,6 @@ public class ListEventsERPPage extends Common {
                     "//div[contains(@class,'select-field__menu-list')]//div[contains(text(), '" +
                     templateMandatoryRequirements + "')]")).click();
         else {
-            System.out.println($(By.xpath(mandatoryRequirementsDropDown)).innerHtml());
             $(By.xpath(mandatoryRequirementsDropDown +
                     "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
         }
@@ -451,7 +454,6 @@ public class ListEventsERPPage extends Common {
     public void setResresentativesDropDown(boolean addedTest) {
         $(By.xpath(addInspectorsButton)).click();
         $(By.xpath(inspectorsDropDown)).click();
-        System.out.println($(By.xpath(inspectorsDropDown)).innerHtml());
         if (addedTest)
             $(By.xpath(inspectorsDropDown +
                     "//div[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
@@ -473,13 +475,15 @@ public class ListEventsERPPage extends Common {
      * @param dateOrders              Дата приказа
      * @param dateStart               Дата начала КНМ
      * @param dateStop                Дата окончания КНМ
+     * @param groundRegistration      Основание регистрации КНМ
      * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
      * @param isResresentatives       - true - Берется уполномоченный, созданный автотестом
      */
     @Step("Создание внеплановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
             "{isResresentatives}")
     public String createUnscheduledEvent(String dateOrders, String dateStart, String dateStop,
-                                         boolean isMandatoryRequirements, boolean isResresentatives) {
+                                         String groundRegistration, boolean isMandatoryRequirements,
+                                         boolean isResresentatives) {
         clickAddButton();
         setViewKNMDropDown(unscheduledCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
@@ -498,7 +502,7 @@ public class ListEventsERPPage extends Common {
         clickAddListControlMeasuresButton();
         setListControlMeasuresField(listControlMeasures);
         clickAddGroundRegistrationButton();
-        setGroundRegistrationDropDown();
+        setGroundRegistrationDropDown(groundRegistration);
         setNameKNODropDown(nameKNO);
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, nameINN);
@@ -512,38 +516,27 @@ public class ListEventsERPPage extends Common {
     /**
      * Создание внеплановой проверки
      *
-     * @param dateOrders              Дата приказа
      * @param dateStart               Дата начала КНМ
-     * @param dateStop                Дата окончания КНМ
-     * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
-     * @param isResresentatives       - true - Берется уполномоченный, созданный автотестом
+     * @param groundRegistration      Основание регистрации КНМ
+     * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
+     * @param isResresentatives       true - Берется уполномоченный, созданный автотестом
      */
     // TODO Доделать
     @Step("Создание плановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
             "{isResresentatives}")
-    public String createScheduledEvent(String dateOrders, String dateStart, String dateStop,
-                                         boolean isMandatoryRequirements, boolean isResresentatives) {
+    public String createScheduledEvent(String dateStart, String groundRegistration, boolean isMandatoryRequirements,
+                                       boolean isResresentatives) {
         clickAddButton();
         setViewKNMDropDown(scheduleCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
         setTypeSubjectDropDown(legalEntity);
-        //setNumberOrdersField(numberOrders);
-        //setDateOrdersField(dateOrders);
         setDateStartKNMField(dateStart);
-        //setDateStopKNMField(dateStop);
-
-        setMonthKNMDropDown(1);
-        clickAddLegalGroundsConductingButton();
-        clickAbsenceDirectoryRadioButton();
-        setLegalGroundsConductingField(legalGroundsConducting);
-        clickSaveLegalGroundsConductingButton();
+        setMonthKNMDropDown(dateStart.split("\\.")[1]);
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
-        clickAddListControlMeasuresButton();
-        setListControlMeasuresField(listControlMeasures);
         clickAddGroundRegistrationButton();
-        setGroundRegistrationDropDown();
+        setGroundRegistrationDropDown(groundRegistration);
         setNameKNODropDown(nameKNO);
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, nameINN);
