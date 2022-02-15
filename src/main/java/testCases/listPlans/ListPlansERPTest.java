@@ -4,10 +4,12 @@ import org.testng.annotations.Test;
 import testPages.ListEventsERPPage;
 import testPages.ListPlanERPPage;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import static com.codeborne.selenide.Selenide.switchTo;
 
 public class ListPlansERPTest extends ListPlanERPPage {
     // работа с планами в режиме ЕРП
@@ -18,32 +20,44 @@ public class ListPlansERPTest extends ListPlanERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Создание плана (Статус Новый) в ЕРП", enabled = false)
+    @Test(description = "Создание плана (Статус Новый) в ЕРП")
     public void createPlanERPTest() {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
         numberPlan = createPlan();
         closeNotification();
+        // Можно добавить проверку на динамическое появление плана на странице списка планов
         searchPlan(numberPlan, newPlan, true);
         logout();
-//        authorization("supervisor");
-//        choiceERP();
-//        gotoERPListKNMPage();
-//
-//        ListEventsERPPage listEventsERPPage = new ListEventsERPPage();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-//        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy");
-//        LocalDate startDate = LocalDate.parse(new Date().toString(), formatter2);
-//        //String startDate = LocalDateTime.from((new Date()).toInstant()).plusHours(1).minusDays(1).format(formatter);
-//        String stopDate = LocalDateTime.from((new Date()).toInstant()).plusHours(1).plusDays(2).format(formatter);
-//        //String addEvent = listEventsERPPage.createScheduledEvent(currentDate, startDate, stopDate, false, false);
-//        //System.out.println(addEvent);
-//        logout();
-//        authorization("prosecutor", false);
-//        choiceERP();
-//        gotoListPlansPage();
+        authorization("supervisor");
+        choiceERP();
+        gotoERPListKNMPage();
 
+        ListEventsERPPage listEventsERPPage = new ListEventsERPPage();
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.YEAR, 1);
+        String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
+
+        String scheduledKNMNumber = listEventsERPPage.createScheduledEvent(startDate,
+                listEventsERPPage.groundPlannedRegistration, false, false);
+        System.out.println(scheduledKNMNumber);
+        logout();
+        authorization("prosecutor", false);
+        choiceERP();
+        gotoListPlansPage();
+        //String scheduledKNMNumber = "772200008564";
+        numberPlan = "2022037661";
+        //Integer lastCountKNM = getCountKNMToPlan(numberPlan);
+        addKNMtoPlan(numberPlan, scheduledKNMNumber);
+        //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице
+        openCard(numberPlan);
+        switchTo().window(1);
+        setSearchField(scheduledKNMNumber);
+        clickSearchButton();
+        listEventsERPPage.checkKNM(scheduledKNMNumber, true);
+        logout();
     }
 
     /**
@@ -57,8 +71,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //String deletedNumberPlan = createPlan();
-        String deletedNumberPlan = "2022037580";
+        String deletedNumberPlan = createPlan();
+        //String deletedNumberPlan = "2022037580";
         clickPlanCheckBox(deletedNumberPlan);
         clickDeleteButton();
         clickConfirmationDeleteButton();
@@ -78,7 +92,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        numberPlan = "2022037489";
+        //numberPlan = "2022037406";
         workToPlan(onApprovalPlan);
         logout();
     }
@@ -89,12 +103,12 @@ public class ListPlansERPTest extends ListPlanERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Перевод плана в статус На доработке в ЕРП", enabled = false)
+    @Test(description = "Перевод плана в статус На доработке в ЕРП")
     public void transferPlanStatusOnRevisionERPTest() {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        numberPlan = "2022037489";
+        //numberPlan = "2022037662";
         workToPlan(onRevisionPlan);
         logout();
     }
@@ -110,7 +124,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        numberPlan = "2022037489";
+        //numberPlan = "2022037662";
         workToPlan(agreedPlan);
         logout();
     }
@@ -121,12 +135,12 @@ public class ListPlansERPTest extends ListPlanERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Перевод плана в статус Утвержден в ЕРП", enabled = false)
+    @Test(description = "Перевод плана в статус Утвержден в ЕРП")
     public void transferPlanStatusApprovedERPTest() {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        numberPlan = "2022037489";
+        //numberPlan = "2022037662";
         workToPlan(approvedPlan);
         logout();
     }
