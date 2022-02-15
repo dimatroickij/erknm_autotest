@@ -45,9 +45,15 @@ public class ListEventsERPPage extends Common {
 
     String namePersonCheckField = "//*[@name='organizationName']";
 
-    String addMandatoryRequirementsButton = "//*[@id='requirementsTitleBlock']//button";//кнопка Добавить в блоке Подлежащие проверке обязательные требования
-    String mandatoryRequirementsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]";//выпадающий список Обязательные требования
+    String addMandatoryRequirementsButton = "//*[@id='requirementsTitleBlock']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования
+    String mandatoryRequirementsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // выпадающий список Обязательные требования
     String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'ModalActions_Container')]//*[text()='Добавить']"; // Кнопка Добавить в модальном окне Добавление обязательного требования
+
+    String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы
+    String templateSheetsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список
+    //div[contains(@class, 'select-field__option') and text()='%s']
+    String saveTemplateSheetsButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; // Кнопка Добавить в модальном окне Добавление проверочного листа
+
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
@@ -159,11 +165,9 @@ public class ListEventsERPPage extends Common {
      *
      * @param month номер месяца
      */
-    //TODO Доделать
     public void setMonthKNMDropDown(String month) {
         $(By.xpath(monthKNMDropDown)).click(); // клик на выпадающем списке Месяц проведения КНМ
         $(By.xpath(monthKNMDropDown + "//div[contains(@class, 'SelectInput_Option')][" + month + "]")).click();
-        //clickToText(month); // клик на нужном месяце
     }
 
     /**
@@ -303,7 +307,7 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
+     * Заполнение блока Обязательные требования, подлежащие проверке
      *
      * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
      */
@@ -535,7 +539,6 @@ public class ListEventsERPPage extends Common {
      * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
      * @param isResresentatives       true - Берется уполномоченный, созданный автотестом
      */
-    // TODO Доделать
     @Step("Создание плановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
             "{isResresentatives}")
     public String createScheduledEvent(String dateStart, String groundRegistration, boolean isMandatoryRequirements,
@@ -559,5 +562,18 @@ public class ListEventsERPPage extends Common {
         clickSaveButton();
         closeNotification();
         return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
+    }
+
+    /**
+     * Заполнение блока Проверочные листы
+     *
+     * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
+     */
+    // TODO доделать
+    public void setTemplateSheetsDropDown(boolean addedTest){
+        $(By.xpath(addTemplateSheetsButton)).click();
+        if (addedTest)
+
+        $(By.xpath(saveTemplateSheetsButton)).click();
     }
 }
