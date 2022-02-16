@@ -1,17 +1,14 @@
 package testPages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
+    String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String viewKNMDropDown = "//div[@id='typeBlock']/div[2]"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//div[@id='kindBlock']/div[2]"; //Выпадающий список Форма КНМ
     String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; // Выпадающий список Тип субъекта КНМ
@@ -50,8 +47,8 @@ public class ListEventsERPPage extends Common {
     String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'ModalActions_Container')]//*[text()='Добавить']"; // Кнопка Добавить в модальном окне Добавление обязательного требования
 
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы
-    String templateSheetsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список
-    //div[contains(@class, 'select-field__option') and text()='%s']
+    String templateSheetsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]/div/div"; // Выпадающий список
+    String templateSheetsObjectDropDown = "//li[contains(@id, 'checklists')]//div[contains(@class, 'KnmCollapse_Body')]/div[3]/div[2]";
     String saveTemplateSheetsButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; // Кнопка Добавить в модальном окне Добавление проверочного листа
 
 
@@ -469,14 +466,13 @@ public class ListEventsERPPage extends Common {
      * @param addedTest true - заполнение созданными ранее данными, false - случайный выбор значения поля
      */
     @Step("Заполнение блока Уполномоченные на проведение КНМ - {addedTest}")
-    public void setResresentativesDropDown(boolean addedTest) {
+    public void setRepresentativesDropDown(boolean addedTest) {
         $(By.xpath(addInspectorsButton)).click();
         $(By.xpath(inspectorsDropDown)).click();
         if (addedTest)
-            $(By.xpath(inspectorsDropDown +
-                    "//div[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
+            clickToText(resresentative);
         else
-            $(By.xpath(inspectorsDropDown + "//div[contains(@class, 'SelectInput_Option')][1]")).click();
+            $(By.xpath(String.format(selectValueByNumber, 1))).click();
     }
 
     /**
@@ -519,16 +515,7 @@ public class ListEventsERPPage extends Common {
         setDurationEventHoursField(durationEventHours);
         clickAddListControlMeasuresButton();
         setListControlMeasuresField(listControlMeasures);
-        clickAddGroundRegistrationButton();
-        setGroundRegistrationDropDown(groundRegistration);
-        setNameKNODropDown(nameKNO);
-        setKindControlDropDown(viewKNOERP);
-        setInnField(INN, nameINN);
-        setMandatoryRequirementsDropDown(isMandatoryRequirements);
-        setResresentativesDropDown(isResresentatives);
-        clickSaveButton();
-        closeNotification();
-        return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
+        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives);
     }
 
     /**
@@ -538,6 +525,7 @@ public class ListEventsERPPage extends Common {
      * @param groundRegistration      Основание регистрации КНМ
      * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
      * @param isResresentatives       true - Берется уполномоченный, созданный автотестом
+     * @return Номер созданной КНМ
      */
     @Step("Создание плановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
             "{isResresentatives}")
@@ -552,13 +540,25 @@ public class ListEventsERPPage extends Common {
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
+        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives);
+    }
+
+    /**
+     * Общий код для заполнения карточки плановой и внеплановой КНМ
+     *
+     * @param groundRegistration      Основание регистрации КНМ
+     * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
+     * @param isRepresentative        true - Берется уполномоченный, созданный автотестом
+     * @return Номер созданной КНМ
+     */
+    private String fillingCard(String groundRegistration, boolean isMandatoryRequirements, boolean isRepresentative) {
         clickAddGroundRegistrationButton();
         setGroundRegistrationDropDown(groundRegistration);
         setNameKNODropDown(nameKNO);
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, nameINN);
         setMandatoryRequirementsDropDown(isMandatoryRequirements);
-        setResresentativesDropDown(isResresentatives);
+        setRepresentativesDropDown(isRepresentative);
         clickSaveButton();
         closeNotification();
         return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
@@ -569,11 +569,15 @@ public class ListEventsERPPage extends Common {
      *
      * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
      */
-    // TODO доделать
-    public void setTemplateSheetsDropDown(boolean addedTest){
-        $(By.xpath(addTemplateSheetsButton)).click();
+    public void setTemplateSheetsDropDown(boolean addedTest) {
+        $(By.xpath(addTemplateSheetsButton)).scrollIntoView(false).click();
+        $(By.xpath(templateSheetsDropDown)).click();
         if (addedTest)
-
+            clickToText(templateSheets);
+        else
+            $(By.xpath(String.format(selectValueByNumber, 1))).click();
         $(By.xpath(saveTemplateSheetsButton)).click();
+        $(By.xpath(templateSheetsObjectDropDown)).click();
+        $(By.xpath(String.format(selectValueByNumber, 1))).click();
     }
 }

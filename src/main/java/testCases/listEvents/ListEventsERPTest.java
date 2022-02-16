@@ -50,7 +50,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        //knmNumber = "772300008572";
+        //knmNumber = "772200008588";
         openCard(knmNumber);
         clickObjectsKNMButton();
         setAddressField(address);
@@ -77,7 +77,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        //knmNumber = "772300008572";
+        //knmNumber = "772200008588";
         openCard(knmNumber);
         clickListResultButton();
         setObjectKNMDropDown();
@@ -136,8 +136,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
-        templateMandatoryRequirements = "236812авто Наименование";
-        resresentative = "54796авто ФИО";
+        //templateMandatoryRequirements = "236812авто Наименование";
+        //resresentative = "54796авто ФИО";
+        //templateSheets = "370306авто Наименование";
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -150,13 +151,13 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setAddressTypeDropDown(locationLE);
         setTypeObjectDropDown(branch);
         setRiskCategoryDropDown(righRisk);
-        // TODO Добавление созданного проверочного листа
+        setTemplateSheetsDropDown(true);
         clickSaveButton();
         closeNotification();
         gotoERPListKNMPage();
         setSearchField(scheduledKNMNumber);
         clickSearchButton();
-        checkKNM(scheduledKNMNumber, statusProcessFormation, true);
+        checkKNM(scheduledKNMNumber, statusProcessConducting, true);
         logout();
     }
 }
