@@ -22,7 +22,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      */
     @Test(description = "Создание плана (Статус Новый) в ЕРП")
     public void createPlanERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         numberPlan = createPlan();
@@ -30,7 +30,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         // Можно добавить проверку на динамическое появление плана на странице списка планов
         searchPlan(numberPlan, newPlan, true);
         logout();
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
 
@@ -53,7 +53,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         addKNMtoPlan(numberPlan, scheduledKNMNumber);
         //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице
         openCard(numberPlan);
-        switchTo().window(1);
+
         setSearchField(scheduledKNMNumber);
         clickSearchButton();
         listEventsERPPage.checkKNM(scheduledKNMNumber, true);
@@ -66,9 +66,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Удаление плана в ЕРП", enabled = false)
+    @Test(description = "Удаление плана в ЕРП")
     public void deletePlanERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         String deletedNumberPlan = createPlan();
@@ -89,7 +89,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      */
     @Test(description = "Перевод плана в статус На согласовании в ЕРП")
     public void transferPlanStatusOnApprovalERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         //numberPlan = "2022037406";
@@ -105,7 +105,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      */
     @Test(description = "Перевод плана в статус На доработке в ЕРП")
     public void transferPlanStatusOnRevisionERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         //numberPlan = "2022037662";
@@ -121,7 +121,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      */
     @Test(description = "Перевод плана в статус Согласован в ЕРП")
     public void transferPlanStatusAgreedERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         //numberPlan = "2022037662";
@@ -137,7 +137,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      */
     @Test(description = "Перевод плана в статус Утвержден в ЕРП")
     public void transferPlanStatusApprovedERPTest() {
-        authorization("prosecutor");
+        authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         //numberPlan = "2022037662";

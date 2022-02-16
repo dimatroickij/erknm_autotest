@@ -4,9 +4,6 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import static com.codeborne.selenide.Selenide.$;
 
 public class PersonalAccountPage extends Common {
@@ -122,7 +119,7 @@ public class PersonalAccountPage extends Common {
     @Step("Выбор типа проверяющего - {type}")
     public void setTypeInspectorDropDown(String type) {
         $(By.xpath(typeFieldDropDown)).click(); // клик на выпадающем списке Тип проверяющего
-        $(By.xpath("//*[text()='" + type + "']")).click(); // клик на нужном типе
+        setValueDropDownToText(type); // клик на нужном типе
     }
 
     /**
@@ -176,7 +173,7 @@ public class PersonalAccountPage extends Common {
     @Step("Заполнение поля Организация - {name}")
     public void setNameOrganizationFieldDropDown(String name) {
         $(By.xpath(nameOrganizationFieldDropDown)).click();
-        clickToText(name);
+        setValueDropDownToText(name);
     }
 
     /**
@@ -186,7 +183,7 @@ public class PersonalAccountPage extends Common {
     @Step("Заполнение поля Вид государственного контроля (надзора) - {type}")
     public void setTypeOrganizationFieldDropDown(String type) {
         $(By.xpath(typeOrganizationFieldDropDown)).click();
-        clickToText(type);
+        setValueDropDownToText(type);
     }
 
     /**

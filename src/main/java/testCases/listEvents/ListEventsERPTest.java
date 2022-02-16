@@ -21,7 +21,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
      */
     @Test(description = "Добавление проверки (статус в процессе формирования)")
     public void createEventStatusProcessCompletionERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         Calendar calendar = GregorianCalendar.getInstance();
@@ -47,7 +47,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
      */
     @Test(description = "Перевод проверки в статус в процессе проведения")
     public void transferEventStatusProcessConductingERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         //knmNumber = "772200008588";
@@ -74,7 +74,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
      */
     @Test(description = "Перевод проверки в статус завершено")
     public void transferEventStatusCompletedERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         //knmNumber = "772200008588";
@@ -102,7 +102,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
      */
     @Test(description = "Удаление проверки")
     public void deletedEventERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         Calendar calendar = GregorianCalendar.getInstance();
@@ -133,7 +133,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
      */
     @Test(description = "Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
     public void addTemplatesInCheckCardERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         //templateMandatoryRequirements = "236812авто Наименование";

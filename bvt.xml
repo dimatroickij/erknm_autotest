@@ -3,65 +3,104 @@
 <suite name="Suite" parallel="false">
     <test name="Test">
         <classes>
-            <class name="erknm_gui_autotest.src.java.testCases.auth.AuthTest">
+            <class name="testCases.auth.AuthTest">
                 <methods>
-                    <include name="authorizationSomeTest" />
-                    <include name="choiсeModeERKNMTest" />
+                    <include name="authorizationSomeTest"/>
+                    <include name="choiceModeERKNMTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.listEvents.ListEventsTest">
+            <class name="testCases.personalAccount.PersonalAccountTest">
                 <methods>
-                    <include name="createEventStatusProcessCompletionTest" />
-                    <include name="transferEventStatusReadyApprovalTest" />
-                    <include name="transferEventStatusOnApprovalTest" />
-                    <include name="transferEventStatusAgreedTest" />
-                    <include name="transferEventStatusWaitCompletionsTest" />
-                    <include name="transferEventStatusWaitCompletedTest" />
-                    <include name="deleteEventTest" />
-                    <include name="createTemplateMandatoryRequirementsERKNMTest" />
-                    <include name="createTemplateTestSheetsERKNMTest" />
-                    <include name="addRepresentativesERKNMTest" />
+                    <include name="createTemplateMandatoryRequirementsERPTest"/>
+                    <include name="createTemplateTestSheetsERPTest"/>
+                    <include name="addRepresentativesERPTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.listPlans.ListPlansTest">
+            <class name="testCases.listEvents.ListEventsERPTest">
                 <methods>
-                    <include name="createPlanTest" />
-                    <include name="addPlannedKNMInPlanTest" />
-                    <include name="transferPlanStatusOnConsiderationTest" />
-                    <include name="transferPlanStatusApprovedTest" />
-                    <include name="exceptionKNMFromApprovedPlanTest" />
-                    <include name="deletePlanTest" />
+                    <include name="createEventStatusProcessCompletionERPTest"/>
+                    <include name="transferEventStatusProcessConductingERPTest"/>
+                    <include name="transferEventStatusCompletedERPTest"/>
+                    <include name="deletedEventERPTest"/>
+                    <include name="addTemplatesInCheckCardERPTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.listPreventionEvents.ListPreventionEventsTest">
+            <class name="testCases.listPlans.ListPlansERPTest">
                 <methods>
-                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest" />
-                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest" />
-                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest" />
-                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest" />
-                    <include name="transferPEventPreventiveVisitStatusAwaitingTest" />
-                    <include name="transferPEventPreventiveVisitStatusCompletedTest" />
-                    <include name="deletePMEventTest" />
+                    <include name="createPlanERPTest"/>
+                    <include name="deletePlanERPTest"/>
+                    <include name="transferPlanStatusOnApprovalERPTest"/>
+                    <include name="transferPlanStatusOnRevisionERPTest"/>
+                    <include name="transferPlanStatusAgreedERPTest"/>
+                    <include name="transferPlanStatusApprovedERPTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.news.NewsTest">
+            <class name="testCases.searchEvents.SearchEventsERPTest">
                 <methods>
-                    <include name="createNewsTest" />
+                    <include name="checkFunctionalitySearchKNMERPTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.personalAccount.PersonalAccountTest">
+            <class name="testCases.news.NewsERPTest">
                 <methods>
-                    <include name="createTemplateMandatoryRequirementsERPTest" />
-                    <include name="createTemplateTestSheetsERPTest" />
-                    <include name="addRepresentativesERPTest" />
+                    <include name="createNewsERPTest"/>
+                    <include name="editNewsERPTest"/>
+                    <include name="deleteNewsERPTest"/>
                 </methods>
             </class>
-            <class name="erknm_gui_autotest.src.java.testCases.searchEvents.SearchEventsTest">
-                <methods>
-                    <include name="checkFunctionalitySearchKNMTest" />
 
-                </methods>
-            </class>
+            <!--            <class name="testCases.listEvents.ListEventsTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="createEventStatusProcessCompletionTest" />-->
+            <!--                    <include name="transferEventStatusReadyApprovalTest" />-->
+            <!--                    <include name="transferEventStatusOnApprovalTest" />-->
+            <!--                    <include name="transferEventStatusAgreedTest" />-->
+            <!--                    <include name="transferEventStatusWaitCompletionsTest" />-->
+            <!--                    <include name="transferEventStatusWaitCompletedTest" />-->
+            <!--                    <include name="deleteEventTest" />-->
+            <!--                    <include name="createTemplateMandatoryRequirementsERKNMTest" />-->
+            <!--                    <include name="createTemplateTestSheetsERKNMTest" />-->
+            <!--                    <include name="addRepresentativesERKNMTest" />-->
+            <!--                </methods>-->
+            <!--            </class>-->
+            <!--            <class name="testCases.listPlans.ListPlansTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="createPlanTest" />-->
+            <!--                    <include name="addPlannedKNMInPlanTest" />-->
+            <!--                    <include name="transferPlanStatusOnConsiderationTest" />-->
+            <!--                    <include name="transferPlanStatusApprovedTest" />-->
+            <!--                    <include name="exceptionKNMFromApprovedPlanTest" />-->
+            <!--                    <include name="deletePlanTest" />-->
+            <!--                </methods>-->
+            <!--            </class>-->
+            <!--            <class name="testCases.listPreventionEvents.ListPreventionEventsTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest" />-->
+            <!--                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest" />-->
+            <!--                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest" />-->
+            <!--                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest" />-->
+            <!--                    <include name="transferPEventPreventiveVisitStatusAwaitingTest" />-->
+            <!--                    <include name="transferPEventPreventiveVisitStatusCompletedTest" />-->
+            <!--                    <include name="deletePMEventTest" />-->
+            <!--                </methods>-->
+            <!--            </class>-->
+            <!--            <class name="testCases.news.NewsTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="createNewsTest" />-->
+            <!--                </methods>-->
+            <!--            </class>-->
+            <!--            <class name="testCases.personalAccount.PersonalAccountTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="createTemplateMandatoryRequirementsERPTest" />-->
+            <!--                    <include name="createTemplateTestSheetsERPTest" />-->
+            <!--                    <include name="addRepresentativesERPTest" />-->
+            <!--                </methods>-->
+            <!--            </class>-->
+            <!--            <class name="testCases.searchEvents.SearchEventsTest">-->
+            <!--                <methods>-->
+            <!--                    <include name="checkFunctionalitySearchKNMTest" />-->
+
+            <!--                </methods>-->
+            <!--            </class>-->
 
         </classes>
     </test>

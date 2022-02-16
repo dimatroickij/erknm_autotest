@@ -17,6 +17,8 @@ public class AuthTest extends Common {
         setLogin(loginProsecutor);
         setPassword(password);
         clickEnterButton();
+        clickMessageButton();
+        logout();
         //добавить проверку для теста или убрать?
     }
 
@@ -26,8 +28,8 @@ public class AuthTest extends Common {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
-    public void choiсeModeERKNMTest(){
-        authorization("prosecutor");
+    public void choiceModeERKNMTest(){
+        authorization("prosecutor", false);
         choiceERKNM();
         checkObject("Список КНМ");
         checkObject("Список ПМ");
@@ -48,6 +50,8 @@ public class AuthTest extends Common {
         checkObject("Новости");
         checkObject("Отчеты");
         checkObject("Обратная связь");
+        Common.setupAllureReports(); // TODO Костыль
+        logout();
     }
 
 }

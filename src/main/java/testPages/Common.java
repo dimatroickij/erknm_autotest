@@ -16,6 +16,7 @@ import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class Common {
 
@@ -24,7 +25,6 @@ public class Common {
     // public String url ="http://private.proverki.local/";
     //public String openUrl = "http://proverki.local"; //открытая часть
     public String openUrl = "http://proverki.local/portal"; //открытая часть
-
 
 
     public String scriptAddDocument = ".\\testUtils\\choiceDoc.exe";
@@ -110,9 +110,12 @@ public class Common {
     public String statusDeleted = "Удалено";
 
     // Переменные для поиска созданной информации во время bvt теста
-    public String templateSheets; // Проверочный лист, созданный при помощи bvt
-    public String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
-    public String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
+    public static String templateSheets; // Проверочный лист, созданный при помощи bvt
+    public static String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
+    public static String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
+
+    String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
+    String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
 
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
@@ -142,12 +145,16 @@ public class Common {
     public String INN = "7811689828";
 
     public String menuButton = "//header/div/div[last()]//button";
-    public String currentDate = "";
-    public String currentDateTime = "";
-    public String futureDate = "";
+    public static String currentDate = "";
+    public static String currentDateTime = "";
+    public static String futureDate = "";
 
     @BeforeSuite
-    static void setupAllureReports() {
+    protected static void setupAllureReports() {
+        currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        currentDateTime = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
+        Calendar calendar = Calendar.getInstance();
+        futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         // либо для тонкой настройки:
@@ -157,14 +164,14 @@ public class Common {
         );*/
     }
 
-    @BeforeSuite //получение текущей даты и будущей даты
-    public void setupDate() {
-        currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        currentDateTime = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
-        Calendar calendar = Calendar.getInstance();
-        futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
-
-    }
+//    @BeforeSuite //получение текущей даты и будущей даты
+//    public void setupDate() {
+//        currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+//        currentDateTime = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
+//        Calendar calendar = Calendar.getInstance();
+//        futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
+//
+//    }
 
     /**
      * Нажатие на кнопку подтверждающая ознакомеление с информацией
@@ -273,7 +280,8 @@ public class Common {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
-        switchTo().window(1);
+        switchTo().window(getWebDriver().getWindowHandle()).close();
+        switchTo().window(0);
 
     }
 
@@ -477,6 +485,24 @@ public class Common {
         $(By.xpath("//div[@id='root']")).scrollIntoView(false);
         $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
+    }
+
+    /**
+     * Выбор значения из выпадающего списка по номеру записи
+     * @param number Номер в списке
+     */
+    @Step("Выбор значения из выпадающего списка по номеру записи {number}")
+    public void setValueDropDownToNumber(Integer number) {
+        $(By.xpath(String.format(selectValueByNumber, number))).click();
+    }
+
+    /**
+     * Выбор значения из выпадающего списка по тексту
+     * @param text Текст
+     */
+    @Step("Выбор значения из выпадающего списка по тексту {text}")
+    public void setValueDropDownToText(String text) {
+        $(By.xpath(String.format(selectValueByText, text))).click();
     }
 }
 

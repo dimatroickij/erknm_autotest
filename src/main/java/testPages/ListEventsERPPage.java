@@ -8,7 +8,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-    String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String viewKNMDropDown = "//div[@id='typeBlock']/div[2]"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//div[@id='kindBlock']/div[2]"; //Выпадающий список Форма КНМ
     String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; // Выпадающий список Тип субъекта КНМ
@@ -91,7 +90,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор из выпадающего списка Вид КНМ - {view}")
     public void setViewKNMDropDown(String view) {
         $(By.xpath(viewKNMDropDown)).click(); // клик на выпадающем списке Вид КНМ
-        clickToText(view); // клик на нужном виде КНМ
+        setValueDropDownToText(view); // клик на нужном виде КНМ
     }
 
     /**
@@ -102,7 +101,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор из выпадающего списка форма КНМ - {form}")
     public void setFormKMNDropDown(String form) {
         $(By.xpath(formKMNDropDown)).click(); // клик на выпадающем списке форма КНМ
-        clickToText(form); // клик на нужной форме КНМ
+        setValueDropDownToText(form); // клик на нужной форме КНМ
     }
 
     /**
@@ -113,7 +112,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор из выпадающего списка тип субъекта КНМ - {type}")
     public void setTypeSubjectDropDown(String type) {
         $(By.xpath(typeSubjectDropDown)).click(); // клик на выпадающем списке тип субъекта КНМ
-        clickToText(type); // клик на нужном типе субъекта КНМ
+        setValueDropDownToText(type); // клик на нужном типе субъекта КНМ
     }
 
     /**
@@ -139,10 +138,6 @@ public class ListEventsERPPage extends Common {
      */
     @Step("Заполнение поля Дата начала КНМ. Значение поля - текущая дата - 1 день")
     public void setDateStartKNMField(String date) {
-//        Calendar calendar = GregorianCalendar.getInstance();
-//        calendar.setTime(new Date());
-//        calendar.add(GregorianCalendar.DAY_OF_MONTH, -1);
-//        $(By.xpath(dateStartKNMField)).setValue(new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime()));
         $(By.xpath(dateStartKNMField)).setValue(date);
     }
 
@@ -151,9 +146,6 @@ public class ListEventsERPPage extends Common {
      */
     @Step("Заполнение поля Дата окончания КНМ. Значение поля - текущая дата + 2 дня")
     public void setDateStopKNMField(String date) {
-//        Calendar calendar = GregorianCalendar.getInstance();
-//        calendar.setTime(new Date());
-//        calendar.add(GregorianCalendar.DAY_OF_MONTH, 2);
         $(By.xpath(dateStopKNMField)).setValue(date);
     }
 
@@ -162,9 +154,9 @@ public class ListEventsERPPage extends Common {
      *
      * @param month номер месяца
      */
-    public void setMonthKNMDropDown(String month) {
+    public void setMonthKNMDropDown(Integer month) {
         $(By.xpath(monthKNMDropDown)).click(); // клик на выпадающем списке Месяц проведения КНМ
-        $(By.xpath(monthKNMDropDown + "//div[contains(@class, 'SelectInput_Option')][" + month + "]")).click();
+        setValueDropDownToNumber(month);
     }
 
     /**
@@ -265,7 +257,7 @@ public class ListEventsERPPage extends Common {
     @Step("Заполнение выпадающего списка Основание регистрации КНМ")
     public void setGroundRegistrationDropDown(String text) {
         $(By.xpath(groundRegistrationDropDown)).click();
-        clickToText(text);
+        setValueDropDownToText(text);
     }
 
     /**
@@ -276,7 +268,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор из выпадающего списка Наименование органа контроля - {name}")
     public void setNameKNODropDown(String name) {
         $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
-        clickToText(name); // клик на нужной организации
+        setValueDropDownToText(name); // клик на нужной организации
     }
 
     /**
@@ -287,7 +279,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор из выпадающего списка Вид контроля - {kind}")
     public void setKindControlDropDown(String kind) {
         $(By.xpath(kindControlDropDown)).click(); // клик на выпадающем списке Вид контроля
-        clickToText(kind); // клик на нужном виде контроля
+        setValueDropDownToText(kind); // клик на нужном виде контроля
     }
 
     /**
@@ -308,17 +300,14 @@ public class ListEventsERPPage extends Common {
      *
      * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
      */
-    @Step("Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки")
+    @Step("Заполнение блока Обязательные требования, подлежащие проверке")
     public void setMandatoryRequirementsDropDown(boolean addedTest) {
         $(By.xpath(addMandatoryRequirementsButton)).scrollIntoView(false).click(); // Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
         $(By.xpath(mandatoryRequirementsDropDown)).click(); // Открытие выпадающего списка ОТ
         if (addedTest)
-            $(By.xpath(mandatoryRequirementsDropDown +
-                    "//div[contains(@class,'select-field__menu-list')]//div[contains(text(), '" +
-                    templateMandatoryRequirements + "')]")).click();
+            setValueDropDownToText(templateMandatoryRequirements);
         else {
-            $(By.xpath(mandatoryRequirementsDropDown +
-                    "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+            setValueDropDownToNumber(1);
         }
         $(By.xpath(saveButtonMandatoryRequirementsButton)).click();
     }
@@ -379,7 +368,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор значений в выпадающем списке Тип места в блоке Объекты проведения КНМ {type}")
     public void setAddressTypeDropDown(String type) {
         $(By.xpath(addressTypeDropDown)).click();
-        clickToText(type);
+        setValueDropDownToText(type);
     }
 
     /**
@@ -390,7 +379,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Тип объекта проведения в блоке Объекты проведения КНМ - {type}")
     public void setTypeObjectDropDown(String type) {
         $(By.xpath(typeObjectDropDown)).click();
-        clickToText(type);
+        setValueDropDownToText(type);
     }
 
     /**
@@ -401,7 +390,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Категория риска в блоке Объекты проведения КНМ - {risk}")
     public void setRiskCategoryDropDown(String risk) {
         $(By.xpath(riskCategoryDropDown)).click();
-        clickToText(risk);
+        setValueDropDownToText(risk);
     }
 
     /**
@@ -418,7 +407,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Объекты проведения КНМ в блоке Список результатов")
     public void setObjectKNMDropDown() {
         $(By.xpath(objectKNMDropDown)).click();
-        $(By.xpath(objectKNMDropDown + "//div[contains(@class,'select-field__menu-list')]/div[1]")).click();
+        setValueDropDownToNumber(1);
     }
 
     /**
@@ -432,11 +421,11 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов
+     * Заполнение поля Место составления акта о проведении КНМ в блоке Список результатов
      *
      * @param location Значение поля
      */
-    @Step("Выбор значения в выпадающем списке Место составления акта о проведении КНМ в блоке Список результатов - {location}")
+    @Step("Заполнение поля Место составления акта о проведении КНМ в блоке Список результатов - {location}")
     public void setResultAddressField(String location) {
         $(By.xpath(resultAddressField)).setValue(location);
     }
@@ -449,7 +438,7 @@ public class ListEventsERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Тип места в блоке Список результатов - {type}")
     public void setResultAddressTypeDropDown(String type) {
         $(By.xpath(resultAddressTypeDropDown)).click();
-        clickToText(type);
+        setValueDropDownToText(type);
     }
 
     /**
@@ -470,9 +459,9 @@ public class ListEventsERPPage extends Common {
         $(By.xpath(addInspectorsButton)).click();
         $(By.xpath(inspectorsDropDown)).click();
         if (addedTest)
-            clickToText(resresentative);
+            setValueDropDownToText(resresentative);
         else
-            $(By.xpath(String.format(selectValueByNumber, 1))).click();
+            setValueDropDownToNumber(1);
     }
 
     /**
@@ -536,7 +525,7 @@ public class ListEventsERPPage extends Common {
         setFormKMNDropDown(exitAndDocumentaryForm);
         setTypeSubjectDropDown(legalEntity);
         setDateStartKNMField(dateStart);
-        setMonthKNMDropDown(dateStart.split("\\.")[1]);
+        setMonthKNMDropDown(Integer.parseInt(dateStart.split("\\.")[1]));
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
@@ -573,9 +562,9 @@ public class ListEventsERPPage extends Common {
         $(By.xpath(addTemplateSheetsButton)).scrollIntoView(false).click();
         $(By.xpath(templateSheetsDropDown)).click();
         if (addedTest)
-            clickToText(templateSheets);
+            setValueDropDownToText(templateSheets);
         else
-            $(By.xpath(String.format(selectValueByNumber, 1))).click();
+            setValueDropDownToNumber(1);
         $(By.xpath(saveTemplateSheetsButton)).click();
         $(By.xpath(templateSheetsObjectDropDown)).click();
         $(By.xpath(String.format(selectValueByNumber, 1))).click();
