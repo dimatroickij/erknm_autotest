@@ -43,12 +43,13 @@ public class ListPlansERPTest extends ListPlanERPPage {
         String scheduledKNMNumber = listEventsERPPage.createScheduledEvent(startDate,
                 listEventsERPPage.groundPlannedRegistration, false, false);
         System.out.println(scheduledKNMNumber);
+        System.out.println(numberPlan);
         logout();
         authorization("prosecutor", false);
         choiceERP();
         gotoListPlansPage();
         //String scheduledKNMNumber = "772200008564";
-        numberPlan = "2022037661";
+        //numberPlan = "2022037661";
         //Integer lastCountKNM = getCountKNMToPlan(numberPlan);
         addKNMtoPlan(numberPlan, scheduledKNMNumber);
         //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице

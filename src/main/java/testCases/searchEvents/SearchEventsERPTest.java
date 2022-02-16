@@ -14,7 +14,7 @@ public class SearchEventsERPTest extends SearchERPPage {
      */
     @Test(description = "Проверка работоспособности поиска КНМ для ЕРП")
     public void checkFunctionalitySearchKNMERPTest() {
-        authorization("supervisor");
+        authorization("supervisor", false);
         choiceERP();
         gotoERPListKNMPage();
         String conductingKNM = searchKNM(statusProcessConducting); // Поиск проверки в статусе В процессе проведения
