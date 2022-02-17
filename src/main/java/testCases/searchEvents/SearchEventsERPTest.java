@@ -12,14 +12,16 @@ public class SearchEventsERPTest extends SearchERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Проверка работоспособности поиска КНМ для ЕРП")
+    @Test(description = "Проверка работоспособности поиска КНМ для ЕРП") //TODO Нужно как-то переделать на поиск определенных проверок
     public void checkFunctionalitySearchKNMERPTest() {
         authorization("supervisor");
         choiceERP();
         gotoERPListKNMPage();
         String conductingKNM = searchKNM(statusProcessConducting); // Поиск проверки в статусе В процессе проведения
+        System.out.println("Проверка в статусе В процессе проведения " + conductingKNM);
         //String formationKNM = searchKNM(statusProcessFormation); // Поиск проверки в статусе В процессе формирования
         String completedKNM = searchKNM(statusCompleted); // Поиск проверки в статусе Завершено
+        System.out.println("Проверка в статусе В процессе формирования " + completedKNM);
         //String deletedKNM = searchKNM(statusDeleted); // Поиск проверки в статусе Удалено
         gotoSearchEvents();
         checkKNM(conductingKNM, true); // Проверка нашлась

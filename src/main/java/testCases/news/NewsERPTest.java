@@ -20,6 +20,7 @@ public class NewsERPTest extends NewsPage {
         closeNotification();
         choiceERP();
         goToManagementNews();
+        System.out.println("Идентификатор " + prefixNews);
         clickAddNewsButton();
         setTypeNewsField(typeItemNews);
         setVisibleNewsDropDown(visibleNewsItemProsecutor);
@@ -54,6 +55,7 @@ public class NewsERPTest extends NewsPage {
         closeNotification();
         choiceERP();
         goToManagementNews();
+        System.out.println("Идентификатор " + prefixNews);
         //prefixNews = "bce30994-b55d-490b-bc8b-a7d502de7fa0";
         goToNews(prefixNews + titleNews);
         String lastTitleNewsField = prefixNews + titleNews;
@@ -87,6 +89,7 @@ public class NewsERPTest extends NewsPage {
         closeNotification();
         choiceERP();
         goToManagementNews();
+        System.out.println("Идентификатор " + prefixNews);
         //prefixNews = "004c8543-0c2b-4ef0-b44e-b5acd79b5afd";
         goToNews(prefixNews + titleNews);
         clickRemoveFromPublicationNewsButton();

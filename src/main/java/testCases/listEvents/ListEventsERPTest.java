@@ -151,7 +151,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setAddressTypeDropDown(locationLE);
         setTypeObjectDropDown(branch);
         setRiskCategoryDropDown(righRisk);
-        setTemplateSheetsDropDown(true);
+        setTemplateSheetsDropDown(true); // TODO баг, который мешает проверке функции
         clickSaveButton();
         closeNotification();
         gotoERPListKNMPage();

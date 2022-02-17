@@ -126,6 +126,7 @@ public class Common {
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//button[text()='Искать']"; //кнопка Искать
     String addButton = "//*[text()='Добавить']"; //кнопка Добавить
+    String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне
     String saveButton = "//*[text()='Сохранить']"; //кнопка Сохранить
     String createButton = "//*[text()='Создать']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
@@ -137,6 +138,7 @@ public class Common {
     public String signatureButton = "//button[text()='Подписать']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
     public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
+    String modalDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список в модальном окне
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -175,14 +177,13 @@ public class Common {
 //    }
 
     /**
-     * Нажатие на кнопку подтверждающая ознакомеление с информацией
+     * Нажатие на кнопку подтверждающая ознакомление с информацией
      */
-    @Step("Нажатие на кнопку подтверждающая ознакомеление с информацией")
+    @Step("Нажатие на кнопку подтверждающая ознакомление с информацией")
     public void clickMessageButton() {
         try {
-                $(By.xpath(messageButton)).click();
-        }
-        catch (ElementNotFound ignored){
+            $(By.xpath(messageButton)).click();
+        } catch (ElementNotFound ignored) {
         }
     }
 
@@ -265,6 +266,22 @@ public class Common {
     }
 
     /**
+     * Нажатие на выпадающий список в модальном окне
+     */
+    @Step("Нажатие на выпадающий список в модальном окне")
+    public void clickModalDropDown() {
+        $(By.xpath(modalDropDown)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в модальном окне
+     */
+    @Step("Нажатие на кнопку Добавить в модальном окне")
+    public void clickModalAddButton() {
+        $(By.xpath(modalAddButton)).click();
+    }
+
+    /**
      * Поиск
      *
      * @param value Поисковый запрос
@@ -297,7 +314,6 @@ public class Common {
     public void clickAddButton() {
         $(By.xpath(addButton)).shouldHave(Condition.text("Добавить")).click();
     }
-
 
     /**
      * Нажатие на кнопку Сохранить

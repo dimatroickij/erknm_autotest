@@ -26,6 +26,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         choiceERP();
         gotoListPlansPage();
         numberPlan = createPlan();
+        System.out.println("Номер плана " + numberPlan);
         closeNotification();
         // Можно добавить проверку на динамическое появление плана на странице списка планов
         searchPlan(numberPlan, newPlan, true);

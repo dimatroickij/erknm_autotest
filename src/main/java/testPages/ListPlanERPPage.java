@@ -10,8 +10,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ListPlanERPPage extends Common {
 
-    public String controlAuthorityDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[1]/div[2]"; // Выпадающий список Орган контроля
-    public String prosecutorOfficeDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]/div[2]"; // Выпадающий список Орган прокуратуры
     public String typePlanDropDown = "//div[contains(@class, 'CreatePlanModal_SelectLabel') and text()='Тип плана КНМ']/../div[2]"; // Выпадающий список Тип плана КНМ
     public String selectValue = "//div[contains(@class, 'select-field__option') and text()='%s']"; // Локатор для выбора определенного значения в выпадающем списке
     public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания
@@ -26,7 +24,6 @@ public class ListPlanERPPage extends Common {
     public String changeStatusButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[2]"; // Кнопка Изменить статус в меню - гамбургере
     public String statusButton = "//ul[contains(@class, 'Dropdown_Menu')]//ul//button[text()='%s']"; // Кнопка с названием статуса плана из меню - гамбургера
     public String numberKNMField = "//div[contains(@class, 'AddKnmModal_InputBlock')]//input"; // Поле Введите учетный номер КНМ в модальном окне Добавление КНМ в план
-    public String saveKNMToPlanButton = "//div[contains(@class, 'ModalActions_Container')]/button[2]"; // Кнопка Сохранить в модальном окне Добавление КНМ в план
     public String notificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]"; // Текст уведомления об успешном добавлении КНМ
 
     public String prosecutorsOffice = "Генеральная прокуратура Российской Федерации";
@@ -48,8 +45,8 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Выбор значения в выпадающем списке Орган контроля {kno}")
     public void setControlAuthorityDropDown(String kno) {
-        $(By.xpath(controlAuthorityDropDown)).click();
-        $(By.xpath(controlAuthorityDropDown + String.format(selectValue, kno))).click();
+        clickModalDropDown(); // Выпадающий список Орган контроля
+        $(By.xpath(modalDropDown + String.format(selectValue, kno))).click();
     }
 
     /**
@@ -59,8 +56,8 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Выбор значения в выпадающем списке Орган прокуратуры {prosecutor}")
     public void setProsecutorOfficeDropDown(String prosecutor) {
-        $(By.xpath(prosecutorOfficeDropDown)).click();
-        $(By.xpath(prosecutorOfficeDropDown + String.format(selectValue, prosecutor))).click();
+        clickModalDropDown(); // Выпадающий список Орган прокуратуры
+        $(By.xpath(modalDropDown + String.format(selectValue, prosecutor))).click();
     }
 
     /**
@@ -196,7 +193,7 @@ public class ListPlanERPPage extends Common {
         clickPlanCellMenuButton(numberPlan);
         $(By.xpath(addKNMtoPlanButton)).click();
         $(By.xpath(numberKNMField)).setValue(numberKNM);
-        $(By.xpath(saveKNMToPlanButton)).click();
+        clickModalAddButton();
         $(By.xpath(notificationText)).should(Condition.text("КНМ успешно добавлено к плану"));
     }
 

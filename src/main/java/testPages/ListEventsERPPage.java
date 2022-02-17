@@ -20,8 +20,7 @@ public class ListEventsERPPage extends Common {
     String addLegalGroundsConductingButton = "//*[@id='legalBasesTitle']//button"; //кнопка Добавить в разделе Правовые основания проведения КНМ
     String absenceDirectoryRadioButton = "//*[@id='legalBasesNotExist']"; //радиобатон Отсутствует в справочнике
     String LegalGroundsConductingField = "//textarea[@name='notExistLegalBasisText']"; // поле для ввода в разделе Выберите нормативно-правовые акты
-    String saveLegalGroundsConductingButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; //кнопка Сохранить в разделе Выберите нормативно-правовые акты
-    String goalsTasksSubjectField = "//*[@id='check-sheets']//textarea"; // текстовое поле Цели, задачи, предмет КНМ
+    String goalsTasksSubjectField = "//*[@name='inspectionTarget']"; // текстовое поле Цели, задачи, предмет КНМ
     String durationEventDaysField = "//*[@id='durationDays']"; //поле Срок проведения (дней)
     String durationEventHoursField = "//*[@id='durationHours']";//поле Срок проведения (часов)
 
@@ -29,7 +28,7 @@ public class ListEventsERPPage extends Common {
     String listControlMeasuresField = "//textarea[@name='events[0].name']"; // поле для ввода в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
 
     String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']//button"; // кнопка Добавить в разделе Основания регистрации  КНМ
-    String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']/..//div[@class='shared-deleting-row']/div"; //выпадающий список Основание регистрации КНМ
+    String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']//div[contains(@class, 'SelectInput_SelectInput')]"; //выпадающий список Основание регистрации КНМ
     public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
 
@@ -37,18 +36,15 @@ public class ListEventsERPPage extends Common {
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора)
 
     String innField = "//*[@id='inn']"; //ИНН
-    //String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; //появившийся спискок ИНН
+    //String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
 
-    String namePersonCheckField = "//*[@name='organizationName']";
+    String namePersonCheckField = "//*[@name='organizationName']"; // Наименование проверяемого лица
 
     String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования
-    String mandatoryRequirementsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // выпадающий список Обязательные требования
-    String saveButtonMandatoryRequirementsButton = "//div[contains(@class, 'ModalActions_Container')]//*[text()='Добавить']"; // Кнопка Добавить в модальном окне Добавление обязательного требования
 
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы
-    String templateSheetsDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]/div/div"; // Выпадающий список
+
     String templateSheetsObjectDropDown = "//li[contains(@id, 'checklists')]//div[contains(@class, 'KnmCollapse_Body')]/div[3]/div[2]";
-    String saveTemplateSheetsButton = "//div[contains(@class, 'ModalActions_Container')]/button[1]"; // Кнопка Добавить в модальном окне Добавление проверочного листа
 
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
@@ -67,8 +63,8 @@ public class ListEventsERPPage extends Common {
     String resultAddressTypeDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[4]/div[1]/div[2]/div[1]"; // Тип места в блоке Список результатов
     String dateTimeKNMField = "//div[contains(@id, 'objectsResults')]/div[2]/div[5]/div[1]/div[2]//input"; // Дата и время проведения КНМ в блоке Список результатов
 
-    String addInspectorsButton = "//div[@id='inspectorsTitle']";
-    String inspectorsDropDown = "//li[contains(@id,'inspectors')]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного
+    String addInspectorsButton = "//div[@id='inspectorsTitle']//button";
+    String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного
 
     String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
 
@@ -186,14 +182,6 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Нажатие на кнопку Сохранить в модальном окне Выберите нормативно-правовые акты
-     */
-    @Step("Нажатие на кнопку Сохранить в модальном окне Выберите нормативно-правовые акты")
-    public void clickSaveLegalGroundsConductingButton() {
-        $(By.xpath(saveLegalGroundsConductingButton)).click();
-    }
-
-    /**
      * Заполнение поля Цели, задачи, предмет КНМ
      *
      * @param text Значение поля
@@ -303,13 +291,13 @@ public class ListEventsERPPage extends Common {
     @Step("Заполнение блока Обязательные требования, подлежащие проверке")
     public void setMandatoryRequirementsDropDown(boolean addedTest) {
         $(By.xpath(addMandatoryRequirementsButton)).scrollIntoView(false).click(); // Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
-        $(By.xpath(mandatoryRequirementsDropDown)).click(); // Открытие выпадающего списка ОТ
+        clickModalDropDown(); // Открытие выпадающего списка ОТ
         if (addedTest)
             setValueDropDownToText(templateMandatoryRequirements);
         else {
             setValueDropDownToNumber(1);
         }
-        $(By.xpath(saveButtonMandatoryRequirementsButton)).click();
+        clickModalAddButton();
     }
 
     /**
@@ -498,7 +486,7 @@ public class ListEventsERPPage extends Common {
         clickAddLegalGroundsConductingButton();
         clickAbsenceDirectoryRadioButton();
         setLegalGroundsConductingField(legalGroundsConducting);
-        clickSaveLegalGroundsConductingButton();
+        clickModalAddButton();
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
@@ -547,7 +535,7 @@ public class ListEventsERPPage extends Common {
         setKindControlDropDown(viewKNOERP);
         setInnField(INN, nameINN);
         setMandatoryRequirementsDropDown(isMandatoryRequirements);
-        //setRepresentativesDropDown(isRepresentative); TODO ПЕРЕДЕЛАТЬ
+        setRepresentativesDropDown(isRepresentative);
         clickSaveButton();
         closeNotification();
         return $(By.xpath(KNMNumberText)).getText().split(" ")[1];
@@ -560,12 +548,12 @@ public class ListEventsERPPage extends Common {
      */
     public void setTemplateSheetsDropDown(boolean addedTest) {
         $(By.xpath(addTemplateSheetsButton)).scrollIntoView(false).click();
-        $(By.xpath(templateSheetsDropDown)).click();
+        clickModalDropDown();
         if (addedTest)
             setValueDropDownToText(templateSheets);
         else
             setValueDropDownToNumber(1);
-        $(By.xpath(saveTemplateSheetsButton)).click();
+        clickModalAddButton();
         $(By.xpath(templateSheetsObjectDropDown)).click();
         $(By.xpath(String.format(selectValueByNumber, 1))).click();
     }

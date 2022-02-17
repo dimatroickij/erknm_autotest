@@ -80,6 +80,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
     public void addRepresentativesERPTest() {
         authorization("supervisor");
+        System.out.println("Идентификатор - " + prefix);
         clickPersonalAccount();
         scrollTopHtml();
         goToAuthorizedToConductMenu();
