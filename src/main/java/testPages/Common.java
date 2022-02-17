@@ -1,6 +1,7 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -20,8 +21,8 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class Common {
 
-    //public String url = "http://private.proverki.local/";
-    public String url = "http://private.proverki.local/private/knms";
+    public String url = "http://private.proverki.local/";
+    //public String url = "http://private.proverki.local/private/knms";
     // public String url ="http://private.proverki.local/";
     //public String openUrl = "http://proverki.local"; //открытая часть
     public String openUrl = "http://proverki.local/portal"; //открытая часть
@@ -30,8 +31,8 @@ public class Common {
     public String scriptAddDocument = ".\\testUtils\\choiceDoc.exe";
     public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";
 
-    String message = "Подтверждаю ознакомление с информацией";
-    String messageButton = "//button[text()='Подтверждаю ознакомление с информацией']"; //кнопка на временной форме с информацией
+
+    String messageButton = "//button[contains(@class, 'CheckNotificationModal_Button')]"; //кнопка на временной форме с информацией
     public String exitButton = "//*[text()= 'Выйти']";
 
     //режимы ЕРКНМ и ЕРП
@@ -178,7 +179,11 @@ public class Common {
      */
     @Step("Нажатие на кнопку подтверждающая ознакомеление с информацией")
     public void clickMessageButton() {
-        $(By.xpath(messageButton)).shouldHave(text(message)).click();
+        try {
+                $(By.xpath(messageButton)).click();
+        }
+        catch (ElementNotFound ignored){
+        }
     }
 
     /**
@@ -388,12 +393,6 @@ public class Common {
      */
     @Step("Авторизация. Пользователь - {person}")
     public void authorization(String person) {
-        authorization(person, true);
-        clickMessageButton();
-    }
-
-    @Step("Авторизация. Пользователь - {person}")
-    public void authorization(String person, boolean message) {
         open(url);
         if (Objects.equals(person, "sysadmin")) {
             setLogin(loginAdmin);
@@ -406,6 +405,7 @@ public class Common {
         }
         setPassword(password);
         clickEnterButton();
+        clickMessageButton();
     }
 
     /**
@@ -489,6 +489,7 @@ public class Common {
 
     /**
      * Выбор значения из выпадающего списка по номеру записи
+     *
      * @param number Номер в списке
      */
     @Step("Выбор значения из выпадающего списка по номеру записи {number}")
@@ -498,6 +499,7 @@ public class Common {
 
     /**
      * Выбор значения из выпадающего списка по тексту
+     *
      * @param text Текст
      */
     @Step("Выбор значения из выпадающего списка по тексту {text}")

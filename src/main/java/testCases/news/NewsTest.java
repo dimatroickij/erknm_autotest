@@ -44,7 +44,7 @@ public class NewsTest extends NewsPage {
      */
     @Test(description = "2 - Редактирование новости")
     public void editNewsTest() {
-        authorization("admin", false);
+        authorization("admin");
         choiceERKNM();
         goToManagementNews();
         goToNews();
@@ -59,7 +59,7 @@ public class NewsTest extends NewsPage {
         searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
         searchNewsInTableAdmin(lastTitleNewsField, false);
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERKNM();
         gotoNewsPage();
         searchNewsInTableUser(prefix + "автотест Заголовок", true);
@@ -83,7 +83,7 @@ public class NewsTest extends NewsPage {
         clickRemoveFromPublicationNewsButton();
         clickBackButton();
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERKNM();
         gotoNewsPage();
         searchNewsInTableUser(lastTitleNewsField, false);

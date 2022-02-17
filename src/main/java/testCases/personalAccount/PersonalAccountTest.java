@@ -51,7 +51,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРП)")
     public void createTemplateTestSheetsERPTest() {
-        authorization("supervisor", false);
+        authorization("supervisor");
         System.out.println("Идентификатор - " + prefix);
         clickPersonalAccount();
         scrollTopHtml();
@@ -79,7 +79,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      */
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
     public void addRepresentativesERPTest() {
-        authorization("supervisor", false);
+        authorization("supervisor");
         clickPersonalAccount();
         scrollTopHtml();
         goToAuthorizedToConductMenu();

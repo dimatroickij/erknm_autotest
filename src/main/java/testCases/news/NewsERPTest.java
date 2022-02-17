@@ -30,12 +30,12 @@ public class NewsERPTest extends NewsPage {
         clickSaveNewsButton();
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERP();
         gotoNewsPage();
         searchNewsInTableUser(prefixNews + titleNews, true);
         logout();
-        authorization("supervisor", false);
+        authorization("supervisor");
         choiceERP();
         gotoNewsPage();
         searchNewsInTableUser(prefixNews + titleNews, false);
@@ -49,7 +49,7 @@ public class NewsERPTest extends NewsPage {
      */
     @Test(description = "Редактирование новости в режиме ЕРП")
     public void editNewsERPTest() {
-        authorization("sysadmin", false);
+        authorization("sysadmin");
         closeNotification();
         closeNotification();
         choiceERP();
@@ -67,7 +67,7 @@ public class NewsERPTest extends NewsPage {
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         searchNewsInTableAdmin(lastTitleNewsField, false);
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERP();
         gotoNewsPage();
         searchNewsInTableUser(prefixNews + titleNews, true);
@@ -82,7 +82,7 @@ public class NewsERPTest extends NewsPage {
      */
     @Test(description = "Удаление новости в режиме ЕРП")
     public void deleteNewsERPTest() {
-        authorization("sysadmin", false);
+        authorization("sysadmin");
         closeNotification();
         closeNotification();
         choiceERP();
@@ -92,7 +92,7 @@ public class NewsERPTest extends NewsPage {
         clickRemoveFromPublicationNewsButton();
         clickBackButton();
         logout();
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERP();
         gotoNewsPage();
         searchNewsInTableUser(prefixNews + textNews, false);

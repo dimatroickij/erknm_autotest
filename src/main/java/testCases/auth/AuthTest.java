@@ -29,7 +29,7 @@ public class AuthTest extends Common {
      */
     @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
     public void choiceModeERKNMTest(){
-        authorization("prosecutor", false);
+        authorization("prosecutor");
         choiceERKNM();
         checkObject("Список КНМ");
         checkObject("Список ПМ");
