@@ -9,6 +9,7 @@ public class AuthTest extends Common {
 
     /**
      * Цель: Авторизация
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Авторизация")
@@ -18,17 +19,17 @@ public class AuthTest extends Common {
         setPassword(password);
         clickEnterButton();
         clickMessageButton();
-        logout();
         //добавить проверку для теста или убрать?
     }
 
     /**
      * Цель: Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП
      * HP ALM
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
-    public void choiceModeERKNMTest(){
+    public void choiceModeERKNMTest() {
         authorization("prosecutor");
         choiceERKNM();
         checkObject("Список КНМ");

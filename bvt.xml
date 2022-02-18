@@ -22,7 +22,7 @@
                     <include name="transferEventStatusProcessConductingERPTest"/>
                     <include name="transferEventStatusCompletedERPTest"/>
                     <include name="deletedEventERPTest"/>
-<!--                    <include name="addTemplatesInCheckCardERPTest"/>-->
+                    <include name="addTemplatesInCheckCardERPTest"/>
                 </methods>
             </class>
             <class name="testCases.listPlans.ListPlansERPTest">

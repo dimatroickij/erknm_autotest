@@ -9,8 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static com.codeborne.selenide.Selenide.switchTo;
-
 public class ListPlansERPTest extends ListPlanERPPage {
     // работа с планами в режиме ЕРП
 
@@ -28,7 +26,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         numberPlan = createPlan();
         System.out.println("Номер плана " + numberPlan);
         closeNotification();
-        // Можно добавить проверку на динамическое появление плана на странице списка планов
+        // TODO Можно добавить проверку на динамическое появление плана на странице списка планов
         searchPlan(numberPlan, newPlan, true);
         logout();
         authorization("supervisor");
@@ -43,17 +41,14 @@ public class ListPlansERPTest extends ListPlanERPPage {
 
         String scheduledKNMNumber = listEventsERPPage.createScheduledEvent(startDate,
                 listEventsERPPage.groundPlannedRegistration, false, false);
-        System.out.println(scheduledKNMNumber);
-        System.out.println(numberPlan);
+        System.out.println("Номер созданной проверки " + scheduledKNMNumber);
         logout();
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //String scheduledKNMNumber = "772200008564";
-        //numberPlan = "2022037661";
         //Integer lastCountKNM = getCountKNMToPlan(numberPlan);
-        addKNMtoPlan(numberPlan, scheduledKNMNumber);
-        //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице
+        addKNMtoPlan(numberPlan, scheduledKNMNumber); // TODO баг, который мешает проверке функции
+        //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице //TODO подумать как можно сделать динамическую проверку на количество проверок в плане
         openCard(numberPlan);
 
         setSearchField(scheduledKNMNumber);
@@ -74,12 +69,13 @@ public class ListPlansERPTest extends ListPlanERPPage {
         choiceERP();
         gotoListPlansPage();
         String deletedNumberPlan = createPlan();
-        //String deletedNumberPlan = "2022037580";
+        System.out.println("Номер удалённого плана " + numberPlan);
         clickPlanCheckBox(deletedNumberPlan);
         clickDeleteButton();
         clickConfirmationDeleteButton();
         closeNotification();
         searchPlan(deletedNumberPlan, false);
+        closeNotification();
         logout();
     }
 
@@ -94,8 +90,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //numberPlan = "2022037406";
-        workToPlan(onApprovalPlan);
+        workToPlan(onApprovalPlan, numberPlan);
+        System.out.println("План " + numberPlan + " переведён в статус '" + onApprovalPlan + "'");
         logout();
     }
 
@@ -110,8 +106,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //numberPlan = "2022037662";
-        workToPlan(onRevisionPlan);
+        workToPlan(onRevisionPlan, numberPlan);
+        System.out.println("План " + numberPlan + " переведён в статус '" + onRevisionPlan + "'");
         logout();
     }
 
@@ -126,8 +122,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //numberPlan = "2022037662";
-        workToPlan(agreedPlan);
+        workToPlan(agreedPlan, numberPlan);
+        System.out.println("План " + numberPlan + " переведён в статус '" + agreedPlan + "'");
         logout();
     }
 
@@ -142,8 +138,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceERP();
         gotoListPlansPage();
-        //numberPlan = "2022037662";
-        workToPlan(approvedPlan);
+        workToPlan(approvedPlan, numberPlan);
+        System.out.println("План " + numberPlan + " переведён в статус '" + approvedPlan + "'");
         logout();
     }
 

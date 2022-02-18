@@ -10,6 +10,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ListPlanERPPage extends Common {
 
+    public String controlAuthorityDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[1]/div[2]"; // Выпадающий список Орган контроля
+    public String prosecutorOfficeDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]/div[2]"; // Выпадающий список Орган прокуратуры
     public String typePlanDropDown = "//div[contains(@class, 'CreatePlanModal_SelectLabel') and text()='Тип плана КНМ']/../div[2]"; // Выпадающий список Тип плана КНМ
     public String selectValue = "//div[contains(@class, 'select-field__option') and text()='%s']"; // Локатор для выбора определенного значения в выпадающем списке
     public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания
@@ -45,8 +47,8 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Выбор значения в выпадающем списке Орган контроля {kno}")
     public void setControlAuthorityDropDown(String kno) {
-        clickModalDropDown(); // Выпадающий список Орган контроля
-        $(By.xpath(modalDropDown + String.format(selectValue, kno))).click();
+        $(By.xpath(controlAuthorityDropDown)).click();
+        $(By.xpath(controlAuthorityDropDown + String.format(selectValue, kno))).click();
     }
 
     /**
@@ -56,8 +58,8 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Выбор значения в выпадающем списке Орган прокуратуры {prosecutor}")
     public void setProsecutorOfficeDropDown(String prosecutor) {
-        clickModalDropDown(); // Выпадающий список Орган прокуратуры
-        $(By.xpath(modalDropDown + String.format(selectValue, prosecutor))).click();
+        $(By.xpath(prosecutorOfficeDropDown)).click();
+        $(By.xpath(prosecutorOfficeDropDown + String.format(selectValue, prosecutor))).click();
     }
 
     /**
@@ -106,14 +108,15 @@ public class ListPlanERPPage extends Common {
      * Перевод плана в указанный статус
      *
      * @param status Новый статус плана
+     * @param number Номер плана
      */
-    @Step("Перевод плана в указанный статус {status}")
-    public void workToPlan(String status) {
-        setSearchField(numberPlan);
+    @Step("Перевод плана {number} в указанный статус {status}")
+    public void workToPlan(String status, String number) {
+        setSearchField(number);
         clickSearchButton();
-        transferOfPlanToStatus(numberPlan, status);
+        transferOfPlanToStatus(number, status);
         closeNotification();
-        searchPlan(numberPlan, status, true);
+        searchPlan(number, status, true);
     }
 
     /**
