@@ -96,6 +96,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля ФИО
+     *
      * @param name ФИО
      */
     @Step("Заполнение поля ФИО - {name}")
@@ -105,6 +106,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Должность
+     *
      * @param position Должность
      */
     @Step("Заполнение поля Должность - {position}")
@@ -114,6 +116,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Выбор типа проверяющего
+     *
      * @param type Тип проверяющего
      */
     @Step("Выбор типа проверяющего - {type}")
@@ -132,6 +135,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля наименование в проверочных листах и обязательные требования
+     *
      * @param name Значение поля
      */
     @Step("Заполнение поля наименование в проверочных листах и обязательные требования - {name}")
@@ -141,6 +145,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Сведения об утверждении
+     *
      * @param details Значение поля
      */
     @Step("Заполнение поля Сведения об утверждении - {details}")
@@ -150,6 +155,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Вопрос в разделе контрольные вопросы
+     *
      * @param question Вопрос
      */
     @Step("Заполнение поля Вопрос в разделе контрольные вопросы - {question}")
@@ -159,6 +165,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Реквизиты в разделе контрольные вопросы
+     *
      * @param requisites Реквизиты
      */
     @Step("Заполнение поля Реквизиты в разделе контрольные вопросы - {requisites}")
@@ -168,6 +175,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Организация
+     *
      * @param name организация
      */
     @Step("Заполнение поля Организация - {name}")
@@ -178,6 +186,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Вид государственного контроля (надзора)
+     *
      * @param type Вид государственного контроля
      */
     @Step("Заполнение поля Вид государственного контроля (надзора) - {type}")
@@ -188,6 +197,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Формулировка обязательного требования
+     *
      * @param data - Формулировка обязательного требования
      */
     @Step("Заполнение поля Формулировка обязательного требования - {data}")
@@ -197,6 +207,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Наименования НПА
+     *
      * @param name Наименование НПА
      */
     @Step("Заполнение поля Наименования НПА - {name}")
@@ -206,6 +217,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Номер НПА
+     *
      * @param number Номер НПА
      */
     @Step("Заполнение поля Номер НПА - {number}")
@@ -215,6 +227,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Заполнение поля Дата НПА
+     *
      * @param date Дата НПА
      */
     @Step("Заполнение поля Дата НПА")
@@ -240,6 +253,7 @@ public class PersonalAccountPage extends Common {
 
     /**
      * Проверка созданного уполномоченного на проведение КНМ
+     *
      * @param name ФИО уполномоченного
      */
     @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
@@ -247,5 +261,16 @@ public class PersonalAccountPage extends Common {
         $(By.xpath("//*[@value='" + name + "']")).shouldBe(com.codeborne.selenide.Condition.visible);
     }
 
+    /**
+     * Выбор организации по умолчанию
+     *
+     * @param name Название КНО
+     */
+    @Step("Выбор организации по умолчанию - {name}")
+    public void setOrganization(String name){
+        clickToText(commonInformation);
+        $(By.xpath(String.format("//label[contains(text(), '%s')]", name))).click();
+        clickSaveButton();
+    }
 
 }

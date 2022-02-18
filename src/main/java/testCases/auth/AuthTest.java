@@ -19,6 +19,7 @@ public class AuthTest extends Common {
         setPassword(password);
         clickEnterButton();
         clickMessageButton();
+        logout();
         //добавить проверку для теста или убрать?
     }
 

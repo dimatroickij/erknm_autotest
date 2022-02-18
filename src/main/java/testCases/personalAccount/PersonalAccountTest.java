@@ -83,6 +83,8 @@ public class PersonalAccountTest extends PersonalAccountPage {
         System.out.println("Идентификатор - " + prefix);
         clickPersonalAccount();
         scrollTopHtml();
+        setOrganization(nameKNO);
+        scrollTopHtml();
         goToAuthorizedToConductMenu();
         clickAddButton();
         resresentative = prefix + "авто ФИО";

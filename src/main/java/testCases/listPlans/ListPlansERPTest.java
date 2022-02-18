@@ -40,7 +40,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
 
         String scheduledKNMNumber = listEventsERPPage.createScheduledEvent(startDate,
-                listEventsERPPage.groundPlannedRegistration, false, false);
+                listEventsERPPage.groundPlannedRegistration, false, false, true, true);
         System.out.println("Номер созданной проверки " + scheduledKNMNumber);
         logout();
         authorization("prosecutor");

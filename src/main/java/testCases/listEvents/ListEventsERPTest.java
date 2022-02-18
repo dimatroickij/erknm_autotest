@@ -31,7 +31,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         calendar.add(Calendar.DAY_OF_MONTH, 3);
         String stopDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
         knmNumber = createUnscheduledEvent(currentDate, startDate, stopDate, groundRegistration,
-                false, false);
+                false, false, true, true);
         System.out.println("Созданная проверка " + knmNumber);
         gotoERPListKNMPage();
         setSearchField(knmNumber);
@@ -52,11 +52,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         choiceERP();
         gotoERPListKNMPage();
         openCard(knmNumber);
-        clickObjectsKNMButton();
-        setAddressField(address);
-        setAddressTypeDropDown(locationLE);
-        setTypeObjectDropDown(branch);
-        setRiskCategoryDropDown(righRisk);
+        setObjectKNM(address, locationLE, branch, righRisk, true);
         clickSaveButton();
         closeNotification();
         gotoERPListKNMPage();
@@ -113,7 +109,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         calendar.add(Calendar.DAY_OF_MONTH, 3);
         String stopDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
         String deleteKNMNumber = createUnscheduledEvent(currentDate, startDate, stopDate, groundRegistration,
-                false, false);
+                false, false, true, true);
         gotoERPListKNMPage();
         openCard(deleteKNMNumber);
         clickActionsButton();
@@ -143,12 +139,8 @@ public class ListEventsERPTest extends ListEventsERPPage {
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
         String scheduledKNMNumber = createScheduledEvent(startDate, groundPlannedRegistration,
-                true, true);
-        clickObjectsKNMButton();
-        setAddressField(address);
-        setAddressTypeDropDown(locationLE);
-        setTypeObjectDropDown(branch);
-        setRiskCategoryDropDown(righRisk);
+                true, true, true, true);
+        setObjectKNM(address, locationLE, branch, righRisk, true);
         setTemplateSheetsDropDown(true); // TODO баг, который мешает проверке функции
         clickSaveButton();
         closeNotification();

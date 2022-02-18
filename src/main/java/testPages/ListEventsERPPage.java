@@ -36,7 +36,7 @@ public class ListEventsERPPage extends Common {
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора)
 
     String innField = "//*[@id='inn']"; //ИНН
-    //String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
+    String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
 
     String namePersonCheckField = "//*[@name='organizationName']"; // Наименование проверяемого лица
 
@@ -50,6 +50,7 @@ public class ListEventsERPPage extends Common {
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
     String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
+    String deleteObjectButton = "//button[contains(@class, 'KnmCollapse_DeleteButton')]";
     String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
     String addressField = "//textarea[@name='objects[0].addressText']"; // поле Местоположение в блоке Объекты проведения КНМ
     String addressTypeDropDown = "//*[@id='objects[0].addressType']"; // Выпадающий список Тип места в блоке Объекты проведения КНМ
@@ -274,13 +275,11 @@ public class ListEventsERPPage extends Common {
      * Заполнение поля ИНН и выбор значения из появившегося окна
      *
      * @param INN  ИНН
-     * @param name Наименование проверяемого лица
      */
-    @Step("Заполнение поля ИНН и выбор значения из появившегося окна - {INN} - {name}")
-    public void setInnField(String INN, String name) {
+    @Step("Заполнение поля ИНН и выбор значения из появившегося окна - {INN}")
+    public void setInnField(String INN) {
         $(By.xpath(innField)).setValue(INN);
-        $(By.xpath(namePersonCheckField)).setValue(name);
-        //$(By.xpath(innListField)).click();
+        $(By.xpath(innListField)).click();
     }
 
     /**
@@ -467,14 +466,16 @@ public class ListEventsERPPage extends Common {
      * @param dateStart               Дата начала КНМ
      * @param dateStop                Дата окончания КНМ
      * @param groundRegistration      Основание регистрации КНМ
-     * @param isMandatoryRequirements - true - Берется обязательное требование, созданное автотестом
-     * @param isResresentatives       - true - Берется уполномоченный, созданный автотестом
+     * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
+     * @param isResresentatives       true - Берется уполномоченный, созданный автотестом
+     * @param isDeleteObject          Удаление объекта проведения КНМ, который создался автоматически из-за поиска ИНН
+     * @param isNewObject             true - В карточке Объекты проведения КНМ не было заполнено автоматически Местонахождение и Тип места
      */
     @Step("Создание внеплановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
-            "{isResresentatives}")
+            "{isResresentatives}, {isDeleteObject}, {isNewObject}")
     public String createUnscheduledEvent(String dateOrders, String dateStart, String dateStop,
                                          String groundRegistration, boolean isMandatoryRequirements,
-                                         boolean isResresentatives) {
+                                         boolean isResresentatives, boolean isDeleteObject, boolean isNewObject) {
         clickAddButton();
         setViewKNMDropDown(unscheduledCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
@@ -492,22 +493,24 @@ public class ListEventsERPPage extends Common {
         setDurationEventHoursField(durationEventHours);
         clickAddListControlMeasuresButton();
         setListControlMeasuresField(listControlMeasures);
-        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives);
+        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives, isDeleteObject, isNewObject);
     }
 
     /**
-     * Создание внеплановой проверки
+     * Создание плановой проверки
      *
      * @param dateStart               Дата начала КНМ
      * @param groundRegistration      Основание регистрации КНМ
      * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
      * @param isResresentatives       true - Берется уполномоченный, созданный автотестом
+     * @param isDeleteObject          Удаление объекта проведения КНМ, который создался автоматически из-за поиска ИНН
+     * @param isNewObject             true - В карточке Объекты проведения КНМ не было заполнено автоматически Местонахождение и Тип места
      * @return Номер созданной КНМ
      */
     @Step("Создание плановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " +
-            "{isResresentatives}")
+            "{isResresentatives}, {isDeleteObject}, {isNewObject}")
     public String createScheduledEvent(String dateStart, String groundRegistration, boolean isMandatoryRequirements,
-                                       boolean isResresentatives) {
+                                       boolean isResresentatives, boolean isDeleteObject, boolean isNewObject) {
         clickAddButton();
         setViewKNMDropDown(scheduleCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
@@ -517,7 +520,7 @@ public class ListEventsERPPage extends Common {
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
-        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives);
+        return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives, isDeleteObject, isNewObject);
     }
 
     /**
@@ -526,14 +529,24 @@ public class ListEventsERPPage extends Common {
      * @param groundRegistration      Основание регистрации КНМ
      * @param isMandatoryRequirements true - Берется обязательное требование, созданное автотестом
      * @param isRepresentative        true - Берется уполномоченный, созданный автотестом
+     * @param isDeleteObject          true - Удаление объекта проведения КНМ, который создался автоматически из-за поиска ИНН
+     * @param isNewObject             true - В карточке Объекты проведения КНМ не было заполнено автоматически Местонахождение и Тип места
      * @return Номер созданной КНМ
      */
-    private String fillingCard(String groundRegistration, boolean isMandatoryRequirements, boolean isRepresentative) {
+    @Step("Общий код для заполнения карточки плановой и внеплановой КНМ {groundRegistration}, {isMandatoryRequirements}," +
+            " {isRepresentative}, {isDeleteObject}, {isDeleteObject}, {isNewObject}")
+    private String fillingCard(String groundRegistration, boolean isMandatoryRequirements, boolean isRepresentative,
+                               boolean isDeleteObject, boolean isNewObject) {
         clickAddGroundRegistrationButton();
         setGroundRegistrationDropDown(groundRegistration);
         setNameKNODropDown(nameKNO);
         setKindControlDropDown(viewKNOERP);
-        setInnField(INN, nameINN);
+        setInnField(INN);
+        if (isDeleteObject)
+            $(By.xpath(deleteObjectButton)).click();
+        else {
+            setObjectKNM(address, locationLE, branch, righRisk, isNewObject);
+        }
         setMandatoryRequirementsDropDown(isMandatoryRequirements);
         setRepresentativesDropDown(isRepresentative);
         clickSaveButton();
@@ -546,6 +559,7 @@ public class ListEventsERPPage extends Common {
      *
      * @param addedTest true - заполнение ранее добавленными значениями, false - выбор любого значения из списка
      */
+    @Step("Заполнение блока Проверочные листы {addedTest}")
     public void setTemplateSheetsDropDown(boolean addedTest) {
         $(By.xpath(addTemplateSheetsButton)).scrollIntoView(false).click();
         clickModalDropDown();
@@ -556,5 +570,25 @@ public class ListEventsERPPage extends Common {
         clickModalAddButton();
         $(By.xpath(templateSheetsObjectDropDown)).click();
         $(By.xpath(String.format(selectValueByNumber, 1))).click();
+    }
+
+    /**
+     * Заполнение блока Объекты проведения КНМ
+     *
+     * @param address     Местонахождение
+     * @param locationLE  Тип места
+     * @param branch      Тип объекта проведения
+     * @param righRisk    Категория риска
+     * @param isNewObject true - В карточке Объекты проведения КНМ не было заполнено автоматически Местонахождение и Тип места
+     */
+    @Step("Заполнение блока Объекты проведения КНМ {address}, {locationLE}, {branch}, {righRisk}, {isNewObject}")
+    public void setObjectKNM(String address, String locationLE, String branch, String righRisk, boolean isNewObject) {
+        if (isNewObject) {
+            clickObjectsKNMButton();
+            setAddressField(address);
+            setAddressTypeDropDown(locationLE);
+        }
+        setTypeObjectDropDown(branch);
+        setRiskCategoryDropDown(righRisk);
     }
 }
