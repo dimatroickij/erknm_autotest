@@ -406,6 +406,7 @@ public class Common {
      */
     @Step("Авторизация. Пользователь - {person}")
     public void authorization(String person) {
+        clearBrowserCookies();
         open(url);
         if (Objects.equals(person, "sysadmin")) {
             setLogin(loginAdmin);
