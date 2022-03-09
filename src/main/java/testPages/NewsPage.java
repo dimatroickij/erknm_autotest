@@ -5,9 +5,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.Date;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.*;
@@ -16,13 +13,12 @@ import static com.codeborne.selenide.Selenide.refresh;
 
 public class NewsPage extends Common {
     // раздел Новости
-    public String managementNewsItemMenu = "//*[text()='Управление новостями']";
-    public String addNewsButton = "//button[text()='Добавить новость']";
-    public String typeNewsDropDown = "//form//div[@class='shared-row'][1]//*[contains(@class, 'SelectInput_SelectInput')]"; //выпадающий список Тип новости
+    public String managementNewsItemMenu = "//*[@id='/private/lk/news']/a";
+    public String typeNewsDropDown = "//*[@id='type']"; //выпадающий список Тип новости
 
     public String typeItemAnnouncement = "//*[text()='Анонс']";
     public String typeItemSurvey = "//*[text()='Опрос']";
-    public String visibleNewsDropDown = "//form//div[@class='shared-row'][2]//*[contains(@class, 'SelectInput_SelectInput')]"; //выпадающий список Для кого видна новость
+    public String visibleNewsDropDown = "//form//div[@class='shared-row'][2]//*[contains(@class, 'SelectInput_SelectContainer')]"; //выпадающий список Для кого видна новость TODO Должен быть идентификатор
     public String visibleNewsItemKNO = "//*[text()='Сотрудник КНО']";
 
     public String visibleNewsItemOmbudsmen = "//*[text()='Омбудсмен']";
@@ -31,13 +27,10 @@ public class NewsPage extends Common {
     public String titleField = "//*[@name='title']"; //поле Заголовок
     public String shortTextField = "//*[@name='shortText']"; //поле Краткий текст новости
     public String textNewsField = "//*[@role= 'textbox']//span[@data-offset-key='key-0-0']"; //поле Текст новости
-    public String dataPublicationField = "//form/div[7]//input"; //поле Дата публикации
-    public String saveNewsButton = "//*[@type='submit']"; //кнопка Сохранить новость
-    public String saveWithoutPublicationsNewsButton = "//button[text()='Сохранить без публикации']";
-    public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']";
-    public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']";
-    public String applyButton = "//button[text()='Применить']";
-    public String backButton = "//button[text()='Назад']";
+    public String dataPublicationField = "//form/div[7]//input"; //поле Дата публикации TODO Должен быть идентификатор
+    public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']"; // TODO Должен быть идентификатор
+    public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']"; // TODO Должен быть идентификатор
+
 
     // Переменные, которые будут использоваться совместно несколькими тестами
     public String prefixNews = UUID.randomUUID().toString(); // Префикс для уникальных названий
@@ -55,33 +48,26 @@ public class NewsPage extends Common {
     }
 
     /**
-     * Переход в редактирование новости
+     * Переход в редактирование случайной опубликованной новости
      */
-    @Step("Переход в редактирование новости")
+    @Step("Переход в редактирование случайной опубликованной новости")
     public void goToNews() {
         $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), 'Опубликована')]")).click();
     }
 
     /**
      * Переход в редактирование новости по префиксу
+     *
      * @param prefix Префикс
      */
     @Step("Переход в редактирование новости по префиксу - {prefix}")
     public void goToNews(String prefix) {
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + prefix + "')]")).click();
-    }
-
-    /**
-     * Нажатие на кнопку Добавить новость
-     */
-    @Step("Нажатие на кнопку Добавить новость")
-    public void clickAddNewsButton() {
-        $(By.xpath(addNewsButton)).click();
-        refresh();
+        $(By.xpath(String.format("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '%s')]", prefix))).click();
     }
 
     /**
      * Выбор из выпадающего списка Типа новости
+     *
      * @param type Тип новости
      */
     @Step("Выбор из выпадающего списка Типа новости - {type}")
@@ -92,6 +78,7 @@ public class NewsPage extends Common {
 
     /**
      * Выбор из выпадающего списка Для кого видна новость
+     *
      * @param visible Значение поля
      */
     @Step("Выбор из выпадающего списка Для кого видна новость - {visible}")
@@ -102,6 +89,7 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение заголовка новости
+     *
      * @param title Заголовок новости
      */
     @Step("Заполнение заголовка новости - {title}")
@@ -121,6 +109,7 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение краткого текста новости
+     *
      * @param shortText Кратний текст новости
      */
     @Step("Заполнение краткого текста новости - {shortText}")
@@ -132,27 +121,12 @@ public class NewsPage extends Common {
 
     /**
      * Заполнение текста новости
+     *
      * @param text Текст новости
      */
     @Step("Заполнение текста новости - {text}")
     public void setTextNewsField(String text) {
         $(By.xpath(textNewsField)).append(text);
-    }
-
-    /**
-     * Клик по кнопке Сохранить при создании новости
-     */
-    @Step("Клик по кнопке Сохранить при создании новости")
-    public void clickSaveNewsButton() {
-        $(By.xpath(saveNewsButton)).shouldHave(text("Сохранить"), Duration.ofSeconds(3)).click();
-    }
-
-    /**
-     * Клик по кнопке Сохранить без публикации
-     */
-    @Step("Клик по кнопке Сохранить без публикации")
-    public void clickSaveWithoutPublicationsNewsButton() {
-        $(By.xpath(saveWithoutPublicationsNewsButton)).click();
     }
 
     /**
@@ -172,23 +146,8 @@ public class NewsPage extends Common {
     }
 
     /**
-     * Клик по кнопке Применить при редактировании опубликованной новости
-     */
-    @Step("Клик по кнопке Применить при редактировании опубликованной новости")
-    public void clickApplyWithPublicationsNewsButton() {
-        $(By.xpath(applyButton)).click();
-    }
-
-    /**
-     * Клик по кнопке Назад для возврата на страницу "Управление новостями"
-     */
-    @Step("Клик по кнопке Назад для возврата на страницу Управление новостями")
-    public void clickBackButton() {
-        $(By.xpath(backButton)).click();
-    }
-
-    /**
      * Заполнение поля Дата публикации
+     *
      * @param date Дата публикации
      */
     @Step("Заполнение поля Дата публикации")
@@ -198,36 +157,39 @@ public class NewsPage extends Common {
 
     /**
      * Поиск новости в таблице новостей у админа
+     *
      * @param exist true - проверка на сущестовование новости
-     * @param news Название новости
+     * @param news  Название новости
      */
     @Step("Поиск новости - {news}, в таблице новостей у админа - {news}")
     public void searchNewsInTableAdmin(String news, boolean exist) {
         Condition condition = exist ? appear : not(appear);
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '" + news + "')]")).should(condition);
+        $(By.xpath(String.format("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '%s')]", news))).should(condition);
     }
 
     /**
      * Поиск новости в таблице новостей у Пользователя
+     *
      * @param exist true - проверка на сущестовование новости
-     * @param news Название новости
+     * @param news  Название новости
      */
     @Step("Поиск новости - {news} в таблице новостей у Пользователя")
     public void searchNewsInTableUser(String news, boolean exist) {
         Condition condition = exist ? appear : not(appear);
-        $(By.xpath("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '" + news + "')]")).should(condition);
+        $(By.xpath(String.format("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '%s')]", news))).should(condition);
     }
 
     /**
      * Добавление новости
-     * @param text Текст новости
+     *
+     * @param text      Текст новости
      * @param shortText Краткий текст новости
-     * @param title Заголовок новости
-     * @param typeItem Тип новости
-     * @param visible Для кого видна новость
+     * @param title     Заголовок новости
+     * @param typeItem  Тип новости
+     * @param visible   Для кого видна новость
      */
     @Step("Добавление новости")
-    public void addNews(String typeItem, String visible, String title, String shortText, String text, String date){
+    public void addNews(String typeItem, String visible, String title, String shortText, String text, String date) {
         clickAddNewsButton();
         setTypeNewsField(typeItem);
         setVisibleNewsDropDown(visible);
@@ -235,7 +197,16 @@ public class NewsPage extends Common {
         setShortTextNewsField(shortText);
         setTextNewsField(text);
         setDataPublicationField(date);
-        clickSaveNewsButton();
+        clickSaveButton();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить новость
+     */
+    @Step("Нажатие на кнопку Добавить")
+    public void clickAddNewsButton() {
+        $(By.xpath(addButton)).click();
+        refresh();
     }
 
 

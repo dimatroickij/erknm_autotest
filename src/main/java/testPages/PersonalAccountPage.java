@@ -10,39 +10,42 @@ public class PersonalAccountPage extends Common {
 
     //разделы личного кабинета
 
-    public String commonInformation = "Общая информация";
-    public String authorizedToConduct = "Уполномоченные на проведение КНМ";
-    public String checkSheets = "Проверочные листы";
-    public String mandatoryRequirements = "Обязательные требования";
-    public String settings = "Настройки";
-    public String managementUsers = "Управление пользователями";
-    public String managementDirectories = "Управление справочниками";
-    public String managementSchedule = "Управление расписанием";
-    public String downloadingDirectories = "Загрузка справочников";
-    public String managementNews = "Управление новостями";
+    public String commonInformation = "//*[@id='/private/lk/info']/a"; // Общая информация
+    public String authorizedToConduct = "//*[@id='/private/lk/authorized-to-conduct']/a"; // Уполномоченные на проведение КНМ
+    public String checkSheets = "//*[@id='/private/lk/check-sheets']/a"; // Проверочные листы
+    public String mandatoryRequirementsButton = "//*[@id='/private/lk/requirements']/a"; // Раздел Обязательные требования
+    public String settings = "//*[@id='/private/lk/settings']/a"; // Настройки
+    public String managementUsers = "//*[@id='/private/lk/users']/a"; // Управление пользователями
+    public String managementDirectories = "//*[@id='/private/lk/catalogs']/a"; // Управление справочниками
+    public String managementSchedule = "//*[@id='/private/lk/exports']/a"; // Управление расписанием
+    public String downloadingDirectories = "//*[@id='/private/lk/catalogs-update']/a"; // Загрузка справочников
+    public String managementNews = "//*[@id='/private/lk/news']/a"; // Управление новостями
     public String typeStateControl = "Выборочный контроль качества биомедицинских клеточных продуктов.";
+    public String personalAccount = "//*[@id='personalAccountButton']"; // Кнопка "Личный кабинет"
 
-    public String personalAccount = "//*[contains(@class,'DropdownItem_MenuButton') and contains(string(), 'Личный кабинет')]";
     // поля для добавления уполномоченных
+    String authorizedToConductAddButton = "//*[@id='authorizedToConductAddButton']"; // Кнопка Добавить в Уполномоченных на проведение КНМ
     String nameField = "//*[@name='inspectors[0].fullName']";
     String positionField = "//*[@name='inspectors[0].position']";
-    String typeFieldDropDown = "//*[text()='Тип проверяющего']";
+    String typeFieldDropDown = "//*[@id='inspectors[0].type']";
 
     //поля для проверочных листов
+    String checkListsAddButton = "//*[@id='checkListsAddButton']"; // Кнопка Добавить в шаблонах проверочных листов
     String templateNameField = "//*[@name='templateName']";
     String approvalDetailsField = "//*[@name='approvalDetails']";
     String questionField = "//*[@name='questions[0].question']";
     String requisitesField = "//*[@name='questions[0].npaProps']";
 
     //поля для обязательных требований
-    String nameOrganizationFieldDropDown = "//form/div[2]/div[2]/div[1]/div/div[1]"; // выпадающий список Организация
-    String typeOrganizationFieldDropDown = "//form/div[3]/div[2]/div[1]/div/div[1]"; //Выпадающий список Вид государственного контроля (надзора)
-    String addRequirements = "//form/div[4]/button"; // кнопка Добавить требования
-    String addSecurityQuestion = "//form/div[4]/button"; // кнопка Добавить контрольные вопросы
-    String formulationField = "//*[@name='requirements[0].props']";//формулировка обязательного требования
+    String addMandatoryRequirementsButton = "//*[@id='userRequirementsAddButton']"; // Кнопка Добавить в шаблонах обязательных требований
+    String nameOrganizationFieldDropDown = "//*[@id='organisation']"; // выпадающий список Организация
+    String typeOrganizationFieldDropDown = "//*[@id='supervisionType']"; //Выпадающий список Вид государственного контроля (надзора)
+    String addRequirements = "//*[@id='requirementsAddButton']"; // кнопка Добавить требования
+    String addSecurityQuestion = "//*[@id='questionAddButton']"; // кнопка Добавить контрольные вопросы
+    String formulationField = "//*[@name='requirements[0].props']"; //формулировка обязательного требования
     String nameNPAField = "//*[@name='requirements[0].name']"; // наименование НПА
     String numberNPAField = "//*[@name='requirements[0].number']"; // номер НПА
-    String dateNPAField = "//*[contains(@class,'DatePicker_Input_')]";//Дата НПА
+    String dateNPAField = "//*[contains(@class,'DatePicker_Input_')]"; //Дата НПА TODO должен быть идентификатор
 
 
     /**
@@ -52,14 +55,6 @@ public class PersonalAccountPage extends Common {
     public void clickPersonalAccount() {
         $(By.xpath(menuButton)).click();
         $(By.xpath(personalAccount)).click();
-    }
-
-    /**
-     * Скролл по странице в начало
-     */
-    @Step("Скролл по странице в начало")
-    public void scrollTopHtml() {
-        $(By.xpath("//h1[contains(@class, 'PersonalAccount_Header')]")).scrollIntoView(false);
     }
 
     /**
@@ -75,7 +70,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Переход в раздел Уполномоченные на проведение КНМ")
     public void goToAuthorizedToConductMenu() {
-        clickToText(authorizedToConduct);
+        $(By.xpath(authorizedToConduct)).click();
     }
 
     /**
@@ -83,7 +78,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Переход в раздел Проверочные листы")
     public void goToCheckSheetsMenu() {
-        clickToText(checkSheets);
+        $(By.xpath(checkSheets)).click();
     }
 
     /**
@@ -91,7 +86,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Переход в раздел Обязательные требования")
     public void goToMandatoryRequirementsMenu() {
-        clickToText(mandatoryRequirements);
+        $(By.xpath(mandatoryRequirementsButton)).click();
     }
 
     /**
@@ -258,7 +253,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
     public void checkRepresentatives(String name) {
-        $(By.xpath("//*[@value='" + name + "']")).shouldBe(com.codeborne.selenide.Condition.visible);
+        $(By.xpath(String.format("//*[@value='%s']", name))).shouldBe(com.codeborne.selenide.Condition.visible);
     }
 
     /**
@@ -267,10 +262,34 @@ public class PersonalAccountPage extends Common {
      * @param name Название КНО
      */
     @Step("Выбор организации по умолчанию - {name}")
-    public void setOrganization(String name){
-        clickToText(commonInformation);
+    public void setOrganization(String name) {
+        $(By.xpath(commonInformation)).click();
         $(By.xpath(String.format("//label[contains(text(), '%s')]", name))).click();
         clickSaveButton();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в Шаблонах обязательных требований
+     */
+    @Step("Нажатие на кнопку Добавить в Шаблонах обязательных требований")
+    public void clickAddMandatoryRequirementsButton() {
+        $(By.xpath(addMandatoryRequirementsButton)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в Шаблонах проверочных листов
+     */
+    @Step("Нажатие на кнопку Добавить в Шаблонах проверочных листов")
+    public void clickCheckListsAddButton() {
+        $(By.xpath(checkListsAddButton)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в Уполномоченных на проведение КНМ
+     */
+    @Step("Нажатие на кнопку Добавить в Уполномоченных на проведение КНМ")
+    public void clickAuthorizedToConductAddButton() {
+        $(By.xpath(authorizedToConductAddButton)).click();
     }
 
 }

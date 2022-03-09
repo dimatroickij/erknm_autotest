@@ -21,14 +21,7 @@ public class NewsERPTest extends NewsPage {
         choiceERP();
         goToManagementNews();
         System.out.println("Идентификатор " + prefixNews);
-        clickAddNewsButton();
-        setTypeNewsField(typeItemNews);
-        setVisibleNewsDropDown(visibleNewsItemProsecutor);
-        setTitleNewsField(prefixNews + titleNews);
-        setShortTextNewsField(prefixNews + shortTextNews);
-        setTextNewsField(prefixNews + textNews);
-        setDataPublicationField(currentDate);
-        clickSaveNewsButton();
+        addNews(typeItemNews, visibleNewsItemProsecutor, prefixNews + titleNews, prefixNews + shortTextNews, prefixNews + textNews, currentDate);
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();
         authorization("prosecutor");
@@ -63,8 +56,8 @@ public class NewsERPTest extends NewsPage {
         setTitleNewsField(prefixNews + titleNews);
         setShortTextNewsField(prefixNews + shortTextNews);
         setTextNewsField(prefixNews + textNews);
-        clickSaveNewsButton();
-        clickApplyWithPublicationsNewsButton();
+        clickSaveButton();
+        clickApplyButton();
         clickBackButton();
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         searchNewsInTableAdmin(lastTitleNewsField, false);

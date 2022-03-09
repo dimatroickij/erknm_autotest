@@ -27,7 +27,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         scrollTopHtml();
         goToMandatoryRequirementsMenu();
         clickToTemplateRecord();
-        clickAddButton();
+        clickAddMandatoryRequirementsButton();
         templateMandatoryRequirements = prefix + "авто Наименование";
         setTemplateNameField(templateMandatoryRequirements);
         setNameOrganizationFieldDropDown(nameKNO);
@@ -57,7 +57,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         scrollTopHtml();
         goToCheckSheetsMenu();
         clickToTemplateRecord();
-        clickAddButton();
+        clickCheckListsAddButton();
         templateSheets = prefix + "авто Наименование";
         setTemplateNameField(templateSheets);
         setNameOrganizationFieldDropDown(nameKNO);
@@ -86,7 +86,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         setOrganization(nameKNO);
         scrollTopHtml();
         goToAuthorizedToConductMenu();
-        clickAddButton();
+        clickAuthorizedToConductAddButton();
         resresentative = prefix + "авто ФИО";
         setNameField(resresentative);
         setPositionField(prefix + "авто Должность");

@@ -53,8 +53,8 @@ public class NewsTest extends NewsPage {
         setTitleNewsField(prefix + "автотест Заголовок");
         setShortTextNewsField(prefix + "автотест Краткий текст новости");
         setTextNewsField(prefix + "автотест Текст новости");
-        clickSaveNewsButton();
-        clickApplyWithPublicationsNewsButton();
+        clickSaveButton();
+        clickApplyButton();
         clickBackButton();
         searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
         searchNewsInTableAdmin(lastTitleNewsField, false);

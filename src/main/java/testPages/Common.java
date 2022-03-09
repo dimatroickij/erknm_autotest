@@ -29,14 +29,18 @@ public class Common {
     public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";
 
 
-    String messageButton = "//button[contains(@class, 'CheckNotificationModal_Button')]"; //кнопка на временной форме с информацией
-    public String exitButton = "//*[text()= 'Выйти']";
+    String messageButton = "//div[contains(@class, 'CheckNotificationModal')]//button"; //кнопка на временной форме с информацией
+    public String exitButton = "//*[@id='logoutButton']";
+
+    public String applyButton = "//*[@id='confirmButton']"; // Кнопка Применить
+    public String backButton = "//button[text()='Назад']"; // TODO должен быть идентификатор
 
     //режимы ЕРКНМ и ЕРП
     public String modeERKNM = "//*[text()='ЕРКНМ']";
     public String modeERP = "//*[text()='ЕРП']";
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
+    public String codeKNO = "10000001127";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
@@ -55,14 +59,14 @@ public class Common {
 
     //Основное меню (на всех страницах)
     public String listEvents = "Список КНМ";
-    public String listEventsERP = "Список проверок";
+    public String listEventsERP = "//*[@id='/private/knms']/a"; // Список проверок
     public String listPreventionEvents = "Список ПМ";
     public String listPlans = "Список планов";
     public String importExport = "Импорт/Экспорт";
     public String matchResolution = "Разрешение совпадений";
     public String searchEvents = "Поиск мероприятий";
-    public String searchEventsERP = "Поиск проверок";
-    public String news = "Новости";
+    public String searchEventsERP = "//*[@id='/private/search']/a"; // Поиск проверок
+    public String news = "//*[@id='/private/news']/a";
     public String reports = "Отчеты";
     public String feedback = "Обратная связь";
 
@@ -121,10 +125,10 @@ public class Common {
     String enterButton = "//*[@type='submit']"; //кнопка Войти
 
     String searchField = "//*[@name='searchString']"; //поле Поиска
-    String searchButton = "//button[text()='Искать']"; //кнопка Искать
-    String addButton = "//*[text()='Добавить']"; //кнопка Добавить
+    String searchButton = "//*[@id='searchButton']"; //кнопка Искать
+    String addButton = "//*[@id='addButton']"; //кнопка Добавить
     String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне
-    String saveButton = "//*[text()='Сохранить']"; //кнопка Сохранить
+    String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[text()='Создать']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     //String actionsButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
@@ -144,7 +148,7 @@ public class Common {
 
     public String INN = "1215212198";
 
-    public String menuButton = "//header/div/div[last()]//button";
+    public String menuButton = "//*[@id='userMenuButton']";
     public static String currentDate = "";
     public static String currentDateTime = "";
     public static String futureDate = "";
@@ -259,7 +263,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Искать")
     public void clickSearchButton() {
-        $(By.xpath(searchButton)).shouldHave(text("Искать")).click();
+        $(By.xpath(searchButton)).click();
     }
 
     /**
@@ -309,7 +313,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Добавить")
     public void clickAddButton() {
-        $(By.xpath(addButton)).shouldHave(Condition.text("Добавить")).click();
+        $(By.xpath(addButton)).click();
     }
 
     /**
@@ -317,7 +321,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Сохранить")
     public void clickSaveButton() {
-        $(By.xpath(saveButton)).shouldHave(text("Сохранить")).click();
+        $(By.xpath(saveButton)).click();
     }
 
     /**
@@ -332,9 +336,9 @@ public class Common {
     /**
      * Переход в список КНМ в режиме ЕРП
      */
+    @Step("Переход в список КНМ в режиме ЕРП")
     public void gotoERPListKNMPage() {
-        // $(By.xpath(tests.listEvents)).shouldHave(text("Список КНМ")).click();
-        clickToText(listEventsERP);
+        $(By.xpath(listEventsERP)).click();
     }
 
     /**
@@ -367,16 +371,16 @@ public class Common {
     /**
      * Переход в новости
      */
-    @Step("Переход в новости")
+    @Step("Переход в раздел Новости")
     public void gotoNewsPage() {
-        clickToText(news);
+        $(By.xpath(news)).click();
     }
 
     /**
      * Переход в Поиск проверок, режим ЕРП
      */
     public void gotoSearchEvents() {
-        clickToText(searchEventsERP);
+        $(By.xpath(searchEventsERP)).click();
     }
 
 
@@ -519,6 +523,31 @@ public class Common {
     @Step("Выбор значения из выпадающего списка по тексту {text}")
     public void setValueDropDownToText(String text) {
         $(By.xpath(String.format(selectValueByText, text))).click();
+    }
+
+    /**
+     * Клик по кнопке Применить
+     */
+    @Step("Клик по кнопке Применить")
+    public void clickApplyButton() {
+        $(By.xpath(applyButton)).click();
+    }
+
+    /**
+     * Клик по кнопке Назад
+     */
+    @Step("Клик по кнопке Назад")
+    public void clickBackButton() {
+        $(By.xpath(backButton)).click();
+    }
+
+
+    /**
+     * Скролл по странице в начало
+     */
+    @Step("Скролл по странице в начало")
+    public void scrollTopHtml() {
+        $(By.xpath("//h1[contains(@class, 'PersonalAccount_Header')]")).scrollIntoView(false);
     }
 }
 
