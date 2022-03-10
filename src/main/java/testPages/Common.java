@@ -1,6 +1,5 @@
 package testPages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
@@ -127,19 +126,19 @@ public class Common {
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//*[@id='searchButton']"; //кнопка Искать
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
-    String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне
+    String modalSaveButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
+    String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
     String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[text()='Создать']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
-    //String actionsButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    String actionsOnCardButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div"; //кнопка для открытия выпадающего списка Действия на карточке
-    String actionsButton = "//*[@id=\"root\"]/div/header/div/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    public String deleteButton = "//button[text()='Удалить']";
-    public String confirmDeleteButton = "//*[contains(@class,'ConfirmModal_ApplyButton')]";
-    public String signatureButton = "//button[text()='Подписать']";
+    String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
+    String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке
+    public String deleteButton = "//*[@id='deleteButton']";
+    public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
+    public String confirmDeleteButton = "//*[@id='confirmButton']";
+    public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
     public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
-    String modalDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список в модальном окне
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -266,21 +265,7 @@ public class Common {
         $(By.xpath(searchButton)).click();
     }
 
-    /**
-     * Нажатие на выпадающий список в модальном окне
-     */
-    @Step("Нажатие на выпадающий список в модальном окне")
-    public void clickModalDropDown() {
-        $(By.xpath(modalDropDown)).click();
-    }
 
-    /**
-     * Нажатие на кнопку Добавить в модальном окне
-     */
-    @Step("Нажатие на кнопку Добавить в модальном окне")
-    public void clickModalAddButton() {
-        $(By.xpath(modalAddButton)).click();
-    }
 
     /**
      * Поиск
@@ -467,8 +452,8 @@ public class Common {
      */
     @Step("Нажатие на кнопку Действия на карточке")
     public void clickActionsOnCardButton() {
-
-        $(By.xpath(actionsOnCardButton)).scrollTo().click();
+        $(By.xpath("//div[@id='root']")).scrollIntoView(false);
+        $(By.xpath(actionsOnCardButton)).click();
     }
 
     /**
@@ -477,6 +462,14 @@ public class Common {
     @Step("Нажатие на кнопку Удалить")
     public void clickDeleteButton() {
         $(By.xpath(deleteButton)).shouldBe(visible).click();
+    }
+
+    /**
+     * Нажатие на кнопку Удалить в карточке КНМ
+     */
+    @Step("Нажатие на кнопку Удалить в карточке КНМ")
+    public void clickDeleteOnCardButton() {
+        $(By.xpath(deleteOnCardButton)).scrollTo().shouldBe(visible).click();
     }
 
     /**
@@ -548,6 +541,22 @@ public class Common {
     @Step("Скролл по странице в начало")
     public void scrollTopHtml() {
         $(By.xpath("//h1[contains(@class, 'PersonalAccount_Header')]")).scrollIntoView(false);
+    }
+
+    /**
+     * Нажатие на кнопку Сохранить в модальном окне
+     */
+    @Step("Нажатие на кнопку Сохранить в модальном окне")
+    public void clickModalSaveButton() {
+        $(By.xpath(modalSaveButton)).click();
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в модальном окне
+     */
+    @Step("Нажатие на кнопку Добавить в модальном окне")
+    public void clickAddModalButton() {
+        $(By.xpath(modalAddButton)).click();
     }
 }
 

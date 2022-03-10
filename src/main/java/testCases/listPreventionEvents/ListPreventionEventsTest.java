@@ -178,7 +178,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
        // gotoListPreventionEventsPage();
        // openCard(numberPM);
        // switchTo().window(1);
-        clickActionsOnCardButton();
+        clickActionButton();
         clickDeleteButton();
         checkObject("Удалено");
         gotoListPreventionEventsPage();

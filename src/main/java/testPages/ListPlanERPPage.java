@@ -196,7 +196,7 @@ public class ListPlanERPPage extends Common {
         clickPlanCellMenuButton(numberPlan);
         $(By.xpath(addKNMtoPlanButton)).click();
         $(By.xpath(numberKNMField)).setValue(numberKNM);
-        clickModalAddButton();
+        clickModalSaveButton();
         $(By.xpath(notificationText)).should(Condition.text("КНМ успешно добавлено к плану"));
     }
 

@@ -108,12 +108,12 @@ public class ListEventsERPTest extends ListEventsERPPage {
         String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
         calendar.add(Calendar.DAY_OF_MONTH, 3);
         String stopDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
-        String deleteKNMNumber = createUnscheduledEvent(currentDate, startDate, stopDate, groundRegistration,
-                false, false, true, true);
+        String deleteKNMNumber = "772200008800";//createUnscheduledEvent(currentDate, startDate, stopDate, groundRegistration,
+                //false, false, true, true);
         gotoERPListKNMPage();
         openCard(deleteKNMNumber);
-        clickActionsButton();
-        clickDeleteButton();
+        clickActionsOnCardButton();
+        clickDeleteOnCardButton();
         closeNotification();
         gotoERPListKNMPage();
         setSearchField(deleteKNMNumber);

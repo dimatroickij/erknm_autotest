@@ -8,66 +8,65 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-    String viewKNMDropDown = "//div[@id='typeBlock']/div[2]"; //выпадающий список Вид КНМ
-    String formKMNDropDown = "//div[@id='kindBlock']/div[2]"; //Выпадающий список Форма КНМ
-    String typeSubjectDropDown = "//div[@id='subjectTypeBlock']/div[2]"; // Выпадающий список Тип субъекта КНМ
+    String viewKNMDropDown = "//*[@id='type']"; //выпадающий список Вид КНМ
+    String formKMNDropDown = "//*[@id='kind']"; //Выпадающий список Форма КНМ
+    String typeSubjectDropDown = "//*[@id='subjectType']"; // Выпадающий список Тип субъекта КНМ
     String numberOrdersField = "//*[@name='orderNumber']"; //поле Номер приказа
-    String dateOrdersField = "//*[@id='orderDateBlock']//input"; // поле Дата приказа
-    String dateStartKNMField = "//*[@id='startDateBlock']//input"; //поле Дата начала КНМ
-    String dateStopKNMField = "//*[@id='stopDateBlock']//input"; //поле Дата окончания КНМ
-    String monthKNMDropDown = "//*[@id='monthBlock']//div[2]"; // Выпадающий список Месяц проведения КНМ
+    String dateOrdersField = "//*[@id='orderDateBlock']//input"; // поле Дата приказа TODO Должен быть идентификатор
+    String dateStartKNMField = "//*[@id='startDateBlock']//input"; //поле Дата начала КНМ TODO Должен быть идентификатор
+    String dateStopKNMField = "//*[@id='stopDateBlock']//input"; //поле Дата окончания КНМ TODO Должен быть идентификатор
+    String monthKNMDropDown = "//*[@id='monthBlock']//div[2]"; // Выпадающий список Месяц проведения КНМ TODO Должен быть идентификатор
 
-    String addLegalGroundsConductingButton = "//*[@id='legalBasesTitle']//button"; //кнопка Добавить в разделе Правовые основания проведения КНМ
+    String addLegalGroundsConductingButton = "//*[@id='legalBasesTitle']//button"; //кнопка Добавить в разделе Правовые основания проведения КНМ TODO Должен быть идентификатор
     String absenceDirectoryRadioButton = "//*[@id='legalBasesNotExist']"; //радиобатон Отсутствует в справочнике
-    String LegalGroundsConductingField = "//textarea[@name='notExistLegalBasisText']"; // поле для ввода в разделе Выберите нормативно-правовые акты
+    String LegalGroundsConductingField = "//*[@name='notExistLegalBasisText']"; // поле для ввода в разделе Выберите нормативно-правовые акты
     String goalsTasksSubjectField = "//*[@name='inspectionTarget']"; // текстовое поле Цели, задачи, предмет КНМ
     String durationEventDaysField = "//*[@id='durationDays']"; //поле Срок проведения (дней)
     String durationEventHoursField = "//*[@id='durationHours']";//поле Срок проведения (часов)
 
-    String addListControlMeasuresButton = "//*[@id='eventsBlock']//button"; // кнопка Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
+    String addListControlMeasuresButton = "//*[@id='knmErpEventsAddButton']"; // кнопка Добавить в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
     String listControlMeasuresField = "//textarea[@name='events[0].name']"; // поле для ввода в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
 
-    String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']//button"; // кнопка Добавить в разделе Основания регистрации  КНМ
-    String groundRegistrationDropDown = "//*[@id ='reasonsTitleBlock']//div[contains(@class, 'SelectInput_SelectInput')]"; //выпадающий список Основание регистрации КНМ
+    String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']//button"; // кнопка Добавить в разделе Основания регистрации  КНМ TODO должен быть идентификатор
+    String groundRegistrationDropDown = "//*[@id ='reasons[0].type']"; //выпадающий список Основание регистрации КНМ
     public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
 
-    String nameKNODropDown = "//div[@id='knoOrganizationBlock']/div[2]"; //выпадающий список Наименование органа контроля
-    String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора)
+    String nameKNODropDown = "//div[@id='knoOrganizationBlock']/div[2]"; //выпадающий список Наименование органа контроля TODO должен быть идентификатор
+    String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора) TODO должен быть идентификатор
 
     String innField = "//*[@id='inn']"; //ИНН
     String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
 
     String namePersonCheckField = "//*[@name='organizationName']"; // Наименование проверяемого лица
 
-    String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования
+    String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования TODO должен быть идентификатор
 
-    String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы
+    String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы TODO должен быть идентификатор
+    String modalTemplateDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
 
-    String templateSheetsObjectDropDown = "//li[contains(@id, 'checklists')]//div[contains(@class, 'KnmCollapse_Body')]/div[3]/div[2]";
+    String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[3]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы
 
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ
-    String knmListCell = "//td[contains(@class, 'KnmListTable_ErpIdCell')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
+    String knmListCell = "//td[contains(@class, 'KnmListTable_CellErpId')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
-    String deleteObjectButton = "//button[contains(@class, 'KnmCollapse_DeleteButton')]";
+    String deleteObjectButton = "//button[contains(@class, 'KnmCollapse_DeleteButton')]"; // крестик у блока Объект в разделе Объекты проведения КНМ TODO должен быть идентификатор
     String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ"
-    String addressField = "//textarea[@name='objects[0].addressText']"; // поле Местоположение в блоке Объекты проведения КНМ
+    String addressField = "//*[@name='objects[0].addressText']"; // поле Местоположение в блоке Объекты проведения КНМ
     String addressTypeDropDown = "//*[@id='objects[0].addressType']"; // Выпадающий список Тип места в блоке Объекты проведения КНМ
     String typeObjectDropDown = "//*[@id='objects[0].objectType']"; // Выпадающий список Тип объекта проведения в блоке Объекты проведения КНМ
     String riskCategoryDropDown = "//*[@id='objects[0].riskCategory']"; // Выпадающий список Категория риска в блоке Объекты проведения КНМ
 
-    String listResultButton = "//*[@id='results']/div[1]//button"; // кнопка Добавить в блоке Список результатов
-    String objectKNMDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[1]/div[1]/div[2]"; // Объект проведения КНМ в блоке Список результатов
-    String dateTimeActField = "//div[contains(@id, 'objectsResults')]/div[2]/div[2]/div[1]/div[2]//input"; // Дата и время составления акта о проведении КНМ в блоке Список результатов
-    String resultAddressField = "//textarea[@name='objectsResults[0].actAddress']"; // Место составления акта о проведении КНМ в блоке Список результатов
-    String resultAddressTypeDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[4]/div[1]/div[2]/div[1]"; // Тип места в блоке Список результатов
-    String dateTimeKNMField = "//div[contains(@id, 'objectsResults')]/div[2]/div[5]/div[1]/div[2]//input"; // Дата и время проведения КНМ в блоке Список результатов
+    String listResultButton = "//*[@id='results']/div[1]//button"; // кнопка Добавить в блоке Список результатов TODO должен быть идентификатор
+    String objectKNMDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[1]/div[1]/div[2]"; // Объект проведения КНМ в блоке Список результатов TODO должен быть идентификатор
+    String dateTimeActField = "//div[contains(@id, 'objectsResults')]/div[2]/div[2]/div[1]/div[2]//input"; // Дата и время составления акта о проведении КНМ в блоке Список результатов TODO должен быть идентификатор
+    String resultAddressField = "//*[@name='objectsResults[0].actAddress']"; // Место составления акта о проведении КНМ в блоке Список результатов
+    String resultAddressTypeDropDown = "//div[contains(@id, 'objectsResults')]/div[2]/div[4]/div[1]/div[2]/div[1]"; // Тип места в блоке Список результатов TODO должен быть идентификатор
+    String dateTimeKNMField = "//div[contains(@id, 'objectsResults')]/div[2]/div[5]/div[1]/div[2]//input"; // Дата и время проведения КНМ в блоке Список результатов TODO должен быть идентификатор
 
-    String addInspectorsButton = "//div[@id='inspectorsTitle']//button";
-    String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного
-
-    String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
+    String addInspectorsButton = "//div[@id='inspectorsTitle']//button"; // Кнопка Добавить в блоке Уполномоченные на проведение проверки TODO должен быть идентификатор
+    String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного TODO должен быть идентификатор
 
     // Значения переменных для создания проверки
     public String numberOrders = "122345"; // Номер приказа
@@ -290,13 +289,13 @@ public class ListEventsERPPage extends Common {
     @Step("Заполнение блока Обязательные требования, подлежащие проверке")
     public void setMandatoryRequirementsDropDown(boolean addedTest) {
         $(By.xpath(addMandatoryRequirementsButton)).scrollIntoView(false).click(); // Нажатие на кнопку Добавить в блоке Обязательные требования, подлежащие проверки
-        clickModalDropDown(); // Открытие выпадающего списка ОТ
+        clickModalTemplateDropDown(); // Открытие выпадающего списка ОТ
         if (addedTest)
             setValueDropDownToText(templateMandatoryRequirements);
         else {
             setValueDropDownToNumber(1);
         }
-        clickModalAddButton();
+        clickAddModalButton();
     }
 
     /**
@@ -306,6 +305,7 @@ public class ListEventsERPPage extends Common {
      * @param exist  Должна ли найтись проверка с указанным статусом
      * @param status Наименование статуса, на который нужно провести проверку
      */
+    // TODO Может не работать
     @Step("Проверка существования КНМ на странице Список проверок - {knm}, {status}, {exist}")
     public void checkKNM(String knm, String status, boolean exist) {
         if (exist)
@@ -452,14 +452,6 @@ public class ListEventsERPPage extends Common {
     }
 
     /**
-     * Нажатие на кнопку Действия на странице КНМ
-     */
-    @Step("Нажатие на кнопку Действия на странице КНМ")
-    public void clickActionsButton() {
-        $(By.xpath(actionButton)).click();
-    }
-
-    /**
      * Создание внеплановой проверки
      *
      * @param dateOrders              Дата приказа
@@ -487,7 +479,7 @@ public class ListEventsERPPage extends Common {
         clickAddLegalGroundsConductingButton();
         clickAbsenceDirectoryRadioButton();
         setLegalGroundsConductingField(legalGroundsConducting);
-        clickModalAddButton();
+        clickModalSaveButton();
         setGoalsTasksSubjectField(goalsTasksSubject);
         setDurationEventDaysField(durationEventDays);
         setDurationEventHoursField(durationEventHours);
@@ -562,14 +554,14 @@ public class ListEventsERPPage extends Common {
     @Step("Заполнение блока Проверочные листы {addedTest}")
     public void setTemplateSheetsDropDown(boolean addedTest) {
         $(By.xpath(addTemplateSheetsButton)).scrollIntoView(false).click();
-        clickModalDropDown();
+        clickModalTemplateDropDown();
         if (addedTest)
             setValueDropDownToText(templateSheets);
         else
             setValueDropDownToNumber(1);
-        clickModalAddButton();
+        clickAddModalButton();
         $(By.xpath(templateSheetsObjectDropDown)).click();
-        $(By.xpath(String.format(selectValueByNumber, 1))).click();
+        setValueDropDownToNumber(1);
     }
 
     /**
@@ -590,5 +582,13 @@ public class ListEventsERPPage extends Common {
         }
         setTypeObjectDropDown(branch);
         setRiskCategoryDropDown(righRisk);
+    }
+
+    /**
+     * Нажатие на выпадающий список в модальном окне Добавление обязательного требования и Добавление проверочных листов
+     */
+    @Step("Нажатие на выпадающий список в модальном окне Добавление обязательного требования и Добавление проверочных листов")
+    public void clickModalTemplateDropDown() {
+        $(By.xpath(modalTemplateDropDown)).click();
     }
 }
