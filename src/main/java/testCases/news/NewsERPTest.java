@@ -57,7 +57,7 @@ public class NewsERPTest extends NewsPage {
         setShortTextNewsField(prefixNews + shortTextNews);
         setTextNewsField(prefixNews + textNews);
         clickSaveButton();
-        clickApplyButton();
+        clickConfirmButton();
         clickBackButton();
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         searchNewsInTableAdmin(lastTitleNewsField, false);

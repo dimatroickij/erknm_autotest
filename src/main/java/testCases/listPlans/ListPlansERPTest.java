@@ -72,7 +72,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         System.out.println("Номер удалённого плана " + numberPlan);
         clickPlanCheckBox(deletedNumberPlan);
         clickDeleteButton();
-        clickConfirmationDeleteButton();
+        clickConfirmButton();
         closeNotification();
         searchPlan(deletedNumberPlan, false);
         closeNotification();

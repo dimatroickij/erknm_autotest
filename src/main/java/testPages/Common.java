@@ -31,7 +31,7 @@ public class Common {
     String messageButton = "//div[contains(@class, 'CheckNotificationModal')]//button"; //кнопка на временной форме с информацией
     public String exitButton = "//*[@id='logoutButton']";
 
-    public String applyButton = "//*[@id='confirmButton']"; // Кнопка Применить
+    public String confirmButton = "//*[@id='confirmButton']"; // Кнопка Применить
     public String backButton = "//button[text()='Назад']"; // TODO должен быть идентификатор
 
     //режимы ЕРКНМ и ЕРП
@@ -60,7 +60,7 @@ public class Common {
     public String listEvents = "Список КНМ";
     public String listEventsERP = "//*[@id='/private/knms']/a"; // Список проверок
     public String listPreventionEvents = "Список ПМ";
-    public String listPlans = "Список планов";
+    public String listPlans = "//*[@id='/private/templates']"; // Список планов
     public String importExport = "Импорт/Экспорт";
     public String matchResolution = "Разрешение совпадений";
     public String searchEvents = "Поиск мероприятий";
@@ -129,13 +129,12 @@ public class Common {
     String modalSaveButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
     String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
     String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
-    String createButton = "//*[text()='Создать']"; //кнопка Создать
+    String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
     String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке
     public String deleteButton = "//*[@id='deleteButton']";
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
-    public String confirmDeleteButton = "//*[@id='confirmButton']";
     public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
     public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
@@ -340,8 +339,7 @@ public class Common {
      */
     @Step("Переход в список планов")
     public void gotoListPlansPage() {
-        // $(By.xpath(tests.listPlans)).shouldHave(text("Список планов")).click();
-        clickToText(listPlans);
+        $(By.xpath(listPlans)).click();
     }
 
     /**
@@ -481,14 +479,6 @@ public class Common {
     }
 
     /**
-     * Нажатие на кнопку УДалить на форме подтверждения удаления
-     */
-    @Step("Нажатие на кнопку УДалить на форме подтверждения удаления")
-    public void clickConfirmDeleteButton() {
-        $(By.xpath(confirmDeleteButton)).shouldBe(visible).click();
-    }
-
-    /**
      * Нажатие на кнопку Выйти
      */
     @Step("Нажатие на кнопку Выйти")
@@ -519,11 +509,11 @@ public class Common {
     }
 
     /**
-     * Клик по кнопке Применить
+     * Клик по кнопке Применить или Удалить в модальном окне при подтверждении действия
      */
-    @Step("Клик по кнопке Применить")
-    public void clickApplyButton() {
-        $(By.xpath(applyButton)).click();
+    @Step("Клик по кнопке Применить или Удалить в модальном окне при подтверждении действия")
+    public void clickConfirmButton() {
+        $(By.xpath(confirmButton)).click();
     }
 
     /**
