@@ -126,7 +126,7 @@ public class Common {
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//*[@id='searchButton']"; //кнопка Искать
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
-    String modalSaveButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
+    String modalSaveButton = "//div[contains(@class, 'ModalActions_Container')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
     String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
     String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[@id='createButton']"; //кнопка Создать
@@ -523,7 +523,6 @@ public class Common {
     public void clickBackButton() {
         $(By.xpath(backButton)).click();
     }
-
 
     /**
      * Скролл по странице в начало

@@ -5,25 +5,25 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.refresh;
 
 public class ListPlanERPPage extends Common {
 
     public String controlAuthorityDropDown = "//*[@id='kno']"; // Выпадающий список Орган контроля
     public String prosecutorOfficeDropDown = "//*[@id='prosecutor']"; // Выпадающий список Орган прокуратуры
     public String typePlanDropDown = "//*[@id='type']"; // Выпадающий список Тип плана КНМ
-    public String selectValue = "//div[contains(@class, 'select-field__option') and text()='%s']"; // Локатор для выбора определенного значения в выпадающем списке
-    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания
+    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
 
     public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
-    public String planStatusText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellStatus')]"; // Ячейка со статусом плана
-    public String planCountKNMText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellKnmAmount')]"; // Ячейка с количеством провеерок в плане
+    public String planStatusText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellStatus')]"; // Ячейка со статусом плана TODO Должен быть идентификатор
+    public String planCountKNMText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellKnmAmount')]"; // Ячейка с количеством провеерок в плане TODO Должен быть идентификатор
 
-    public String planCellMenuButton = "//*[@id='%s']/../../../../..//td[contains(@class, 'Table_MenuTBody')]//button"; // Кнопка - гамбургер у плана
-    public String addKNMtoPlanButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[1]"; // Кнопка Добавить существующее КНМ в меню - гамбургере
-    public String changeStatusButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[2]"; // Кнопка Изменить статус в меню - гамбургере
-    public String statusButton = "//ul[contains(@class, 'Dropdown_Menu')]//ul//button[text()='%s']"; // Кнопка с названием статуса плана из меню - гамбургера
-    public String numberKNMField = "//div[contains(@class, 'AddKnmModal_InputBlock')]//input"; // Поле Введите учетный номер КНМ в модальном окне Добавление КНМ в план
-    public String notificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]"; // Текст уведомления об успешном добавлении КНМ
+    public String planCellMenuButton = "//*[@id='%s']/../../../../..//td[contains(@class, 'Table_MenuTBody')]//button"; // Кнопка - гамбургер у плана TODO Должен быть идентификатор
+    public String addKNMtoPlanButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[1]"; // Кнопка Добавить существующее КНМ в меню - гамбургере TODO Должен быть идентификатор
+    public String changeStatusButton = "//ul[contains(@class, 'Dropdown_Menu')]/li[2]"; // Кнопка Изменить статус в меню - гамбургере TODO Должен быть идентификатор
+    public String statusButton = "//ul[contains(@class, 'Dropdown_Menu')]//ul//button[text()='%s']"; // Кнопка с названием статуса плана из меню - гамбургера TODO Должен быть идентификатор
+    public String numberKNMField = "//div[contains(@class, 'AddKnmModal_InputBlock')]//input"; // Поле Введите учетный номер КНМ в модальном окне Добавление КНМ в план TODO Должен быть идентификатор
+    public String notificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]"; // Текст уведомления об успешном добавлении КНМ TODO Должен быть идентификатор
 
     public String prosecutorsOffice = "Генеральная прокуратура Российской Федерации";
     public String summaryPlan294 = "Сводный 294ФЗ";
@@ -45,7 +45,7 @@ public class ListPlanERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Орган контроля {kno}")
     public void setControlAuthorityDropDown(String kno) {
         $(By.xpath(controlAuthorityDropDown)).click();
-        $(By.xpath(controlAuthorityDropDown + String.format(selectValue, kno))).click();
+        setValueDropDownToText(kno);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ListPlanERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Орган прокуратуры {prosecutor}")
     public void setProsecutorOfficeDropDown(String prosecutor) {
         $(By.xpath(prosecutorOfficeDropDown)).click();
-        $(By.xpath(prosecutorOfficeDropDown + String.format(selectValue, prosecutor))).click();
+        setValueDropDownToText(prosecutor);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ListPlanERPPage extends Common {
     @Step("Выбор значения в выпадающем списке Тип плана КНМ {type}")
     public void setTypePlanDropDown(String type) {
         $(By.xpath(typePlanDropDown)).click();
-        $(By.xpath(typePlanDropDown + String.format(selectValue, type))).click();
+        setValueDropDownToText(type);
     }
 
     /**
@@ -75,6 +75,7 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Создание плана КНМ")
     public String createPlan() {
+        refresh();
         clickAddButton();
         setControlAuthorityDropDown(nameKNO);
         setProsecutorOfficeDropDown(prosecutorsOffice);
