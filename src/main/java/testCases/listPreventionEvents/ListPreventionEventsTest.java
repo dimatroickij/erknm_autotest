@@ -1,11 +1,9 @@
 package testCases.listPreventionEvents;
 
 import com.codeborne.selenide.Selenide;
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.ListPreventionEventsPage;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -22,6 +20,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Создание ПМ, вид Объявление предостережения, статус В процессе заполнения
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=537
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавляем ПМ, вид Объявление предостережения (статус в процессе заполнения)")
@@ -46,15 +45,16 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Перевести Объявление предостережения в в статус Предостережение объявлено
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=538
+     *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
-       // openCard("77220660001100054411");
+        // openCard("77220660001100054411");
         openCard("77220660001100054495");
         switchTo().window(1);
         setStopDate(currentDate);
@@ -81,6 +81,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Перевести Объявление предостережения в статус Есть возражение
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=539
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
@@ -94,6 +95,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Создание ПМ, вид профилактический визит, статус В процессе заполнения
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=533
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "4 - Добавляем ПМ, вид профилактический визит (статус в процессе заполнения)")
@@ -119,12 +121,13 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Перевести Профилактический визит в статус Ожидает проведения
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=534
+     *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
+    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     public void transferPMEventPreventiveVisitStatusAwaitingTest() {
         authorization("supervisor");
-       //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
+        //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
         choiceERKNM();
         gotoListPreventionEventsPage();
         //openRequest(numberPM);
@@ -155,9 +158,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Перевести Профлактический визит в статус Завершено
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=535
+     *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods={"transferPMEventPreventiveVisitStatusAwaitingTest"})
+    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods = {"transferPMEventPreventiveVisitStatusAwaitingTest"})
     public void transferPMEventPreventiveVisitStatusCompletedTest() {
         //открываем КНМ созданную в тесте 1 ранее
         clickAddInformationResultPMButton();
@@ -169,15 +173,16 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     /**
      * Цель: Удаление ПМ
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3319
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "7 - Удаление ПМ")
     public void deletePMEventTest() {
         createPMEventWarningAnnouncementStatusProcessCompletionTest();
         closeNotification();
-       // gotoListPreventionEventsPage();
-       // openCard(numberPM);
-       // switchTo().window(1);
+        // gotoListPreventionEventsPage();
+        // openCard(numberPM);
+        // switchTo().window(1);
         clickActionButton();
         clickDeleteButton();
         checkObject("Удалено");

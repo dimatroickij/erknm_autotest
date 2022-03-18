@@ -46,6 +46,8 @@ public class PersonalAccountPage extends Common {
     String nameNPAField = "//*[@name='requirements[0].name']"; // наименование НПА
     String numberNPAField = "//*[@name='requirements[0].number']"; // номер НПА
     String dateNPAField = "//*[contains(@class,'DatePicker_Input_')]"; //Дата НПА TODO должен быть идентификатор
+    String recordLine = "//ul[contains(@class, 'TemplatesList')]//li[2]"; // Шаблон для выбора обязательного требования или проверочного листа из списка в личном кабинете TODO должен быть идентификатор
+    String defaultOrganizationLine = "//label[contains(text(), '%s')]"; // Строка с названием организации в списке доступных организаций TODO должен быть идентификатор
 
 
     /**
@@ -123,9 +125,9 @@ public class PersonalAccountPage extends Common {
     /**
      * Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовночти страницы к созданию новых записей)
      */
-    @Step("Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовночти страницы к созданию новых записей)")
+    @Step("Нажатие на вторую запись в списке обязательных требований и проверочных листов (проверка готовности страницы к созданию новых записей)")
     public void clickToTemplateRecord() {
-        $(By.xpath("//ul[contains(@class, 'TemplatesList')]//li[2]")).click();
+        $(By.xpath(recordLine)).click();
     }
 
     /**
@@ -253,7 +255,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
     public void checkRepresentatives(String name) {
-        $(By.xpath(String.format("//*[@value='%s']", name))).shouldBe(com.codeborne.selenide.Condition.visible);
+        $(By.xpath(String.format(defaultOrganizationLine, name))).shouldBe(Condition.visible);
     }
 
     /**
@@ -264,7 +266,7 @@ public class PersonalAccountPage extends Common {
     @Step("Выбор организации по умолчанию - {name}")
     public void setOrganization(String name) {
         $(By.xpath(commonInformation)).click();
-        $(By.xpath(String.format("//label[contains(text(), '%s')]", name))).click();
+        $(By.xpath(String.format(defaultOrganizationLine, name))).click();
         clickSaveButton();
     }
 

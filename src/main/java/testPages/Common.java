@@ -28,15 +28,15 @@ public class Common {
     public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";
 
 
-    String messageButton = "//div[contains(@class, 'CheckNotificationModal')]//button"; //кнопка на временной форме с информацией
+    String messageButton = "//div[contains(@class, 'CheckNotificationModal')]//button"; //кнопка на временной форме с информацией TODO должен быть идентификатор
     public String exitButton = "//*[@id='logoutButton']";
 
     public String confirmButton = "//*[@id='confirmButton']"; // Кнопка Применить
     public String backButton = "//button[text()='Назад']"; // TODO должен быть идентификатор
 
     //режимы ЕРКНМ и ЕРП
-    public String modeERKNM = "//*[text()='ЕРКНМ']";
-    public String modeERP = "//*[text()='ЕРП']";
+    public String modeERKNM = "//*[text()='ЕРКНМ']"; // TODO должен быть идентификатор
+    public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String codeKNO = "10000001127";
@@ -57,17 +57,17 @@ public class Common {
     public String loginWrongMessage = "Пользователь с таким именем не найден."; //сообщение при некорректной авторизации
 
     //Основное меню (на всех страницах)
-    public String listEvents = "Список КНМ";
+    public String listEvents = "//*[@id='/private/knms']/a"; // Список КНМ
     public String listEventsERP = "//*[@id='/private/knms']/a"; // Список проверок
-    public String listPreventionEvents = "Список ПМ";
-    public String listPlans = "//*[@id='/private/templates']"; // Список планов
-    public String importExport = "Импорт/Экспорт";
-    public String matchResolution = "Разрешение совпадений";
-    public String searchEvents = "Поиск мероприятий";
+    public String listPreventionEvents = "//*[@id='/private/preventions']/a"; // "Список ПМ";
+    public String listPlans = "//*[@id='/private/templates']/a"; // Список планов
+    public String importExport = "//*[@id='/private/import']/a"; // Импорт/Экспорт
+    public String matchResolution = "//*[@id='/private/similarities']/a"; // Разрешение совпадений
+    public String searchEvents = "//*[@id='/private/search']/a"; // Поиск мероприятий
     public String searchEventsERP = "//*[@id='/private/search']/a"; // Поиск проверок
-    public String news = "//*[@id='/private/news']/a";
-    public String reports = "Отчеты";
-    public String feedback = "Обратная связь";
+    public String news = "//*[@id='/private/news']/a"; // Новости
+    public String reports = "//*[@id='/private/reports']/a"; // Отчеты
+    public String feedback = "//*[@id='/private/feedback']/a"; // Обратная связь
 
     //Виды КНМ
     public String controlPurchase = "Контрольная закупка";
@@ -132,12 +132,12 @@ public class Common {
     String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
-    String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке
+    String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке TODO должен быть идентификатор
     public String deleteButton = "//*[@id='deleteButton']";
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
-    public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
+    public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -265,7 +265,6 @@ public class Common {
     }
 
 
-
     /**
      * Поиск
      *
@@ -313,8 +312,7 @@ public class Common {
      */
     @Step("Переход в список КНМ")
     public void gotoListKNMPage() {
-        // $(By.xpath(tests.listEvents)).shouldHave(text("Список КНМ")).click();
-        clickToText(listEvents);
+        $(By.xpath(listEvents)).click();
     }
 
     /**
@@ -330,8 +328,7 @@ public class Common {
      */
     @Step("Переход в список ПМ")
     public void gotoListPreventionEventsPage() {
-        // $(By.xpath(tests.listPreventionEvents)).shouldHave(text("Список ПМ")).click();
-        clickToText(listPreventionEvents);
+        $(By.xpath(listPreventionEvents)).click();
     }
 
     /**
@@ -347,8 +344,7 @@ public class Common {
      */
     @Step("Переход в отчеты")
     public void gotoReportsPage() {
-        //$(By.xpath(tests.reports)).shouldHave(text("Отчеты")).click();
-        clickToText(reports);
+        $(By.xpath(reports)).click();
     }
 
     /**

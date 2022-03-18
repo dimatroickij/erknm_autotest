@@ -13,23 +13,25 @@ import static com.codeborne.selenide.Selenide.refresh;
 
 public class NewsPage extends Common {
     // раздел Новости
-    public String managementNewsItemMenu = "//*[@id='/private/lk/news']/a";
-    public String typeNewsDropDown = "//*[@id='type']"; //выпадающий список Тип новости
+    public String managementNewsItemMenu = "//*[@id='/private/lk/news']/a"; // Кнопка перехода в раздел Управление новостями
+    public String typeNewsDropDown = "//*[@id='type']"; // Выпадающий список Тип новости
 
     public String typeItemAnnouncement = "//*[text()='Анонс']";
     public String typeItemSurvey = "//*[text()='Опрос']";
-    public String visibleNewsDropDown = "//form//div[@class='shared-row'][2]//*[contains(@class, 'SelectInput_SelectContainer')]"; //выпадающий список Для кого видна новость TODO Должен быть идентификатор
+    public String visibleNewsDropDown = "//form//div[@class='shared-row'][2]//*[contains(@class, 'SelectInput_SelectContainer')]"; // Выпадающий список Для кого видна новость TODO Должен быть идентификатор
     public String visibleNewsItemKNO = "//*[text()='Сотрудник КНО']";
 
     public String visibleNewsItemOmbudsmen = "//*[text()='Омбудсмен']";
     public String visibleNewsItemAdmin = "//*[text()='Администратор']";
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
-    public String titleField = "//*[@name='title']"; //поле Заголовок
-    public String shortTextField = "//*[@name='shortText']"; //поле Краткий текст новости
-    public String textNewsField = "//*[@role= 'textbox']//span[@data-offset-key='key-0-0']"; //поле Текст новости
-    public String dataPublicationField = "//form/div[7]//input"; //поле Дата публикации TODO Должен быть идентификатор
-    public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']"; // TODO Должен быть идентификатор
-    public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']"; // TODO Должен быть идентификатор
+    public String titleField = "//*[@name='title']"; // Поле Заголовок
+    public String shortTextField = "//*[@name='shortText']"; // Поле Краткий текст новости
+    public String textNewsField = "//*[@role= 'textbox']//span[@data-offset-key='key-0-0']"; // Поле Текст новости
+    public String dataPublicationField = "//form/div[7]//input"; // Поле Дата публикации TODO Должен быть идентификатор
+    public String saveWithPublicationsNewsButton = "//button[text()='Опубликовать']"; // Кнопка Опубликовать TODO Должен быть идентификатор
+    public String removeFromPublicationNewsButton = "//button[text()='Убрать из публикации']"; // Кнопка Убрать из публикации TODO Должен быть идентификатор
+    public String titleNewsOrStatusCell = "//*[contains(@class, 'NewsTable_Cell') and contains(string(), '%s')]"; // Шаблон для поиска ячейки с заголовком новости или статуса для роли Администратор TODO Должен быть идентификатор
+    public String titleNewsCell = "//*[contains(@class, 'NewsItem_Title_') and contains(string(), '%s')]"; // Шаблон для поиска новости по заголовку TODO Должен быть идентификатор
 
 
     // Переменные, которые будут использоваться совместно несколькими тестами
@@ -52,7 +54,7 @@ public class NewsPage extends Common {
      */
     @Step("Переход в редактирование случайной опубликованной новости")
     public void goToNews() {
-        $(By.xpath("//*[contains(@class, 'NewsTable_Cell') and contains(string(), 'Опубликована')]")).click();
+        $(By.xpath(String.format(titleNewsOrStatusCell, "Опубликована"))).click();
     }
 
     /**
@@ -62,7 +64,7 @@ public class NewsPage extends Common {
      */
     @Step("Переход в редактирование новости по префиксу - {prefix}")
     public void goToNews(String prefix) {
-        $(By.xpath(String.format("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '%s')]", prefix))).click();
+        $(By.xpath(String.format(titleNewsOrStatusCell, prefix))).click();
     }
 
     /**
@@ -164,7 +166,7 @@ public class NewsPage extends Common {
     @Step("Поиск новости - {news}, в таблице новостей у админа - {news}")
     public void searchNewsInTableAdmin(String news, boolean exist) {
         Condition condition = exist ? appear : not(appear);
-        $(By.xpath(String.format("//*[contains(@class, 'NewsTable_Cell') and contains(string(), '%s')]", news))).should(condition);
+        $(By.xpath(String.format(titleNewsOrStatusCell, news))).should(condition);
     }
 
     /**
@@ -176,7 +178,7 @@ public class NewsPage extends Common {
     @Step("Поиск новости - {news} в таблице новостей у Пользователя")
     public void searchNewsInTableUser(String news, boolean exist) {
         Condition condition = exist ? appear : not(appear);
-        $(By.xpath(String.format("//*[contains(@class, 'NewsItem_Title_') and contains(string(), '%s')]", news))).should(condition);
+        $(By.xpath(String.format(titleNewsCell, news))).should(condition);
     }
 
     /**
