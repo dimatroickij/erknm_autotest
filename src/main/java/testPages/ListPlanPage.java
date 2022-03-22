@@ -9,9 +9,53 @@ public class ListPlanPage extends Common {
     //раздел Список планов
     String addKNMButton = "//*[text()='Добавить КНМ']";
     String numberPlan = "//*[contains(@class,'Notification_ClosingNotificationText_') and contains(string(),'План 2')]"; //для получения номера плана
-    String confirmationDeleteButton = "/html/body/div/div/main/div/div[1]/div[3]/div/div[3]/button[1]"; //подтверждение удаления
-    String submitReviewButton = "//*[text()='Отправить на рассмотрение']";
-    String signInBrowserButton = "//*[text()='Подписать в браузере']";
+    String confirmationDeleteButton = "//*[@id='confirmButton']"; //подтверждение удаления
+    String submitReviewButton = "//*[@id='planChangeStatusButton']"; //кнопка Отправить на рассмотрение
+    String historyApprovalBlock = "//*[@id='approvedHistoryBlock']";//блок История согласования
+    String historySignedBlock = "//*[@id='signedHistoryBlock']";//блок История подписания
+    String responsesFromNadzorWebBlock = "//*[@id='responsesFromWebBlock']";//блок Статус обмена с АИК "Надзор-Web"
+    String documentsBlock = "//*[@id='documentsBlock']";//блок Список документа
+    String versionsBlock = "//*[@id='versionsBlock']";//блок Версии плана
+
+    /**
+     * Нажатие на блок История согласования
+     */
+    @Step("Нажатие на блок История согласования ")
+    public void clickHistoryApprovalBlock(){
+        $(By.xpath(historyApprovalBlock)).click();
+    }
+
+    /**
+     * Нажатие на блок История подписания
+     */
+    @Step("Нажатие на блок История подписания ")
+    public void clickHistorySignedBlock(){
+        $(By.xpath(historySignedBlock)).click();
+    }
+
+    /**
+     * Нажатие на блок Статус обмена с АИК "Надзор-Web"
+     */
+    @Step("Нажатие на блок Статус обмена с АИК Надзор-Web ")
+    public void clickResponsesFromNadzorWebBlock(){
+        $(By.xpath(responsesFromNadzorWebBlock)).click();
+    }
+
+    /**
+     * Нажатие на блок Список документа"
+     */
+    @Step("Нажатие на блок Список документа ")
+    public void clickDocumentsBlock(){
+        $(By.xpath(documentsBlock)).click();
+    }
+
+    /**
+     * Нажатие на блок Версии плана"
+     */
+    @Step("Нажатие на блок Версии плана ")
+    public void clickVersionsBlock(){
+        $(By.xpath(versionsBlock)).click();
+    }
 
     /**
      * Нажатие на кнопку добавить КНМ
@@ -54,14 +98,5 @@ public class ListPlanPage extends Common {
     public void clickSubmitReviewButton(){
         $(By.xpath(submitReviewButton)).click();
     }
-    
-    /**
-     * Нажатие на кнопку подписать в браузере
-     */
-    @Step("Нажатие на кнопку подписать в браузере")
-    public void clickSignInBrowserButton(){
-        $(By.xpath(signInBrowserButton)).click();
-    }
-
 
 }

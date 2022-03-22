@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <colocations>
+        <colo name="test">
+            <users>
+                <user name="Петров Сергей" role="supervisor" password="%%%%%%%%"/>
+                <user name="Сергеев Пётр" role="prosecutor" password="%%%%%%%%"/>
+            </users>
+
+            <data>
+                <information name="inn" value ="7811689828" />
+               <!-- <information name="inn" value ="1215043750" /> -->
+                <information name="message" value ="Подтверждаю ознакомление с информацией" />
+                <information name="nameKNO" value ="Федеральная служба по надзору в сфере здравоохранения" />
+                <information name="viewKNO" value ="066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств" />
+            </data>>
+            <locators>
+                <!--Общее-->
+                <locator name="modeERKNM" value="//*[text()='ЕРКНМ']"/>
+                <locator name="modeERP" value="//*[text()='ЕРП']"/>
+                <!--Список КНМ -->
+
+            </locators>
+
+
+        </colo>
+    </colocations>
+</configuration>
