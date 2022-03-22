@@ -156,6 +156,7 @@ public class Common {
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
     String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке TODO должен быть идентификатор
+    String actionsHeaderButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия, в header TODO должен быть идентификатор
     public String deleteButton = "//*[@id='deleteButton']";
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
@@ -173,6 +174,8 @@ public class Common {
     public static String currentDate = "";
     public static String currentDateTime = "";
     public static String futureDate = "";
+    public String choiceSignature ="//*[@id='certs']/div/div[1]";
+    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
 
     @BeforeSuite
     protected static void setupAllureReports() {
@@ -580,7 +583,7 @@ public class Common {
     @Step("Нажатие на кнопку Действия на странице КНМ")
     public void clickActionsOnCardButton() {
         $(By.xpath("//div[@id='root']")).scrollIntoView(false);
-        $(By.xpath(actionsOnCardButton)).click();
+        //$(By.xpath(actionsOnCardButton)).click();
         $(By.xpath(actionsOnCardButton)).shouldBe(visible).click();
     }
 
@@ -614,14 +617,6 @@ public class Common {
     @Step("Нажатие на крестик закрытия сообщения")
     public void closeNotification() {
         $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(10)).click();
-    }
-
-    /**
-     * Нажатие на кнопку Удалить на форме подтверждения удаления
-     */
-    @Step("Нажатие на кнопку Удалить на форме подтверждения удаления")
-    public void clickConfirmDeleteButton() {
-        $(By.xpath(confirmDeleteButton)).shouldBe(visible).click();
     }
 
     /**

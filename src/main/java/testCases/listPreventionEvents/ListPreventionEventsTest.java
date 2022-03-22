@@ -117,7 +117,6 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     //@Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
     public void transferPMEventPreventiveVisitStatusAwaitingTest() {
@@ -149,7 +148,6 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods = {"transferPMEventPreventiveVisitStatusAwaitingTest"})
-    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods={"transferPMEventPreventiveVisitStatusAwaitingTest"})
     //@Test(description = "6 - Перевод Профилактического визита в статус Завершено")
     public void transferPMEventPreventiveVisitStatusCompletedTest() {
         authorization("supervisor");
