@@ -68,7 +68,6 @@ public class ListEventsERPPage extends Common {
     String addInspectorsButton = "//div[@id='inspectorsTitle']";
     String inspectorsDropDown = "//li[contains(@id,'inspectors')]/div[1]/div[1]";
 
-    String actionButton = "//div[contains(@class, 'KnmHeader_Header')]//div[contains(@class, 'KnmHeaderButtons_Container')]/div/button"; // кнопка Действия
 
     // Значения переменных для создания проверки
     public String numberOrders = "122345"; // Номер приказа
@@ -445,14 +444,6 @@ public class ListEventsERPPage extends Common {
                     "//div[contains(@class, 'SelectInput_Option')]")).should(Condition.text(resresentative)).click();
         else
             $(By.xpath(inspectorsDropDown + "//div[contains(@class, 'SelectInput_Option')][1]")).click();
-    }
-
-    /**
-     * Нажатие на кнопку Действия на странице КНМ
-     */
-    @Step("Нажатие на кнопку Действия на странице КНМ")
-    public void clickActionsButton() {
-        $(By.xpath(actionButton)).click();
     }
 
     /**

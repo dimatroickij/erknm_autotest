@@ -12,13 +12,13 @@
             <class name="erknm_gui_autotest.src.java.testCases.listEvents.ListEventsTest">
                 <methods>
                     <include name="createEventStatusProcessCompletionTest" />
+                    <include name="createTemplateMandatoryRequirementsERKNMTest" />
                     <include name="transferEventStatusReadyApprovalTest" />
                     <include name="transferEventStatusOnApprovalTest" />
                     <include name="transferEventStatusAgreedTest" />
                     <include name="transferEventStatusWaitCompletionsTest" />
                     <include name="transferEventStatusWaitCompletedTest" />
                     <include name="deleteEventTest" />
-                    <include name="createTemplateMandatoryRequirementsERKNMTest" />
                     <include name="createTemplateTestSheetsERKNMTest" />
                     <include name="addRepresentativesERKNMTest" />
                 </methods>

@@ -1,19 +1,24 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.BeforeSuite;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
@@ -21,15 +26,23 @@ import static com.codeborne.selenide.Condition.*;
 public class Common {
 
     public String url = "http://private.proverki.local/";
-    //public String url = "http://private.proverki.local/private/knms";
-    // public String url ="http://private.proverki.local/";
-    //public String openUrl = "http://proverki.local"; //открытая часть
     public String openUrl = "http://proverki.local/portal"; //открытая часть
 
+    //public String url = "http://private.proverki.local/private/auth";
+    //public String openUrl = "http://proverki.local/portal"; //открытая часть
 
+    //public String url = "http://private.proverki.local/private/knms";
+    //public String openUrl = "http://proverki.local"; //открытая часть
+    // public String url ="http://private.proverki.local/";
 
-    public String scriptAddDocument = ".\\testUtils\\choiceDoc.exe";
-    public String scriptAddSignature = ".\\testUtils\\choiceSign.exe";
+    //public String INN = "7811689828"; //инн для дев и демо стенда
+    public String INN = "1215043750"; //инн для тестового стенда
+
+    public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
+    public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
+
+    public String filePath = ".\\file\\sign.docx";
+    public String signPath = ".\\file\\sign.docx.sig";
 
     String message = "Подтверждаю ознакомление с информацией";
     String messageButton = "//button[text()='Подтверждаю ознакомление с информацией']"; //кнопка на временной форме с информацией
@@ -95,6 +108,15 @@ public class Common {
     public String publicAuthority = "ОГВ";
     public String localGovernment = "ОМС";
 
+    //Необходимость согласования
+    public String needCoordination = "Требует согласования";
+    public String doesNotRequire = "Не требует согласования";
+
+    public String approved = "Согласовано";
+    public String positionDirector = "Руководитель Росздравнадзора";
+    public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
+    public String familiarWith = "Ознакомлен";
+
     // Тип места блока Объекты проведения КНМ
     public String locationLE = "Место нахождения юридического лица";
 
@@ -115,23 +137,31 @@ public class Common {
     public String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
     public String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
 
+    //информация для заполнения КНМ
+    public String number = "1";
+    public String place = "место";
+    public String fio = "ФИО";
+
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
     String passwordField = "//*[@name='password']"; //поле Пароль
     String enterButton = "//*[@type='submit']"; //кнопка Войти
 
     String searchField = "//*[@name='searchString']"; //поле Поиска
-    String searchButton = "//button[text()='Искать']"; //кнопка Искать
-    String addButton = "//*[text()='Добавить']"; //кнопка Добавить
-    String saveButton = "//*[text()='Сохранить']"; //кнопка Сохранить
-    String createButton = "//*[text()='Создать']"; //кнопка Создать
-    String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
-    //String actionsButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    String actionsOnCardButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div"; //кнопка для открытия выпадающего списка Действия на карточке
-    String actionsButton = "//*[@id=\"root\"]/div/header/div/div[2]/button[2]"; //кнопка для открытия выпадающего списка Действия
-    public String deleteButton = "//button[text()='Удалить']";
-    public String confirmDeleteButton = "//*[contains(@class,'ConfirmModal_ApplyButton')]";
-    public String signatureButton = "//button[text()='Подписать']";
+    String searchButton = "//button[@id='searchButton']"; //кнопка Искать
+    String addButton = "//button[@id='addButton']"; //кнопка Добавить
+    String saveButton = "//button[@id='saveButton']"; //кнопка Сохранить
+    String createButton = "//*[@id='createButton']"; //кнопка Создать
+    String uploadButton = "//*[@id='uploadButton']"; //кнопка Загрузить
+    //String actionsOnCardButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия на карточке
+    String actionsOnCardButton = "/html/body/div/div/main/form/div[1]/div[1]/div[2]/div/button"; //кнопка для открытия выпадающего списка Действия на карточке
+    //TODO:
+    String actionsHeaderButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия, в header
+    String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия
+
+    public String deleteButton = "//*[@id='deleteButton']"; //кнопка Удалить
+    public String confirmDeleteButton = "//*[@id='confirmButton']"; //кнопка Удалить на форме подтверждения удаления
+    public String signatureButton = "//button[@id='signButton']"; //кнопка Подписать
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
     public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу
 
@@ -140,13 +170,13 @@ public class Common {
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
     public String typeItemNews = "//*[text()='Новость']";
 
-    public String INN = "7811689828";
-
-    public String menuButton = "//header//div[contains(@class,'Dropdown')]//button";
+    public String menuButton = "//header/div/div[last()]//button";
     public String currentDate = "";
     public String futureDate = "";
+    public String choiceSignature ="//*[@id='certs']/div/div[1]";
+    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
 
-    @BeforeSuite
+    @BeforeSuite //для отчетов
     static void setupAllureReports() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
@@ -164,6 +194,86 @@ public class Common {
         Calendar calendar = Calendar.getInstance();
         futureDate = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + (calendar.get(Calendar.YEAR) + 1);
 
+    }
+//при проблемах с предустановкой плагина, разобраться с запуском браузера с плагином
+    // @BeforeSuite //настройка браузера
+    //public void setupBrowser() {
+      /*ChromeOptions options = new ChromeOptions();
+        options.addArguments("user-data-dir=C:\\Users\\MyWork\\AppData\\Local\\Google\\Chrome\\User Data\\Default");*/
+
+    // Configuration.baseUrl = url;
+       /*ChromeOptions options = new ChromeOptions();
+        options.addArguments("start-maximized");
+        options.addArguments("--enable-extensions");
+        options.addArguments("C:\\Users\\MyWork\\AppData\\Local\\Google\\Chrome\\User Data");
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--window-size=1920,1080");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        Configuration.browserCapabilities = capabilities;*/
+
+    //запуск через chrome c плагином, проблема с генерацией файла *.crx
+      /* ChromeOptions options = new ChromeOptions();
+        options.addExtensions(new File("C:\\soft\\chromePl\\1.2.8_0.crx"));
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        ChromeDriver driver = new ChromeDriver(capabilities);*/
+
+       /* ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=C:\\Users\\MyWork\\AppData\\Local\\Google\\Chrome\\User Data\\Default");
+        Configuration.browserCapabilities = options;*/
+
+    //запуск фф, предсозданный профиль autotest, по умолчанию хром. слишком большое время ответа от фф
+       /* System.setProperty("selenide.browser", "firefox");
+        System.setProperty("webdriver.gecko.driver", "C:\\soft\\geckodriver-v0.30.0-win64\\geckodriver.exe");
+        FirefoxProfile profile = new FirefoxProfile(new File("C:\\Users\\MyWork\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\xv3rzf2u.autotest"));
+        FirefoxOptions firefoxOptions = new FirefoxOptions().setProfile(profile);
+               // .setAcceptInsecureCerts(true)
+               // .addPreference("general.useragent.override", "some UA string");
+                //.merge(capabilities);
+         new FirefoxDriver(firefoxOptions);*/
+
+    /*    System.setProperty("selenide.browser", "firefox");
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.addExtension(new File("C:\\soft\\pl\\cryptopro_extension_for_cades_browser_plug_in-1.1.1-an+fx-windows.xpi"));
+        profile.setPreference("extensions.firebug.showFirstRunPage", false);
+        profile.setPreference("extensions.firebug.allPagesActivation", "on");
+        profile.setPreference("intl.accept_languages", "no,en-us,en");
+        profile.setPreference("extensions.firebug.console.enableSites", "true");
+        return profile;*/
+
+        /*Configuration.browserCapabilities = new DesiredCapabilities();
+        Configuration.browserCapabilities.setCapability(SOME_CAP, "SOME_VALUE_FROM_CONFIGURATION");*/
+       /* ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments(("load-extension=C:\\Users\\MyWork\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions"));
+        chromeOptions.addExtensions(new File("/path/to/extension.crx"));
+        //Configuration.browserCapabilities = new DesiredCapabilities();
+        DesiredCapabilities capabilities = new DesiredCapabilities ();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        ChromeDriver driver = new ChromeDriver(capabilities);*/
+    //Configuration.browser = (getPropertyConfig("browser"));
+    // System.setProperty("chromeoptions.prefs", "profile.default_content_settings.popups=0,download.default_directory=<Download folder Location>");
+    // }
+
+    /**
+     * Установка плагина для подписания
+     */
+    @Step("Установка плагина для подписания")
+    public void installPlugin() {
+        open(urlPlugin);
+        $(By.xpath(installPluginButton)).click();
+        try {
+            Robot r = new Robot();
+            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
+            r.keyPress(KeyEvent.VK_TAB);
+            r.keyRelease(KeyEvent.VK_TAB);
+            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
+            r.keyPress(KeyEvent.VK_ENTER);
+            r.keyRelease(KeyEvent.VK_ENTER);
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -235,6 +345,15 @@ public class Common {
     }
 
     /**
+     * Выбор подписи из выпадающего списка
+     */
+    @Step("Выбор подписи из выпадающего списка")
+    public void choiceSignature() {
+        $(By.xpath(choiceSignature)).click();
+        clickToText(signatureName);
+    }
+
+    /**
      * Заполнение поиска
      *
      * @param value Поисковый запрос
@@ -264,7 +383,7 @@ public class Common {
     }
 
     /**
-     * Открытие найденной карточки
+     * Открытие найденной карточки проверки или ПМ
      *
      * @param value Номер карточки
      */
@@ -274,6 +393,19 @@ public class Common {
         clickSearchButton();
         $(By.xpath(openRequest)).click();
         switchTo().window(1);
+
+    }
+
+    /**
+     * Открытие найденной карточки плана
+     *
+     * @param value Номер карточки
+     */
+    @Step("Открытие найденной карточки плана- {value}")
+    public void openCardPlan(String value) {
+        setSearchField(value);
+        clickSearchButton();
+        $(By.xpath(openRequest)).click();
 
     }
 
@@ -349,6 +481,7 @@ public class Common {
     /**
      * Переход в Поиск проверок, режим ЕРП
      */
+    @Step("Переход в Поиск проверок, режим ЕРП")
     public void gotoSearchEvents() {
         clickToText(searchEventsERP);
     }
@@ -425,7 +558,8 @@ public class Common {
      */
     @Step("Проверка отсутствия - {name}")
     public void checkAbsenceObject(String name) {
-        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
+        //$(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
+        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(visible);
     }
 
     /**
@@ -437,12 +571,19 @@ public class Common {
     }
 
     /**
-     * Нажатие на кнопку Действия на карточке
+     * Нажатие на кнопку Действия на странице КНМ
      */
-    @Step("Нажатие на кнопку Действия на карточке")
+    @Step("Нажатие на кнопку Действия на странице КНМ")
     public void clickActionsOnCardButton() {
+        $(By.xpath(actionsOnCardButton)).shouldBe(visible).click();
+    }
 
-        $(By.xpath(actionsOnCardButton)).scrollTo().click();
+    /**
+     * Нажатие на кнопку Действия, когда она в header
+     */
+    @Step("Нажатие на кнопку Действия, когда она в header")
+    public void clickActionsHeaderButton() {
+        $(By.xpath(actionsHeaderButton)).shouldBe(visible).click();
     }
 
     /**
@@ -462,9 +603,9 @@ public class Common {
     }
 
     /**
-     * Нажатие на кнопку УДалить на форме подтверждения удаления
+     * Нажатие на кнопку Удалить на форме подтверждения удаления
      */
-    @Step("Нажатие на кнопку УДалить на форме подтверждения удаления")
+    @Step("Нажатие на кнопку Удалить на форме подтверждения удаления")
     public void clickConfirmDeleteButton() {
         $(By.xpath(confirmDeleteButton)).shouldBe(visible).click();
     }
@@ -474,9 +615,12 @@ public class Common {
      */
     @Step("Нажатие на кнопку Выйти")
     public void logout() {
+        $(By.xpath("//div[@id='root']")).scrollIntoView(false);
         $(By.xpath(menuButton)).click();
         $(By.xpath(exitButton)).click();
     }
+
+
 }
 
 

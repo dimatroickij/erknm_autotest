@@ -81,7 +81,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         choiceERP();
         gotoERPListKNMPage();
         openCard(knmNumber);
-        clickActionsButton();
+        clickActionsOnCardButton();
         clickDeleteButton();
         closeNotification();
         gotoERPListKNMPage();

@@ -14,6 +14,7 @@ public class OpenPartTest extends OpenPartPage {
     String titleNews = prefix + "автотест ЗаголовокОЧ";
     String shortText = prefix + "автотест Краткий текст новостиОЧ";
     String textNews = prefix + "автотест Текст новостиОЧ";
+    String kod ="12345";
 
     /**
      * Цель: Проверка поиска на главной странице

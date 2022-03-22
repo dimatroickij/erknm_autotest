@@ -26,7 +26,7 @@ public class NewsTest extends NewsPage {
         authorization("admin");
         choiceERKNM();
         goToManagementNews();
-        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews);
+        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews,currentDate);
         searchNewsInTableAdmin(titleNews, true);
         logout();
         authorization("prosecutor");

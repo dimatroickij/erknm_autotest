@@ -5,12 +5,9 @@ import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.switchTo;
 
 public class ListPlansTest extends ListPlanPage {
     //раздел Список планов
@@ -34,7 +31,7 @@ public class ListPlansTest extends ListPlanPage {
         clickCreateButton();
         numberPlan = getNumberPlan();
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
-        openCard(numberPlan);
+        openCardPlan(numberPlan);
         checkObject("В процессе формирования");
     }
 
@@ -43,13 +40,14 @@ public class ListPlansTest extends ListPlanPage {
      * !HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=446
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
+    //@Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
+    @Test(description = "3 - Добавление плановой КНМ в созданный план")
     public void addPlannedKNMInPlanTest() throws IOException {
         authorization("supervisor");
         ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListPlansPage();
-        openCard("2023038134");
+        openCardPlan("2023037760");
         clickAddKNMButton();
         event.setKindControlAndNumberDropDown(viewKNO);
         event.setKindKNMDropDown(controlPurchase);
@@ -57,38 +55,29 @@ public class ListPlansTest extends ListPlanPage {
         event.setInnField(INN);
         event.setTypeObjectDropDown();
         event.setKindObjectDropDown();
+        event.setDangerClassDropDown();
         clickSaveButton();
         //numberKNM = event.getNumberKNM();
         System.out.println("НОМЕР НОВОЙ - " +numberKNM);
-       //checkObject("В процессе заполнения");
-        event.setDurationDaysField("1");
+        event.setDurationDaysField(number);
+        event.addGroundsIncludePlan(futureDate);
+        event.addListActions(futureDate,futureDate);
+        event.clickAddVenueButton();
+        event.setVenueField(place);
+      //  event.setDateTimePublicationDecisionField(futureDate);
+      //  event.setSolutionNumberField(prefix+"");
+      //  event.setPlaceDecisionField(prefix + "автотестМесто");
         event.addGroundsIncludePlan(futureDate);
 
-        event.setDateTimePublicationDecisionField(futureDate);
-        event.setSolutionNumberField(prefix+"");
-        event.setPlaceDecisionField(prefix + "автотестМесто");
         event.setNameOfficialField(prefix + "autoFIO");
         event.setPositionPersonSignedDecisionsDropDown();
 
-        event.clickAddGroundConductingButton();
-        event.setGroundConduсtingDropDown();
-        event.setNeedCoordinationDropDown();
-        event.clickAddFoundationButton();
-        event.setTypeDocumentDropDown();
-        event.clickAddFileButton();
-        Runtime.getRuntime().exec("..\\..\\..\\..\\..\\testUtils\\choiceDoc.exe");
-        //clickAddSignatureButton();
-        Runtime.getRuntime().exec("..\\..\\..\\..\\..\\testUtils\\choiceSign.exe");
-        clickUploadButton();
-        event.clickAddListActionsButton();
-        event.setTypeActionsDropDown();
-
-        event.setDateStartActions(futureDate);
-        event.setDateEndActions(futureDate);
+        event.addGroundsConductingPlanned(filePath,signPath);
+        event.addListActions(futureDate,futureDate);
         event.createMandatoryRequirements("","",futureDate);
 
         event.clickAddVenueButton();
-        event.setVenueField("prefix + автотестместо");
+        event.setVenueField(prefix + "автотестместо");
 
     }
 
@@ -100,10 +89,11 @@ public class ListPlansTest extends ListPlanPage {
     //статус на согласовании?
     @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods={"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() {
+        installPlugin();
         authorization("prosecutor");
         choiceERKNM();
         gotoListKNMPage();
-        openCard("");
+        openCardPlan("");
 
         gotoListKNMPage();
         openCard(numberPlan);
@@ -121,7 +111,7 @@ public class ListPlansTest extends ListPlanPage {
         authorization("supervisor");
         choiceERKNM();
         gotoListKNMPage();
-        openCard(numberPlan);
+        openCardPlan(numberPlan);
         checkObject("Утвержден");
     }
 
@@ -132,6 +122,21 @@ public class ListPlansTest extends ListPlanPage {
      */
     @Test(description = "6 - Исключение КНМ из плана в статусе Утвержден", dependsOnMethods={"transferPlanStatusApprovedTest"})
     public void exceptionKNMFromApprovedPlanTest() {
+        authorization("supervisor");
+        ListEventsPage event = new ListEventsPage();
+        choiceERKNM();
+        gotoListPlansPage();
+        openCardPlan("2023038134");
+        clickAddKNMButton();
+        event.setKindControlAndNumberDropDown(viewKNO);
+        event.setKindKNMDropDown(controlPurchase);
+        event.setStartKNMDate(futureDate);
+        event.setInnField(INN);
+        event.setTypeObjectDropDown();
+        event.setKindObjectDropDown();
+        clickSaveButton();
+        //TODO через действия нажать исключить и проверить статус ИСключена
+
 
     }
     /**
@@ -142,7 +147,7 @@ public class ListPlansTest extends ListPlanPage {
     @Test(description = "2 - Удаление плана")
     public void deletePlanTest() {
         createPlanTest();
-        gotoListPlansPage();
+        //gotoListPlansPage();
         searchRequest(numberPlan);
         clickCheckBoxListPlan(numberPlan);
         clickDeleteButton();

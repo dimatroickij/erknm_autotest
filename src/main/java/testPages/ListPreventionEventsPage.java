@@ -3,7 +3,8 @@ package testPages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-import java.io.IOException;
+import java.io.File;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListPreventionEventsPage extends Common {
@@ -26,29 +27,40 @@ public class ListPreventionEventsPage extends Common {
     String stopDateField = "//*[@id='stopDateBlock']/div[2]/div/div/div/input"; // поле Дата окончания
     String innField = "//*[(@name='inn')]"; //Поле ИНН
     String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; //выбор из выпадающего списка ИНН
+
+    String addObjectControlPMButton = "//*[@id='pmObjectsAddButton']";//кнопка Добавить в разделе Сведения об объектах контроля в карточке ПМ
     String typeObjectDropDown = "//*[(@id='objectsPm[0].objectType')]"; // выбор типа объекта
     String viewObjectDropDown = "//*[(@id='objectsPm[0].objectKind')]"; // выбор вида объекта
     String classDangerDropDown = "//*[(@id='objectsPm[0].dangerClass')]"; // выбор класса опасности
     String noteWarningField = "//*[(@id='noteWarning')]"; //поле Описание предостережения
-    String addNoteWarningButton = "/html/body/div/div/main/form/div[2]/div[2]/div[2]/div/span/button"; //кнопка Добавить у блока Содержание предостережения
+    String addNoteWarningButton = "//*[@id='pmContentWarningAddButton']"; //кнопка Добавить у блока Содержание предостережения
     String addDocumentButton = "//*[(@for='contentWarningAttachmentsUploadDocument')]"; //кнопка Добавить документ
     String addSignatureButton = "//*[(@for='contentWarningAttachmentsUploadSign')]"; //кнопка Добавить подпись
 
-    String addGroundsButton = "/html/body/div[1]/div/main/form/div[2]/div[3]/div/div/span/button"; //кнопка Добавить в блоке основания проведения профилактических мероприятий
+    String addGroundsPMButton = "//*[@id='pmReasonsAddButton']"; //кнопка Добавить в блоке основания проведения профилактических мероприятий
+
     String choiceGroundDropDown = "//*[contains(@class,'select-field__placeholder ')]"; //выпадающий список Выберете основание проведения ПМ
-    String officialButton = "/html/body/div/div/main/form/div[2]/div[5]/div/div/span/button"; //кнопка Добавить должностное лицо
+    String addOfficialPMButton = "//*[@id='erknmInspectorsAddButton']"; //кнопка Добавить должностное лицо
     String officialField = "//*[@name='inspectorsErknm[0].fullName']"; //поле Введите ФИО должностного лица
-    String officialPostDropDown = "/html/body/div/div/main/form/div[2]/div[5]/div/ul/li/div/div[2]/div[1]/div/div[1]/div[1]"; // выпадающий список Выберете должность
+    String officialPostPMDropDown = "//*[@id='inspectorsErknm[0].position']"; // выпадающий список Выберете должность в ПМ
 
     String numberPM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'ПМ 6') or contains(string(), 'ПМ 7'))]";
 
-    String addInformationDirectionObjectionButton = ""; //кнопка Добавить в разделе Сведения о направлении возражения на предостережение
-    String addInformationResultPMButton = "";// кнопка Добавить в разделе Сведения о результатах ПМ
-    String resultPMField = "";//поле результат ПМ
+    String documentNoteWarningInput = "//input[@id='contentWarningAttachmentsUploadDocument']"; // input для добавления документа в содержание предостережения
+    String signatureNoteWarningInput = "//input[@id='contentWarningAttachmentsUploadSign']"; // input для добавления подписи в содержание предостережения
 
+
+    String addInformationDirectionObjectionButton = "//*[@id='pmObjectionWarningAddButton']"; //кнопка Добавить в разделе Сведения о направлении возражения на предостережение
+    String resultPMField = "//*[@id='resultOfInspection']";//поле результат ПМ
+
+    String documentInformationDirectionObjectionInput = "//input[@id='objectionWarningAttachmentsUploadDocument']"; // input для добавления документа в сведения о направлении возражения на предостережение
+    String signatureInformationDirectionObjectionInput = "//input[@id='objectionWarningAttachmentsUploadSign']"; // input для добавления подписи в сведения о направлении возражения на предостережение
+
+    String closeButton = "//*[@id='confirmButton']"; //кнопка Закрыть на предупреждении
 
     /**
      * Заполнение выпадающего списка Контрольный (надзорный) орган
+     *
      * @param name
      */
     @Step("Заполнение выпадающего списка Контрольный (надзорный) орган - {name}")
@@ -59,6 +71,7 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Заполнение выпадающего списка Вид контроля (надзора) и его номер
+     *
      * @param kind
      */
     @Step("Заполнение выпадающего списка Вид контроля (надзора) и его номер - {kind}")
@@ -69,6 +82,7 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Заполнение выпадающего списка Вид профилактического мероприятия
+     *
      * @param kindPM
      */
     @Step("Заполнение выпадающего списка Вид профилактического мероприятия - {kindPM}")
@@ -95,6 +109,7 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Заполнить поле ИНН, выбрать из появившегося окна
+     *
      * @param INN
      */
     @Step("Заполнить поле ИНН, выбрать из появившегося окна - {INN}")
@@ -105,6 +120,7 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Выбор Тип объекта
+     *
      * @param type
      */
     @Step("Выбор Тип объекта - {type}")
@@ -115,6 +131,7 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Выбор Вид объекта
+     *
      * @param view
      */
     @Step("Выбор Вид объекта - {view}")
@@ -176,9 +193,10 @@ public class ListPreventionEventsPage extends Common {
      * Нажатие на кнопку Добавить в блоке основания проведения ПМ
      */
     @Step("Нажатие на кнопку Добавить в блоке основания проведения ПМ")
-    public void clickAddGroundsButton() {
-        $(By.xpath(addGroundsButton)).click();
+    public void clickAddGroundsPMButton() {
+        $(By.xpath(addGroundsPMButton)).click();
     }
+
 
     /**
      * Заполнение выпадающего списка Выберете основание проведения ПМ
@@ -193,8 +211,8 @@ public class ListPreventionEventsPage extends Common {
      * Нажатие на кнопку Добавить должностное лицо
      */
     @Step("Нажатие на кнопку Добавить должностное лицо")
-    public void clickOfficialButton() {
-        $(By.xpath(officialButton)).click();
+    public void clickOfficialPMButton() {
+        $(By.xpath(addOfficialPMButton)).click();
     }
 
     /**
@@ -206,13 +224,14 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
-     * Заполнение выпадающего списка Выберете должность
+     * Заполнение выпадающего списка Выберете должность для объявления предостережения
      */
-    @Step("Заполнение выпадающего списка Выберете должность - {post}")
-    public void setOfficialPostDropDown(String post) {
-        $(By.xpath(officialPostDropDown)).click(); //клик по списку
+    @Step("Заполнение выпадающего списка Выберете должность для объявления предостережения - {post}")
+    public void setOfficialPostPMDropDown(String post) {
+        $(By.xpath(officialPostPMDropDown)).click(); //клик по списку
         clickToText(post);
     }
+
 
     /**
      * Нажатие на кнопку Добавить в разделе Сведения о направлении возражения на предостережение
@@ -220,14 +239,6 @@ public class ListPreventionEventsPage extends Common {
     @Step("Нажатие на кнопку Добавить в разделе Сведения о направлении возражения на предостережение")
     public void clickAddInformationDirectionObjectionButton() {
         $(By.xpath(addInformationDirectionObjectionButton)).click();
-    }
-
-    /**
-     * Нажатие на кнопку Добавить в разделе Сведения о результатах ПМ
-     */
-    @Step("Нажатие на кнопку Добавить в разделе Сведения о результатах ПМ")
-    public void clickAddInformationResultPMButton() {
-        $(By.xpath(addInformationResultPMButton)).click();
     }
 
     /**
@@ -240,6 +251,10 @@ public class ListPreventionEventsPage extends Common {
 
     /**
      * Заполненение блока Объект
+     *
+     * @param type        тип объекта
+     * @param view        вид объекта
+     * @param classDanger класс опасности
      */
     @Step("Заполненение блока Объект")
     public void addObjectData(String type, String view, String classDanger) {
@@ -249,35 +264,85 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
-     * Добавление документа к ПМ
-     */
-    @Step("Добавление документа к ПМ")
-    public void addDocument() throws IOException {
-        clickAddContentWarningButton();
-        clickAddDocumentButton();
-        Runtime.getRuntime().exec(scriptAddDocument);
-        clickAddSignatureButton();
-        Runtime.getRuntime().exec(scriptAddSignature);
-        clickUploadButton();
-    }
-
-    /**
      * Добавление основания проведения ПМ
      */
     @Step("Добавление основания проведения ПМ - {grounds}")
-    public void addGrounds(String grounds){
-        clickAddGroundsButton();
+    public void addGroundsPM(String grounds) {
+        clickAddGroundsPMButton();
         setGroundDropDown(grounds);
     }
 
     /**
-     * Добавление должностного лица
+     * Добавление должностного лица для ПМ
      */
-    @Step("Добавление должностного лица - {name}, {post}")
-    public void addOfficial(String name, String post){
-        clickOfficialButton();
+    @Step("Добавление должностного лица для ПМ - {name}, {post}")
+    public void addOfficialPM(String name, String post) {
+        clickOfficialPMButton();
         setOfficialField(name);
-        setOfficialPostDropDown(post);
+        setOfficialPostPMDropDown(post);
+    }
+
+    /**
+     * Добавление ПМ
+     *
+     * @param name        Название контрольного (надзорного) органа
+     * @param view        Вид контроля (надзора) и его номер
+     * @param typePM      Вид ПМ
+     * @param date        Дата начала
+     * @param inn         ИНН
+     * @param typeObject  тип объекта
+     * @param viewObject  вид объекта
+     * @param classDanger класс опасности
+     */
+    @Step("Добавление ПМ")
+    public void addPreventionEvent(String name, String view, String typePM, String date, String inn, String typeObject, String viewObject, String classDanger) {
+        clickAddButton();
+        setNameKNOPMDropDown(name);
+        setKindControlAndNumberPMDropDown(view);
+        setKindPMDropDown(typePM);
+        setStartDate(date);
+        setInnField(inn);
+        addObjectData(typeObject, viewObject, classDanger);
         clickSaveButton();
+    }
+
+    /**
+     * Добавление документа и подписи в Содержаение предостережения
+     *
+     * @param fPath путь к документу
+     * @param sPath путь к подписи
+     */
+    @Step("Добавление документа и подписи в Содержаение предостережения")
+    public void addDocumentAndSignatureNoteWarning(String fPath, String sPath) {
+        $(By.xpath(documentNoteWarningInput)).uploadFile(new File(fPath));
+        $(By.xpath(signatureNoteWarningInput)).uploadFile(new File(sPath));
+    }
+
+    /**
+     * Добавление документа и подписи в Сведения о направлении возражения на предостережение
+     *
+     * @param fPath путь к документу
+     * @param sPath путь к подписи
+     */
+    @Step("Добавление документа и подписи в Сведения о направлении возражения на предостережение")
+    public void addDocumentAndSignatureInformationDirectionObjection(String fPath, String sPath) {
+        $(By.xpath(documentInformationDirectionObjectionInput)).uploadFile(new File(fPath));
+        $(By.xpath(signatureInformationDirectionObjectionInput)).uploadFile(new File(sPath));
+    }
+
+    /**
+     * Нажатие на кнопку Добавить в разделе Сведения об объектах контроля в карточке ПМ
+     */
+    @Step("Нажатие на кнопку Добавить в разделе Сведения об объектах контроля в карточке ПМ")
+    public void clickAddObjectControlPMButton() {
+        $(By.xpath(addObjectControlPMButton)).click();
+    }
+
+    /**
+     * Кнопка Закрыть на форме с предупреждением
+     */
+    @Step("Кнопка Закрыть на форме с предупреждением")
+    public void clickCloseMessagePMButton() {
+        $(By.xpath(closeButton)).click();
     }
 }

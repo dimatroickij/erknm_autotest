@@ -26,7 +26,7 @@ public class NewsERPTest extends NewsPage {
         setTitleNewsField(prefixNews + titleNews);
         setShortTextNewsField(prefixNews + shortTextNews);
         setTextNewsField(prefixNews + textNews);
-        setDataPublicationField();
+        setDataPublicationField(currentDate);
         clickSaveNewsButton();
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();

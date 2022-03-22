@@ -1,11 +1,9 @@
 package testCases.listPreventionEvents;
 
 import com.codeborne.selenide.Selenide;
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import testPages.ListPreventionEventsPage;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -29,17 +27,11 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
-        clickAddButton();
-        setNameKNOPMDropDown(nameKNO);
-        setKindControlAndNumberPMDropDown(viewKNO);
-        setKindPMDropDown(typeAnnouncementWarningsPM);
-        setStartDate(currentDate);
-        setInnField(INN);
-        addObjectData(typeObject, viewObject, classDanger);
-        clickSaveButton();
+        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
         checkObject("В процессе заполнения");
         numberPM = getNumberPM();
         System.out.println("НОМЕР ПМ - " + numberPM);
+        //logout();
 
     }
 
@@ -48,34 +40,34 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=538
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
+        installPlugin();
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
-        //openRequest(numberPM);
-       // openCard("77220660001100054411");
-        openCard("77220660001100054495");
+       // openCard(numberPM);
+        openCard("77220660001100008846");
         switchTo().window(1);
+        clickCloseMessagePMButton();
         setStopDate(currentDate);
         setNoteWarningField(prefix + "авто Описание");
-        //addDocument();
         clickAddContentWarningButton();
-        clickAddDocumentButton();
-        Runtime.getRuntime().exec(scriptAddDocument);
-        //Runtime.getRuntime().exec("cmd /c start C:\\erknm_autotest\\file\\startscript.bat");
-        clickAddSignatureButton();
-        Runtime.getRuntime().exec(scriptAddSignature);
+        addDocumentAndSignatureNoteWarning(filePath,signPath);
         clickUploadButton();
-        addGrounds(grounds);
-        addOfficial(prefix + "авто ФИО", officialPost);
-        clickActionButton();
+        addGroundsPM(grounds);
+        addOfficialPM(prefix + "авто ФИО", officialPost);
+        closeNotification();
+        clickSaveButton();
+        closeNotification();
+        clickActionsHeaderButton();
         clickSignatureButton();
-        Selenide.confirm();
+       // Selenide.confirm();
         clickSignatureButton();
         clickSaveButton();
-
         checkObject("Предостережение объявлено");
+        //logout();
     }
 
     /**
@@ -83,12 +75,20 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=539
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
+    @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() {
-        createPMEventWarningAnnouncementStatusProcessCompletionTest();
+        authorization("supervisor");
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        openCard(numberPM);
+        switchTo().window(1);
         clickAddInformationDirectionObjectionButton();
-        //Добавление документа и подписи
+        addDocumentAndSignatureInformationDirectionObjection(filePath,signPath);
+        clickUploadButton();
+        closeNotification();
+        clickSaveButton();
         checkObject("Есть возражение");
+        //logout();
     }
 
     /**
@@ -101,16 +101,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceERKNM();
         gotoListPreventionEventsPage();
-        clickAddButton();
-        setNameKNOPMDropDown(nameKNO);
-        setKindControlAndNumberPMDropDown(viewKNO);
-        setKindPMDropDown(typePreventiveVisitPM);
-        // setStartDate(dataStart);
-        setInnField(INN);
-        setTypeObjectDropDown(typeObject);
-        setViewObjectDropDown(viewObject);
-        setClassDangerDropDown(classDanger);
-        clickSaveButton();
+        addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
         checkObject("В процессе заполнения");
         numberPM = getNumberPM();
         System.out.println("НОМЕР ПМ - " + numberPM);
@@ -121,35 +112,27 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=534
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
+    //@Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
+    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
     public void transferPMEventPreventiveVisitStatusAwaitingTest() {
+        installPlugin();
         authorization("supervisor");
-       //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
         choiceERKNM();
         gotoListPreventionEventsPage();
-        //openRequest(numberPM);
-        openCard("ПМ 77220660001100054149");
+        openCard(numberPM);
         switchTo().window(1);
-        setStopDate(futureDate);
-        /*setNoteWarningField(prefix + "авто Описание");
-        clickAddContentWarningButton();
-        clickAddDocumentButton();
-        Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceDoc.exe");
-        clickAddSignatureButton();
-        Runtime.getRuntime().exec("C:\\t\\erknm_gui_autotest28\\erknm_gui_autotest\\erknm_gui_autotest\\src\\autoit\\choiceSign.exe");
-        clickUploadButton();*/
-        clickAddGroundsButton();
-        setGroundDropDown(grounds);
-        clickOfficialButton();
-        setOfficialField(prefix + "авто ФИО");
-        setOfficialPostDropDown(officialPost);
+        setStopDate(currentDate);
+        addGroundsPM(grounds);
+        addOfficialPM(prefix + "авто ФИО", officialPost);
         clickSaveButton();
-        clickActionButton();
+        closeNotification(); //3 раза?
+        clickActionsHeaderButton();
         clickSignatureButton();
-        //TODO autoit выбор подписи и бывает алерт и ок нажатие через селенид
+        //Selenide.confirm();
         clickSignatureButton();
         clickSaveButton();
-        checkObject("Ожидание проведения");
+        checkObject("Ожидает проведения");
+        //logout();
     }
 
     /**
@@ -158,12 +141,17 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods={"transferPMEventPreventiveVisitStatusAwaitingTest"})
+    //@Test(description = "6 - Перевод Профилактического визита в статус Завершено")
     public void transferPMEventPreventiveVisitStatusCompletedTest() {
-        //открываем КНМ созданную в тесте 1 ранее
-        clickAddInformationResultPMButton();
+        authorization("supervisor");
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        openCard(numberPM);
+        switchTo().window(1);
         setResultPMField(prefix + "авто результат");
+        clickSaveButton();
         checkObject("Завершено");
-
+        //logout();
     }
 
     /**
@@ -173,18 +161,21 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     @Test(description = "7 - Удаление ПМ")
     public void deletePMEventTest() {
-        createPMEventWarningAnnouncementStatusProcessCompletionTest();
+        authorization("supervisor");
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
+        numberPM = getNumberPM();
+        System.out.println(numberPM);
+        clickCloseMessagePMButton();
         closeNotification();
-       // gotoListPreventionEventsPage();
-       // openCard(numberPM);
-       // switchTo().window(1);
         clickActionsOnCardButton();
         clickDeleteButton();
         checkObject("Удалено");
         gotoListPreventionEventsPage();
         searchRequest(numberPM);
         checkAbsenceObject(numberPM);
-
+        //logout();
 
     }
 }
