@@ -44,7 +44,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceERKNM();
         gotoListKNMPage();
         //openCard(numberKNM);
-        openCard("77220660001100008841");
+        openCard("77220660001100008850");
         //TODO: иногда при скроле до элемента верхняя панель перекрывает поля для ввода
         createMandatoryRequirements(prefix +"авто",prefix +"авто",currentDate);
         clickSaveButton();
@@ -64,8 +64,7 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceERKNM();
         gotoListKNMPage();
-        openCard("77220660001100008841");
-        switchTo().window(1);
+        openCard("77220660001100008850");
         setDateTimePublicationDecisionField(currentDate);
         setSolutionNumberField(prefix +"");
         setPlaceDecisionField(prefix + "автотестМесто");

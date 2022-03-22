@@ -175,7 +175,7 @@ public class Common {
     public static String currentDateTime = "";
     public static String futureDate = "";
     public String choiceSignature ="//*[@id='certs']/div/div[1]";
-    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
+    public String signatureName ="03767EA2004CAE42AC4046B4FC860E9876; Тестовый сертификат; 02.03.2022-02.06.2022;";
 
     @BeforeSuite
     protected static void setupAllureReports() {
