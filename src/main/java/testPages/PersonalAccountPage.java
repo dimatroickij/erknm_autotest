@@ -48,6 +48,7 @@ public class PersonalAccountPage extends Common {
     String dateNPAField = "//*[contains(@class,'DatePicker_Input_')]"; //Дата НПА TODO должен быть идентификатор
     String recordLine = "//ul[contains(@class, 'TemplatesList')]//li[2]"; // Шаблон для выбора обязательного требования или проверочного листа из списка в личном кабинете TODO должен быть идентификатор
     String defaultOrganizationLine = "//label[contains(text(), '%s')]"; // Строка с названием организации в списке доступных организаций TODO должен быть идентификатор
+    String inputRepresentatives = "//*[@value='%s']"; //
 
 
     /**
@@ -255,7 +256,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
     public void checkRepresentatives(String name) {
-        $(By.xpath(String.format(defaultOrganizationLine, name))).shouldBe(Condition.visible);
+        $(By.xpath(String.format(inputRepresentatives, name))).shouldBe(Condition.visible);
     }
 
     /**
