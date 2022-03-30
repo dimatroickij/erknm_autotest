@@ -47,7 +47,7 @@ public class ListPlansTest extends ListPlanPage {
         ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListPlansPage();
-        openCardPlan("2023037760");
+        openCardPlan("2023037766");
         clickAddKNMButton();
         event.setKindControlAndNumberDropDown(viewKNO);
         event.setKindKNMDropDown(controlPurchase);

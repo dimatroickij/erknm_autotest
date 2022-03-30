@@ -111,6 +111,7 @@ public class Common {
     public String approved = "Согласовано";
     public String positionDirector = "Руководитель Росздравнадзора";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
+    public String positionSpecialistExpert ="Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
 
     // Тип места блока Объекты проведения КНМ
@@ -136,6 +137,7 @@ public class Common {
     String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
 
+    public String successfullySignNotification ="//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
     //информация для заполнения КНМ
     public String number = "1";
     public String place = "место";
@@ -175,7 +177,7 @@ public class Common {
     public static String currentDateTime = "";
     public static String futureDate = "";
     public String choiceSignature ="//*[@id='certs']/div/div[1]";
-    public String signatureName ="03767EA2004CAE42AC4046B4FC860E9876; Тестовый сертификат; 02.03.2022-02.06.2022;";
+    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
 
     @BeforeSuite
     protected static void setupAllureReports() {
@@ -687,6 +689,15 @@ public class Common {
     @Step("Нажатие на кнопку Добавить в модальном окне")
     public void clickAddModalButton() {
         $(By.xpath(modalAddButton)).click();
+    }
+
+    /**
+     * Проверка сообщения об успешном подписании
+     */
+    @Step("Проверка сообщения об успешном подписании")
+    public void checkSuccessfullySignNotification()
+    {
+        $(By.xpath(successfullySignNotification)).should(visible);
     }
 }
 

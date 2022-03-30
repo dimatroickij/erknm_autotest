@@ -32,7 +32,7 @@ public class ListEventsPage extends Common {
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; //Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']";//основания включения в план
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде контроля период времени с даты окончания проведения последнего планового контрольного (надзорного) мероприятия";
-   //TODO где дата
+    //TODO где дата
     //Дата основания включения в план -reasonsErknm[порядковый номер].date
     String dateGIPField = "/html/body/div/div/main/form/div[2]/div[1]/div[18]/ul/li/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план
 
@@ -57,15 +57,13 @@ public class ListEventsPage extends Common {
     String venueField = "//*[@name='places[0].value']";//поле для введения Места
 
 
-    //String dateTimePublicationDecisionField = "//*[@id='info']/div[8]/div[2]/div/div/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
-    //String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/section[1]/div[6]/div[2]/div[2]/div/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
-    String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/section[1]/div[6]/div[2]/div[2]/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
+    String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/section[1]/div[7]/div[1]/div[2]/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
     String solutionNumberField = "//*[@id='numberDecision']"; //поле Номер решения в разделе Решение о проведении КНМ
     String placeDecisionField = "//*[@id='placeDecision']";// поле Место вынесения решения
     String nameOfficialField = "//*[@id='fioSigner']";// поле ФИО должностного лица
     String positionPersonSignedDecisionsDropDown = "//*[@id='titleSigner']";// поле Должность лица, подписавшего решение
     String durationEventHoursField = "//*[@name='durationHours']";//поле срок проведения (часов)
-   // String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/section[1]/div[11]/div[2]/button";//кнопка Добавить в разделе Основания проведения КНМ
+    // String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/section[1]/div[11]/div[2]/button";//кнопка Добавить в разделе Основания проведения КНМ
     String addGroundConductingButton = "//*[@id ='addReasonButton']";//кнопка Добавить в разделе Основания проведения КНМ
     String groundConductingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выпадающий список Основание регистрации КНМ
     String groundConduction = "4.0.5 (ФЗ 248) Наличие у контрольного (надзорного) органа сведений о причинении вреда (ущерба) или об угрозе причинения вреда (ущерба) охраняемым законом ценностям";
@@ -75,11 +73,11 @@ public class ListEventsPage extends Common {
     String addFoundationButton = "//*[text()='Добавить основание']";
     String typeDocumentDropDown = "//*[@id='reasonDocuments[0].type']"; // выпадающий список Тип документа
     String typeDocument = "Мотивированное представление о проведении контрольного (надзорного)";
-    String addFileButton = "/html/body/div/div/main/form/div[2]/section[1]/div[12]/div[2]/div/div/div[2]/button";//кнопка Добавить у блока Файл
+    String addFileButton = "/html/body/div/div/main/form/div[2]/section[1]/div[14]/div[2]/div/div/div[2]/button";//кнопка Добавить у блока Файл
 
     String addMandatoryRequirementsButton = "//button[@id='erknmRequirementsAddButton']";//кнопка Добавить в блоке обязательные требования, подлежащие проверке
     String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']/div/div[1]/div[1]";//выпадающий список Обязательные требования
-    String addNewMandatoryRequirementsButton = "Создать новый"; //создать новое обязательное требование (не могут сделать id для элемента)
+    String addNewSampleButton = "Создать новый"; //создать новый шаблон (не могут сделать id для элемента)
     String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']";//поле Наименование в блоке ОТ
     String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']";//поле Наименование НПА в блоке ОТ
     String dateNPAMandatoryRequirementsField = "/html/body/div/div/main/form/div[2]/section[4]/div[2]/table/tbody/tr/td[4]/div/div/div/div/input";//поле Дата НПА
@@ -102,13 +100,22 @@ public class ListEventsPage extends Common {
     String durationDaysActField = "//*[@name='acts[0].durationDays']";//поле Срок проведения (в днях)
     String nameSignatoryActField = "//*[@name='acts[0].fioSigner']"; //поле ФИО подписавшего акт
     String positionSignatoryActDropDown = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[6]/div[2]/div[2]/div/div/div[1]";//Выпадающий список Должность лица, подписавшего акт
-    String addOfficialsParticipatedButton = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[8]/div[1]/button"; //Кнопка Добавить в блоке Должностные лица КНО, участвовавшие в КНМ
+    String addOfficialsParticipatedButton = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[7]/div[1]/button"; //Кнопка Добавить в блоке Должностные лица КНО, участвовавшие в КНМ
     String officialsParticipatedEventField = "//*[@name='acts[0].knoInspectors[0].fullName']";//поле Введите ФИО в блоке Должностные лица КНО, участвовавшие в КНМ
-    String positionOfficialsParticipatedDropDown = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[8]/div[2]/div/div[2]/div[1]/div/div[1]/div";//выпадающий список Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ
+    String positionOfficialsParticipatedDropDown = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[7]/div[2]/div/div[2]/div[1]/div/div[1]/div";//выпадающий список Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ
     String factField = "//*[@name='acts[0].isViolationResolvedNote']";//Факт устранения выявленного нарушения
-    String informationAboutRecognitionDropDown = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[11]/div[2]/div/div/div[1]/div";//выпадающий список Сведения об ознакомлении контролируемых лиц с результатами КНМ
+    String informationAboutRecognitionDropDown = "/html/body/div/div/main/form/div[2]/section[6]/div[2]/div[2]/div[12]/div[1]/div/div/div[1]";//выпадающий список Сведения об ознакомлении контролируемых лиц с результатами КНМ
     String whoFamiliarWithField = "//*[@name='acts[0].fioReader']";// поле Кто ознакомлен
     String positionFamiliarWithField = "//*[@name='acts[0].titleReader']";// поле Должность
+
+    String addInformationAboutOfficialsParticipatingButton = "//*[@id ='erknmInspectorsAddButton']"; //кнопка Добавить в разделе Сведения о должностных лицах, участвующих в КНМ
+    String addFIOParticipatingField = "//*[@name='inspectorsErknm[0].fullName']"; //поле Введите ФИО должностного лица
+    String addPositionParticipatingDropDown = "//*[@id='inspectorsErknm[0].position']/div/div"; //выпадающий список Выберете должность
+
+    String checklistCheckbox = "//*[@id='isChecklistsUsed']";// чек-бокс Отметка об использовании проверочного листа
+    String addChecklistButton = "/html/body/div/div/main/form/div[2]/section[4]/div[6]/div/div/button"; //Добавить проверочный лист
+    String nameChecklistDropDown = "/html/body/div/div/main/form/div[2]/section[4]/div[6]/div/ul/li/div/div[2]/div[2]/div[2]/div/div/div/div[1]/div"; //Выпадающий список Наименовние проверочного листа
+    String nameChecklistField = "//*[@name='checklistsErknm[0].newTitle']"; //поле для ввода наименования нового проверочного листа
 
     /**
      * Выбор из выпадающего списка Наименование органа контроля
@@ -438,7 +445,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Заполнение выпадающего списка Необходимость согласования - {needCoordination}")
     public void setNeedCoordinationDropDown(String parametеr) {
-       // $(By.xpath(needCoordinationDropDown)).scrollTo().click();
+        // $(By.xpath(needCoordinationDropDown)).scrollTo().click();
         $(By.xpath(needCoordinationDropDown)).click();
         clickToText(parametеr);
     }
@@ -493,7 +500,7 @@ public class ListEventsPage extends Common {
     @Step("Открытие выпадающего списка ОТ и нажатие на кнопку Создать новое ОТ")
     public void setMandatoryRequirementsDropDown() {
         $(By.xpath(mandatoryRequirementsDropDown)).scrollTo().click();
-        clickToText(addNewMandatoryRequirementsButton);
+        clickToText(addNewSampleButton);
     }
 
     /**
@@ -730,12 +737,12 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Руководитель Территориального органа Росздравнадзора
+     * Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора
      */
-    @Step("Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - - Руководитель Территориального органа Росздравнадзора")
+    @Step("Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора")
     public void setPositionOfficialsTerritorialAuthorityParticipatedDropDown() {
         $(By.xpath(positionOfficialsParticipatedDropDown)).click();
-        clickToText(positionDirectorTerritorialAuthority);
+        clickToText(positionSpecialistExpert);
     }
 
     /**
@@ -801,5 +808,31 @@ public class ListEventsPage extends Common {
         setInformationAboutRecognitionDropDown(result);
         setWhoFamiliarWithField(who);
         setPositionFamiliarWithField(position);
+        closeNotification();
+    }
+
+    /**
+     * Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ
+     */
+    @Step("Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ")
+    public void addInformationAboutOfficialsParticipatingInTheKNM(String fio) {
+        $(By.xpath(addInformationAboutOfficialsParticipatingButton)).click();
+        $(By.xpath(addFIOParticipatingField)).setValue(fio);
+        $(By.xpath(addPositionParticipatingDropDown)).click();
+        clickToText(positionSpecialistExpert);
+    }
+
+    /**
+     * Добавление проверочного листа в КНМ
+     */
+    @Step("Добавление проверочного листа в КНМ")
+    public void addCheckList(String name) {
+        $(By.xpath(checklistCheckbox)).click();//выбор чек-бокса
+        $(By.xpath(addChecklistButton)).click(); //нажать кнопку Добавить у блока Проверочные листы
+        $(By.xpath(nameChecklistDropDown)).click(); //нажатие на выпадающий список Наименование проверочного листа
+        clickToText(addNewSampleButton);
+        $(By.xpath(nameChecklistField)).setValue(name);
+        
+
     }
 }

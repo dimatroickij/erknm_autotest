@@ -24,6 +24,7 @@ public class ListEventsTest extends ListEventsPage {
     @Test(description = "1 - Добавление внеплановой КНМ требующей согласования (статус в процессе заполнения)", priority=1)
     public void createEventStatusProcessCompletionTest() {
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
@@ -41,10 +42,11 @@ public class ListEventsTest extends ListEventsPage {
     @Test(description = "Создание шаблонов обязательных требований (для ЕРКНМ)", priority=2)
     public void createTemplateMandatoryRequirementsERKNMTest() {
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
-        //openCard(numberKNM);
-        openCard("77220660001100008850");
+        openCard(numberKNM);
+        //openCard("77220660001100009009");
         //TODO: иногда при скроле до элемента верхняя панель перекрывает поля для ввода
         createMandatoryRequirements(prefix +"авто",prefix +"авто",currentDate);
         clickSaveButton();
@@ -57,14 +59,16 @@ public class ListEventsTest extends ListEventsPage {
      * HP ALM
      * @author Frolova S.I 01.2022
      */
-   // @Test(description = "2 - Перевод КНМ в статус готово к согласованию", dependsOnMethods={"createTemplateMandatoryRequirementsERKNMTest"})
-    @Test(description = "2 - Перевод КНМ в статус готово к согласованию")
+    @Test(description = "2 - Перевод КНМ в статус готово к согласованию", dependsOnMethods={"createTemplateMandatoryRequirementsERKNMTest"})
+   // @Test(description = "2 - Перевод КНМ в статус готово к согласованию")
     public void transferEventStatusReadyApprovalTest() {
         installPlugin();
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
-        openCard("77220660001100008850");
+        openCard(numberKNM);
+        //openCard("77220660001100009009");
         setDateTimePublicationDecisionField(currentDate);
         setSolutionNumberField(prefix +"");
         setPlaceDecisionField(prefix + "автотестМесто");
@@ -78,12 +82,12 @@ public class ListEventsTest extends ListEventsPage {
         closeNotification();
         clickSaveButton();
         checkObject("Готово к согласованию");
-        closeNotification();
-        clickActionsHeaderButton();
+       // clickActionsHeaderButton();
+        clickActionsOnCardButton();
         clickSignatureButton();
         choiceSignature();
-        //Selenide.confirm();
         clickSignatureButton();
+        checkSuccessfullySignNotification(); //TODO можно увеличить время ожидания сообщения
         //logout();
     }
 
@@ -92,14 +96,15 @@ public class ListEventsTest extends ListEventsPage {
      * HP ALM
      * @author Frolova S.I 01.2022
      */
-   // @Test(description = "3 - Перевод КНМ в статус на согласовании", dependsOnMethods={"transferEventStatusReadyApprovalTest"})
-    @Test(description = "3 - Перевод КНМ в статус на согласовании")
+    @Test(description = "3 - Перевод КНМ в статус на согласовании", dependsOnMethods={"transferEventStatusReadyApprovalTest"})
+    //@Test(description = "3 - Перевод КНМ в статус на согласовании")
     public void transferEventStatusOnApprovalTest() {
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
-       // openCard("numberKNM");
-        openCard("77220660001100008840");
+        openCard("numberKNM");
+       // openCard("77220660001100009009");
         clickActionsOnCardButton();
         clickForApprovalButton();
         checkObject("На согласовании");
@@ -110,14 +115,15 @@ public class ListEventsTest extends ListEventsPage {
      * HP ALM
      * @author Frolova S.I 01.2022
      */
-  //  @Test(description = "4 - Перевод КНМ в статус ожидает завршения", dependsOnMethods={"transferEventStatusOnApprovalTest"})
-    @Test(description = "4 - Перевод КНМ в статус ожидает завршения")
+    @Test(description = "4 - Перевод КНМ в статус ожидает завршения", dependsOnMethods={"transferEventStatusOnApprovalTest"})
+    //@Test(description = "4 - Перевод КНМ в статус ожидает завршения")
     public void transferEventStatusAgreedTest() {
         authorization("prosecutor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
-        // openCard("numberKNM");
-        openCard("77220660001100008840");
+        openCard("numberKNM");
+        //openCard("77220660001100009009");
         setDecisionApplicationDropDown(approved);
         clickSaveButton();
         checkObject("Ожидает завершения");
@@ -128,15 +134,16 @@ public class ListEventsTest extends ListEventsPage {
      * HP ALM
      * @author Frolova S.I 01.2022
      */
-    //@Test(description = "5 - Перевод КНМ в статус завершено", dependsOnMethods={"transferEventStatusAgreedTest"})
-    @Test(description = "5 - Перевод КНМ в статус завершено")
+    @Test(description = "5 - Перевод КНМ в статус завершено", dependsOnMethods={"transferEventStatusAgreedTest"})
+    //@Test(description = "5 - Перевод КНМ в статус завершено")
     public void transferEventStatusWaitCompletedTest() {
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
-        // openCard("numberKNM");
-        openCard("77220660001100008840");
-        addInformationAboutAct(filePath,signPath,number,currentDate,currentDate,number,fio,fio,"",familiarWith,fio,"");
+        openCard("numberKNM");
+        //openCard("77220660001100009009");
+        addInformationAboutAct(filePath,signPath,number,currentDate,currentDate,number,fio,fio,"",familiarWith,fio,positionDirectorTerritorialAuthority);
         clickSaveButton();
         checkObject("Завершено");
     }
@@ -147,10 +154,47 @@ public class ListEventsTest extends ListEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "6 - Перевод КНМ в статус ожидает проведения")
-    public void transferEventStatusWaitCompletionsTest() {
-        //открываем КНМ созданную в тесте 1 ранее На данном статусе необходимо выбрать соблюдены ли обязательные требования,
-        //если было заполнено поле “Обязательные требования, подлежащие проверке”. Проверка не
-        //является завершенной.
+    public void transferEventStatusLookingForwardTest() {
+        installPlugin();
+        authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
+        choiceERKNM();
+        gotoListKNMPage();
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, futureDate, prosecutorsOffice, INN);
+        numberKNM = getNumberKNM();
+        closeNotification();
+        createMandatoryRequirements(prefix +"авто",prefix +"авто",futureDate);
+        clickSaveButton();
+        checkObject(prefix +"авто");
+        setDateTimePublicationDecisionField(futureDate);
+        setSolutionNumberField(prefix +"");
+        setPlaceDecisionField(prefix + "автотестМесто");
+        setNameOfficialField(prefix + "autoFIO");
+        setPositionPersonSignedDecisionsDropDown();
+        setDurationDaysField("1");
+        addGroundsConductingUnscheduled(filePath,signPath,needCoordination);
+        addListActions(futureDate,futureDate);
+        clickAddVenueButton();
+        setVenueField(prefix + "автотестместо");
+        closeNotification();
+        clickSaveButton();
+        closeNotification();
+        clickActionsHeaderButton();
+        clickSignatureButton();
+        choiceSignature();
+        clickSignatureButton();
+        clickActionsOnCardButton();
+        clickForApprovalButton();
+        logout();
+        authorization("prosecutor");
+        choiceERKNM();
+        gotoListKNMPage();
+        // openCard("numberKNM");
+        openCard(numberKNM);
+        setDecisionApplicationDropDown(approved);
+        clickSaveButton();
+        checkObject("Ожидает проведения");
+
     }
 
     /**
@@ -161,15 +205,14 @@ public class ListEventsTest extends ListEventsPage {
     @Test(description = "7 - Удаление КНМ")
     public void deleteEventTest() {
         authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
         clickActionsOnCardButton();
-        clickDeleteButton();
+        clickDeleteOnCardButton();
         checkObject("Удалено");
-        gotoListKNMPage();
-        checkAbsenceObject("05220131000200090625");
-        //TODO можно добавить проверку мессаджа "КНМ успешно удален."
+        closeNotification();
 
     }
 
@@ -180,7 +223,16 @@ public class ListEventsTest extends ListEventsPage {
      */
     @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРКНМ)")
     public void createTemplateTestSheetsERKNMTest() {
-        //создаем новую и добавляем проверочные листы
+        authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
+        choiceERKNM();
+        gotoListKNMPage();
+        addUnplannedKNM(nameKNO, viewKNO, raidInspection, currentDate, prosecutorsOffice, INN);
+        addCheckList(prefix+"");
+        closeNotification();
+        clickSaveButton();
+        checkObject("Проверочный лист №1");
+        //TODO сделать проверку на наименование
     }
 
     /**
@@ -190,7 +242,15 @@ public class ListEventsTest extends ListEventsPage {
      */
     @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРКНМ)")
     public void addRepresentativesERKNMTest() {
-        //создаем новую и добавляем уполномоченных
+        authorization("supervisor");
+        sleep(2000); //TODO убрать, как пофиксят баг
+        choiceERKNM();
+        gotoListKNMPage();
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
+        closeNotification();
+        addInformationAboutOfficialsParticipatingInTheKNM(prefix+fio);
+        checkObject(prefix +fio);
+
     }
 
 }

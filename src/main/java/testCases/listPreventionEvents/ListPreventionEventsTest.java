@@ -26,6 +26,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "1 - Добавляем ПМ, вид Объявление предостережения (статус в процессе заполнения)")
     public void createPMEventWarningAnnouncementStatusProcessCompletionTest() {
         authorization("supervisor");
+        sleep(2000);//todo убрать
         choiceERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
@@ -44,14 +45,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
-    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws IOException {
+    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() {
         installPlugin();
         authorization("supervisor");
+        sleep(2000);
         choiceERKNM();
         gotoListPreventionEventsPage();
        // openCard(numberPM);
-        openCard("77220660001100008846");
-        switchTo().window(1);
+        openCard("77220660001100008992");
         clickCloseMessagePMButton();
         setStopDate(currentDate);
         setNoteWarningField(prefix + "авто Описание");
@@ -112,36 +113,6 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     }
 
     /**
-     * Цель: Перевести Профилактический визит в статус Ожидает проведения
-     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=534
-     *
-     * @author Frolova S.I 01.2022
-     */
-    //@Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods={"createPMEventPreventiveVisitStatusProcessCompletionTest"})
-    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
-    public void transferPMEventPreventiveVisitStatusAwaitingTest() {
-        installPlugin();
-        authorization("supervisor");
-        //TODO статус ожидает проведения для тех, у кого не наступила дата начала? создать новую
-        choiceERKNM();
-        gotoListPreventionEventsPage();
-        openCard(numberPM);
-        switchTo().window(1);
-        setStopDate(currentDate);
-        addGroundsPM(grounds);
-        addOfficialPM(prefix + "авто ФИО", officialPost);
-        clickSaveButton();
-        closeNotification(); //3 раза?
-        clickActionsHeaderButton();
-        clickSignatureButton();
-        //Selenide.confirm();
-        clickSignatureButton();
-        clickSaveButton();
-        checkObject("Ожидает проведения");
-        //logout();
-    }
-
-    /**
      * Цель: Перевести Профлактический визит в статус Завершено
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=535
      *
@@ -158,6 +129,42 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         setResultPMField(prefix + "авто результат");
         clickSaveButton();
         checkObject("Завершено");
+        //logout();
+    }
+
+    /**
+     * Цель: Перевести Профилактический визит в статус Отказ в проведении
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=536
+     *
+     * @author Frolova S.I 01.2022
+     */
+    @Test(description = "5 - Перевод Профилактического визита в статус Отказ в проведении")
+    public void transferPMEventPreventiveVisitStatusAwaitingTest() {
+        installPlugin();
+
+        authorization("supervisor");
+        sleep(2000);//todo убрать
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
+        numberPM = getNumberPM();
+        System.out.println("НОМЕР ПМ - " + numberPM);
+
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        openCard(numberPM);
+        switchTo().window(1);
+        setStopDate(currentDate);
+        addGroundsPM(grounds);
+        addOfficialPM(prefix + "авто ФИО", officialPost);
+        clickSaveButton();
+        closeNotification(); //3 раза?
+        clickActionsHeaderButton();
+        clickSignatureButton();
+        //Selenide.confirm();
+        clickSignatureButton();
+        clickSaveButton();
+        checkObject("Отказ в проведении");
         //logout();
     }
 
