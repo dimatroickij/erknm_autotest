@@ -34,7 +34,7 @@ public class ListEventsPage extends Common {
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде контроля период времени с даты окончания проведения последнего планового контрольного (надзорного) мероприятия";
     //TODO где дата
     //Дата основания включения в план -reasonsErknm[порядковый номер].date
-    String dateGIPField = "/html/body/div/div/main/form/div[2]/div[1]/div[18]/ul/li/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план
+    String dateGIPField = "/html/body/div/div/main/form/div[2]/section[1]/div[13]/div[2]/div/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план
 
     String addObjectControlKNMButton = "//*[@id='erknmObjectsAddButton']";//кнопка Добавить в разделе Сведения об объектах контроля в карточке КНМ
     String addressField = "//*[@name='objectsErknm[0].addressText']";//поле Местонахождение

@@ -26,7 +26,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "1 - Добавляем ПМ, вид Объявление предостережения (статус в процессе заполнения)")
     public void createPMEventWarningAnnouncementStatusProcessCompletionTest() {
         authorization("supervisor");
-        sleep(2000);//todo убрать
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
@@ -43,16 +43,16 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
-    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
+    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() {
         installPlugin();
         authorization("supervisor");
-        sleep(2000);
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
-       // openCard(numberPM);
-        openCard("77220660001100008992");
+        openCard(numberPM);
+        //openCard("77220660001100009021");
         clickCloseMessagePMButton();
         setStopDate(currentDate);
         setNoteWarningField(prefix + "авто Описание");
@@ -66,10 +66,12 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         closeNotification();
         clickActionsHeaderButton();
         clickSignatureButton();
+        choiceSignature();
        // Selenide.confirm();
         clickSignatureButton();
+        clickCloseMessagePMButton();
         clickSaveButton();
-        checkObject("Предостережение объявлено");
+        checkObject("Предостережение объявлено"); //TODO нужно ожидать после подписания около 3-5 сек
         //logout();
     }
 
@@ -79,14 +81,16 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
     public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
-        openCard(numberPM);
-        switchTo().window(1);
-        clickAddInformationDirectionObjectionButton();
+        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
+        clickCloseMessagePMButton();
+        closeNotification();
+        clickAddInformationDirectionObjectionButton();//TODO не всегда срабатывает без ожидания
         addDocumentAndSignatureInformationDirectionObjection(filePath,signPath);
         clickUploadButton();
         closeNotification();
@@ -104,6 +108,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "4 - Добавляем ПМ, вид профилактический визит (статус в процессе заполнения)")
     public void createPMEventPreventiveVisitStatusProcessCompletionTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
@@ -113,60 +118,60 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     }
 
     /**
+     * Цель: Перевести Профилактический визит в статус Ожидает проведения
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=536
+     *
+     * @author Frolova S.I 01.2022
+     */
+    @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
+    //@Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
+    public void transferPMEventPreventiveVisitStatusLookingForwardTest() {
+        installPlugin();
+        authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
+        choiceERKNM();
+        gotoListPreventionEventsPage();
+        openCard(numberPM);
+        //openCard("77220660001100009031");
+        clickCloseMessagePMButton();
+        setStopDate(currentDate);
+        addGroundsPM(grounds);
+        addOfficialPM(prefix + "авто ФИО", officialPost);
+        clickSaveButton();
+        closeNotification();
+        clickActionsHeaderButton();
+        clickSignatureButton();
+        choiceSignature();
+        //Selenide.confirm();
+        clickSignatureButton();
+        clickSaveButton();
+        clickCloseMessagePMButton();
+        checkObject("Ожидает проведения");
+        //logout();
+    }
+
+    /**
      * Цель: Перевести Профлактический визит в статус Завершено
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=535
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods = {"transferPMEventPreventiveVisitStatusAwaitingTest"})
+    @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods = {"transferPMEventPreventiveVisitStatusLookingForwardTest"})
     //@Test(description = "6 - Перевод Профилактического визита в статус Завершено")
     public void transferPMEventPreventiveVisitStatusCompletedTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
+        //openCard("77220660001100009031");
         openCard(numberPM);
-        switchTo().window(1);
+        clickCloseMessagePMButton();
         setResultPMField(prefix + "авто результат");
         clickSaveButton();
         checkObject("Завершено");
         //logout();
     }
 
-    /**
-     * Цель: Перевести Профилактический визит в статус Отказ в проведении
-     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=536
-     *
-     * @author Frolova S.I 01.2022
-     */
-    @Test(description = "5 - Перевод Профилактического визита в статус Отказ в проведении")
-    public void transferPMEventPreventiveVisitStatusAwaitingTest() {
-        installPlugin();
-
-        authorization("supervisor");
-        sleep(2000);//todo убрать
-        choiceERKNM();
-        gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
-        numberPM = getNumberPM();
-        System.out.println("НОМЕР ПМ - " + numberPM);
-
-        choiceERKNM();
-        gotoListPreventionEventsPage();
-        openCard(numberPM);
-        switchTo().window(1);
-        setStopDate(currentDate);
-        addGroundsPM(grounds);
-        addOfficialPM(prefix + "авто ФИО", officialPost);
-        clickSaveButton();
-        closeNotification(); //3 раза?
-        clickActionsHeaderButton();
-        clickSignatureButton();
-        //Selenide.confirm();
-        clickSignatureButton();
-        clickSaveButton();
-        checkObject("Отказ в проведении");
-        //logout();
-    }
 
     /**
      * Цель: Удаление ПМ
@@ -177,6 +182,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     @Test(description = "7 - Удаление ПМ")
     public void deletePMEventTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
@@ -184,12 +190,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         System.out.println(numberPM);
         clickCloseMessagePMButton();
         closeNotification();
-        // gotoListPreventionEventsPage();
-        // openCard(numberPM);
-        // switchTo().window(1);
         clickActionButton();
         clickActionsOnCardButton();
-        clickDeleteButton();
+        clickDeleteOnCardButton();
         checkObject("Удалено");
         gotoListPreventionEventsPage();
         searchRequest(numberPM);

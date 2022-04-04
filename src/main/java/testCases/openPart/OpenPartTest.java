@@ -7,6 +7,9 @@ import testPages.OpenPartPage;
 
 import java.util.Random;
 
+import static com.codeborne.selenide.Selenide.clearBrowserCookies;
+import static com.codeborne.selenide.Selenide.open;
+
 public class OpenPartTest extends OpenPartPage {
     //открытая часть реестра
     Random rnd = new Random();
@@ -14,55 +17,41 @@ public class OpenPartTest extends OpenPartPage {
     String titleNews = prefix + "автотест ЗаголовокОЧ";
     String shortText = prefix + "автотест Краткий текст новостиОЧ";
     String textNews = prefix + "автотест Текст новостиОЧ";
-    String kod ="12345";
+    String captcha ="12345";
 
     /**
      * Цель: Проверка поиска на главной странице
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3322
-     * @author Frolova S.I 02.2022
+     * @author Frolova S.I 03.2022
      */
     @Test(description = "1 - Проверка поиска на главной странице")
     public void checkSearchMainPage() {
-        authorization("supervisor");
-        choiceERKNM();
-        gotoListKNMPage();
-        ListEventsPage event = new ListEventsPage();
-        //не требует согласования
-        event.addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
-        //опубликовать эту кнм и найти ее
-        //  searchRequest(numberKNM);
-        //  checkObject(numberKNM);
-        //переходим в оч
-        //переход на гл страницу
-        //searchEventsWithCaptcha(numberKNO);
-        //опубликовать КНМ
-        //проверить, что появилась
-
-
+        clearBrowserCookies();
+        open(openUrl);
+        gotoHomeOpenPage();
+        searchEventsWithCaptcha(numberPublishedKNMBVT, captcha);
+        checkObject(numberPublishedKNMBVT);
+        gotoHomeOpenPage();
+        searchEventsWithoutCaptcha(numberUnpublishedKNMBVT);
+        checkAbsenceObject(numberUnpublishedKNMBVT);
     }
 
     /**
      * Цель: Проверка поиска на странице поиска проверок
      * HP ALM
      *
-     * @author Frolova S.I 02.2022
+     * @author Frolova S.I 03.2022
      */
     @Test(description = "2 - Проверка поиска на странице поиска проверок")
     public void checkSearchSearchPage() {
-        authorization("supervisor");
-        choiceERKNM();
-        gotoListKNMPage();
-        ListEventsPage event = new ListEventsPage();
-        //не требует согласования
-        event.addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
-        //опубликовать эту кнм и найти ее
-        //  searchRequest(numberKNM);
-        //  checkObject(numberKNM);
-        //переходим в оч
-        //переход на страницу поиск проверок
-        //searchEventsWithCaptcha(numberKNO);
-        //опубликовать КНМ
-        //проверить, что появилась
+        clearBrowserCookies();
+        open(openUrl);
+        gotoSearchCheckOpenPage();
+        searchEventsWithCaptcha(numberPublishedKNMBVT,captcha);
+        checkObject(numberPublishedKNMBVT);
+        gotoSearchCheckOpenPage();
+        searchEventsWithoutCaptcha(numberUnpublishedKNMBVT);
+        checkAbsenceObject(numberUnpublishedKNMBVT);
 
     }
 

@@ -1,6 +1,5 @@
 package testCases.listEvents;
 
-import com.codeborne.selenide.Selenide;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 
@@ -30,6 +29,8 @@ public class ListEventsTest extends ListEventsPage {
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
         checkObject("В процессе заполнения");
         numberKNM = getNumberKNM();
+        numberPublishedKNMBVT =numberKNM;
+
         closeNotification();
         //logout();
     }
@@ -209,6 +210,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
+        numberUnpublishedKNMBVT = getNumberKNM();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         checkObject("Удалено");

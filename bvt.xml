@@ -3,7 +3,20 @@
 <suite name="Suite" parallel="false">
     <test name="Test">
         <classes>
-            <class name="testCases.auth.AuthTest">
+            <class name="testCases.listEvents.ListEventsTest">
+                           <methods>
+                                <include name="createEventStatusProcessCompletionTest" />
+
+                            </methods>
+                        </class>
+
+            <class name="testCases.listPlans.ListPlansTest">
+                <methods>
+                    <include name="createPlanTest"/>
+                </methods>
+            </class>
+
+           <!-- <class name="testCases.auth.AuthTest">
                 <methods>
                     <include name="authorizationSomeTest"/>
                     <include name="choiceModeERKNMTest"/>
@@ -46,7 +59,7 @@
                     <include name="editNewsERPTest"/>
                     <include name="deleteNewsERPTest"/>
                 </methods>
-            </class>
+            </class>-->
 
             <!--            <class name="testCases.listEvents.ListEventsTest">-->
             <!--                <methods>-->

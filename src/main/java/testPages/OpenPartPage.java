@@ -12,10 +12,12 @@ public class OpenPartPage extends Common {
     String captchaField = "//*[@name='captcha']"; //поле для ввода капчи
     String sendButton = "//*[text()='Отправить']"; //кнопка отправить на форме капчи
 
-    String homePage = "//*[@id='root']/div/header/nav/a[1]"; //пункт меню Главная страница
-    String openDataPage = "//*[@id='root']/div/header/nav/a[2]"; //пункт меню Открытые данные
-    String searchCheckPage = "//*[@id='root']/div/header/nav/a[3]";//пункт меню Поиск проверок
-    String newsPage = "//*[@id='root']/div/header/nav/a[4]"; //пункт меню Новости
+    String searchOpenPartButton ="//*[text()='Искать']"; //кнопка Искать в ОЧ
+
+    String homePage = "//*[@id='/portal']"; //пункт меню Главная страница
+    String openDataPage = "//*[@id='/portal/public-open-data']"; //пункт меню Открытые данные
+    String searchCheckPage = "//*[@id='/portal/public-search']";//пункт меню Поиск проверок
+    String newsPage = "//*[@id='/portal/public-news']"; //пункт меню Новости
 
     //открытые данные
 
@@ -60,7 +62,7 @@ public class OpenPartPage extends Common {
     @Step("Поиск мероприятия {number} с вводом капчи - {captcha}")
     public void searchEventsWithCaptcha(String number, String captcha) {
         $(By.xpath(searchField)).setValue(number); //ввод поискового запроса
-        clickSearchButton(); //нажатие на кнопку Искать
+        $(By.xpath(searchOpenPartButton)).click(); //нажатие на кнопку Искать
         $(By.xpath(captchaField)).setValue(captcha); //ввод капчи
         $(By.xpath(sendButton)).click(); //нажатие на кнопку Отправить
     }
@@ -72,6 +74,6 @@ public class OpenPartPage extends Common {
     @Step("Поиск мероприятия без ввода капчи - {number}")
     public void searchEventsWithoutCaptcha(String number) {
         $(By.xpath(searchField)).setValue(number); //ввод поискового запроса
-        clickSearchButton(); //нажатие на кнопку Искать
+        $(By.xpath(searchOpenPartButton)).click(); //нажатие на кнопку Искать
     }
 }

@@ -19,29 +19,11 @@ public class SearchEventsTest extends Common {
     public void checkFunctionalitySearchKNMTest() {
         authorization("supervisor");
         choiceERKNM();
-        gotoListKNMPage();
-        ListEventsPage event = new ListEventsPage();
-        event.addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
         gotoSearchEvents();
-        searchRequest(numberKNM);
-        checkAbsenceObject(numberKNM);
-        gotoListKNMPage();
-        openCard(numberKNM);
-
-        event.setDateTimePublicationDecisionField(currentDate);
-        event.setSolutionNumberField(number);
-        event.setPlaceDecisionField(place);
-        event.setNameOfficialField(fio);
-        event.setPositionPersonSignedDecisionsDropDown();
-        event.setDurationDaysField(number);
-        event.setGroundConduсtingDropDown();
-        event.addListActions(currentDate, currentDate);
-        event.createMandatoryRequirements("1", "2", currentDate);//выбор первого или создание нового
-        clickSaveButton();
-        //подписать!
+        searchRequest(numberPublishedKNMBVT);
+        checkObject(numberPublishedKNMBVT);
         gotoSearchEvents();
-        //опубликовать эту кнм и найти ее
-        searchRequest(numberKNM);
-        checkObject(numberKNM);
+        searchRequest(numberUnpublishedKNMBVT);
+        checkAbsenceObject(numberUnpublishedKNMBVT);
     }
 }

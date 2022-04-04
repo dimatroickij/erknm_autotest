@@ -51,6 +51,7 @@ public class Common {
     public String codeKNO = "10000001127";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
+    public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
@@ -133,6 +134,9 @@ public class Common {
     public static String templateSheets; // Проверочный лист, созданный при помощи bvt
     public static String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
     public static String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
+
+    public static String numberPublishedKNMBVT;//номер опубликованной внеплановой КНМ, созданной при bvt
+    public static String numberUnpublishedKNMBVT; //номер неопубликованной КНМ, созданной при bvt
 
     String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
@@ -568,7 +572,7 @@ public class Common {
      */
     @Step("Проверка отсутствия - {name}")
     public void checkAbsenceObject(String name) {
-        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
+        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldNotBe(exist);
     }
 
     /**

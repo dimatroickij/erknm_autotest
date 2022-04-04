@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class ListPlansTest extends ListPlanPage {
     //раздел Список планов
@@ -19,35 +20,43 @@ public class ListPlansTest extends ListPlanPage {
     /**
      * Цель: Создание плана (статус в процессе формирования)
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=445
+     *
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Создание плана (статус в процессе формирования)")
     public void createPlanTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPlansPage();
-        clickAddButton();
-        //нужно менять прокуратуру и орган контроля?
+       /* clickAddButton();
+       // setKNOFormPlanDropDown(); выбор, если по умолчанию выбрано не здравоохранение
+       // setprosecutorDropDown();
         clickCreateButton();
         numberPlan = getNumberPlan();
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
+        gotoListPlansPage();
         openCardPlan(numberPlan);
-        checkObject("В процессе формирования");
+        checkObject("В процессе формирования");*/
+
     }
 
     /**
      * Цель: Добавление плановой КНМ в созданный план
      * !HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=446
+     *
      * @author Frolova S.I 02.2022
      */
     //@Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
     @Test(description = "3 - Добавление плановой КНМ в созданный план")
     public void addPlannedKNMInPlanTest() throws IOException {
+        //installPlugin();
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListPlansPage();
-        openCardPlan("2023037766");
+        openCardPlan("2023037779");
         clickAddKNMButton();
         event.setKindControlAndNumberDropDown(viewKNO);
         event.setKindKNMDropDown(controlPurchase);
@@ -57,46 +66,45 @@ public class ListPlansTest extends ListPlanPage {
         event.setKindObjectDropDown();
         event.setDangerClassDropDown();
         clickSaveButton();
-        //numberKNM = event.getNumberKNM();
-        System.out.println("НОМЕР НОВОЙ - " +numberKNM);
+        numberKNM = event.getNumberKNM();
         event.setDurationDaysField(number);
         event.addGroundsIncludePlan(futureDate);
-        event.addListActions(futureDate,futureDate);
+        event.addListActions(futureDate, futureDate);
+        event.createMandatoryRequirements(prefix + "авто", prefix + "авто", currentDate);
         event.clickAddVenueButton();
         event.setVenueField(place);
-      //  event.setDateTimePublicationDecisionField(futureDate);
-      //  event.setSolutionNumberField(prefix+"");
-      //  event.setPlaceDecisionField(prefix + "автотестМесто");
-        event.addGroundsIncludePlan(futureDate);
+        checkObject("Готово к согласованию");
+        /*clickActionsOnCardButton();
+        clickSignatureButton();
+        choiceSignature();
+        clickSignatureButton();
+        checkSuccessfullySignNotification();*/
 
-        event.setNameOfficialField(prefix + "autoFIO");
-        event.setPositionPersonSignedDecisionsDropDown();
-
-        event.addGroundsConductingPlanned(filePath,signPath);
-        event.addListActions(futureDate,futureDate);
-        event.createMandatoryRequirements("","",futureDate);
-
-        event.clickAddVenueButton();
-        event.setVenueField(prefix + "автотестместо");
-
+        clickSubmitReviewButton();
+        checkObject("На рассмотрении");
     }
 
     /**
      * Цель: Перевод плана в статус На рассмотрении
      * !Hp ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=516
+     *
      * @author Frolova S.I 02.2022
      */
-    //статус на согласовании?
-    @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods={"addPlannedKNMInPlanTest"})
+    @Test(description = "4 - Перевод плана в статус На рассмотрении")
+   // @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() {
         installPlugin();
         authorization("prosecutor");
+        ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListKNMPage();
-        openCardPlan("");
+        openCard("77230660001100009034");
+        event.setDecisionApplicationDropDown(approved);
+        clickSaveButton();
+        gotoListPlansPage();
+        openCardPlan("2023037775");
+        //openCardPlan(numberPlan);
 
-        gotoListKNMPage();
-        openCard(numberPlan);
         checkObject("На рассмотрении");
 
     }
@@ -104,9 +112,10 @@ public class ListPlansTest extends ListPlanPage {
     /**
      * Цель: Перевод плана в статус Утвержден
      * !HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=520
+     *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "5 - Перевод плана в статус Утвержден", dependsOnMethods={"transferPlanStatusOnConsiderationTest"})
+    @Test(description = "5 - Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
     public void transferPlanStatusApprovedTest() {
         authorization("supervisor");
         choiceERKNM();
@@ -118,9 +127,10 @@ public class ListPlansTest extends ListPlanPage {
     /**
      * Цель:Исключение КНМ из плана в статусе Утвержден
      * !HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3323
+     *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "6 - Исключение КНМ из плана в статусе Утвержден", dependsOnMethods={"transferPlanStatusApprovedTest"})
+    @Test(description = "6 - Исключение КНМ из плана в статусе Утвержден", dependsOnMethods = {"transferPlanStatusApprovedTest"})
     public void exceptionKNMFromApprovedPlanTest() {
         authorization("supervisor");
         ListEventsPage event = new ListEventsPage();
@@ -139,15 +149,17 @@ public class ListPlansTest extends ListPlanPage {
 
 
     }
+
     /**
      * Цель: Удаление плана
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=449
+     *
      * @author Frolova S.I 02.2022
-    */
+     */
     @Test(description = "2 - Удаление плана")
     public void deletePlanTest() {
         createPlanTest();
-        //gotoListPlansPage();
+        gotoListPlansPage();
         searchRequest(numberPlan);
         clickCheckBoxListPlan(numberPlan);
         clickDeleteButton();

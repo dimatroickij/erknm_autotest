@@ -8,6 +8,8 @@ import static com.codeborne.selenide.Selenide.$;
 public class ListPlanPage extends Common {
     //раздел Список планов
     String addKNMButton = "//*[text()='Добавить КНМ']";
+    String knoDropDown="//*[@id='kno']"; //выпадающий список Орган контроля на форме создания плана
+    String prosecutorDropDown="//*[@id='prosecutor']"; //выпадающий список Орган прокуратуры на форме создания плана
     String numberPlan = "//*[contains(@class,'Notification_ClosingNotificationText_') and contains(string(),'План 2')]"; //для получения номера плана
     String confirmationDeleteButton = "//*[@id='confirmButton']"; //подтверждение удаления
     String submitReviewButton = "//*[@id='planChangeStatusButton']"; //кнопка Отправить на рассмотрение
@@ -16,6 +18,23 @@ public class ListPlanPage extends Common {
     String responsesFromNadzorWebBlock = "//*[@id='responsesFromWebBlock']";//блок Статус обмена с АИК "Надзор-Web"
     String documentsBlock = "//*[@id='documentsBlock']";//блок Список документа
     String versionsBlock = "//*[@id='versionsBlock']";//блок Версии плана
+
+    /**
+     * Выбор органа контроля при создании плана
+     */
+    @Step("Выбор Органа контроля при создании плана")
+    public void setKNOFormPlanDropDown(){
+        $(By.xpath(knoDropDown)).click();
+        clickToText(nameKNO);
+    }
+    /**
+     * Выбор органа прокуратуры при создании плана
+     */
+    @Step("Выбор органа прокуратуры при создании плана")
+    public void setprosecutorDropDown(){
+        $(By.xpath(prosecutorDropDown)).click();
+        clickToText(prosecutorPlan);
+    }
 
     /**
      * Нажатие на блок История согласования
