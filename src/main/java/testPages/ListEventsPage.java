@@ -87,7 +87,7 @@ public class ListEventsPage extends Common {
 
     String approvalButton = "//button[text()='На согласование']";//кнопка в подменю На согласование
 
-    String decisionApplicationDropDown = "//*[@id='approved']/div/div[1]"; //Выпадающий список Решение по заялвению
+    String decisionApplicationDropDown = "//*[@id='approved']/div/div[1]"; //Выпадающий список Решение по заявлению
 
     //Блок Сведения об акте
     String addInformationAboutActsButton = "/html/body/div/div/main/form/div[2]/section[6]/div/button";//Кнопка Добавить в блоке Сведения об акте

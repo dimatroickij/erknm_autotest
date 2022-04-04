@@ -4,11 +4,9 @@ import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
-import java.io.IOException;
 import java.util.Random;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ListPlansTest extends ListPlanPage {
     //раздел Список планов
@@ -29,15 +27,15 @@ public class ListPlansTest extends ListPlanPage {
         sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPlansPage();
-       /* clickAddButton();
+        clickAddButton();
        // setKNOFormPlanDropDown(); выбор, если по умолчанию выбрано не здравоохранение
-       // setprosecutorDropDown();
+       // setProsecutorDropDown();
         clickCreateButton();
         numberPlan = getNumberPlan();
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
         gotoListPlansPage();
         openCardPlan(numberPlan);
-        checkObject("В процессе формирования");*/
+        checkObject("В процессе формирования");
 
     }
 
@@ -47,16 +45,16 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    //@Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
-    @Test(description = "3 - Добавление плановой КНМ в созданный план")
-    public void addPlannedKNMInPlanTest() throws IOException {
-        //installPlugin();
+    @Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
+    //@Test(description = "3 - Добавление плановой КНМ в созданный план")
+    public void addPlannedKNMInPlanTest() {
         authorization("supervisor");
         sleep(2000);//TODO убрать, как пофиксят баг
         ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListPlansPage();
-        openCardPlan("2023037779");
+        //openCardPlan("2023037785");
+        openCardPlan(numberPlan);
         clickAddKNMButton();
         event.setKindControlAndNumberDropDown(viewKNO);
         event.setKindKNMDropDown(controlPurchase);
@@ -73,15 +71,10 @@ public class ListPlansTest extends ListPlanPage {
         event.createMandatoryRequirements(prefix + "авто", prefix + "авто", currentDate);
         event.clickAddVenueButton();
         event.setVenueField(place);
+        closeNotification();
+        clickSaveButton();
         checkObject("Готово к согласованию");
-        /*clickActionsOnCardButton();
-        clickSignatureButton();
-        choiceSignature();
-        clickSignatureButton();
-        checkSuccessfullySignNotification();*/
 
-        clickSubmitReviewButton();
-        checkObject("На рассмотрении");
     }
 
     /**
@@ -90,22 +83,51 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "4 - Перевод плана в статус На рассмотрении")
-   // @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
+   // @Test(description = "4 - Перевод плана в статус На рассмотрении")
+    @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() {
         installPlugin();
-        authorization("prosecutor");
-        ListEventsPage event = new ListEventsPage();
+        authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
+        gotoListPlansPage();
+        openCardPlan(numberPlan);
+       // openCardPlan("2023037785");
+        clickActionsHeaderButton();
+        clickSignatureButton();
+        choiceSignature();
+        clickSignatureButton();
+        clickSubmitReviewButton();
+        clickApproveChangeStatus();
+        clickSaveButton();
+        checkObject("На рассмотрении");
+
+    }
+
+    /**
+     * Цель: Перевод плана в статус Рассмотрен
+     * HP ALM:
+     *
+     * @author Frolova S.I. 03.2022
+     */
+    @Test(description = "5 - Перевод плана в статус Рассмотрен", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
+    //@Test(description = "5 - Перевод плана в статус Рассмотрен")
+    public void transferPlanStatusReviewed(){
+        authorization("prosecutor");
+        sleep(2000);//TODO убрать, как пофиксят баг
+        choiceERKNM();
+        ListEventsPage event = new ListEventsPage();
         gotoListKNMPage();
-        openCard("77230660001100009034");
+        event.openCard(numberKNM);
+        //event.openCard("77230660001100009047");
         event.setDecisionApplicationDropDown(approved);
         clickSaveButton();
         gotoListPlansPage();
-        openCardPlan("2023037775");
-        //openCardPlan(numberPlan);
-
-        checkObject("На рассмотрении");
+       // openCardPlan("2023037785");
+        openCardPlan(numberPlan);
+        clickReviewedPlanButton();
+        approveChangeStatus(fio,number);
+        checkObject("Рассмотрен");
 
     }
 
@@ -115,38 +137,39 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "5 - Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
+    //@Test(description = "6 - Перевод плана в статус Утвержден")
+    @Test(description = "6 - Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusReviewed"})
     public void transferPlanStatusApprovedTest() {
         authorization("supervisor");
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
-        gotoListKNMPage();
+        gotoListPlansPage();
         openCardPlan(numberPlan);
-        checkObject("Утвержден");
+        //openCardPlan("2023037785");
+        clickApprovePlanButton();
+        clickApproveChangeStatus();
+        clickSaveButton();
+        checkObject("Утверждён");
     }
 
     /**
      * Цель:Исключение КНМ из плана в статусе Утвержден
      * !HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3323
      *
-     * @author Frolova S.I 02.2022
+     * @author Frolova S.I 03.2022
      */
     @Test(description = "6 - Исключение КНМ из плана в статусе Утвержден", dependsOnMethods = {"transferPlanStatusApprovedTest"})
+    //@Test(description = "6 - Исключение КНМ из плана в статусе Утвержден")
     public void exceptionKNMFromApprovedPlanTest() {
         authorization("supervisor");
-        ListEventsPage event = new ListEventsPage();
+        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
-        gotoListPlansPage();
-        openCardPlan("2023038134");
-        clickAddKNMButton();
-        event.setKindControlAndNumberDropDown(viewKNO);
-        event.setKindKNMDropDown(controlPurchase);
-        event.setStartKNMDate(futureDate);
-        event.setInnField(INN);
-        event.setTypeObjectDropDown();
-        event.setKindObjectDropDown();
-        clickSaveButton();
-        //TODO через действия нажать исключить и проверить статус ИСключена
-
+        gotoListKNMPage();
+        openCard(numberKNM);
+        //openCard("77230370001100008833");
+        clickActionsOnCardButton();
+        excludeKNMFromPlan();
+        checkObject("Исключена");
 
     }
 

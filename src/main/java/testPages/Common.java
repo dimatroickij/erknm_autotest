@@ -183,6 +183,8 @@ public class Common {
     public String choiceSignature ="//*[@id='certs']/div/div[1]";
     public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
 
+    public String exclusionGround="В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
+
     @BeforeSuite
     protected static void setupAllureReports() {
         currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
