@@ -51,6 +51,7 @@ public class Common {
     public String codeKNO = "10000001127";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
+    public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
@@ -111,6 +112,7 @@ public class Common {
     public String approved = "Согласовано";
     public String positionDirector = "Руководитель Росздравнадзора";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
+    public String positionSpecialistExpert ="Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
 
     // Тип места блока Объекты проведения КНМ
@@ -133,9 +135,13 @@ public class Common {
     public static String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
     public static String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
 
+    public static String numberPublishedKNMBVT;//номер опубликованной внеплановой КНМ, созданной при bvt
+    public static String numberUnpublishedKNMBVT; //номер неопубликованной КНМ, созданной при bvt
+
     String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
 
+    public String successfullySignNotification ="//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
     //информация для заполнения КНМ
     public String number = "1";
     public String place = "место";
@@ -175,7 +181,9 @@ public class Common {
     public static String currentDateTime = "";
     public static String futureDate = "";
     public String choiceSignature ="//*[@id='certs']/div/div[1]";
-    public String signatureName ="03767EA2004CAE42AC4046B4FC860E9876; Тестовый сертификат; 02.03.2022-02.06.2022;";
+    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
+
+    public String exclusionGround="В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
 
     @BeforeSuite
     protected static void setupAllureReports() {
@@ -566,7 +574,7 @@ public class Common {
      */
     @Step("Проверка отсутствия - {name}")
     public void checkAbsenceObject(String name) {
-        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldBe(exist);
+        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldNotBe(exist);
     }
 
     /**
@@ -687,6 +695,15 @@ public class Common {
     @Step("Нажатие на кнопку Добавить в модальном окне")
     public void clickAddModalButton() {
         $(By.xpath(modalAddButton)).click();
+    }
+
+    /**
+     * Проверка сообщения об успешном подписании
+     */
+    @Step("Проверка сообщения об успешном подписании")
+    public void checkSuccessfullySignNotification()
+    {
+        $(By.xpath(successfullySignNotification)).should(visible);
     }
 }
 

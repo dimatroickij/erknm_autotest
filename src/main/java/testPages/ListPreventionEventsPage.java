@@ -1,10 +1,12 @@
 package testPages;
 
+import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.io.File;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListPreventionEventsPage extends Common {
@@ -238,7 +240,7 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Нажатие на кнопку Добавить в разделе Сведения о направлении возражения на предостережение")
     public void clickAddInformationDirectionObjectionButton() {
-        $(By.xpath(addInformationDirectionObjectionButton)).click();
+        $(By.xpath(addInformationDirectionObjectionButton)).shouldHave(text("Добавить")).click();
     }
 
     /**
