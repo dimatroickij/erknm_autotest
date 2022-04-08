@@ -3,97 +3,195 @@ package testCases.personalAccount;
 import org.testng.annotations.Test;
 import testPages.PersonalAccountPage;
 
-import java.util.Random;
+import java.util.UUID;
 
 public class PersonalAccountTest extends PersonalAccountPage {
-    String typeInspector = "Проверяющий";
-    String typeExpert = "Эксперт";
-    Random rnd = new Random();
-    int prefix = rnd.nextInt(1000000);
 
     //проверки в Личном кабинете для ЕРП
 
     /**
-     * Цель: Создание шаблонов обязательных требований (для ЕРП)
+     * Цель: Создание шаблона обязательных требований
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=43
      *
-     * @author Frolova S.I 01.2022
+     * @author Troickij D.A. 04.2022
      */
-    @Test(description = "1 - Создание шаблонов обязательных требований (для ЕРП)")
+    @Test(description = "Создание шаблона обязательных требований")
     public void createTemplateMandatoryRequirementsERPTest() {
         authorization("supervisor");
-        System.out.println("Идентификатор - " + prefix);
+        System.out.printf("Идентификатор создаваемого обязательного требования %s%n", prefixName);
         clickPersonalAccount();
         scrollTopHtml();
         goToMandatoryRequirementsMenu();
-        clickToTemplateRecord();
-        clickAddMandatoryRequirementsButton();
-        templateMandatoryRequirements = prefix + "авто Наименование";
-        setTemplateNameField(templateMandatoryRequirements);
-        setNameOrganizationFieldDropDown(nameKNO);
-        setTypeOrganizationFieldDropDown(typeStateControl);
-        clickAddRequirementsButton();
-        setFormulationField(prefix + "авто Формулировка");
-        setNameNPAField(prefix + "авто Наименование НПА");
-        setNumberNPAField(prefix + "1");
-        setDateNPAField(currentDate);
-        clickSaveButton();
-        checkObject(prefix + "авто Наименование");
-        closeNotification();
+        createTemplateMandatoryRequirements(prefixName);
+        templateMandatoryRequirements = prefixName + templateName;
+        checkTemplateMandatoryRequirements(prefixName, true);
         logout();
     }
 
     /**
-     * Цель: Создание шаблонов проверочных листов (для ЕРП)
+     * Цель: Редактирование шаблона обязательных требований
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=295
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Редактирование шаблона обязательных требований")
+    public void editTemplateMandatoryRequirementsERPTest() {
+        String lastPrefix = UUID.randomUUID().toString();
+        String newPrefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToMandatoryRequirementsMenu();
+        System.out.printf("Старый идентификатор редактируемого обязательного требования %s, новый %s%n", lastPrefix,
+                newPrefix);
+        createTemplateMandatoryRequirements(lastPrefix);
+        editTemplateMandatoryRequirements(lastPrefix, newPrefix);
+        checkTemplateMandatoryRequirements(newPrefix, true);
+        checkTemplateMandatoryRequirements(lastPrefix, false);
+        logout();
+    }
+
+    /**
+     * Цель: Удаление шаблона обязательных требований
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=289
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Удаление шаблона обязательных требований")
+    public void deleteTemplateMandatoryRequirementsERPTest() {
+        String prefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToMandatoryRequirementsMenu();
+        System.out.printf("Удаляемое обязательное требование %s%n", prefix);
+        createTemplateMandatoryRequirements(prefix);
+        deleteTemplateMandatoryRequirementsOrSheets(prefix);
+        checkTemplateMandatoryRequirements(prefix, false);
+        logout();
+    }
+
+    /**
+     * Цель: Создание шаблонов проверочных листов
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=42
      *
-     * @author Frolova S.I 01.2022
+     * @author Troickij D.A. 04.2022
      */
-    @Test(description = "2 - Создание шаблонов проверочных листов (для ЕРП)")
-    public void createTemplateTestSheetsERPTest() {
+    @Test(description = "Создание шаблона проверочных листов")
+    public void createTemplateSheetsERPTest() {
         authorization("supervisor");
-        System.out.println("Идентификатор - " + prefix);
+        System.out.printf("Идентификатор создаваемого проверочного листа %s%n", prefixName);
         clickPersonalAccount();
         scrollTopHtml();
         goToCheckSheetsMenu();
-        clickToTemplateRecord();
-        clickCheckListsAddButton();
-        templateSheets = prefix + "авто Наименование";
-        setTemplateNameField(templateSheets);
-        setNameOrganizationFieldDropDown(nameKNO);
-        setApprovalDetailsField(prefix + "авто Сведения");
-        clickAddSecurityQuestionButton();
-        setQuestionField(prefix + "авто Вопрос");
-        setRequisitesField(prefix + "авто Реквизиты");
-        clickSaveButton();
-        checkObject(prefix + "авто Наименование");
-        closeNotification();
+        templateSheets = prefixName + templateName;
+        createTemplateSheets(prefixName);
+        checkTemplateSheets(prefixName, true);
         logout();
     }
 
     /**
-     * Цель: Добавление уполномоченных на проведение проверки (для ЕРП)
-     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=291
+     * Цель: Редактирование шаблона проверочных листов
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=296
      *
-     * @author Frolova S.I 01.2022
+     * @author Troickij D.A. 04.2022
      */
-    @Test(description = "3 - Добавление уполномоченных на проведение проверки (для ЕРП)")
+    @Test(description = "Редактирование шаблона проверочных листов")
+    public void editTemplateSheetsERPTest() {
+        String lastPrefix = UUID.randomUUID().toString();
+        String newPrefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToCheckSheetsMenu();
+        System.out.printf("Старый ID редактируемого проверочного листа %s, новый %s%n", lastPrefix, newPrefix);
+        createTemplateSheets(lastPrefix);
+        editTemplateSheets(lastPrefix, newPrefix);
+        checkTemplateSheets(newPrefix, true);
+        checkTemplateSheets(lastPrefix, false);
+        logout();
+    }
+
+    /**
+     * Цель: Удаление шаблона проверочных листов
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=290
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Удаление шаблона проверочных листов")
+    public void deleteTemplateSheetsERPTest() {
+        String prefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToCheckSheetsMenu();
+        System.out.printf("Удаляемый проверочный лист %s%n", prefix);
+        createTemplateSheets(prefix);
+        deleteTemplateMandatoryRequirementsOrSheets(prefix);
+        checkTemplateSheets(prefix, false);
+        logout();
+    }
+
+    /**
+     * Цель: Создание уполномоченных на проведение КНМ
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=41
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Создание уполномоченных на проведение КНМ")
     public void addRepresentativesERPTest() {
         authorization("supervisor");
-        System.out.println("Идентификатор - " + prefix);
+        System.out.printf("Идентификатор создаваемого уполномоченного %s%n", prefixName);
         clickPersonalAccount();
         scrollTopHtml();
         setOrganization(nameKNO);
         scrollTopHtml();
         goToAuthorizedToConductMenu();
-        clickAuthorizedToConductAddButton();
-        resresentative = prefix + "авто ФИО";
-        setNameField(resresentative);
-        setPositionField(prefix + "авто Должность");
-        setTypeInspectorDropDown(typeInspector);
-        clickSaveButton();
-        checkRepresentatives(prefix + "авто ФИО");
-        closeNotification();
+        representative = prefixName + representativeTemplate;
+        createRepresentatives(prefixName);
+        checkRepresentatives(prefixName, true);
+        logout();
+    }
+
+    /**
+     * Цель: Редактирование уполномоченных на проведение КНМ
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=294
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Редактирование уполномоченных на проведение КНМ")
+    public void editRepresentativesERPTest() {
+        String lastPrefix = UUID.randomUUID().toString();
+        String newPrefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToAuthorizedToConductMenu();
+        System.out.printf("Старый ID редактируемого уполномоченного %s, новый %s%n", lastPrefix, newPrefix);
+        createRepresentatives(lastPrefix);
+        //editRepresentatives(lastPrefix, newPrefix);
+        checkRepresentatives(newPrefix, true);
+        checkRepresentatives(lastPrefix, false);
+        logout();
+    }
+
+    /**
+     * Цель: Удаление шаблона проверочных листов
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=291
+     *
+     * @author Troickij D.A. 04.2022
+     */
+    @Test(description = "Удаление шаблона проверочных листов")
+    public void deleteRepresentativesERPTest() {
+        String prefix = UUID.randomUUID().toString();
+        authorization("supervisor");
+        clickPersonalAccount();
+        scrollTopHtml();
+        goToAuthorizedToConductMenu();
+        System.out.printf("Удаляемый уполномоченный %s%n", prefix);
+        createRepresentatives(prefix);
+        deleteRepresentatives(prefix);
+        checkRepresentatives(prefix, false);
         logout();
     }
 }

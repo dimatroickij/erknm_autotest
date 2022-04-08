@@ -43,7 +43,7 @@ public class ListEventsERPPage extends Common {
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы TODO должен быть идентификатор
     String modalTemplateDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
 
-    String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[3]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы TODO должен быть идентификатор
+    String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[4]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы TODO должен быть идентификатор
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ TODO должен быть идентификатор
     String knmListCell = "//td[contains(@class, 'KnmListTable_CellErpId')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
@@ -440,7 +440,7 @@ public class ListEventsERPPage extends Common {
     public void setRepresentativesDropDown(boolean addedTest) {
         $(By.xpath(addInspectorsButton)).click();
         $(By.xpath(inspectorsDropDown)).click();
-        if (addedTest) setValueDropDownToText(resresentative);
+        if (addedTest) setValueDropDownToText(representative);
         else setValueDropDownToNumber(1);
     }
 

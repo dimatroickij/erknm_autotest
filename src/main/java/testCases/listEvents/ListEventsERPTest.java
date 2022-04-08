@@ -138,17 +138,20 @@ public class ListEventsERPTest extends ListEventsERPPage {
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
+        templateMandatoryRequirements = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто Наименование";
+        templateSheets = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто Наименование";
+        representative = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто ФИО";
         String scheduledKNMNumber = createScheduledEvent(startDate, groundPlannedRegistration,
                 true, true, true, true);
         setObjectKNM(address, locationLE, branch, righRisk, true);
-        setTemplateSheetsDropDown(true); // TODO баг, который мешает проверке функции
+        setTemplateSheetsDropDown(true);
         clickSaveButton();
         closeNotification();
         gotoERPListKNMPage();
         setSearchField(scheduledKNMNumber);
         clickSearchButton();
         checkKNM(scheduledKNMNumber, statusProcessConducting, true);
-        System.out.println("Созданная проверка с добавлением шаблонов" + knmNumber);
+        System.out.printf("Созданная проверка с добавлением шаблонов %s %n", knmNumber);
         logout();
     }
 }

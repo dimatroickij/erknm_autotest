@@ -21,10 +21,9 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "1 - Создание плана (статус в процессе формирования)")
+    @Test(description = "Создание плана (статус в процессе формирования)")
     public void createPlanTest() {
         authorization("supervisor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPlansPage();
         clickAddButton();
@@ -45,11 +44,11 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "3 - Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
+    @Test(description = "Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
     //@Test(description = "3 - Добавление плановой КНМ в созданный план")
     public void addPlannedKNMInPlanTest() {
+        logout();
         authorization("supervisor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         ListEventsPage event = new ListEventsPage();
         choiceERKNM();
         gotoListPlansPage();
@@ -64,6 +63,7 @@ public class ListPlansTest extends ListPlanPage {
         event.setKindObjectDropDown();
         event.setDangerClassDropDown();
         clickSaveButton();
+        closeNotification();
         numberKNM = event.getNumberKNM();
         event.setDurationDaysField(number);
         event.addGroundsIncludePlan(futureDate);
@@ -71,10 +71,10 @@ public class ListPlansTest extends ListPlanPage {
         event.createMandatoryRequirements(prefix + "авто", prefix + "авто", currentDate);
         event.clickAddVenueButton();
         event.setVenueField(place);
-        closeNotification();
         clickSaveButton();
+        closeNotification();
         checkObject("Готово к согласованию");
-
+        logout();
     }
 
     /**
@@ -84,11 +84,10 @@ public class ListPlansTest extends ListPlanPage {
      * @author Frolova S.I 02.2022
      */
    // @Test(description = "4 - Перевод плана в статус На рассмотрении")
-    @Test(description = "4 - Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
+    @Test(description = "Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() {
         installPlugin();
         authorization("supervisor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPlansPage();
         openCardPlan(numberPlan);
@@ -100,8 +99,9 @@ public class ListPlansTest extends ListPlanPage {
         clickSubmitReviewButton();
         clickApproveChangeStatus();
         clickSaveButton();
+        closeNotification();
         checkObject("На рассмотрении");
-
+        logout();
     }
 
     /**
@@ -110,11 +110,10 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I. 03.2022
      */
-    @Test(description = "5 - Перевод плана в статус Рассмотрен", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
+    @Test(description = "Перевод плана в статус Рассмотрен", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
     //@Test(description = "5 - Перевод плана в статус Рассмотрен")
     public void transferPlanStatusReviewed(){
         authorization("prosecutor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         ListEventsPage event = new ListEventsPage();
         gotoListKNMPage();
@@ -122,13 +121,14 @@ public class ListPlansTest extends ListPlanPage {
         //event.openCard("77230660001100009047");
         event.setDecisionApplicationDropDown(approved);
         clickSaveButton();
+        closeNotification();
         gotoListPlansPage();
        // openCardPlan("2023037785");
         openCardPlan(numberPlan);
         clickReviewedPlanButton();
         approveChangeStatus(fio,number);
         checkObject("Рассмотрен");
-
+        logout();
     }
 
     /**
@@ -138,10 +138,9 @@ public class ListPlansTest extends ListPlanPage {
      * @author Frolova S.I 02.2022
      */
     //@Test(description = "6 - Перевод плана в статус Утвержден")
-    @Test(description = "6 - Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusReviewed"})
+    @Test(description = "Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusReviewed"})
     public void transferPlanStatusApprovedTest() {
         authorization("supervisor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListPlansPage();
         openCardPlan(numberPlan);
@@ -149,7 +148,9 @@ public class ListPlansTest extends ListPlanPage {
         clickApprovePlanButton();
         clickApproveChangeStatus();
         clickSaveButton();
+        closeNotification();
         checkObject("Утверждён");
+        logout();
     }
 
     /**
@@ -158,11 +159,10 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 03.2022
      */
-    @Test(description = "6 - Исключение КНМ из плана в статусе Утвержден", dependsOnMethods = {"transferPlanStatusApprovedTest"})
+    @Test(description = "Исключение КНМ из плана в статусе Утвержден", dependsOnMethods = {"transferPlanStatusApprovedTest"})
     //@Test(description = "6 - Исключение КНМ из плана в статусе Утвержден")
     public void exceptionKNMFromApprovedPlanTest() {
         authorization("supervisor");
-        sleep(2000);//TODO убрать, как пофиксят баг
         choiceERKNM();
         gotoListKNMPage();
         openCard(numberKNM);
@@ -170,6 +170,7 @@ public class ListPlansTest extends ListPlanPage {
         clickActionsOnCardButton();
         excludeKNMFromPlan();
         checkObject("Исключена");
+        logout();
 
     }
 
@@ -179,7 +180,7 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "2 - Удаление плана")
+    @Test(description = "Удаление плана")
     public void deletePlanTest() {
         createPlanTest();
         gotoListPlansPage();
@@ -189,7 +190,6 @@ public class ListPlansTest extends ListPlanPage {
         clickConfirmationDeleteButton();
         searchRequest(numberPlan);
         checkAbsenceObject(numberPlan);
-
     }
 
 }

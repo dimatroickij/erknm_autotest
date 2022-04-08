@@ -66,7 +66,7 @@ public class ListEventsPage extends Common {
     // String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/section[1]/div[11]/div[2]/button";//кнопка Добавить в разделе Основания проведения КНМ
     String addGroundConductingButton = "//*[@id ='addReasonButton']";//кнопка Добавить в разделе Основания проведения КНМ
     String groundConductingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выпадающий список Основание регистрации КНМ
-    String groundConduction = "4.0.5 (ФЗ 248) Наличие у контрольного (надзорного) органа сведений о причинении вреда (ущерба) или об угрозе причинения вреда (ущерба) охраняемым законом ценностям";
+    String groundConduction = "4.0.15 (Постановление 336) Непосредственная угроза причинения вреда жизни и тяжкого вреда здоровью граждан, факты причинения вреда жизни и тяжкого вреда здоровью граждан";
     //String needCoordinationDropDown = "//*[@id ='approveRequired']";//выпадающий список Необходимость согласования
     String needCoordinationDropDown = "//*[@id='approveRequired']/div/div[1]";//выпадающий список Необходимость согласования
 
@@ -433,7 +433,7 @@ public class ListEventsPage extends Common {
      * Заполнение выпадающего списка Основание регистрации КНМ
      */
     @Step("Заполнение выпадающего списка Основание регистрации КНМ - {groundConduction}")
-    public void setGroundConduсtingDropDown() {
+    public void setGroundConductingDropDown() {
         $(By.xpath(groundConductingDropDown)).click();
         clickToText(groundConduction);
     }
@@ -441,13 +441,12 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение выпадающего списка Необходимость согласования
      *
-     * @param parametеr необходимый параметр
+     * @param parameter необходимый параметр
      */
     @Step("Заполнение выпадающего списка Необходимость согласования - {needCoordination}")
-    public void setNeedCoordinationDropDown(String parametеr) {
-        // $(By.xpath(needCoordinationDropDown)).scrollTo().click();
+    public void setNeedCoordinationDropDown(String parameter) {
         $(By.xpath(needCoordinationDropDown)).click();
-        clickToText(parametеr);
+        clickToText(parameter);
     }
 
     /**
@@ -499,7 +498,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Открытие выпадающего списка ОТ и нажатие на кнопку Создать новое ОТ")
     public void setMandatoryRequirementsDropDown() {
-        $(By.xpath(mandatoryRequirementsDropDown)).scrollTo().click();
+        $(By.xpath(mandatoryRequirementsDropDown)).scrollIntoView(false).click();
         clickToText(addNewSampleButton);
     }
 
@@ -532,7 +531,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Добавление нового обязательного требования")
     public void createMandatoryRequirements(String name, String nameNPA, String date) {
-        $(By.xpath("//*[text()='Предмет контрольного (надзорного) мероприятия']")).scrollTo();
+        $(By.xpath("//*[text()='Предмет контрольного (надзорного) мероприятия']")).scrollIntoView(false);
         clickAddMandatoryRequirementsButton();
         setMandatoryRequirementsDropDown();
         setNameMandatoryRequirementsField(name);
@@ -564,6 +563,7 @@ public class ListEventsPage extends Common {
         setKindObjectDropDown();
         setDangerClassDropDown();
         clickSaveButton();
+        closeNotification();
     }
 
     /**
@@ -588,7 +588,7 @@ public class ListEventsPage extends Common {
     @Step("Добавление блока Основания проведения КНМ для внеплановой КНМ")
     public void addGroundsConductingUnscheduled(String fPath, String sPath, String param) {
         clickAddGroundConductingButton();
-        setGroundConduсtingDropDown();
+        setGroundConductingDropDown();
         setNeedCoordinationDropDown(param);
         clickAddFoundationButton();
         setTypeDocumentDropDown();
@@ -606,7 +606,7 @@ public class ListEventsPage extends Common {
     @Step("Добавление блока Основания проведения КНМ для плановой КНМ")
     public void addGroundsConductingPlanned(String fPath, String sPath) {
         clickAddGroundConductingButton();
-        setGroundConduсtingDropDown();
+        setGroundConductingDropDown();
         clickAddFoundationButton();
         setTypeDocumentDropDown();
         clickAddFileButton();

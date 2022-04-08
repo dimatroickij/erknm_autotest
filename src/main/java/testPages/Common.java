@@ -1,17 +1,14 @@
 package testPages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.BeforeSuite;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,7 +130,7 @@ public class Common {
     // Переменные для поиска созданной информации во время bvt теста
     public static String templateSheets; // Проверочный лист, созданный при помощи bvt
     public static String templateMandatoryRequirements; // Обязательное требование, созданное при помощи bvt
-    public static String resresentative; // Уполномоченный на проведение проверки, созданный при помощи bvt
+    public static String representative; // Уполномоченный на проведение проверки, созданный при помощи bvt
 
     public static String numberPublishedKNMBVT;//номер опубликованной внеплановой КНМ, созданной при bvt
     public static String numberUnpublishedKNMBVT; //номер неопубликованной КНМ, созданной при bvt
@@ -181,7 +178,6 @@ public class Common {
     public static String currentDateTime = "";
     public static String futureDate = "";
     public String choiceSignature ="//*[@id='certs']/div/div[1]";
-    public String signatureName ="12005D4AC72E6F833CFE5DE8CF0001005D4AC7; Восход; 20.01.2022-20.04.2022;";
 
     public String exclusionGround="В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
 
@@ -304,6 +300,7 @@ public class Common {
     public void clickMessageButton() {
         try {
             $(By.xpath(messageButton)).click();
+            sleep(2000); // TODO Костыль из-за перезагрузки страницы после авторизации
         } catch (ElementNotFound ignored) {
         }
     }
@@ -374,7 +371,8 @@ public class Common {
     @Step("Выбор подписи из выпадающего списка")
     public void choiceSignature() {
         $(By.xpath(choiceSignature)).click();
-        clickToText(signatureName);
+        setValueDropDownToNumber(2);
+//        clickToText(signatureName);
     }
 
     /**
@@ -547,6 +545,7 @@ public class Common {
         setPassword(password);
         clickEnterButton();
         clickMessageButton();
+
     }
 
     /**
@@ -616,7 +615,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Удалить в карточке КНМ")
     public void clickDeleteOnCardButton() {
-        $(By.xpath(deleteOnCardButton)).scrollTo().shouldBe(visible).click();
+        $(By.xpath(deleteOnCardButton)).scrollTo().shouldBe(visible, Duration.ofSeconds(10)).click();
     }
 
     /**
@@ -703,7 +702,7 @@ public class Common {
     @Step("Проверка сообщения об успешном подписании")
     public void checkSuccessfullySignNotification()
     {
-        $(By.xpath(successfullySignNotification)).should(visible);
+        $(By.xpath(successfullySignNotification)).should(visible, Duration.ofSeconds(10));
     }
 }
 

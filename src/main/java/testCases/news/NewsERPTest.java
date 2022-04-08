@@ -16,8 +16,9 @@ public class NewsERPTest extends NewsPage {
     @Test(description = "Добавление новости в режиме ЕРП")
     public void createNewsERPTest() {
         authorization("sysadmin");
-        closeNotification();
-        closeNotification();
+        // TODO Убрано из-за бага при входе
+        //closeNotification();
+        //closeNotification();
         choiceERP();
         goToManagementNews();
         System.out.println("Идентификатор " + prefixNews);
@@ -44,8 +45,9 @@ public class NewsERPTest extends NewsPage {
     @Test(description = "Редактирование новости в режиме ЕРП")
     public void editNewsERPTest() {
         authorization("sysadmin");
-        closeNotification();
-        closeNotification();
+        // TODO Убрано из-за бага при входе
+//        closeNotification();
+//        closeNotification();
         choiceERP();
         goToManagementNews();
         System.out.println("Идентификатор " + prefixNews);
@@ -78,8 +80,9 @@ public class NewsERPTest extends NewsPage {
     @Test(description = "Удаление новости в режиме ЕРП")
     public void deleteNewsERPTest() {
         authorization("sysadmin");
-        closeNotification();
-        closeNotification();
+        // TODO Убрано из-за бага при входе
+//        closeNotification();
+//        closeNotification();
         choiceERP();
         goToManagementNews();
         System.out.println("Идентификатор " + prefixNews);
