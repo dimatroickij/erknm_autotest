@@ -370,6 +370,7 @@ public class Common {
      */
     @Step("Выбор подписи из выпадающего списка")
     public void choiceSignature() {
+        sleep(5000);
         $(By.xpath(choiceSignature)).click();
         setValueDropDownToNumber(2);
 //        clickToText(signatureName);

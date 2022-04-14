@@ -192,4 +192,14 @@ public class ListPlansTest extends ListPlanPage {
         checkAbsenceObject(numberPlan);
     }
 
+
+    @Test(description = "Создание проверок в статусе Исключено")
+    public void exceptionTest(){
+        createPlanTest();
+        addPlannedKNMInPlanTest();
+        transferPlanStatusOnConsiderationTest();
+        transferPlanStatusReviewed();
+        transferPlanStatusApprovedTest();
+    }
+
 }

@@ -67,28 +67,28 @@
 <!--                    <include name="addRepresentativesERKNMTest"/>-->
 <!--                </methods>-->
 <!--            </class>-->
-<!--            <class name="testCases.listPlans.ListPlansTest">-->
-<!--                <methods>-->
-<!--                    <include name="createPlanTest"/>-->
-<!--                    <include name="addPlannedKNMInPlanTest"/>-->
-<!--                    <include name="transferPlanStatusOnConsiderationTest"/>-->
-<!--                    <include name="transferPlanStatusReviewed"/>-->
-<!--                    <include name="transferPlanStatusApprovedTest"/>-->
+            <class name="testCases.listPlans.ListPlansTest">
+                <methods>
+                    <include name="createPlanTest"/>
+                    <include name="addPlannedKNMInPlanTest"/>
+                    <include name="transferPlanStatusOnConsiderationTest"/>
+                    <include name="transferPlanStatusReviewed"/>
+                    <include name="transferPlanStatusApprovedTest"/>
 <!--                    <include name="exceptionKNMFromApprovedPlanTest"/>-->
 <!--                    <include name="deletePlanTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-            <class name="testCases.listPreventionEvents.ListPreventionEventsTest">
-                <methods>
-                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest"/>
-                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest"/>
-                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest"/>
-                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest"/>
-                    <include name="transferPEventPreventiveVisitStatusAwaitingTest"/>
-                    <include name="transferPEventPreventiveVisitStatusCompletedTest"/>
-                    <include name="deletePMEventTest"/>
                 </methods>
             </class>
+<!--            <class name="testCases.listPreventionEvents.ListPreventionEventsTest">-->
+<!--                <methods>-->
+<!--                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest"/>-->
+<!--                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest"/>-->
+<!--                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest"/>-->
+<!--                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest"/>-->
+<!--                    <include name="transferPEventPreventiveVisitStatusAwaitingTest"/>-->
+<!--                    <include name="transferPEventPreventiveVisitStatusCompletedTest"/>-->
+<!--                    <include name="deletePMEventTest"/>-->
+<!--                </methods>-->
+<!--            </class>-->
 <!--            <class name="testCases.news.NewsTest">-->
 <!--                <methods>-->
 <!--                    <include name="createNewsTest"/>-->
