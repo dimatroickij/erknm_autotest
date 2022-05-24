@@ -51,7 +51,6 @@ public class Common {
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
-
     public String loginProsecutor = "prosecutor"; //логин прокурора
     public String loginSupervisor = "supervisor"; //логин сотрудника КНО
     public String loginOmbudsman = "ombudsman"; //логин омбудсмена
