@@ -1,9 +1,14 @@
 package testCases.searchEvents;
 
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.SearchERPPage;
 
+
+
 public class SearchEventsERPTest extends SearchERPPage {
+    public SearchEventsERPTest() throws Exception {
+    }
     //раздел Поиск мероприятий для ЕРП
 
     /**
@@ -13,9 +18,9 @@ public class SearchEventsERPTest extends SearchERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Проверка работоспособности поиска КНМ для ЕРП") //TODO Нужно как-то переделать на поиск определенных проверок
-    public void checkFunctionalitySearchKNMERPTest() {
+    public void checkFunctionalitySearchKNMERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         String conductingKNM = searchKNM(statusProcessConducting); // Поиск проверки в статусе В процессе проведения
         System.out.println("Проверка в статусе В процессе проведения " + conductingKNM);

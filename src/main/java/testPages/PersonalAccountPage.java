@@ -5,7 +5,10 @@ import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.exist;
@@ -70,6 +73,9 @@ public class PersonalAccountPage extends Common {
     String positionTemplate = " авто Должность"; // Должность
     String typeInspector = "Проверяющий";
     String typeExpert = "Эксперт";
+
+    public PersonalAccountPage() throws Exception {
+    }
 
     /**
      * Переход в личный кабинет
@@ -463,8 +469,8 @@ public class PersonalAccountPage extends Common {
     @Step("Проверка на существование уполномоченного {code} {exist}")
     public void checkRepresentatives(String code, boolean exist) {
         if (exist) {
-            $(By.xpath(String.format(nameFieldSearch, code)));
-            $(By.xpath(String.format(positionFieldSearch, code)));
+            $(By.xpath(String.format(nameFieldSearch, code))).should(Text.text(code));
+            $(By.xpath(String.format(positionFieldSearch, code))).should(Text.text(code));
         } else {
             $(By.xpath(nameFieldSearch)).shouldNot(Text.text(code));
             $(By.xpath(positionFieldSearch)).shouldNot(Text.text(code));

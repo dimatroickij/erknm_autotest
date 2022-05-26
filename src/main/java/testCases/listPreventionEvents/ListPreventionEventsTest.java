@@ -2,9 +2,10 @@ package testCases.listPreventionEvents;
 
 import com.codeborne.selenide.Selenide;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.ListPreventionEventsPage;
 
-import java.io.IOException;
+
 import java.util.Random;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -17,6 +18,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     public String numberPM = "";
     String officialPost = "Руководитель Территориального органа Росздравнадзора";
 
+    public ListPreventionEventsTest() throws Exception {
+    }
+
     /**
      * Цель: Создание ПМ, вид Объявление предостережения, статус В процессе заполнения
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=537
@@ -24,9 +28,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Добавляем ПМ, вид Объявление предостережения (статус в процессе заполнения)")
-    public void createPMEventWarningAnnouncementStatusProcessCompletionTest() {
+    public void createPMEventWarningAnnouncementStatusProcessCompletionTest() throws Exception {
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
         checkObject("В процессе заполнения");
@@ -46,10 +50,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
-    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() {
+    public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws Exception {
         installPlugin();
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPM);
         //openCard("77220660001100009021");
@@ -69,8 +73,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceSignature();
        // Selenide.confirm();
         clickSignatureButton();
-        //closeNotification();
-        clickCloseMessagePMButton();
+        closeNotification();
+        closeNotification();
+        //clickCloseMessagePMButton();
         clickSaveButton();
         closeNotification();
         checkObject("Предостережение объявлено"); //TODO нужно ожидать после подписания около 3-5 сек
@@ -84,14 +89,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "3 - Перевод Объявление предостережения в статус Есть возражение")
-    public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() {
+    public void transferPMEventWarningAnnouncementStatusAnyObjectinsTest() throws Exception {
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
         clickCloseMessagePMButton();
         closeNotification();
-        clickAddInformationDirectionObjectionButton();//TODO не всегда срабатывает без ожидания
+        //clickAddInformationDirectionObjectionButton();//TODO не всегда срабатывает без ожидания
         addDocumentAndSignatureInformationDirectionObjection(filePath,signPath);
         clickUploadButton();
         closeNotification();
@@ -107,9 +112,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "4 - Добавляем ПМ, вид профилактический визит (статус в процессе заполнения)")
-    public void createPMEventPreventiveVisitStatusProcessCompletionTest() {
+    public void createPMEventPreventiveVisitStatusProcessCompletionTest() throws Exception {
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
         checkObject("В процессе заполнения");
@@ -125,10 +130,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     @Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения", dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     //@Test(description = "5 - Перевод Профилактического визита в статус Ожидает проведения")
-    public void transferPMEventPreventiveVisitStatusLookingForwardTest() {
+    public void transferPMEventPreventiveVisitStatusLookingForwardTest() throws Exception {
         installPlugin();
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPM);
         //openCard("77220660001100009031");
@@ -157,9 +162,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      */
     @Test(description = "6 - Перевод Профилактического визита в статус Завершено", dependsOnMethods = {"transferPMEventPreventiveVisitStatusLookingForwardTest"})
     //@Test(description = "6 - Перевод Профилактического визита в статус Завершено")
-    public void transferPMEventPreventiveVisitStatusCompletedTest() {
+    public void transferPMEventPreventiveVisitStatusCompletedTest() throws Exception {
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         //openCard("77220660001100009031");
         openCard(numberPM);
@@ -178,9 +183,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "7 - Удаление ПМ")
-    public void deletePMEventTest() {
+    public void deletePMEventTest() throws Exception {
         authorization("supervisor");
-        choiceERKNM();
+        choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
         numberPM = getNumberPM();

@@ -3,70 +3,70 @@
 <suite name="Suite" parallel="false">
     <test name="Test">
         <classes>
-<!--            <class name="testCases.auth.AuthTest">-->
-<!--                <methods>-->
-<!--                    <include name="authorizationSomeTest"/>-->
-<!--                    <include name="choiceModeERKNMTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.personalAccount.PersonalAccountTest">-->
-<!--                <methods>-->
-<!--                    <include name="createTemplateMandatoryRequirementsERPTest"/>-->
-<!--                    <include name="editTemplateMandatoryRequirementsERPTest"/>-->
-<!--                    <include name="deleteTemplateMandatoryRequirementsERPTest"/>-->
-<!--                    <include name="createTemplateSheetsERPTest"/>-->
-<!--                    <include name="editTemplateSheetsERPTest"/>-->
-<!--                    <include name="deleteTemplateSheetsERPTest"/>-->
-<!--                    <include name="addRepresentativesERPTest"/>-->
-<!--                    &lt;!&ndash;                    <include name="editRepresentativesERPTest"/>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    <include name="deleteRepresentativesERPTest"/>&ndash;&gt;-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.listEvents.ListEventsERPTest">-->
-<!--                <methods>-->
-<!--                    <include name="createEventStatusProcessCompletionERPTest"/>-->
-<!--                    <include name="transferEventStatusProcessConductingERPTest"/>-->
-<!--                    <include name="transferEventStatusCompletedERPTest"/>-->
-<!--                    <include name="deletedEventERPTest"/>-->
-<!--                    <include name="addTemplatesInCheckCardERPTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.listPlans.ListPlansERPTest">-->
-<!--                <methods>-->
-<!--                    <include name="createPlanERPTest"/>-->
-<!--                    <include name="deletePlanERPTest"/>-->
-<!--                    <include name="transferPlanStatusOnApprovalERPTest"/>-->
-<!--                    <include name="transferPlanStatusOnRevisionERPTest"/>-->
-<!--                    <include name="transferPlanStatusAgreedERPTest"/>-->
-<!--                    <include name="transferPlanStatusApprovedERPTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.searchEvents.SearchEventsERPTest">-->
-<!--                <methods>-->
-<!--                    <include name="checkFunctionalitySearchKNMERPTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.news.NewsERPTest">-->
-<!--                <methods>-->
-<!--                    <include name="createNewsERPTest"/>-->
-<!--                    <include name="editNewsERPTest"/>-->
-<!--                    <include name="deleteNewsERPTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.listEvents.ListEventsTest">-->
-<!--                <methods>-->
-<!--                    <include name="createEventStatusProcessCompletionTest"/>-->
-<!--                    <include name="createTemplateMandatoryRequirementsERKNMTest"/>-->
-<!--                    <include name="transferEventStatusReadyApprovalTest"/>-->
-<!--                    <include name="transferEventStatusOnApprovalTest"/>-->
-<!--                    <include name="transferEventStatusAgreedTest"/>-->
-<!--                    <include name="transferEventStatusWaitCompletedTest"/>-->
-<!--&lt;!&ndash;                    <include name="transferEventStatusLookingForwardTest"/>&ndash;&gt;-->
-<!--                    <include name="deleteEventTest"/>-->
-<!--                    <include name="createTemplateTestSheetsERKNMTest"/>-->
-<!--                    <include name="addRepresentativesERKNMTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="testCases.auth.AuthTest">
+                <methods>
+                    <include name="authorizationSomeTest"/>
+                    <include name="choiceModeERKNMTest"/>
+                </methods>
+            </class>
+            <class name="testCases.personalAccount.PersonalAccountTest">
+                <methods>
+                    <include name="createTemplateMandatoryRequirementsERPTest"/>
+                    <include name="editTemplateMandatoryRequirementsERPTest"/>
+                    <include name="deleteTemplateMandatoryRequirementsERPTest"/>
+                    <include name="createTemplateSheetsERPTest"/>
+                    <include name="editTemplateSheetsERPTest"/>
+                    <include name="deleteTemplateSheetsERPTest"/>
+                    <!--                    <include name="addRepresentativesERPTest"/>-->
+                    <!--                    <include name="editRepresentativesERPTest"/>-->
+                    <!--                    <include name="deleteRepresentativesERPTest"/>-->
+                </methods>
+            </class>
+            <class name="testCases.listEvents.ListEventsERPTest">
+                <methods>
+                    <include name="createEventStatusProcessCompletionERPTest"/>
+                    <include name="transferEventStatusProcessConductingERPTest"/>
+                    <include name="transferEventStatusCompletedERPTest"/>
+                    <include name="deletedEventERPTest"/>
+                    <!--                    <include name="addTemplatesInCheckCardERPTest"/>-->
+                </methods>
+            </class>
+            <class name="testCases.listPlans.ListPlansERPTest">
+                <methods>
+                    <include name="createPlanERPTest"/>
+                    <include name="deletePlanERPTest"/>
+                    <include name="transferPlanStatusOnApprovalERPTest"/>
+                    <include name="transferPlanStatusOnRevisionERPTest"/>
+                    <include name="transferPlanStatusAgreedERPTest"/>
+                    <include name="transferPlanStatusApprovedERPTest"/>
+                </methods>
+            </class>
+            <class name="testCases.searchEvents.SearchEventsERPTest">
+                <methods>
+                    <include name="checkFunctionalitySearchKNMERPTest"/>
+                </methods>
+            </class>
+            <class name="testCases.news.NewsERPTest">
+                <methods>
+                    <include name="createNewsTest"/>
+                    <include name="editNewsTest"/>
+                    <include name="deleteNewsTest"/>
+                </methods>
+            </class>
+            <class name="testCases.listEvents.ListEventsTest">
+                <methods>
+                    <include name="createEventStatusProcessCompletionTest"/>
+                    <include name="createTemplateMandatoryRequirementsERKNMTest"/>
+                    <include name="transferEventStatusReadyApprovalTest"/>
+                    <include name="transferEventStatusOnApprovalTest"/>
+                    <include name="transferEventStatusAgreedTest"/>
+                    <include name="transferEventStatusWaitCompletedTest"/>
+                    <!--                    <include name="transferEventStatusLookingForwardTest"/> -->
+                    <include name="deleteEventTest"/>
+                    <include name="createTemplateTestSheetsERKNMTest"/>
+                    <include name="addRepresentativesERKNMTest"/>
+                </methods>
+            </class>
             <class name="testCases.listPlans.ListPlansTest">
                 <methods>
                     <include name="createPlanTest"/>
@@ -74,32 +74,33 @@
                     <include name="transferPlanStatusOnConsiderationTest"/>
                     <include name="transferPlanStatusReviewed"/>
                     <include name="transferPlanStatusApprovedTest"/>
-<!--                    <include name="exceptionKNMFromApprovedPlanTest"/>-->
-<!--                    <include name="deletePlanTest"/>-->
+                    <include name="exceptionKNMFromApprovedPlanTest"/>
+                    <include name="deletePlanTest"/>
                 </methods>
             </class>
-<!--            <class name="testCases.listPreventionEvents.ListPreventionEventsTest">-->
-<!--                <methods>-->
-<!--                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest"/>-->
-<!--                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest"/>-->
-<!--                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest"/>-->
-<!--                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest"/>-->
-<!--                    <include name="transferPEventPreventiveVisitStatusAwaitingTest"/>-->
-<!--                    <include name="transferPEventPreventiveVisitStatusCompletedTest"/>-->
-<!--                    <include name="deletePMEventTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.news.NewsTest">-->
-<!--                <methods>-->
-<!--                    <include name="createNewsTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.searchEvents.SearchEventsTest">-->
-<!--                <methods>-->
-<!--                    <include name="checkFunctionalitySearchKNMTest"/>-->
-
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="testCases.listPreventionEvents.ListPreventionEventsTest">
+                <methods>
+                    <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest"/>
+                    <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest"/>
+                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest"/>
+                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest"/>
+                    <include name="transferPEventPreventiveVisitStatusAwaitingTest"/>
+                    <include name="transferPEventPreventiveVisitStatusCompletedTest"/>
+                    <include name="deletePMEventTest"/>
+                </methods>
+            </class>
+            <class name="testCases.news.NewsERKNMTest">
+                <methods>
+                    <include name="createNewsTest"/>
+                    <include name="editNewsTest"/>
+                    <include name="deleteNewsTest"/>
+                </methods>
+            </class>
+            <class name="testCases.searchEvents.SearchEventsTest">
+                <methods>
+                    <include name="checkFunctionalitySearchKNMTest"/>
+                </methods>
+            </class>
 
         </classes>
     </test>

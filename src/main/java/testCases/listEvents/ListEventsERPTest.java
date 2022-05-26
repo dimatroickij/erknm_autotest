@@ -1,7 +1,9 @@
 package testCases.listEvents;
 
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.ListEventsERPPage;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +15,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
 
     public String knmNumber;
 
+    public ListEventsERPTest() throws Exception {
+    }
+
     /**
      * Цель: Добавление проверки (статус в процессе формирования)
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=3299
@@ -20,9 +25,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
      * @author Troickij D. A. 01.2022
      */
     @Test(description = "Добавление проверки (статус в процессе формирования)")
-    public void createEventStatusProcessCompletionERPTest() {
+    public void createEventStatusProcessCompletionERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
@@ -47,9 +52,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
      * @author Troickij D. A. 01.2022
      */
     @Test(description = "Перевод проверки в статус в процессе проведения")
-    public void transferEventStatusProcessConductingERPTest() {
+    public void transferEventStatusProcessConductingERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         openCard(knmNumber);
         setObjectKNM(address, locationLE, branch, righRisk, true);
@@ -70,9 +75,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Перевод проверки в статус завершено")
-    public void transferEventStatusCompletedERPTest() {
+    public void transferEventStatusCompletedERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         openCard(knmNumber);
         clickListResultButton();
@@ -98,9 +103,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Удаление проверки")
-    public void deletedEventERPTest() {
+    public void deletedEventERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
@@ -130,9 +135,9 @@ public class ListEventsERPTest extends ListEventsERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
-    public void addTemplatesInCheckCardERPTest() {
+    public void addTemplatesInCheckCardERPTest() throws Exception {
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());

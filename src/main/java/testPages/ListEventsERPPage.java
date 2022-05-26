@@ -3,6 +3,10 @@ package testPages;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -77,6 +81,9 @@ public class ListEventsERPPage extends Common {
     public String listControlMeasures = "Автотест"; // Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
     public String nameINN = "Тест"; // Наименование проверяемого лица
     public String address = "Автотест"; // Местонахождение в блоке Объекты проведения КНМ
+
+    public ListEventsERPPage() throws Exception {
+    }
 
     /**
      * Выбор из выпадающего списка Вид КНМ

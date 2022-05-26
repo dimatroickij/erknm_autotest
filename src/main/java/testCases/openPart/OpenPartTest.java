@@ -1,9 +1,11 @@
 package testCases.openPart;
 
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.ListEventsPage;
 import testPages.NewsPage;
 import testPages.OpenPartPage;
+
 
 import java.util.Random;
 
@@ -18,6 +20,9 @@ public class OpenPartTest extends OpenPartPage {
     String shortText = prefix + "автотест Краткий текст новостиОЧ";
     String textNews = prefix + "автотест Текст новостиОЧ";
     String captcha ="12345";
+
+    public OpenPartTest() throws Exception {
+    }
 
     /**
      * Цель: Проверка поиска на главной странице
@@ -61,9 +66,9 @@ public class OpenPartTest extends OpenPartPage {
      * @author Frolova S.I 02.2022
      */
     @Test(description = "3 - Проверка доступности новости для открытой части")
-    public void displayNewsOnNewsPage() {
+    public void displayNewsOnNewsPage() throws Exception, Exception {
         authorization("admin");
-        choiceERKNM();NewsPage news = new NewsPage();
+        choiceMode(true);NewsPage news = new NewsPage();
         news.goToManagementNews();
         news.addNews(typeItemNews, visibleNewsItemOpenPart, titleNews, shortText, textNews, currentDate);
         logout();

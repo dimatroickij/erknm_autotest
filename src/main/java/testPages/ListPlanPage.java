@@ -2,8 +2,11 @@ package testPages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -33,6 +36,9 @@ public class ListPlanPage extends Common {
     String exclusionGroundDropDown = "/html/body/div[2]/div[1]/div[1]/div[1]/div/div/div[1]"; // выпадающий список Основание исключение
     String docInput = "//input[@id='document']";//выбор документа
     String exclusionButton="//*[text()='Исключить']";//кнопка Исключить на форме исключение КНМ из плана
+
+    public ListPlanPage() throws Exception {
+    }
 
     /**
      * Подтверждение перевода плана в статус

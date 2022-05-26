@@ -1,5 +1,10 @@
 package testPages;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+
 public class ImportExportPage extends Common{
 
     //Кнопка Загрузить  = унопка добавить из комон
@@ -10,4 +15,6 @@ public class ImportExportPage extends Common{
     String selectFileButton = "//*[@id='selectFileButton']"; //кнопка Выберете файл на форме загрузки
 
 
+    public ImportExportPage() throws Exception {
+    }
 }

@@ -6,15 +6,17 @@ import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeSuite;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -24,9 +26,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class Common {
 
-    public String url = "http://private.proverki.local/";
-    public String openUrl = "http://proverki.local"; //открытая часть
+    public ReadParameters readParameters = new ReadParameters();
 
+    public String url = readParameters.getParameter("url", "demo");
+    public String openUrl = readParameters.getPublicUrl("demo");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
 
@@ -45,22 +48,11 @@ public class Common {
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
-    public String codeKNO = "10000001127";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
-    public String loginProsecutor = "prosecutor"; //логин прокурора
-    public String loginSupervisor = "supervisor"; //логин сотрудника КНО
-    public String loginOmbudsman = "ombudsman"; //логин омбудсмена
-    public String loginAdmin = "sysadmin"; //логин администратора
-    public String password = "%%%%%%%%"; //пароль ко всем ролям
-    //public String password = "%%%%%%%%"; //пароль к сотруднику КНО на СГК
-    public String wrongLogin = "wrongLogin"; //некорректный логин
-    public String wrongPassword = "wrongPassword"; //некорректный пароль
-    public String loginText = "Вход в систему"; //приветствие на странице авторизации
-    public String loginWrongMessage = "Пользователь с таким именем не найден."; //сообщение при некорректной авторизации
 
     //Основное меню (на всех страницах)
     public String listEvents = "//*[@id='/private/knms']/a"; // Список КНМ
@@ -108,7 +100,7 @@ public class Common {
     public String approved = "Согласовано";
     public String positionDirector = "Руководитель Росздравнадзора";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
-    public String positionSpecialistExpert ="Специалист-эксперт отдела Территориального органа Росздравнадзора";
+    public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
 
     // Тип места блока Объекты проведения КНМ
@@ -137,7 +129,7 @@ public class Common {
     String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
 
-    public String successfullySignNotification ="//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
+    public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
     //информация для заполнения КНМ
     public String number = "1";
     public String place = "место";
@@ -169,16 +161,17 @@ public class Common {
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
     public String typeItemNews = "//*[text()='Новость']";
-
-    public String INN = "1215212198";
-
+    public String INN = readParameters.getParameter("information", "inn");// "7811689828";
     public String menuButton = "//*[@id='userMenuButton']";
     public static String currentDate = "";
     public static String currentDateTime = "";
     public static String futureDate = "";
-    public String choiceSignature ="//*[@id='certs']/div/div[1]";
+    public String choiceSignature = "//*[@id='certs']/div/div[1]";
 
-    public String exclusionGround="В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
+    public String exclusionGround = "В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
+
+    public Common() throws Exception {
+    }
 
     @BeforeSuite
     protected static void setupAllureReports() {
@@ -195,7 +188,7 @@ public class Common {
         );*/
     }
 
-//    @BeforeSuite //получение текущей даты и будущей даты
+    //    @BeforeSuite //получение текущей даты и будущей даты
 //    public void setupDate() {
 //        currentDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 //        currentDateTime = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date());
@@ -278,17 +271,21 @@ public class Common {
     @Step("Установка плагина для подписания")
     public void installPlugin() {
         open(urlPlugin);
-        $(By.xpath(installPluginButton)).click();
+
         try {
-            Robot r = new Robot();
-            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
-            r.keyPress(KeyEvent.VK_TAB);
-            r.keyRelease(KeyEvent.VK_TAB);
-            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
-            r.keyPress(KeyEvent.VK_ENTER);
-            r.keyRelease(KeyEvent.VK_ENTER);
-        } catch (AWTException e) {
-            e.printStackTrace();
+            $(By.xpath(installPluginButton)).click();
+            try {
+                Robot r = new Robot();
+                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
+                r.keyPress(KeyEvent.VK_TAB);
+                r.keyRelease(KeyEvent.VK_TAB);
+                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
+                r.keyPress(KeyEvent.VK_ENTER);
+                r.keyRelease(KeyEvent.VK_ENTER);
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+        } catch (ElementNotFound ignored) {
         }
     }
 
@@ -305,19 +302,15 @@ public class Common {
     }
 
     /**
-     * Переключение в режим ЕРКНМ
+     * Переключение в режимы ЕРКНМ / ЕРП
+     *
+     * @param mode true - ЕРКНМ, false - ЕРП
      */
-    @Step("Переключение в режим ЕРКНМ")
-    public void choiceERKNM() {
-        $(By.xpath(modeERKNM)).click();
-    }
-
-    /**
-     * Переключение в режим ЕРП
-     */
-    @Step("Переключение в режим ЕРП")
-    public void choiceERP() {
-        $(By.xpath(modeERP)).click();
+    public void choiceMode(boolean mode) {
+        if (mode)
+            $(By.xpath(modeERKNM)).click();
+        else
+            $(By.xpath(modeERP)).click();
     }
 
     /**
@@ -504,6 +497,14 @@ public class Common {
         $(By.xpath(searchEventsERP)).click();
     }
 
+    /**
+     * Переход в раздел Обратная связь
+     */
+    @Step("Переход в раздел Обратная связь")
+    public void gotoFeedBack() {
+        $(By.xpath(feedback)).click();
+    }
+
 
     /**
      * Универсальный метод для поиска по тексту и клик на это место
@@ -530,18 +531,11 @@ public class Common {
      * @param person Логин
      */
     @Step("Авторизация. Пользователь - {person}")
-    public void authorization(String person) {
+    public void authorization(String person) throws Exception {
         clearBrowserCookies();
         open(url);
-        if (Objects.equals(person, "sysadmin")) {
-            setLogin(loginAdmin);
-        } else if (Objects.equals(person, "prosecutor")) {
-            setLogin(loginProsecutor);
-        } else if (Objects.equals(person, "supervisor")) {
-            setLogin(loginSupervisor);
-        } else if (Objects.equals(person, "ombudsmen")) {
-            setLogin(loginOmbudsman);
-        }
+        setLogin(person);
+        String password = readParameters.getParameter("user", person);
         setPassword(password);
         clickEnterButton();
         clickMessageButton();
@@ -615,7 +609,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Удалить в карточке КНМ")
     public void clickDeleteOnCardButton() {
-        $(By.xpath(deleteOnCardButton)).scrollTo().shouldBe(visible, Duration.ofSeconds(10)).click();
+        $(By.xpath(deleteOnCardButton)).scrollTo().shouldBe(visible, Duration.ofSeconds(15)).click();
     }
 
     /**
@@ -700,8 +694,7 @@ public class Common {
      * Проверка сообщения об успешном подписании
      */
     @Step("Проверка сообщения об успешном подписании")
-    public void checkSuccessfullySignNotification()
-    {
+    public void checkSuccessfullySignNotification() {
         $(By.xpath(successfullySignNotification)).should(visible, Duration.ofSeconds(10));
     }
 }

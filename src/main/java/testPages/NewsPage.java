@@ -4,7 +4,10 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.*;
@@ -39,6 +42,9 @@ public class NewsPage extends Common {
     public String titleNews = "автотест Заголовок"; // Заголовок новости
     public String shortTextNews = "автотест Краткий текст новости"; // Краткий текст новости
     public String textNews = "автотест Текст новости";
+
+    public NewsPage() throws Exception {
+    }
 
 
     /**

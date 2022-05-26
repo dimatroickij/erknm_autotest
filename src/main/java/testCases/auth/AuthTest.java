@@ -3,9 +3,13 @@ package testCases.auth;
 import org.testng.annotations.Test;
 import testPages.Common;
 
+
 import static com.codeborne.selenide.Selenide.open;
 
 public class AuthTest extends Common {
+
+    public AuthTest() throws Exception {
+    }
 
     /**
      * Цель: Авторизация
@@ -13,10 +17,10 @@ public class AuthTest extends Common {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "1 - Авторизация")
-    public void authorizationSomeTest() {
+    public void authorizationSomeTest() throws Exception {
         open(url);
-        setLogin(loginProsecutor);
-        setPassword(password);
+        setLogin("prosecutor");
+        setPassword(readParameters.getParameter("user", "prosecutor"));
         clickEnterButton();
         clickMessageButton();
         logout();
@@ -30,9 +34,9 @@ public class AuthTest extends Common {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
-    public void choiceModeERKNMTest() {
+    public void choiceModeERKNMTest() throws Exception {
         authorization("prosecutor");
-        choiceERKNM();
+        choiceMode(true);
         checkObject("Список КНМ");
         checkObject("Список ПМ");
         checkObject("Список планов");
@@ -42,7 +46,7 @@ public class AuthTest extends Common {
         checkObject("Новости");
         checkObject("Отчеты");
         checkObject("Обратная связь");
-        choiceERP();
+        choiceMode(false);
         checkObject("Список проверок");
         checkObject("Список планов");
         checkObject("Аналитика");

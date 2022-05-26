@@ -1,11 +1,15 @@
 package testCases.personalAccount;
 
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.PersonalAccountPage;
+
 
 import java.util.UUID;
 
 public class PersonalAccountTest extends PersonalAccountPage {
+    public PersonalAccountTest() throws Exception {
+    }
 
     //проверки в Личном кабинете для ЕРП
 
@@ -16,7 +20,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Создание шаблона обязательных требований")
-    public void createTemplateMandatoryRequirementsERPTest() {
+    public void createTemplateMandatoryRequirementsERPTest() throws Exception {
         authorization("supervisor");
         System.out.printf("Идентификатор создаваемого обязательного требования %s%n", prefixName);
         clickPersonalAccount();
@@ -35,7 +39,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Редактирование шаблона обязательных требований")
-    public void editTemplateMandatoryRequirementsERPTest() {
+    public void editTemplateMandatoryRequirementsERPTest() throws Exception {
         String lastPrefix = UUID.randomUUID().toString();
         String newPrefix = UUID.randomUUID().toString();
         authorization("supervisor");
@@ -58,7 +62,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Удаление шаблона обязательных требований")
-    public void deleteTemplateMandatoryRequirementsERPTest() {
+    public void deleteTemplateMandatoryRequirementsERPTest() throws Exception {
         String prefix = UUID.randomUUID().toString();
         authorization("supervisor");
         clickPersonalAccount();
@@ -78,7 +82,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Создание шаблона проверочных листов")
-    public void createTemplateSheetsERPTest() {
+    public void createTemplateSheetsERPTest() throws Exception {
         authorization("supervisor");
         System.out.printf("Идентификатор создаваемого проверочного листа %s%n", prefixName);
         clickPersonalAccount();
@@ -97,7 +101,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Редактирование шаблона проверочных листов")
-    public void editTemplateSheetsERPTest() {
+    public void editTemplateSheetsERPTest() throws Exception {
         String lastPrefix = UUID.randomUUID().toString();
         String newPrefix = UUID.randomUUID().toString();
         authorization("supervisor");
@@ -119,7 +123,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Удаление шаблона проверочных листов")
-    public void deleteTemplateSheetsERPTest() {
+    public void deleteTemplateSheetsERPTest() throws Exception {
         String prefix = UUID.randomUUID().toString();
         authorization("supervisor");
         clickPersonalAccount();
@@ -139,7 +143,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Создание уполномоченных на проведение КНМ")
-    public void addRepresentativesERPTest() {
+    public void addRepresentativesERPTest() throws Exception {
         authorization("supervisor");
         System.out.printf("Идентификатор создаваемого уполномоченного %s%n", prefixName);
         clickPersonalAccount();
@@ -150,6 +154,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         representative = prefixName + representativeTemplate;
         createRepresentatives(prefixName);
         checkRepresentatives(prefixName, true);
+        closeNotification();
         logout();
     }
 
@@ -160,7 +165,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Редактирование уполномоченных на проведение КНМ")
-    public void editRepresentativesERPTest() {
+    public void editRepresentativesERPTest() throws Exception {
         String lastPrefix = UUID.randomUUID().toString();
         String newPrefix = UUID.randomUUID().toString();
         authorization("supervisor");
@@ -182,7 +187,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
      * @author Troickij D.A. 04.2022
      */
     @Test(description = "Удаление шаблона проверочных листов")
-    public void deleteRepresentativesERPTest() {
+    public void deleteRepresentativesERPTest() throws Exception {
         String prefix = UUID.randomUUID().toString();
         authorization("supervisor");
         clickPersonalAccount();

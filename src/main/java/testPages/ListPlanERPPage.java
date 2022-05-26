@@ -3,6 +3,10 @@ package testPages;
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.refresh;
@@ -36,6 +40,9 @@ public class ListPlanERPPage extends Common {
     public String approvedPlan = "Утверждён";
 
     public String numberPlan; // номер плана. Для использования в нескольких автотестах
+
+    public ListPlanERPPage() throws Exception {
+    }
 
     /**
      * Выбор значения в выпадающем списке Орган контроля

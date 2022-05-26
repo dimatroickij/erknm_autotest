@@ -1,9 +1,14 @@
 package testPages;
 
+import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -116,6 +121,9 @@ public class ListEventsPage extends Common {
     String addChecklistButton = "/html/body/div/div/main/form/div[2]/section[4]/div[6]/div/div/button"; //Добавить проверочный лист
     String nameChecklistDropDown = "/html/body/div/div/main/form/div[2]/section[4]/div[6]/div/ul/li/div/div[2]/div[2]/div[2]/div/div/div/div[1]/div"; //Выпадающий список Наименовние проверочного листа
     String nameChecklistField = "//*[@name='checklistsErknm[0].newTitle']"; //поле для ввода наименования нового проверочного листа
+
+    public ListEventsPage() throws Exception {
+    }
 
     /**
      * Выбор из выпадающего списка Наименование органа контроля
@@ -481,7 +489,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Добавление решения по заявлению - {result}")
     public void setDecisionApplicationDropDown(String result) {
-        $(By.xpath(decisionApplicationDropDown)).click();
+        $(By.xpath(decisionApplicationDropDown)).should(visible, Duration.ofSeconds(10)).click();
         clickToText(result);
     }
 
@@ -627,7 +635,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Нажатие на Кнопку Добавить в блоке Сведения об акте")
     public void clickAddInformationAboutActsButton() {
-        $(By.xpath(addInformationAboutActsButton)).click();
+        $(By.xpath(addInformationAboutActsButton)).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**
@@ -832,7 +840,13 @@ public class ListEventsPage extends Common {
         $(By.xpath(nameChecklistDropDown)).click(); //нажатие на выпадающий список Наименование проверочного листа
         clickToText(addNewSampleButton);
         $(By.xpath(nameChecklistField)).setValue(name);
-        
+    }
 
+    /**
+     * Поиск должностного лица в карточке КНМ
+     */
+    @Step("Поиск должностного лица в карточке КНМ")
+    public void checkOfficialsParticipatingInTheKNM(String text) {
+        $(By.xpath(addFIOParticipatingField)).should(Value.value(text));
     }
 }

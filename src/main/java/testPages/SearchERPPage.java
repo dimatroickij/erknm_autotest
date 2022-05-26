@@ -3,6 +3,10 @@ package testPages;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -10,6 +14,9 @@ public class SearchERPPage extends Common {
 
     public String knmListCell = "//tbody//td";
     public String statusKNMCell = "//tr[contains(@class, KnmListTable_TbodyRow)]/td[7 and text()='%s']/../td[2]"; // Ячейка с номером КНМ в зависимости от статуса КНМ TODO должен быть идентификатор
+
+    public SearchERPPage() throws Exception {
+    }
 
     /**
      * проверка существования КНМ на странице Список проверок

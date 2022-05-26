@@ -1,8 +1,10 @@
 package testCases.listPlans;
 
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import testPages.ListEventsERPPage;
 import testPages.ListPlanERPPage;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,6 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class ListPlansERPTest extends ListPlanERPPage {
+    public ListPlansERPTest() throws Exception {
+    }
     // работа с планами в режиме ЕРП
 
     /**
@@ -19,9 +23,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Создание плана (Статус Новый) в ЕРП")
-    public void createPlanERPTest() {
+    public void createPlanERPTest() throws Exception, Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         numberPlan = createPlan();
         System.out.println("Номер плана " + numberPlan);
@@ -30,7 +34,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         searchPlan(numberPlan, newPlan, true);
         logout();
         authorization("supervisor");
-        choiceERP();
+        choiceMode(false);
         gotoERPListKNMPage();
 
         ListEventsERPPage listEventsERPPage = new ListEventsERPPage();
@@ -44,7 +48,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         System.out.println("Номер созданной проверки " + scheduledKNMNumber);
         logout();
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         //Integer lastCountKNM = getCountKNMToPlan(numberPlan);
         addKNMtoPlan(numberPlan, scheduledKNMNumber); // TODO баг, который мешает проверке функции
@@ -64,9 +68,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Удаление плана в ЕРП")
-    public void deletePlanERPTest() {
+    public void deletePlanERPTest() throws Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         String deletedNumberPlan = createPlan();
         System.out.println("Номер удалённого плана " + numberPlan);
@@ -86,9 +90,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Перевод плана в статус На согласовании в ЕРП")
-    public void transferPlanStatusOnApprovalERPTest() {
+    public void transferPlanStatusOnApprovalERPTest() throws Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         workToPlan(onApprovalPlan, numberPlan);
         System.out.println("План " + numberPlan + " переведён в статус '" + onApprovalPlan + "'");
@@ -102,9 +106,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Перевод плана в статус На доработке в ЕРП")
-    public void transferPlanStatusOnRevisionERPTest() {
+    public void transferPlanStatusOnRevisionERPTest() throws Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         workToPlan(onRevisionPlan, numberPlan);
         System.out.println("План " + numberPlan + " переведён в статус '" + onRevisionPlan + "'");
@@ -118,9 +122,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Перевод плана в статус Согласован в ЕРП")
-    public void transferPlanStatusAgreedERPTest() {
+    public void transferPlanStatusAgreedERPTest() throws Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         workToPlan(agreedPlan, numberPlan);
         System.out.println("План " + numberPlan + " переведён в статус '" + agreedPlan + "'");
@@ -134,9 +138,9 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Перевод плана в статус Утвержден в ЕРП")
-    public void transferPlanStatusApprovedERPTest() {
+    public void transferPlanStatusApprovedERPTest() throws Exception {
         authorization("prosecutor");
-        choiceERP();
+        choiceMode(false);
         gotoListPlansPage();
         workToPlan(approvedPlan, numberPlan);
         System.out.println("План " + numberPlan + " переведён в статус '" + approvedPlan + "'");

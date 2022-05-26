@@ -3,8 +3,11 @@ package testPages;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -59,6 +62,9 @@ public class ListPreventionEventsPage extends Common {
     String signatureInformationDirectionObjectionInput = "//input[@id='objectionWarningAttachmentsUploadSign']"; // input для добавления подписи в сведения о направлении возражения на предостережение
 
     String closeButton = "//*[@id='confirmButton']"; //кнопка Закрыть на предупреждении
+
+    public ListPreventionEventsPage() throws Exception {
+    }
 
     /**
      * Заполнение выпадающего списка Контрольный (надзорный) орган
