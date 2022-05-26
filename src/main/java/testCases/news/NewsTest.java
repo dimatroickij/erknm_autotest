@@ -3,92 +3,103 @@ package testCases.news;
 import org.testng.annotations.Test;
 import testPages.NewsPage;
 
-import java.util.Random;
 import java.util.UUID;
 
-import static com.codeborne.selenide.Selenide.$;
+import static java.lang.Thread.sleep;
 
 public class NewsTest extends NewsPage {
-    // раздел Новости
-    Random rnd = new Random();
-    int prefix = rnd.nextInt(1000000);
-    String titleNews = prefix + "автотест Заголовок";
-    String shortText = prefix + "автотест Краткий текст новости";
-    String textNews = prefix + "автотест Текст новости";
+
+    boolean mode;
+    public NewsTest() throws Exception {
+    }
+    // Общий класс для работы с разделом Новости
 
     /**
      * Цель: Добавление новости
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=54
-     * @author Frolova S.I 01.2022
+     * @author Troickij D. A. 01.2022
      */
-    @Test(description = "1 - Добавление новости")
-    public void createNewsTest() {
+    @Test(description = "Добавление новости")
+    public void createNewsTest() throws Exception {
         authorization("admin");
-        choiceERKNM();
+        closeNotification();
+        closeNotification();
+        choiceMode(mode);
         goToManagementNews();
-        addNews(typeItemNews, visibleNewsItemProsecutor, titleNews, shortText, textNews, currentDate);
-        searchNewsInTableAdmin(titleNews, true);
+        System.out.println("Идентификатор созданной новости " + prefixNews);
+        addNews(typeItemNews, visibleNewsItemProsecutor, prefixNews + titleNews, prefixNews + shortTextNews, prefixNews + textNews, currentDate);
+        searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();
         authorization("prosecutor");
-        choiceERKNM();
+        choiceMode(mode);
         gotoNewsPage();
-        searchNewsInTableUser(titleNews, true);
+        searchNewsInTableUser(prefixNews + titleNews, true);
+        logout();
+        authorization("supervisor");
+        choiceMode(mode);
+        gotoNewsPage();
+        searchNewsInTableUser(prefixNews + titleNews, false);
         logout();
     }
 
     /**
      * Цель: Редактирование новости
-     * HP ALM
-     *
-     * @author Troickij D. I. 01.2022
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=549
+     * @author Troickij D. A. 01.2022
      */
-    @Test(description = "2 - Редактирование новости")
-    public void editNewsTest() {
+    @Test(description = "Редактирование новости")
+    public void editNewsTest() throws Exception {
         authorization("admin");
-        choiceERKNM();
+        closeNotification();
+        closeNotification();
+        choiceMode(mode);
         goToManagementNews();
-        goToNews();
-        String prefix = UUID.randomUUID().toString();
+        System.out.println("Идентификатор созданной новости " + prefixNews);
+        goToNews(prefixNews + titleNews);
         String lastTitleNewsField = getTitleNewsField();
-        setTitleNewsField(prefix + "автотест Заголовок");
-        setShortTextNewsField(prefix + "автотест Краткий текст новости");
-        setTextNewsField(prefix + "автотест Текст новости");
+        prefixNews = UUID.randomUUID().toString();
+        System.out.println("Новый идентификатор новости " + prefixNews);
+        sleep(2000);
+        setTitleNewsField(prefixNews + titleNews);
+        setShortTextNewsField(prefixNews + shortTextNews);
+        setTextNewsField(prefixNews + textNews);
         clickSaveButton();
         clickConfirmButton();
+        closeNotification();
         clickBackButton();
-        searchNewsInTableAdmin(prefix + "автотест Заголовок", true);
+        searchNewsInTableAdmin(prefixNews + titleNews, true);
         searchNewsInTableAdmin(lastTitleNewsField, false);
         logout();
         authorization("prosecutor");
-        choiceERKNM();
+        choiceMode(mode);
         gotoNewsPage();
-        searchNewsInTableUser(prefix + "автотест Заголовок", true);
+        searchNewsInTableUser(prefixNews + titleNews, true);
         searchNewsInTableUser(lastTitleNewsField, false);
         logout();
     }
 
     /**
      * Цель: Удаление новости
-     * HP ALM
-     *
-     * @author Troickij D. I. 01.2022
+     * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=545
+     * @author Troickij D. A. 01.2022
      */
-    @Test(description = "3 - Удаление новости")
-    public void deleteNewsTest() {
+    @Test(description = "Удаление новости", dependsOnMethods={"editNewsTest"})
+    public void deleteNewsTest() throws Exception {
         authorization("admin");
-        choiceERKNM();
+        closeNotification();
+        closeNotification();
+        choiceMode(mode);
         goToManagementNews();
-        goToNews();
+        System.out.println("Идентификатор удаляемой новости " + prefixNews);
+        goToNews(prefixNews + titleNews);
         String lastTitleNewsField = getTitleNewsField();
         clickRemoveFromPublicationNewsButton();
         clickBackButton();
         logout();
         authorization("prosecutor");
-        choiceERKNM();
+        choiceMode(mode);
         gotoNewsPage();
         searchNewsInTableUser(lastTitleNewsField, false);
         logout();
     }
-
-
 }
