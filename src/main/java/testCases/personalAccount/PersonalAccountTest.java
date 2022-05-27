@@ -154,7 +154,6 @@ public class PersonalAccountTest extends PersonalAccountPage {
         representative = prefixName + representativeTemplate;
         createRepresentatives(prefixName);
         checkRepresentatives(prefixName, true);
-        closeNotification();
         logout();
     }
 
@@ -174,7 +173,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
         goToAuthorizedToConductMenu();
         System.out.printf("Старый ID редактируемого уполномоченного %s, новый %s%n", lastPrefix, newPrefix);
         createRepresentatives(lastPrefix);
-        //editRepresentatives(lastPrefix, newPrefix);
+        editRepresentatives(lastPrefix, newPrefix);
         checkRepresentatives(newPrefix, true);
         checkRepresentatives(lastPrefix, false);
         logout();

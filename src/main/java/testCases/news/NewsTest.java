@@ -8,15 +8,16 @@ import java.util.UUID;
 import static java.lang.Thread.sleep;
 
 public class NewsTest extends NewsPage {
-
+    // Общий класс для работы с разделом Новости
     boolean mode;
+
     public NewsTest() throws Exception {
     }
-    // Общий класс для работы с разделом Новости
 
     /**
      * Цель: Добавление новости
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=54
+     *
      * @author Troickij D. A. 01.2022
      */
     @Test(description = "Добавление новости")
@@ -27,7 +28,8 @@ public class NewsTest extends NewsPage {
         choiceMode(mode);
         goToManagementNews();
         System.out.println("Идентификатор созданной новости " + prefixNews);
-        addNews(typeItemNews, visibleNewsItemProsecutor, prefixNews + titleNews, prefixNews + shortTextNews, prefixNews + textNews, currentDate);
+        addNews(typeItemNews, visibleNewsItemProsecutor, prefixNews + titleNews,
+                prefixNews + shortTextNews, prefixNews + textNews, currentDate);
         searchNewsInTableAdmin(prefixNews + titleNews, true);
         logout();
         authorization("prosecutor");
@@ -45,6 +47,7 @@ public class NewsTest extends NewsPage {
     /**
      * Цель: Редактирование новости
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=549
+     *
      * @author Troickij D. A. 01.2022
      */
     @Test(description = "Редактирование новости")
@@ -81,9 +84,10 @@ public class NewsTest extends NewsPage {
     /**
      * Цель: Удаление новости
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=545
+     *
      * @author Troickij D. A. 01.2022
      */
-    @Test(description = "Удаление новости", dependsOnMethods={"editNewsTest"})
+    @Test(description = "Удаление новости", dependsOnMethods = {"editNewsTest"})
     public void deleteNewsTest() throws Exception {
         authorization("admin");
         closeNotification();

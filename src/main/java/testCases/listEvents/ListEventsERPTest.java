@@ -51,7 +51,8 @@ public class ListEventsERPTest extends ListEventsERPPage {
      *
      * @author Troickij D. A. 01.2022
      */
-    @Test(description = "Перевод проверки в статус в процессе проведения")
+    @Test(description = "Перевод проверки в статус в процессе проведения",
+            dependsOnMethods = {"createEventStatusProcessCompletionERPTest"})
     public void transferEventStatusProcessConductingERPTest() throws Exception {
         authorization("supervisor");
         choiceMode(false);
@@ -74,7 +75,8 @@ public class ListEventsERPTest extends ListEventsERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Перевод проверки в статус завершено")
+    @Test(description = "Перевод проверки в статус завершено",
+            dependsOnMethods = {"transferEventStatusProcessConductingERPTest"})
     public void transferEventStatusCompletedERPTest() throws Exception {
         authorization("supervisor");
         choiceMode(false);
@@ -124,7 +126,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         setSearchField(deleteKNMNumber);
         clickSearchButton();
         checkKNM(deleteKNMNumber, statusCompleted, false);
-        System.out.println("Проверка " + knmNumber + " удалена");
+        System.out.println("Проверка " + deleteKNMNumber + " удалена");
         logout();
     }
 
@@ -143,9 +145,6 @@ public class ListEventsERPTest extends ListEventsERPPage {
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         String startDate = new SimpleDateFormat("dd.MM.yyyy").format(calendar.getTime());
-        templateMandatoryRequirements = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто Наименование";
-        templateSheets = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто Наименование";
-        representative = "54ff8cbd-3e60-4837-8277-6e96dd983846 авто ФИО";
         String scheduledKNMNumber = createScheduledEvent(startDate, groundPlannedRegistration,
                 true, true, true, true);
         setObjectKNM(address, locationLE, branch, righRisk, true);

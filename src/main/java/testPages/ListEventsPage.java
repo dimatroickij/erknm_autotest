@@ -1,5 +1,6 @@
 package testPages;
 
+import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -9,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -16,8 +18,13 @@ import static com.codeborne.selenide.Selenide.$;
 public class ListEventsPage extends Common {
 //раздел Список КНМ
 
+    public String prefix = UUID.randomUUID().toString();
+    public String placeDecision = prefix + " автотестМесто"; // Значение для поля Место вынесения решения или похожих полей
+    public String nameTitle = prefix + "авто"; // Значение для поля Наименование в блоке ОТ
+    public String officialField = prefix + " autoFIO"; // Значение для поля ФИО должностного лица
     String numberKNM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'КНМ 0') or contains(string(), 'КНМ 7'))]";//объект для получения номера КНМ
 //.//h3[starts-with(@class,'KnmHeader_Title_')]
+    String statusKNM = "//span[contains(@class, 'KnmHeader_Status')]";
 
     String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; //выпадающий список Наименование органа контроля
     //проверить без див
@@ -59,7 +66,7 @@ public class ListEventsPage extends Common {
     String dateEndActions = "/html/body/div/div/main/form/div[2]/section[3]/div[8]/div[2]/div/div[3]/div/div[1]/div/div/input"; //Дата окончания
 
     String addVenueButton = "//*[@id ='erknmPlacesAddButton']"; //Кнопка добавить в разделе Место (места) проведение КНМ
-    String venueField = "//*[@name='places[0].value']";//поле для введения Места
+    String venueField = "//*[@name='places[0].value']"; //поле для введения Места
 
 
     String dateTimePublicationDecisionField = "/html/body/div/div/main/form/div[2]/section[1]/div[7]/div[1]/div[2]/div[1]/div/div/input"; // поле Дата и время издания решения в разделе о проведении КНМ
@@ -84,6 +91,7 @@ public class ListEventsPage extends Common {
     String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']/div/div[1]/div[1]";//выпадающий список Обязательные требования
     String addNewSampleButton = "Создать новый"; //создать новый шаблон (не могут сделать id для элемента)
     String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']";//поле Наименование в блоке ОТ
+    String createdNameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].requirement']";//поле Наименование в блоке ОТ после сохранения
     String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']";//поле Наименование НПА в блоке ОТ
     String dateNPAMandatoryRequirementsField = "/html/body/div/div/main/form/div[2]/section[4]/div[2]/table/tbody/tr/td[4]/div/div/div/div/input";//поле Дата НПА
 
@@ -123,6 +131,21 @@ public class ListEventsPage extends Common {
     String nameChecklistField = "//*[@name='checklistsErknm[0].newTitle']"; //поле для ввода наименования нового проверочного листа
 
     public ListEventsPage() throws Exception {
+    }
+
+    /**
+     * Получение статуса КНМ в карточке КНМ
+     */
+    public String getStatusKNM(){
+        return $(By.xpath(statusKNM)).getText();
+    }
+
+    /**
+     * Проверка статуса КНМ
+     * @param status Статус, который должен быть у проверки
+     */
+    public void checkStatusKNM(String status){
+        $(By.xpath(statusKNM)).should(Text.text(status));
     }
 
     /**
@@ -832,10 +855,11 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление проверочного листа в КНМ
+     * @param name Наименование проверочного листа
      */
     @Step("Добавление проверочного листа в КНМ")
     public void addCheckList(String name) {
-        $(By.xpath(checklistCheckbox)).click();//выбор чек-бокса
+        $(By.xpath(checklistCheckbox)).click(); //выбор чек-бокса
         $(By.xpath(addChecklistButton)).click(); //нажать кнопку Добавить у блока Проверочные листы
         $(By.xpath(nameChecklistDropDown)).click(); //нажатие на выпадающий список Наименование проверочного листа
         clickToText(addNewSampleButton);
@@ -844,9 +868,29 @@ public class ListEventsPage extends Common {
 
     /**
      * Поиск должностного лица в карточке КНМ
+     * @param text ФИО должностного лица
      */
     @Step("Поиск должностного лица в карточке КНМ")
     public void checkOfficialsParticipatingInTheKNM(String text) {
         $(By.xpath(addFIOParticipatingField)).should(Value.value(text));
+    }
+
+    /**
+     * Проверка на существование Наименования ОТ в карточке КНМ
+     * @param name Наименование ОТ
+     */
+    @Step("Проверка на существование Наименования ОТ в карточке КНМ - {name}")
+    public void checkNameMandatoryRequirementsField(String name) {
+        $(By.xpath(createdNameMandatoryRequirementsField)).should(Text.text(name));
+    }
+
+    /**
+     * Проверка на существование проверочного листа в КНМ
+     * @param name Наименование проверочного листа
+     */
+    @Step("Проверка на существование проверочного листа в КНМ")
+    public void checkCheckList(String name) {
+        $(By.xpath("//li[contains(@id, 'checklists')][1]")).click();
+        $(By.xpath("//li[contains(@id, 'checklists')][1]//div[contains(@class, 'SelectInput_SingleValue')]")).should(Text.text(name));
     }
 }

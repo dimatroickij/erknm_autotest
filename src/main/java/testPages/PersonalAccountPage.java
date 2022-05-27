@@ -2,6 +2,7 @@ package testPages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.conditions.Text;
+import com.codeborne.selenide.ex.ElementNotFound;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,10 +10,13 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class PersonalAccountPage extends Common {
 
@@ -34,9 +38,9 @@ public class PersonalAccountPage extends Common {
     // поля для добавления уполномоченных
     String authorizedToConductAddButton = "//*[@id='authorizedToConductAddButton']"; // Кнопка Добавить в Уполномоченных на проведение КНМ
     String nameField = "//*[@name='inspectors[0].fullName']";
-    String nameFieldSearch = "//*[contains(@name, 'fullName') and contains(text(), '%s')]";
+    String nameFieldSearch = "//*[contains(@name, 'fullName') and contains(@value, '%s')]";
     String positionField = "//*[@name='inspectors[0].position']";
-    String positionFieldSearch = "//*[contains(@name, 'position') and contains(text(), '%s')]";
+    String positionFieldSearch = "//*[contains(@name, 'position') and contains(@value, '%s')]";
     String typeFieldDropDown = "//*[@id='inspectors[0].type']";
 
     //поля для проверочных листов
@@ -60,8 +64,6 @@ public class PersonalAccountPage extends Common {
     String recordLineByText = "//ul[contains(@class, 'TemplatesList')]//li//div[contains(text(), '%s')]"; // Шаблон для поиска нужного обязательного требования
     String allRecordLine = "//ul[contains(@class, 'TemplatesList')]//li//div"; // Список всех наименований обязательных требований
     String defaultOrganizationLine = "//label[contains(text(), '%s')]"; // Строка с названием организации в списке доступных организаций TODO должен быть идентификатор
-    String inputRepresentatives = "//*[@value='%s']"; //
-
     public String prefixName = UUID.randomUUID().toString(); // Идентификатор для наименования проверочного листа / обязательного требования / уполномоченного
     public String templateName = " авто Наименование"; // Шаблон наименования обязательного требования и проверочного лист
     String formulationTemplate = " авто Формулировка"; // Шаблон формулировки обязательного требования
@@ -292,16 +294,6 @@ public class PersonalAccountPage extends Common {
     }
 
     /**
-     * Проверка созданного уполномоченного на проведение КНМ
-     *
-     * @param name ФИО уполномоченного
-     */
-    @Step("Проверка созданного уполномоченного на проведение КНМ - {name}")
-    public void checkRepresentatives(String name) {
-        $(By.xpath(String.format(inputRepresentatives, name))).shouldBe(Condition.visible);
-    }
-
-    /**
      * Выбор организации по умолчанию
      *
      * @param name Название КНО
@@ -440,7 +432,7 @@ public class PersonalAccountPage extends Common {
             $(By.xpath(templateNameField)).should(Text.value(code + templateName));
             $(By.xpath(formulationField)).should(Text.value(code + formulationTemplate));
             $(By.xpath(nameNPAField)).should(Text.value(code + nameNPATemplate));
-        } else $(By.xpath(allRecordLine)).shouldNot(Text.text(code));
+        } else $(By.xpath(allRecordLine)).shouldNot(Text.value(code));
     }
 
     /**
@@ -464,16 +456,16 @@ public class PersonalAccountPage extends Common {
      * Проверка на существование уполномоченного
      *
      * @param code  Уникальный код записи
-     * @param exist Должна ли найтись запись
      */
-    @Step("Проверка на существование уполномоченного {code} {exist}")
+    //@param exist Должна ли найтись запись
+    @Step("Проверка на существование уполномоченного {code}")
     public void checkRepresentatives(String code, boolean exist) {
-        if (exist) {
-            $(By.xpath(String.format(nameFieldSearch, code))).should(Text.text(code));
-            $(By.xpath(String.format(positionFieldSearch, code))).should(Text.text(code));
-        } else {
-            $(By.xpath(nameFieldSearch)).shouldNot(Text.text(code));
-            $(By.xpath(positionFieldSearch)).shouldNot(Text.text(code));
+        try {
+            $(By.xpath(String.format(nameFieldSearch, code))).should(visible);
+            $(By.xpath(String.format(positionFieldSearch, code))).should(visible);
+        } catch (ElementNotFound ignored) {
+            if (exist)
+                throw new NoSuchElementException();
         }
     }
 
@@ -491,23 +483,23 @@ public class PersonalAccountPage extends Common {
         clickSaveButton();
         closeNotification();
     }
-//
-//    /**
-//     * Редактирование уполномоченного
-//     *
-//     * @param lastCode Старый код
-//     * @param newCode  Новый код
-//     */
-//    @Step("Редактирование уполномоченного {lastCode} {newCode}")
-//    public void editRepresentatives(String lastCode, String newCode) {
-//        $(By.xpath(String.format(nameFieldSearch, lastCode)));
-//        $(By.xpath(String.format(positionFieldSearch, lastCode)));
-//        setNameField(newCode + representativeTemplate);
-//        setPositionField(newCode + positionTemplate);
-//        setTypeInspectorDropDown(typeInspector);
-//        clickSaveButton();
-//        closeNotification();
-//    }
+
+    /**
+     * Редактирование уполномоченного
+     *
+     * @param lastCode Старый код
+     * @param newCode  Новый код
+     */
+    @Step("Редактирование уполномоченного {lastCode} {newCode}")
+    public void editRepresentatives(String lastCode, String newCode) {
+        $(By.xpath(String.format(nameFieldSearch, lastCode))).setValue(newCode);
+        $(By.xpath(String.format(positionFieldSearch, lastCode))).setValue(newCode);
+        //setNameField(newCode + representativeTemplate);
+        //setPositionField(newCode + positionTemplate);
+        //setTypeInspectorDropDown(typeInspector);
+        clickSaveButton();
+        closeNotification();
+    }
 
     /**
      * Удаление уполномоченного
@@ -516,8 +508,8 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Удаление уполномоченного {code}")
     public void deleteRepresentatives(String code) {
-        $(By.xpath(String.format(nameFieldSearch, code) + "/../..//button")).click();
-        clickConfirmButton();
+        $(By.xpath(String.format(nameFieldSearch, code) + "/../..//..//button")).click();
+        clickSaveButton();
         closeNotification();
     }
 }
