@@ -4,11 +4,8 @@ import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -23,37 +20,28 @@ public class ListEventsPage extends Common {
     public String nameTitle = prefix + "авто"; // Значение для поля Наименование в блоке ОТ
     public String officialField = prefix + " autoFIO"; // Значение для поля ФИО должностного лица
     String numberKNM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'КНМ 0') or contains(string(), 'КНМ 7'))]";//объект для получения номера КНМ
-//.//h3[starts-with(@class,'KnmHeader_Title_')]
     String statusKNM = "//span[contains(@class, 'KnmHeader_Status')]";
-
     String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; //выпадающий список Наименование органа контроля
-    //проверить без див
     String kindControlAndNumberDropDown = "//*[@id='kindControl']/div"; //выпадающий список Вид контроля (надзора) и его номер
     String kindKNMDropDown = "//*[@id='kindKnm']/div/div[1]"; // выпадающий список Вид КНМ
     String characterKNMDropDown = "//*[@id='typeErknm']/div/div[1]"; // выпадающий список Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']/div[2]/div[1]/div/div/input"; //Дата начала КНМ
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']/div/div[1]"; //Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; //ИНН
-    //String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; //появившийся спискок ИНН
     String innListField = "//*[@id='autoCompleteList']"; //появившийся спискок ИНН
 
     String numberPlanField = "//*[@id='planId']"; //номер плана
     String durationDaysField = "//*[@name='durationDays']"; //срок проведения(дней)
-
-    // String addGroundsIncludePlanButton="//*[(@id='reasonsBlock') and contains(string(),'Добавить')]"; //Кнопка добавить в основания включения в план
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; //Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']";//основания включения в план
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде контроля период времени с даты окончания проведения последнего планового контрольного (надзорного) мероприятия";
-    //TODO где дата
-    //Дата основания включения в план -reasonsErknm[порядковый номер].date
-    String dateGIPField = "/html/body/div/div/main/form/div[2]/section[1]/div[13]/div[2]/div/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план
+    String dateGIPField = "/html/body/div/div/main/form/div[2]/section[1]/div[13]/div[2]/div/div/div[2]/div/div[1]/div/div/input";//дата основания включения в план TODO Должнен быть идентификатор
 
     String addObjectControlKNMButton = "//*[@id='erknmObjectsAddButton']";//кнопка Добавить в разделе Сведения об объектах контроля в карточке КНМ
     String addressField = "//*[@name='objectsErknm[0].addressText']";//поле Местонахождение
     String typeObjectDropDown = "//*[@id='objectsErknm[0].objectType']";//тип объекта
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']";//вид объекта
-    //String kingObject = "деятельность, действия (бездействие) Контролируемых лиц, в рамках которых должны соблюдаться обязательные требования, в том числе предъявляемые к Контролируемым лицам, осуществляющим деятельность, действия (бездействие)";
     String kingObject = "используемые контролируемыми лицами при осуществлении деятельности в сфере обращения лекарственных средств помещения, к которым предъявляются обязательные требования";
     String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']";//подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']";//класс опасности
@@ -75,13 +63,10 @@ public class ListEventsPage extends Common {
     String nameOfficialField = "//*[@id='fioSigner']";// поле ФИО должностного лица
     String positionPersonSignedDecisionsDropDown = "//*[@id='titleSigner']";// поле Должность лица, подписавшего решение
     String durationEventHoursField = "//*[@name='durationHours']";//поле срок проведения (часов)
-    // String addGroundConductingButton = "/html/body/div/div/main/form/div[2]/section[1]/div[11]/div[2]/button";//кнопка Добавить в разделе Основания проведения КНМ
     String addGroundConductingButton = "//*[@id ='addReasonButton']";//кнопка Добавить в разделе Основания проведения КНМ
     String groundConductingDropDown = "//*[@id ='reasonsErknm[0].type']"; //выпадающий список Основание регистрации КНМ
     String groundConduction = "4.0.15 (Постановление 336) Непосредственная угроза причинения вреда жизни и тяжкого вреда здоровью граждан, факты причинения вреда жизни и тяжкого вреда здоровью граждан";
-    //String needCoordinationDropDown = "//*[@id ='approveRequired']";//выпадающий список Необходимость согласования
     String needCoordinationDropDown = "//*[@id='approveRequired']/div/div[1]";//выпадающий список Необходимость согласования
-
     String addFoundationButton = "//*[text()='Добавить основание']";
     String typeDocumentDropDown = "//*[@id='reasonDocuments[0].type']"; // выпадающий список Тип документа
     String typeDocument = "Мотивированное представление о проведении контрольного (надзорного)";
@@ -89,7 +74,7 @@ public class ListEventsPage extends Common {
 
     String addMandatoryRequirementsButton = "//button[@id='erknmRequirementsAddButton']";//кнопка Добавить в блоке обязательные требования, подлежащие проверке
     String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']/div/div[1]/div[1]";//выпадающий список Обязательные требования
-    String addNewSampleButton = "Создать новый"; //создать новый шаблон (не могут сделать id для элемента)
+    String addNewSampleButton = "Создать новый"; //создать новый шаблон TODO Должен быть идентификатор
     String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']";//поле Наименование в блоке ОТ
     String createdNameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].requirement']";//поле Наименование в блоке ОТ после сохранения
     String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']";//поле Наименование НПА в блоке ОТ
@@ -134,24 +119,18 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Получение статуса КНМ в карточке КНМ
-     */
-    public String getStatusKNM(){
-        return $(By.xpath(statusKNM)).getText();
-    }
-
-    /**
      * Проверка статуса КНМ
+     *
      * @param status Статус, который должен быть у проверки
      */
-    public void checkStatusKNM(String status){
+    public void checkStatusKNM(String status) {
         $(By.xpath(statusKNM)).should(Text.text(status));
     }
 
     /**
      * Выбор из выпадающего списка Наименование органа контроля
      *
-     * @param name
+     * @param name Наименование органа контроля
      */
     @Step("Выбор из выпадающего списка Наименование органа контроля - {name}")
     public void setNameKNODropDown(String name) {
@@ -162,7 +141,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Вид контроля
      *
-     * @param kind
+     * @param kind Вид контроля
      */
     @Step("Выбор из выпадающего списка Вид контроля - {kind}")
     public void setKindControlAndNumberDropDown(String kind) {
@@ -173,7 +152,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Вид КНМ
      *
-     * @param kind
+     * @param kind Вид КНМ
      */
     @Step("Выбор из выпадающего списка Вид КНМ - {kind}")
     public void setKindKNMDropDown(String kind) {
@@ -184,7 +163,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Характер КНМ
      *
-     * @param kind
+     * @param kind Характер КНМ
      */
     @Step("Выбор из выпадающего списка Характер КНМ - {kind}")
     public void setCharacterKNMDropDown(String kind) {
@@ -203,7 +182,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор из выпадающего списка Наименование прокуратуры
      *
-     * @param name
+     * @param name Наименование прокуратуры
      */
     @Step("Выбор из выпадающего списка Наименование прокуратуры - {name}")
     public void setNameProsecutorDropDown(String name) {
@@ -213,6 +192,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнить поле ИНН, выбрать из появившегося окна
+     *
+     * @param INN ИНН
      */
     @Step("Заполнить поле ИНН, выбрать из появившегося окна - {INN}")
     public void setInnField(String INN) {
@@ -234,7 +215,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Номер плана
      *
-     * @param number
+     * @param number Номер плана
      */
     @Step("Заполнение поля Номер плана - {number}")
     public void setNumberPlanField(String number) {
@@ -244,7 +225,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Срок проведения(дней)
      *
-     * @param days
+     * @param days Срок проведения(дней)
      */
     @Step("Заполнение поля Срок проведения(дней) - {days} дней")
     public void setDurationDaysField(String days) {
@@ -254,7 +235,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Срок проведения(часов)
      *
-     * @param hours
+     * @param hours Срок проведения(часов)
      */
     @Step("Заполнение поля Срок проведения(часов) - {hours} часов")
     public void setDurationEventHoursField(String hours) {
@@ -290,6 +271,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение даты в разделе Основания включения в план
+     *
+     * @param date Дата
      */
     @Step("Заполнение даты в разделе Основания включения в план")
     public void setDateGIPField(String date) {
@@ -306,6 +289,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Местонахождение
+     *
+     * @param address Местонахождение
      */
     @Step("Заполнение поля Местонахождение - {address}")
     public void setAddressField(String address) {
@@ -367,6 +352,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение Дата начала в Перечне действий
+     *
+     * @param date Дата начала
      */
     @Step("Заполнение Дата начала в Перечне действий - {date}")
     public void setDateStartActions(String date) {
@@ -375,6 +362,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение Дата окончания в Перечне действий
+     *
+     * @param date Дата окончания
      */
     @Step("Заполнение Дата окончания в Перечне действий - {date}")
     public void setDateEndActions(String date) {
@@ -405,6 +394,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Введите место
+     *
+     * @param venue Место
      */
     @Step("Заполнение поля Введите место - {venue}")
     public void setVenueField(String venue) {
@@ -413,6 +404,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Дата и время издания решения в разделе о проведении КНМ
+     *
+     * @param date Дата и время издания решения
      */
     @Step("Заполнение поля Дата и время издания решения в разделе о проведении КНМ - {date}")
     public void setDateTimePublicationDecisionField(String date) {
@@ -421,6 +414,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Номер решения в разделе Решение о проведении КНМ
+     *
+     * @param number Номер решения
      */
     @Step("Заполнение поля Номер решения в разделе Решение о проведении КНМ - {number}")
     public void setSolutionNumberField(String number) {
@@ -429,6 +424,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Место вынесения решения
+     *
+     * @param place Место вынесения решения
      */
     @Step("Заполнение поля Место вынесения решения - {place}")
     public void setPlaceDecisionField(String place) {
@@ -437,6 +434,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля ФИО должностного лица
+     *
+     * @param name ФИО должностного лица
      */
     @Step("Заполнение поля ФИО должностного лица - {name}")
     public void setNameOfficialField(String name) {
@@ -535,6 +534,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение Наименования ОТ
+     *
+     * @param name Наименование ОТ
      */
     @Step("Заполнение Наименования ОТ - {name}")
     public void setNameMandatoryRequirementsField(String name) {
@@ -543,6 +544,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Наименование НПА в блоке ОТ
+     *
+     * @param nameNPA Наименование НПА
      */
     @Step("Заполнение поля Наименование НПА в блоке ОТ - {nameNPA}")
     public void setNpaMandatoryRequirementsField(String nameNPA) {
@@ -551,6 +554,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение даты НПА
+     *
+     * @param date дата НПА
      */
     @Step("Заполнение даты НПА - {date}")
     public void setDateNPAMandatoryRequirementsField(String date) {
@@ -559,6 +564,10 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление нового обязательного требования
+     *
+     * @param name    Название ОТ
+     * @param nameNPA Название НПА
+     * @param date    Дата
      */
     @Step("Добавление нового обязательного требования")
     public void createMandatoryRequirements(String name, String nameNPA, String date) {
@@ -579,9 +588,10 @@ public class ListEventsPage extends Common {
      * @param nameProsecutor Наименование прокуратуры
      * @param inn            ИНН
      */
-
-    @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, Дата начала КНМ - {date}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
-    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String date, String nameProsecutor, String inn) {
+    @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
+            "Вид КНМ - {kind}, Дата начала КНМ - {date}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String date, String nameProsecutor,
+                                String inn) {
         clickAddButton();
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
@@ -684,7 +694,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Номер акта КНМ
      *
-     * @param numberAct
+     * @param numberAct Номер акта КНМ
      */
     @Step("Заполнение поля Номер акта КНМ")
     public void setNumberActField(String numberAct) {
@@ -694,7 +704,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Дата и время составления акта КНМ
      *
-     * @param date
+     * @param date Дата и время составления акта КНМ
      */
     @Step("Заполнение поля Дата и время составления акта КНМ")
     public void setDateDrawingUpAct(String date) {
@@ -704,7 +714,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Дата и время начала проведения КНМ
      *
-     * @param date
+     * @param date Дата и время начала проведения КНМ
      */
     @Step("Заполнение поля Дата и время начала проведения КНМ")
     public void setDateStartKNM(String date) {
@@ -714,7 +724,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Срок проведения (в днях)
      *
-     * @param day
+     * @param day Срок проведения (в днях)
      */
     @Step("Заполнение поля Срок проведения (в днях)")
     public void setDurationDaysActField(String day) {
@@ -724,7 +734,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля ФИО подписавшего акт
      *
-     * @param name
+     * @param name ФИО подписавшего акт
      */
     @Step("Заполнение поля ФИО подписавшего акт")
     public void setNameSignatoryActField(String name) {
@@ -733,6 +743,8 @@ public class ListEventsPage extends Common {
 
     /**
      * Выбор Должность лица, подписавшего акт из выпадающего списка
+     *
+     * @param signPosition Должность лица, подписавшего акт
      */
     @Step("Выбор Должность лица, подписавшего акт из выпадающего списка")
     public void setPositionSignatoryActDropDown(String signPosition) {
@@ -751,20 +763,11 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Введите ФИО в блоке Должностные лица КНО, участвовавшие в КНМ
      *
-     * @param name
+     * @param name ФИО
      */
     @Step("Заполнение поля Введите ФИО в блоке Должностные лица КНО, участвовавшие в КНМ")
     public void setOfficialsParticipatedEventField(String name) {
         $(By.xpath(officialsParticipatedEventField)).setValue(name);
-    }
-
-    /**
-     * Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Руководитель Росздравнадзора
-     */
-    @Step("Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ")
-    public void setPositionOfficialsParticipatedDropDown() {
-        $(By.xpath(positionOfficialsParticipatedDropDown)).click();
-        clickToText(positionDirector);
     }
 
     /**
@@ -779,7 +782,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Факт устранения выявленного нарушения
      *
-     * @param fact
+     * @param fact Факт устранения выявленного нарушения
      */
     @Step("Заполнение поля Факт устранения выявленного нарушения")
     public void setFactField(String fact) {
@@ -789,7 +792,7 @@ public class ListEventsPage extends Common {
     /**
      * Выбор результата из выпадающего списка Сведения об ознакомлении контролируемых лиц с результатами КНМ
      *
-     * @param result
+     * @param result Результат
      */
     @Step("Выбор результата из выпадающего списка Сведения об ознакомлении контролируемых лиц с результатами КНМ")
     public void setInformationAboutRecognitionDropDown(String result) {
@@ -800,7 +803,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Кто ознакомлен
      *
-     * @param whoFamiliar
+     * @param whoFamiliar Кто ознакомлен
      */
     @Step("Заполнение поля Кто ознакомлен")
     public void setWhoFamiliarWithField(String whoFamiliar) {
@@ -810,7 +813,7 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение поля Должность
      *
-     * @param position
+     * @param position Должность
      */
     @Step("Заполнение поля Должность")
     public void setPositionFamiliarWithField(String position) {
@@ -818,9 +821,21 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Запонение блока сведения об акте
+     * Заполнение блока сведения об акте
+     * @param fPath
+     * @param sPath
+     * @param numberAct
+     * @param date
+     * @param startDate
+     * @param day
+     * @param name
+     * @param nameOfficials
+     * @param fact
+     * @param result
+     * @param who
+     * @param position
      */
-    @Step("Запонение блока сведения об акте")
+    @Step("Заполнение блока сведения об акте")
     public void addInformationAboutAct(String fPath, String sPath, String numberAct, String date, String startDate, String day, String name, String nameOfficials, String fact, String result, String who, String position) {
         clickAddInformationAboutActsButton();
         clickAddFileActButton();
@@ -844,6 +859,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ
+     * @param fio ФИО
      */
     @Step("Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ")
     public void addInformationAboutOfficialsParticipatingInTheKNM(String fio) {
@@ -855,6 +871,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление проверочного листа в КНМ
+     *
      * @param name Наименование проверочного листа
      */
     @Step("Добавление проверочного листа в КНМ")
@@ -868,6 +885,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Поиск должностного лица в карточке КНМ
+     *
      * @param text ФИО должностного лица
      */
     @Step("Поиск должностного лица в карточке КНМ")
@@ -877,6 +895,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Проверка на существование Наименования ОТ в карточке КНМ
+     *
      * @param name Наименование ОТ
      */
     @Step("Проверка на существование Наименования ОТ в карточке КНМ - {name}")
@@ -886,11 +905,94 @@ public class ListEventsPage extends Common {
 
     /**
      * Проверка на существование проверочного листа в КНМ
+     *
      * @param name Наименование проверочного листа
      */
     @Step("Проверка на существование проверочного листа в КНМ")
     public void checkCheckList(String name) {
         $(By.xpath("//li[contains(@id, 'checklists')][1]")).click();
         $(By.xpath("//li[contains(@id, 'checklists')][1]//div[contains(@class, 'SelectInput_SingleValue')]")).should(Text.text(name));
+    }
+
+    /**
+     * Создание ОТ
+     */
+    @Step("Создание ОТ")
+    public void createTemplateMandatoryRequirements() {
+        createMandatoryRequirements(nameTitle, nameTitle, currentDate);
+        clickSaveButton();
+        closeNotification();
+        checkNameMandatoryRequirementsField(nameTitle);
+    }
+
+    /**
+     * Перевод проверки из статуса В процессе заполнения в статус Готово к согласованию
+     *
+     * @param dateTimePublication Дата и время издания решения
+     * @param startDate           Дата начала действий, осуществляемый в рамках КНМ
+     * @param stopDate            Дата окончания действий, осуществляемый в рамках КНМ
+     */
+    @Step("Перевод проверки из статуса В процессе заполнения в статус Готово к согласованию")
+    public void transferEventStatusReadyApproval(String dateTimePublication, String startDate, String stopDate) {
+        setDateTimePublicationDecisionField(dateTimePublication);
+        setSolutionNumberField(prefix);
+        setPlaceDecisionField(placeDecision);
+        setNameOfficialField(officialField);
+        setPositionPersonSignedDecisionsDropDown();
+        setDurationDaysField("1");
+        addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
+        addListActions(startDate, stopDate);
+        clickAddVenueButton();
+        setVenueField(placeDecision);
+        closeNotification();
+        clickSaveButton();
+        closeNotification();
+        checkStatusKNM(statusReadyApproval);
+        clickActionsOnCardButton();
+        clickSignatureButton();
+        choiceSignature();
+        clickSignatureButton();
+        closeNotification();
+        closeNotification();
+        checkSuccessfullySignNotification();
+        closeNotification();
+    }
+
+    /**
+     * Перевод проверки из статуса Готово к согласованию в статус На согласование
+     */
+    @Step("Перевод проверки из статуса Готово к согласованию в статус На согласование")
+    public void transferEventStatusOnApproval() {
+        clickActionsOnCardButton();
+        clickForApprovalButton();
+        checkStatusKNM(statusOnApproval);
+        closeNotification();
+    }
+
+    /**
+     * Перевод проверки из статуса На согласованию в статус Ожидает завершения, Ожидает проведения, Не согласована
+     * (в зависимости от даты начала КНМ)
+     *
+     * @param checkStatus    В какой статус должна перейти проверка: В процессе завершения,
+     *                       Ожидает проведения, Не согласована
+     * @param statusDecision Решение по заявлению: Согласовано или Отклонено
+     */
+    @Step("Перевод проверки из статуса На согласованию в статус Ожидает завершения, Ожидает проведения, Не согласована")
+    public void transferEventStatusAgreed(String statusDecision, String checkStatus) {
+        setDecisionApplicationDropDown(statusDecision);
+        clickSaveButton();
+        checkStatusKNM(checkStatus);
+        closeNotification();
+    }
+
+    /**
+     * Перевод КНМ из статуса Ожидает завершения в статус Завершено
+     */
+    @Step("Перевод КНМ из статуса Ожидает завершения в статус Завершено")
+    public void transferEventStatusWaitCompleted() {
+        addInformationAboutAct(filePath, signPath, number, currentDate, currentDate, number, officialField,
+                officialField, "Факт устранения", familiarWith, officialField, positionDirectorTerritorialAuthority);
+        clickSaveButton();
+        checkStatusKNM(statusCompleted);
     }
 }

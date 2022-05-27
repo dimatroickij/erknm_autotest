@@ -2,11 +2,8 @@ package testPages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -35,7 +32,7 @@ public class ListPlanPage extends Common {
     String approvePlanButton = "//*[@id='planChangeStatusButton']";//кнопка Утвердить план
     String exclusionGroundDropDown = "/html/body/div[2]/div[1]/div[1]/div[1]/div/div/div[1]"; // выпадающий список Основание исключение
     String docInput = "//input[@id='document']";//выбор документа
-    String exclusionButton="//*[text()='Исключить']";//кнопка Исключить на форме исключение КНМ из плана
+    String exclusionButton = "//*[text()='Исключить']";//кнопка Исключить на форме исключение КНМ из плана
 
     public ListPlanPage() throws Exception {
     }
@@ -44,7 +41,7 @@ public class ListPlanPage extends Common {
      * Подтверждение перевода плана в статус
      */
     @Step("Подтверждение перевода плана в статус")
-    public void approveChangeStatus(String fio, String position){
+    public void approveChangeStatus(String fio, String position) {
         $(By.xpath(fioPlanProsecutorField)).setValue(fio);
         $(By.xpath(positionPlanProsecutorField)).setValue(position);
         $(By.xpath(filePlanInput)).uploadFile(new File(filePath));
@@ -53,7 +50,7 @@ public class ListPlanPage extends Common {
     }
 
     /**
-     *  Исключение из плана КНМ
+     * Исключение из плана КНМ
      */
     @Step("Исключение из плана КНМ")
     public void excludeKNMFromPlan() {
@@ -64,7 +61,6 @@ public class ListPlanPage extends Common {
         $(By.xpath(exclusionButton)).click();
 
     }
-
 
     /**
      * Выбор органа контроля при создании плана

@@ -1,7 +1,6 @@
 package testCases.listPlans;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.ListEventsERPPage;
 import testPages.ListPlanERPPage;
 
@@ -51,7 +50,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
         choiceMode(false);
         gotoListPlansPage();
         //Integer lastCountKNM = getCountKNMToPlan(numberPlan);
-        addKNMtoPlan(numberPlan, scheduledKNMNumber); // TODO баг, который мешает проверке функции
+        addKNMtoPlan(numberPlan, scheduledKNMNumber);
         //Assert.assertEquals(getCountKNMToPlan(numberPlan), lastCountKNM + 1); // проверка на динамическое изменение количества проверок в КНМ на странице //TODO подумать как можно сделать динамическую проверку на количество проверок в плане
         openCard(numberPlan);
 
@@ -94,8 +93,8 @@ public class ListPlansERPTest extends ListPlanERPPage {
         authorization("prosecutor");
         choiceMode(false);
         gotoListPlansPage();
-        workToPlan(onApprovalPlan, numberPlan);
-        System.out.println("План " + numberPlan + " переведён в статус '" + onApprovalPlan + "'");
+        workToPlan(statusOnApproval, numberPlan);
+        System.out.println("План " + numberPlan + " переведён в статус '" + statusOnApproval + "'");
         logout();
     }
 

@@ -1,17 +1,16 @@
 package testPages;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.commands.Should;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeSuite;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,7 +96,6 @@ public class Common {
     public String needCoordination = "Требует согласования";
     public String doesNotRequire = "Не требует согласования";
 
-    public String approved = "Согласовано";
     public String positionDirector = "Руководитель Росздравнадзора";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
     public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
@@ -112,11 +110,26 @@ public class Common {
     // Категория риска
     public String righRisk = "Высокий риск (2 класс)";
 
-    // Статусы проверки в режиме ЕРП
+    // Статусы проверки
     public String statusProcessConducting = "В процессе проведения";
     public String statusProcessFormation = "В процессе формирования";
-    public String statusCompleted = "Завершено";
-    public String statusDeleted = "Удалено";
+    public String statusProcessCompletion = "Ожидает завершения";//
+    public String statusProcessAwaiting = "Ожидает проведения";//
+    public String statusReadyApproval = "Готово к согласованию";//
+    public String statusCompleted = "Завершено";//
+    public String statusProcessFilling = "В процессе заполнения";//
+    public String statusOnApproval = "На согласовании";//
+    public String statusDeleted = "Удалено";//
+    public String statusExcluded = "Исключена"; //
+
+    public String statusNotAgreed = "Не согласована";
+
+    public String approved = "Согласовано";
+    public String rejected = "Отклонено";
+    //есть замечания
+    //исключение обжаловано
+    //не может быть проведено
+    //решение обжаловано
 
     // Переменные для поиска созданной информации во время bvt теста
     public static String templateSheets; // Проверочный лист, созданный при помощи bvt
@@ -290,27 +303,15 @@ public class Common {
     }
 
     /**
-     * Нажатие на кнопку подтверждающая ознакомление с информацией
-     */
-    @Step("Нажатие на кнопку подтверждающая ознакомление с информацией")
-    public void clickMessageButton() {
-        try {
-            $(By.xpath(messageButton)).click();
-            sleep(2000); // TODO Костыль из-за перезагрузки страницы после авторизации
-        } catch (ElementNotFound ignored) {
-        }
-    }
-
-    /**
      * Переключение в режимы ЕРКНМ / ЕРП
      *
      * @param mode true - ЕРКНМ, false - ЕРП
      */
     public void choiceMode(boolean mode) {
         if (mode)
-            $(By.xpath(modeERKNM)).click();
+            $(By.xpath(modeERKNM)).should(visible, Duration.ofSeconds(10)).click();
         else
-            $(By.xpath(modeERP)).click();
+            $(By.xpath(modeERP)).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**
@@ -365,7 +366,6 @@ public class Common {
         sleep(5000);
         $(By.xpath(choiceSignature)).click();
         setValueDropDownToNumber(2);
-//        clickToText(signatureName);
     }
 
     /**
@@ -538,7 +538,7 @@ public class Common {
         String password = readParameters.getParameter("user", person);
         setPassword(password);
         clickEnterButton();
-        clickMessageButton();
+        //clickMessageButton(); Больше не нужен
 
     }
 

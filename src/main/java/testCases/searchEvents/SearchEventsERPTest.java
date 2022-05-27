@@ -1,10 +1,7 @@
 package testCases.searchEvents;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.SearchERPPage;
-
-
 
 public class SearchEventsERPTest extends SearchERPPage {
     public SearchEventsERPTest() throws Exception {
@@ -17,7 +14,8 @@ public class SearchEventsERPTest extends SearchERPPage {
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Проверка работоспособности поиска КНМ для ЕРП") //TODO Нужно как-то переделать на поиск определенных проверок
+    @Test(description = "Проверка работоспособности поиска КНМ для ЕРП")
+    //TODO Нужно как-то переделать на поиск определенных проверок
     public void checkFunctionalitySearchKNMERPTest() throws Exception {
         authorization("supervisor");
         choiceMode(false);

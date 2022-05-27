@@ -2,11 +2,7 @@ package testCases.feedback;
 
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
-import testPages.Common;
 import testPages.FeedBackPage;
-
-
 
 public class FeedbackTest extends FeedBackPage {
 

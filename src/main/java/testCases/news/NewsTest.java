@@ -50,7 +50,7 @@ public class NewsTest extends NewsPage {
      *
      * @author Troickij D. A. 01.2022
      */
-    @Test(description = "Редактирование новости")
+    @Test(description = "Редактирование новости", dependsOnMethods = {"createNewsTest"})
     public void editNewsTest() throws Exception {
         authorization("admin");
         closeNotification();
@@ -59,10 +59,10 @@ public class NewsTest extends NewsPage {
         goToManagementNews();
         System.out.println("Идентификатор созданной новости " + prefixNews);
         goToNews(prefixNews + titleNews);
-        String lastTitleNewsField = getTitleNewsField();
+        String lastTitleNewsField = prefixNews + titleNews;
         prefixNews = UUID.randomUUID().toString();
         System.out.println("Новый идентификатор новости " + prefixNews);
-        sleep(2000);
+        sleep(2000); // TODO Костыль, так как почему-то система не успевает обновить нужные поля для заполнения
         setTitleNewsField(prefixNews + titleNews);
         setShortTextNewsField(prefixNews + shortTextNews);
         setTextNewsField(prefixNews + textNews);
@@ -96,7 +96,7 @@ public class NewsTest extends NewsPage {
         goToManagementNews();
         System.out.println("Идентификатор удаляемой новости " + prefixNews);
         goToNews(prefixNews + titleNews);
-        String lastTitleNewsField = getTitleNewsField();
+        String lastTitleNewsField = prefixNews + titleNews;
         clickRemoveFromPublicationNewsButton();
         clickBackButton();
         logout();

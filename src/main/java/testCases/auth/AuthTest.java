@@ -3,7 +3,6 @@ package testCases.auth;
 import org.testng.annotations.Test;
 import testPages.Common;
 
-
 import static com.codeborne.selenide.Selenide.open;
 
 public class AuthTest extends Common {
@@ -22,9 +21,7 @@ public class AuthTest extends Common {
         setLogin("prosecutor");
         setPassword(readParameters.getParameter("user", "prosecutor"));
         clickEnterButton();
-        clickMessageButton();
         logout();
-        //добавить проверку для теста или убрать?
     }
 
     /**

@@ -1,8 +1,6 @@
 package testCases.listPreventionEvents;
 
-import com.codeborne.selenide.Selenide;
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.ListPreventionEventsPage;
 
 
@@ -32,8 +30,8 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
-        checkObject("В процессе заполнения");
+        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
+        checkObject(statusProcessFilling);
         numberPM = getNumberPM();
         System.out.println("НОМЕР ПМ - " + numberPM);
         clickConfirmButton();
@@ -48,7 +46,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods={"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+    @Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено", dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     //@Test(description = "2 - Перевод Объявление предостережения в статус Предостережение объявлено")
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws Exception {
         installPlugin();
@@ -61,7 +59,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         setStopDate(currentDate);
         setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
-        addDocumentAndSignatureNoteWarning(filePath,signPath);
+        addDocumentAndSignatureNoteWarning(filePath, signPath);
         clickUploadButton();
         addGroundsPM(grounds);
         addOfficialPM(prefix + "авто ФИО", officialPost);
@@ -71,7 +69,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickActionsHeaderButton();
         clickSignatureButton();
         choiceSignature();
-       // Selenide.confirm();
+        // Selenide.confirm();
         clickSignatureButton();
         closeNotification();
         closeNotification();
@@ -93,11 +91,11 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
         clickCloseMessagePMButton();
         closeNotification();
         //clickAddInformationDirectionObjectionButton();//TODO не всегда срабатывает без ожидания
-        addDocumentAndSignatureInformationDirectionObjection(filePath,signPath);
+        addDocumentAndSignatureInformationDirectionObjection(filePath, signPath);
         clickUploadButton();
         closeNotification();
         clickSaveButton();
@@ -116,8 +114,8 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO,viewKNO,typePreventiveVisitPM,currentDate,INN,typeObject, viewObject, classDanger);
-        checkObject("В процессе заполнения");
+        addPreventionEvent(nameKNO, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
+        checkObject(statusProcessFilling);
         numberPM = getNumberPM();
         System.out.println("НОМЕР ПМ - " + numberPM);
     }
@@ -150,7 +148,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickSignatureButton();
         clickSaveButton();
         clickCloseMessagePMButton();
-        checkObject("Ожидает проведения");
+        checkObject(statusProcessAwaiting);
         logout();
     }
 
@@ -171,7 +169,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickCloseMessagePMButton();
         setResultPMField(prefix + "авто результат");
         clickSaveButton();
-        checkObject("Завершено");
+        checkObject(statusCompleted);
         logout();
     }
 
@@ -187,7 +185,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO,viewKNO,typeAnnouncementWarningsPM,currentDate,INN,typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
         numberPM = getNumberPM();
         System.out.println(numberPM);
         clickCloseMessagePMButton();
@@ -195,7 +193,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickActionButton();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
-        checkObject("Удалено");
+        checkObject(statusDeleted);
         gotoListPreventionEventsPage();
         searchRequest(numberPM);
         checkAbsenceObject(numberPM);

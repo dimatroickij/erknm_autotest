@@ -36,8 +36,6 @@ public class ListEventsERPPage extends Common {
     String innField = "//*[@id='inn']"; //ИНН
     String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
 
-    String namePersonCheckField = "//*[@name='organizationName']"; // Наименование проверяемого лица
-
     String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования TODO должен быть идентификатор
 
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы TODO должен быть идентификатор
@@ -75,7 +73,6 @@ public class ListEventsERPPage extends Common {
     public String durationEventDays = "30"; // Срок проведения (дней)
     public String durationEventHours = "30"; // Срок проведения (часов)
     public String listControlMeasures = "Автотест"; // Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
-    public String nameINN = "Тест"; // Наименование проверяемого лица
     public String address = "Автотест"; // Местонахождение в блоке Объекты проведения КНМ
 
     public ListEventsERPPage() throws Exception {

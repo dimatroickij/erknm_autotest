@@ -6,17 +6,13 @@ import com.codeborne.selenide.ex.ElementNotFound;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 public class PersonalAccountPage extends Common {
 
@@ -455,7 +451,7 @@ public class PersonalAccountPage extends Common {
     /**
      * Проверка на существование уполномоченного
      *
-     * @param code  Уникальный код записи
+     * @param code Уникальный код записи
      */
     //@param exist Должна ли найтись запись
     @Step("Проверка на существование уполномоченного {code}")
@@ -494,9 +490,6 @@ public class PersonalAccountPage extends Common {
     public void editRepresentatives(String lastCode, String newCode) {
         $(By.xpath(String.format(nameFieldSearch, lastCode))).setValue(newCode);
         $(By.xpath(String.format(positionFieldSearch, lastCode))).setValue(newCode);
-        //setNameField(newCode + representativeTemplate);
-        //setPositionField(newCode + positionTemplate);
-        //setTypeInspectorDropDown(typeInspector);
         clickSaveButton();
         closeNotification();
     }
@@ -508,6 +501,7 @@ public class PersonalAccountPage extends Common {
      */
     @Step("Удаление уполномоченного {code}")
     public void deleteRepresentatives(String code) {
+        refresh();
         $(By.xpath(String.format(nameFieldSearch, code) + "/../..//..//button")).click();
         clickSaveButton();
         closeNotification();

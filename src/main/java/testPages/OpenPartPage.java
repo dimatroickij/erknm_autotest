@@ -2,10 +2,6 @@ package testPages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -16,7 +12,7 @@ public class OpenPartPage extends Common {
     String captchaField = "//*[@name='captcha']"; //поле для ввода капчи
     String sendButton = "//*[text()='Отправить']"; //кнопка отправить на форме капчи
 
-    String searchOpenPartButton ="//*[text()='Искать']"; //кнопка Искать в ОЧ
+    String searchOpenPartButton = "//*[text()='Искать']"; //кнопка Искать в ОЧ
 
     String homePage = "//*[@id='/portal']"; //пункт меню Главная страница
     String openDataPage = "//*[@id='/portal/public-open-data']"; //пункт меню Открытые данные
@@ -42,7 +38,7 @@ public class OpenPartPage extends Common {
      * Переход на страницу Открытые данные в открытой части
      */
     @Step("Переход на страницу Открытые данные в открытой части")
-    public void gotoOpenDataOpenPage(){
+    public void gotoOpenDataOpenPage() {
         $(By.xpath(openDataPage)).click();
     }
 
@@ -50,7 +46,7 @@ public class OpenPartPage extends Common {
      * Переход на страницу Поиск проверок в открытой части
      */
     @Step("Переход на страницу Поиск проверок в открытой части")
-    public void gotoSearchCheckOpenPage(){
+    public void gotoSearchCheckOpenPage() {
         $(By.xpath(searchCheckPage)).click();
     }
 
@@ -58,12 +54,13 @@ public class OpenPartPage extends Common {
      * Переход на страницу Новости в открытой части
      */
     @Step("Переход на страницу Новости в открытой части")
-    public void gotoNewsOpenPage(){
+    public void gotoNewsOpenPage() {
         $(By.xpath(newsPage)).click();
     }
 
     /**
      * Поиск мероприятия с вводом капчи
+     *
      * @param number
      */
     @Step("Поиск мероприятия {number} с вводом капчи - {captcha}")
@@ -76,6 +73,7 @@ public class OpenPartPage extends Common {
 
     /**
      * Поиск мероприятия без ввода капчи
+     *
      * @param number
      */
     @Step("Поиск мероприятия без ввода капчи - {number}")

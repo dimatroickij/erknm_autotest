@@ -17,9 +17,9 @@
                     <include name="createTemplateSheetsERPTest"/>
                     <include name="editTemplateSheetsERPTest"/>
                     <include name="deleteTemplateSheetsERPTest"/>
-                    <!--                    <include name="addRepresentativesERPTest"/>-->
-                    <!--                    <include name="editRepresentativesERPTest"/>-->
-                    <!--                    <include name="deleteRepresentativesERPTest"/>-->
+                    <include name="addRepresentativesERPTest"/>
+                    <include name="editRepresentativesERPTest"/>
+                    <include name="deleteRepresentativesERPTest"/>
                 </methods>
             </class>
             <class name="testCases.listEvents.ListEventsERPTest">
@@ -28,7 +28,7 @@
                     <include name="transferEventStatusProcessConductingERPTest"/>
                     <include name="transferEventStatusCompletedERPTest"/>
                     <include name="deletedEventERPTest"/>
-                    <!--                    <include name="addTemplatesInCheckCardERPTest"/>-->
+                    <include name="addTemplatesInCheckCardERPTest"/>
                 </methods>
             </class>
             <class name="testCases.listPlans.ListPlansERPTest">
@@ -61,7 +61,8 @@
                     <include name="transferEventStatusOnApprovalTest"/>
                     <include name="transferEventStatusAgreedTest"/>
                     <include name="transferEventStatusWaitCompletedTest"/>
-                    <!--                    <include name="transferEventStatusLookingForwardTest"/> -->
+                    <include name="transferEventStatusLookingForwardTest"/>
+                    <include name="transferEventStatusNotAgreedTest"/>
                     <include name="deleteEventTest"/>
                     <include name="createTemplateTestSheetsERKNMTest"/>
                     <include name="addRepresentativesERKNMTest"/>
@@ -101,7 +102,6 @@
                     <include name="checkFunctionalitySearchKNMTest"/>
                 </methods>
             </class>
-
         </classes>
     </test>
 </suite>

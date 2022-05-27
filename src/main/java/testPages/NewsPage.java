@@ -4,10 +4,7 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.*;
@@ -105,14 +102,6 @@ public class NewsPage extends Common {
         $(By.xpath(titleField)).should(exist).sendKeys(Keys.CONTROL + "A"); // Выделение текста в поле
         $(By.xpath(titleField)).sendKeys(Keys.BACK_SPACE); // Очистка поля
         $(By.xpath(titleField)).append(title); // Ввод нового значения поля
-    }
-
-    /**
-     * Получение заголовка новости
-     */
-    @Step("Получение заголовка новости")
-    public String getTitleNewsField() {
-        return $(By.xpath(titleField)).should(exist).getValue();
     }
 
     /**

@@ -3,10 +3,6 @@ package testPages;
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.refresh;
@@ -34,7 +30,6 @@ public class ListPlanERPPage extends Common {
 
     // Статусы планов
     public String newPlan = "Новый";
-    public String onApprovalPlan = "На согласовании";
     public String onRevisionPlan = "На доработке";
     public String agreedPlan = "Согласован";
     public String approvedPlan = "Утверждён";

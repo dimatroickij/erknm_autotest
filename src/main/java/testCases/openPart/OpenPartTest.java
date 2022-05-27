@@ -1,8 +1,6 @@
 package testCases.openPart;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
-import testPages.ListEventsPage;
 import testPages.NewsPage;
 import testPages.OpenPartPage;
 

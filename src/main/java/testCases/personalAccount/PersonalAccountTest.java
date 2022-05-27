@@ -1,7 +1,6 @@
 package testCases.personalAccount;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.PersonalAccountPage;
 
 

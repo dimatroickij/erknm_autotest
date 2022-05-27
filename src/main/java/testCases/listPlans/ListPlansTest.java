@@ -1,14 +1,11 @@
 package testCases.listPlans;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
 
 import java.util.Random;
-
-import static com.codeborne.selenide.Selenide.*;
 
 public class ListPlansTest extends ListPlanPage {
     //раздел Список планов
@@ -32,14 +29,14 @@ public class ListPlansTest extends ListPlanPage {
         choiceMode(true);
         gotoListPlansPage();
         clickAddButton();
-       // setKNOFormPlanDropDown(); выбор, если по умолчанию выбрано не здравоохранение
-       // setProsecutorDropDown();
+        // setKNOFormPlanDropDown(); выбор, если по умолчанию выбрано не здравоохранение
+        // setProsecutorDropDown();
         clickCreateButton();
         numberPlan = getNumberPlan();
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
         gotoListPlansPage();
         openCardPlan(numberPlan);
-        checkObject("В процессе формирования");
+        checkObject(statusProcessFormation);
 
     }
 
@@ -49,7 +46,7 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    @Test(description = "Добавление плановой КНМ в созданный план", dependsOnMethods={"createPlanTest"})
+    @Test(description = "Добавление плановой КНМ в созданный план", dependsOnMethods = {"createPlanTest"})
     //@Test(description = "3 - Добавление плановой КНМ в созданный план")
     public void addPlannedKNMInPlanTest() throws Exception, Exception {
         logout();
@@ -78,7 +75,7 @@ public class ListPlansTest extends ListPlanPage {
         event.setVenueField(place);
         clickSaveButton();
         closeNotification();
-        checkObject("Готово к согласованию");
+        checkObject(statusReadyApproval);
         logout();
     }
 
@@ -88,7 +85,7 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-   // @Test(description = "4 - Перевод плана в статус На рассмотрении")
+    // @Test(description = "4 - Перевод плана в статус На рассмотрении")
     @Test(description = "Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() throws Exception {
         installPlugin();
@@ -96,7 +93,7 @@ public class ListPlansTest extends ListPlanPage {
         choiceMode(true);
         gotoListPlansPage();
         openCardPlan(numberPlan);
-       // openCardPlan("2023037785");
+        // openCardPlan("2023037785");
         clickActionsHeaderButton();
         clickSignatureButton();
         choiceSignature();
@@ -128,10 +125,10 @@ public class ListPlansTest extends ListPlanPage {
         clickSaveButton();
         closeNotification();
         gotoListPlansPage();
-       // openCardPlan("2023037785");
+        // openCardPlan("2023037785");
         openCardPlan(numberPlan);
         clickReviewedPlanButton();
-        approveChangeStatus(fio,number);
+        approveChangeStatus(fio, number);
         checkObject("Рассмотрен");
         logout();
     }
@@ -174,7 +171,7 @@ public class ListPlansTest extends ListPlanPage {
         //openCard("77230370001100008833");
         clickActionsOnCardButton();
         excludeKNMFromPlan();
-        checkObject("Исключена");
+        checkObject(statusExcluded);
         logout();
 
     }

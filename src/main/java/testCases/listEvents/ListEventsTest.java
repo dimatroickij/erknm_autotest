@@ -1,13 +1,7 @@
 package testCases.listEvents;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.ListEventsPage;
-
-
-import java.util.Random;
-
-import static com.codeborne.selenide.Selenide.*;
 
 //раздел Список КНМ
 public class ListEventsTest extends ListEventsPage {
@@ -30,7 +24,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
-        checkStatusKNM("В процессе заполнения");
+        checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         numberPublishedKNMBVT = numberKNM;
         logout();
@@ -48,11 +42,8 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        //TODO: иногда при скроле до элемента верхняя панель перекрывает поля для ввода
-        createMandatoryRequirements(nameTitle, nameTitle, currentDate);
-        clickSaveButton();
-        closeNotification();
-        checkNameMandatoryRequirementsField(nameTitle);
+        //иногда при скроле до элемента верхняя панель перекрывает поля для ввода
+        createTemplateMandatoryRequirements();
         logout();
     }
 
@@ -69,29 +60,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        setDateTimePublicationDecisionField(currentDate);
-        setSolutionNumberField(prefix);
-        setPlaceDecisionField(placeDecision);
-        setNameOfficialField(officialField);
-        setPositionPersonSignedDecisionsDropDown();
-        setDurationDaysField("1");
-        addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
-        addListActions(currentDate, currentDate);
-        clickAddVenueButton();
-        setVenueField(placeDecision);
-        closeNotification();
-        clickSaveButton();
-        closeNotification();
-        checkStatusKNM("Готово к согласованию");
-        // clickActionsHeaderButton();
-        clickActionsOnCardButton();
-        clickSignatureButton();
-        choiceSignature();
-        clickSignatureButton();
-        closeNotification();
-        closeNotification();
-        checkSuccessfullySignNotification();
-        closeNotification();
+        transferEventStatusReadyApproval(currentDate, currentDate, currentDate);
         logout();
     }
 
@@ -107,10 +76,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        clickActionsOnCardButton();
-        clickForApprovalButton();
-        checkStatusKNM("На согласовании");
-        closeNotification();
+        transferEventStatusOnApproval();
         logout();
     }
 
@@ -126,10 +92,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        setDecisionApplicationDropDown(approved);
-        clickSaveButton();
-        checkStatusKNM("Ожидает завершения");
-        closeNotification();
+        transferEventStatusAgreed(approved, statusProcessCompletion);
         logout();
     }
 
@@ -145,66 +108,51 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        addInformationAboutAct(filePath, signPath, number, currentDate, currentDate, number, officialField,
-                officialField, "Факт устранения", familiarWith, officialField, positionDirectorTerritorialAuthority);
-        clickSaveButton();
-        checkStatusKNM("Завершено");
+        transferEventStatusWaitCompleted();
         closeNotification();
         logout();
     }
 
     /**
-     * Цель: Перевод КНМ в статус ожидает проведения
+     * Цель: Перевод КНМ в статус Не согласована
      * HP ALM
      *
      * @author Frolova S.I 01.2022
      */
-    // TODO не работает перевод в статус Ожидает проведения (не активно поле Решение по заявлению)
-    @Test(description = "Перевод КНМ в статус ожидает проведения")
-    public void transferEventStatusLookingForwardTest() throws Exception {
+    @Test(description = "Перевод КНМ в статус Не согласована")
+    public void transferEventStatusNotAgreedTest() throws Exception {
+        createKNM(rejected, statusNotAgreed);
+    }
+
+    private void createKNM(String rejected, String nextStatus) throws Exception {
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, futureDate, prosecutorsOffice, INN);
+        checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
-        createMandatoryRequirements(nameTitle, nameTitle, futureDate);
-        clickSaveButton();
-        closeNotification();
-        checkObject(nameTitle);
-        setDateTimePublicationDecisionField(futureDate);
-        setSolutionNumberField(nameTitle);
-        setPlaceDecisionField(placeDecision);
-        setNameOfficialField(officialField);
-        setPositionPersonSignedDecisionsDropDown();
-        setDurationDaysField("1");
-        addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
-        addListActions(futureDate, futureDate);
-        clickAddVenueButton();
-        setVenueField(placeDecision);
-        closeNotification();
-        clickSaveButton();
-        closeNotification();
-        clickActionsHeaderButton();
-        clickSignatureButton();
-        choiceSignature();
-        clickSignatureButton();
-        clickActionsOnCardButton();
-        clickForApprovalButton();
-        closeNotification();
-        closeNotification();
-        closeNotification();
+        createTemplateMandatoryRequirements();
+        transferEventStatusReadyApproval(currentDate, futureDate, futureDate);
+        transferEventStatusOnApproval();
         logout();
         authorization("prosecutor");
         choiceMode(true);
         gotoListKNMPage();
         openCard(numberKNM);
-        setDecisionApplicationDropDown(approved);
-        clickSaveButton();
-        checkStatusKNM("Ожидает проведения");
-        closeNotification();
+        transferEventStatusAgreed(rejected, nextStatus);
         logout();
+    }
 
+    /**
+     * Цель: Перевод КНМ в статус Ожидает проведения
+     * HP ALM
+     *
+     * @author Frolova S.I 01.2022
+     */
+    @Test(description = "Перевод КНМ в статус Ожидает проведения")
+    public void transferEventStatusLookingForwardTest() throws Exception {
+        createKNM(approved, statusProcessAwaiting);
     }
 
     /**
@@ -223,7 +171,7 @@ public class ListEventsTest extends ListEventsPage {
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         closeNotification();
-        checkStatusKNM("Удалено");
+        checkStatusKNM(statusDeleted);
         logout();
     }
 

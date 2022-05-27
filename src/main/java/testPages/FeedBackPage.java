@@ -2,10 +2,6 @@ package testPages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -27,7 +23,7 @@ public class FeedBackPage extends Common {
     }
 
     @Step("Заполнение о отправка формы обратной связи")
-    public void fillingFeedBack(){
+    public void fillingFeedBack() {
         $(By.xpath(lastNameInput)).setValue("qwerty");
         $(By.xpath(submitButton)).click();
     }

@@ -1,9 +1,7 @@
 package testCases.listEvents;
 
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import testPages.ListEventsERPPage;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
