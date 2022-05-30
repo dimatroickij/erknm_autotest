@@ -127,6 +127,7 @@ public class ListEventsPage extends Common {
      *
      * @param status Статус, который должен быть у проверки
      */
+    @Step("Проверка статуса КНМ - {status}")
     public void checkStatusKNM(String status) {
         $(By.xpath(statusKNM)).should(Text.text(status));
     }

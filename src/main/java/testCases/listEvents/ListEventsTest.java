@@ -167,11 +167,13 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
-        numberUnpublishedKNMBVT = getNumberKNM();
+        String number = getNumberKNM();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         closeNotification();
         checkStatusKNM(statusDeleted);
+        gotoListKNMPage();
+        checkAbsenceObject(number);
         logout();
     }
 

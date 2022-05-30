@@ -653,7 +653,7 @@ public class Common {
      */
     @Step("Клик по кнопке Применить или Удалить в модальном окне при подтверждении действия")
     public void clickConfirmButton() {
-        $(By.xpath(confirmButton)).click();
+        $(By.xpath(confirmButton)).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**
@@ -694,6 +694,14 @@ public class Common {
     @Step("Проверка сообщения об успешном подписании")
     public void checkSuccessfullySignNotification() {
         $(By.xpath(successfullySignNotification)).should(visible, Duration.ofSeconds(10));
+    }
+
+    /**
+     * Перезагрузка страницы для включения плагина подписания
+     */
+    @Step("Перезагрузка страницы для включения плагина подписания")
+    public void reloadPage(){
+        refresh();
     }
 }
 
