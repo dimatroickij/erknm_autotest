@@ -22,7 +22,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
      * @author Troickij D. A. 02.2022
      */
     @Test(description = "Создание плана (Статус Новый) в ЕРП")
-    public void createPlanERPTest() throws Exception, Exception {
+    public void createPlanERPTest() throws Exception {
         authorization("prosecutor");
         choiceMode(false);
         gotoListPlansPage();

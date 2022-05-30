@@ -2,26 +2,22 @@
 <configuration>
     <colocations>
         <colo name="test">
+            <urls>
+                <url name="demo" value="http://demoproverki.wavea.cc/">http://demoproverki-public.wavea.cc</url>
+                <url name="dev" value="http://devproverki.wavea.cc/">http://knilrats-cluster.wavea.cc</url>
+                <url name="test" value="http://private.proverki.local/">http://proverki.local</url>
+            </urls>
             <users>
-                <user name="Петров Сергей" role="supervisor" password="%%%%%%%%"/>
-                <user name="Сергеев Пётр" role="prosecutor" password="%%%%%%%%"/>
+                <user name="supervisor" value="@@@@@"/>
+                <user name="prosecutor" value="@@@@@"/>
+                <user name="ombudsman" value="@@@@@"/>
+                <user name="admin" value="@@@@@"/>
             </users>
 
             <data>
-                <information name="inn" value ="7811689828" />
-               <!-- <information name="inn" value ="1215043750" /> -->
-                <information name="message" value ="Подтверждаю ознакомление с информацией" />
-                <information name="nameKNO" value ="Федеральная служба по надзору в сфере здравоохранения" />
-                <information name="viewKNO" value ="066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств" />
-            </data>>
-            <locators>
-                <!--Общее-->
-                <locator name="modeERKNM" value="//*[text()='ЕРКНМ']"/>
-                <locator name="modeERP" value="//*[text()='ЕРП']"/>
-                <!--Список КНМ -->
-
-            </locators>
-
+                <information name="inn" value="7811689828"/> <!--1215212198-->
+                <!-- <information name="inn" value ="1215043750" /> -->
+            </data>
 
         </colo>
     </colocations>

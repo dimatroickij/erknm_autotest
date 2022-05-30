@@ -15,7 +15,7 @@ public class AuthTest extends Common {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "1 - Авторизация")
+    @Test(description = "Авторизация")
     public void authorizationSomeTest() throws Exception {
         open(url);
         setLogin("prosecutor");
@@ -30,7 +30,7 @@ public class AuthTest extends Common {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "2 - Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
+    @Test(description = "Проверка изменения раздела при переключении режимов ЕРКНМ и ЕРП")
     public void choiceModeERKNMTest() throws Exception {
         authorization("prosecutor");
         choiceMode(true);

@@ -75,7 +75,7 @@ public class PersonalAccountTest extends PersonalAccountPage {
     }
 
     /**
-     * Цель: Создание шаблонов проверочных листов
+     * Цель: Создание шаблона проверочных листов
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=42
      *
      * @author Troickij D.A. 04.2022
@@ -136,12 +136,12 @@ public class PersonalAccountTest extends PersonalAccountPage {
     }
 
     /**
-     * Цель: Создание уполномоченных на проведение КНМ
+     * Цель: Создание уполномоченного на проведение КНМ
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=41
      *
      * @author Troickij D.A. 04.2022
      */
-    @Test(description = "Создание уполномоченных на проведение КНМ")
+    @Test(description = "Создание уполномоченного на проведение КНМ")
     public void addRepresentativesERPTest() throws Exception {
         authorization("supervisor");
         System.out.printf("Идентификатор создаваемого уполномоченного %s%n", prefixName);
@@ -157,12 +157,12 @@ public class PersonalAccountTest extends PersonalAccountPage {
     }
 
     /**
-     * Цель: Редактирование уполномоченных на проведение КНМ
+     * Цель: Редактирование уполномоченного на проведение КНМ
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=294
      *
      * @author Troickij D.A. 04.2022
      */
-    @Test(description = "Редактирование уполномоченных на проведение КНМ")
+    @Test(description = "Редактирование уполномоченного на проведение КНМ")
     public void editRepresentativesERPTest() throws Exception {
         String lastPrefix = UUID.randomUUID().toString();
         String newPrefix = UUID.randomUUID().toString();
@@ -179,12 +179,12 @@ public class PersonalAccountTest extends PersonalAccountPage {
     }
 
     /**
-     * Цель: Удаление шаблона проверочных листов
+     * Цель: Удаление уполномоченного на проведение КНМ
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=291
      *
      * @author Troickij D.A. 04.2022
      */
-    @Test(description = "Удаление шаблона проверочных листов")
+    @Test(description = "Удаление уполномоченного на проведение КНМ")
     public void deleteRepresentativesERPTest() throws Exception {
         String prefix = UUID.randomUUID().toString();
         authorization("supervisor");

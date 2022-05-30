@@ -129,12 +129,12 @@ public class ListEventsERPTest extends ListEventsERPPage {
     }
 
     /**
-     * Цель: Добавление шаблонов в паспорт проверки при создании (для ЕРП)
+     * Цель: Добавление ранее созданных шаблонов в паспорт проверки
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=116
      *
      * @author Troickij D. A. 02.2022
      */
-    @Test(description = "Добавление шаблонов в паспорт проверки при создании (для ЕРП)")
+    @Test(description = "Добавление ранее созданных шаблонов в паспорт проверки")
     public void addTemplatesInCheckCardERPTest() throws Exception {
         authorization("supervisor");
         choiceMode(false);

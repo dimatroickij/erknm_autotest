@@ -48,12 +48,12 @@ public class ListEventsTest extends ListEventsPage {
     }
 
     /**
-     * Цель: Перевод КНМ в статус готово к согласованию
+     * Цель: Перевод КНМ в статус Готово к согласованию
      * HP ALM
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод КНМ в статус готово к согласованию", dependsOnMethods = {"createTemplateMandatoryRequirementsERKNMTest"})
+    @Test(description = "Перевод КНМ в статус Готово к согласованию", dependsOnMethods = {"createTemplateMandatoryRequirementsERKNMTest"})
     public void transferEventStatusReadyApprovalTest() throws Exception {
         installPlugin();
         authorization("supervisor");
@@ -65,12 +65,12 @@ public class ListEventsTest extends ListEventsPage {
     }
 
     /**
-     * Цель: Перевод КНМ в статус на согласовании
+     * Цель: Перевод КНМ в статус На согласовании
      * HP ALM
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод КНМ в статус на согласовании", dependsOnMethods = {"transferEventStatusReadyApprovalTest"})
+    @Test(description = "Перевод КНМ в статус На согласовании", dependsOnMethods = {"transferEventStatusReadyApprovalTest"})
     public void transferEventStatusOnApprovalTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
@@ -81,12 +81,12 @@ public class ListEventsTest extends ListEventsPage {
     }
 
     /**
-     * Цель: Перевод КНМ в статус ожидает завершения
+     * Цель: Перевод КНМ в статус Ожидает завершения
      * HP ALM
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод КНМ в статус ожидает завершения", dependsOnMethods = {"transferEventStatusOnApprovalTest"})
+    @Test(description = "Перевод КНМ в статус Ожидает завершения", dependsOnMethods = {"transferEventStatusOnApprovalTest"})
     public void transferEventStatusAgreedTest() throws Exception {
         authorization("prosecutor");
         choiceMode(true);
@@ -97,12 +97,12 @@ public class ListEventsTest extends ListEventsPage {
     }
 
     /**
-     * Цель: Перевод КНМ в статус завершено
+     * Цель: Перевод КНМ в статус Завершено
      * HP ALM
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод КНМ в статус завершено", dependsOnMethods = {"transferEventStatusAgreedTest"})
+    @Test(description = "Перевод КНМ в статус Завершено", dependsOnMethods = {"transferEventStatusAgreedTest"})
     public void transferEventStatusWaitCompletedTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
@@ -129,6 +129,7 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
+        reloadPage();
         addUnplannedKNM(nameKNO, viewKNO, controlPurchase, futureDate, prosecutorsOffice, INN);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();

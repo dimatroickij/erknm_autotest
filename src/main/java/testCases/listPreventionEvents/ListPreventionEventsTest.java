@@ -116,12 +116,12 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
     }
 
     /**
-     * Цель: Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении
+     * Цель: Перевод Профилактического визита из статуса Ожидает проведения в статус отказ в проведении
      * HP ALM td://ерп.default.10.215.0.15:8080/qcbin/TestPlanModule-00000000395028973?EntityType=ITest&EntityID=535
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении")
+    @Test(description = "Перевод Профилактического визита из статуса Ожидает проведения в статус отказ в проведении")
     public void transferPMEventPreventiveVisitStatusRefusalToConductTest() throws Exception {
         installPlugin();
         authorization("supervisor");

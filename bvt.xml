@@ -83,10 +83,11 @@
                 <methods>
                     <include name="createPMEventWarningAnnouncementStatusProcessCompletionTest"/>
                     <include name="transferPMEventWarningAnnouncementStatusWarningAnnouncedTest"/>
-                    <include name="transferPMEventWarningAnnouncementStatusAnyObjectinsTest"/>
-                    <include name="createPEventPreventiveVisitStatusProcessCompletionTest"/>
-                    <include name="transferPEventPreventiveVisitStatusAwaitingTest"/>
-                    <include name="transferPEventPreventiveVisitStatusCompletedTest"/>
+                    <include name="transferPMEventWarningAnnouncementStatusAnObjectionTest"/>
+                    <include name="createPMEventPreventiveVisitStatusProcessCompletionTest"/>
+                    <include name="transferPMEventPreventiveVisitStatusLookingForwardTest"/>
+                    <include name="transferPMEventPreventiveVisitStatusCompletedTest"/>
+                    <include name="transferPMEventPreventiveVisitStatusRefusalToConductTest" />
                     <include name="deletePMEventTest"/>
                 </methods>
             </class>
