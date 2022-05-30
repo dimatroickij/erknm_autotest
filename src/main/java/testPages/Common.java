@@ -1,7 +1,5 @@
 package testPages;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.commands.Should;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
