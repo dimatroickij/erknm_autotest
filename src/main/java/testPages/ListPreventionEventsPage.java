@@ -40,10 +40,10 @@ public class ListPreventionEventsPage extends Common {
 
     String addGroundsPMButton = "//*[@id='pmReasonsAddButton']"; //кнопка Добавить в блоке основания проведения профилактических мероприятий
 
-    String choiceGroundDropDown = "//*[contains(@class,'select-field__placeholder ')]"; //выпадающий список Выберете основание проведения ПМ
+    String choiceGroundDropDown = "//*[contains(@class,'select-field__placeholder ')]"; //выпадающий список Выберите основание проведения ПМ
     String addOfficialPMButton = "//*[@id='erknmInspectorsAddButton']"; //кнопка Добавить должностное лицо
     String officialField = "//*[@name='inspectorsErknm[0].fullName']"; //поле Введите ФИО должностного лица
-    String officialPostPMDropDown = "//*[@id='inspectorsErknm[0].position']"; // выпадающий список Выберете должность в ПМ
+    String officialPostPMDropDown = "//*[@id='inspectorsErknm[0].position']"; // выпадающий список Выберите должность в ПМ
 
     String numberPM = "//*[contains(@class, 'KnmHeader_Title_') and (contains(string(), 'ПМ 6') or contains(string(), 'ПМ 7'))]";
 
@@ -203,9 +203,9 @@ public class ListPreventionEventsPage extends Common {
 
 
     /**
-     * Заполнение выпадающего списка Выберете основание проведения ПМ
+     * Заполнение выпадающего списка Выберите основание проведения ПМ
      */
-    @Step("Заполнение выпадающего списка Выберете основание проведения ПМ - {ground}")
+    @Step("Заполнение выпадающего списка Выберите основание проведения ПМ - {ground}")
     public void setGroundDropDown(String ground) {
         $(By.xpath(choiceGroundDropDown)).click(); //клик по списку
         clickToText(ground);
@@ -228,9 +228,9 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
-     * Заполнение выпадающего списка Выберете должность для объявления предостережения
+     * Заполнение выпадающего списка Выберите должность для объявления предостережения
      */
-    @Step("Заполнение выпадающего списка Выберете должность для объявления предостережения - {post}")
+    @Step("Заполнение выпадающего списка Выберите должность для объявления предостережения - {post}")
     public void setOfficialPostPMDropDown(String post) {
         $(By.xpath(officialPostPMDropDown)).click(); //клик по списку
         clickToText(post);

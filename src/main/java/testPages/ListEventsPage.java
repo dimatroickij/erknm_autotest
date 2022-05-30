@@ -56,8 +56,8 @@ public class ListEventsPage extends Common {
     String dateStartActions = "//*[@id='checklist-info']//div[contains(@class, 'Row_RowListItem')]/div[2]//input"; // Дата начала TODO Должен быть идентификатор
     String dateEndActions = "//*[@id='checklist-info']//div[contains(@class, 'Row_RowListItem')]/div[3]//input"; // Дата окончания TODO Должен быть идентификатор
 
-    String addVenueButton = "//*[@id ='erknmPlacesAddButton']"; //Кнопка добавить в разделе Место (места) проведение КНМ
-    String venueField = "//*[@name='places[0].value']"; //поле для введения Места
+    String addVenueButton = "//*[@id ='erknmPlacesAddButton']"; // Кнопка добавить в разделе Место (места) проведение КНМ
+    String venueField = "//*[@name='places[0].value']"; // поле для введения Места
 
 
     String dateTimePublicationDecisionField = "//section[@id='info']//div[contains(@class, 'Row_Row')][5]/div[1]//input"; // Поле Дата и время издания решения в разделе о проведении КНМ TODO Должен быть идентификатор
@@ -76,12 +76,12 @@ public class ListEventsPage extends Common {
     String typeDocument = "Мотивированное представление о проведении контрольного (надзорного)";
     String addFileButton = "//*[@id='reasonDocumentsBlock']/div[2]//button"; // кнопка Добавить у блока Файл TODO Должен быть идентификатор
 
-    String addMandatoryRequirementsButton = "//button[@id='erknmRequirementsAddButton']"; //кнопка Добавить в блоке обязательные требования, подлежащие проверке
-    String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']"; //выпадающий список Обязательные требования
-    String addNewSampleButton = "Создать новый"; //создать новый шаблон TODO Должен быть идентификатор
-    String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']"; //поле Наименование в блоке ОТ
+    String addMandatoryRequirementsButton = "//button[@id='erknmRequirementsAddButton']"; // кнопка Добавить в блоке обязательные требования, подлежащие проверке
+    String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']"; // выпадающий список Обязательные требования
+    String addNewSampleButton = "Создать новый"; // создать новый шаблон TODO Должен быть идентификатор
+    String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']"; // поле Наименование в блоке ОТ
     String createdNameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].requirement']"; //поле Наименование в блоке ОТ после сохранения
-    String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']"; //поле Наименование НПА в блоке ОТ
+    String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']"; // поле Наименование НПА в блоке ОТ
     String dateNPAMandatoryRequirementsField = "//tr[contains(@id, 'requirements')]//td[contains(@class, 'DateNpaTbodyCell')]//input"; // поле Дата НПА TODO Должен быть идентификатор
 
     String documentGroundsConductingInput = "//input[@id='reasonDocuments[0].attachmentsUploadDocument']"; // input для добавления документа в блоке Основания проведения КНМ
@@ -140,7 +140,6 @@ public class ListEventsPage extends Common {
     public void setNameKNODropDown(String name) {
         $(By.xpath(nameKNODropDown)).click(); // клик на выпадающем списке Наименование органа контроля
         setValueDropDownToText(name); // клик на нужной организации
-        //clickToText(name);
     }
 
     /**
@@ -152,7 +151,6 @@ public class ListEventsPage extends Common {
     public void setKindControlAndNumberDropDown(String kind) {
         $(By.xpath(kindControlAndNumberDropDown)).click(); // клик на выпадающем списке Вид контроля
         setValueDropDownToText(kind); // клик на нужном виде контроля
-        //clickToText(kind);
     }
 
     /**
@@ -163,7 +161,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор из выпадающего списка Вид КНМ - {kind}")
     public void setKindKNMDropDown(String kind) {
         $(By.xpath(kindKNMDropDown)).click(); // клик на выпадающем списке Вид КНМ
-        clickToText(kind); // клик на нужном виде КНМ
+        setValueDropDownToText(kind); // клик на нужном виде КНМ
     }
 
     /**
@@ -174,7 +172,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор из выпадающего списка Характер КНМ - {kind}")
     public void setCharacterKNMDropDown(String kind) {
         $(By.xpath(characterKNMDropDown)).click(); // клик на выпадающем списке Характер КНМ
-        clickToText(kind); // клик на нужном характере КНМ
+        setValueDropDownToText(kind); // клик на нужном характере КНМ
     }
 
     /**
@@ -193,7 +191,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор из выпадающего списка Наименование прокуратуры - {name}")
     public void setNameProsecutorDropDown(String name) {
         $(By.xpath(nameProsecutorDropDown)).click(); // клик на выпадающем списке Наименование прокуратуры
-        clickToText(name); // клик на нужной прокуратуре
+        setValueDropDownToText(name); // клик на нужной прокуратуре
     }
 
     /**
@@ -261,7 +259,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор основания регистрации КНМ - {GIP}")
     public void setGroundsIncludePlanDropDown() {
         $(By.xpath(groundsIncludePlanDropDown)).click();
-        clickToText(GIP);
+        setValueDropDownToText(GIP);
     }
 
     /**
@@ -308,7 +306,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Типа объекта - {typeObject}")
     public void setTypeObjectDropDown() {
         $(By.xpath(typeObjectDropDown)).click();
-        clickToText(typeObject);
+        setValueDropDownToText(typeObject);
     }
 
     /**
@@ -317,7 +315,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Вида объекта - {kindObject}")
     public void setKindObjectDropDown() {
         $(By.xpath(kindObjectDropDown)).click();
-        clickToText(kingObject);
+        setValueDropDownToText(kingObject);
     }
 
     /**
@@ -326,7 +324,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Подвида объекта - {}")
     public void setSubkindObjectDropDown() {
         $(By.xpath(subkindObjectDropDown)).click();
-        clickToText(kingObject);
+        setValueDropDownToText(kingObject);
     }
 
     /**
@@ -335,7 +333,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Класса опасности - {dangerClass}")
     public void setDangerClassDropDown() {
         $(By.xpath(dangerClassDropDown)).click();
-        clickToText(dangerClass);
+        setValueDropDownToText(dangerClass);
     }
 
     /**
@@ -347,12 +345,12 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Выберете Тип действия в разделе Перечень действий
+     * Выберите Тип действия в разделе Перечень действий
      */
-    @Step("Выберете Тип действия в разделе Перечень действий - {typeActions}")
+    @Step("Выберите Тип действия в разделе Перечень действий - {typeActions}")
     public void setTypeActionsDropDown() {
         $(By.xpath(typeActionsDropDown)).click();
-        clickToText(typeActions);
+        setValueDropDownToText(typeActions);
     }
 
     /**
@@ -453,7 +451,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор из выпадающего списка Должность лица, подписавшего решение - {positionDirector}")
     public void setPositionPersonSignedDecisionsDropDown() {
         $(By.xpath(positionPersonSignedDecisionsDropDown)).click();
-        clickToText(positionDirector);
+        setValueDropDownToText(positionDirector);
     }
 
     /**
@@ -470,7 +468,7 @@ public class ListEventsPage extends Common {
     @Step("Заполнение выпадающего списка Основание регистрации КНМ - {groundConduction}")
     public void setGroundConductingDropDown() {
         $(By.xpath(groundConductingDropDown)).click();
-        clickToText(groundConduction);
+        setValueDropDownToText(groundConduction);
     }
 
     /**
@@ -481,7 +479,7 @@ public class ListEventsPage extends Common {
     @Step("Заполнение выпадающего списка Необходимость согласования - {needCoordination}")
     public void setNeedCoordinationDropDown(String parameter) {
         $(By.xpath(needCoordinationDropDown)).click();
-        clickToText(parameter);
+        setValueDropDownToText(parameter);
     }
 
     /**
@@ -498,7 +496,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор из выпадающего списка Тип документа - {typeDocument}")
     public void setTypeDocumentDropDown() {
         $(By.xpath(typeDocumentDropDown)).click();
-        clickToText(typeDocument);
+        setValueDropDownToText(typeDocument);
     }
 
     /**
@@ -517,7 +515,7 @@ public class ListEventsPage extends Common {
     @Step("Добавление решения по заявлению - {result}")
     public void setDecisionApplicationDropDown(String result) {
         $(By.xpath(decisionApplicationDropDown)).should(visible, Duration.ofSeconds(10)).click();
-        clickToText(result);
+        setValueDropDownToText(result);
     }
 
     /**
@@ -534,7 +532,7 @@ public class ListEventsPage extends Common {
     @Step("Открытие выпадающего списка ОТ и нажатие на кнопку Создать новое ОТ")
     public void setMandatoryRequirementsDropDown() {
         $(By.xpath(mandatoryRequirementsDropDown)).scrollIntoView(false).click();
-        clickToText(addNewSampleButton);
+        setValueDropDownToText(addNewSampleButton);
     }
 
     /**
@@ -754,7 +752,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Должность лица, подписавшего акт из выпадающего списка")
     public void setPositionSignatoryActDropDown(String signPosition) {
         $(By.xpath(positionSignatoryActDropDown)).click();
-        clickToText(signPosition);
+        setValueDropDownToText(signPosition);
     }
 
     /**
@@ -776,12 +774,12 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора
+     * Выбор Выберите должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора
      */
-    @Step("Выбор Выберете должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора")
+    @Step("Выбор Выберите должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора")
     public void setPositionOfficialsTerritorialAuthorityParticipatedDropDown() {
         $(By.xpath(positionOfficialsParticipatedDropDown)).click();
-        clickToText(positionSpecialistExpert);
+        setValueDropDownToText(positionSpecialistExpert);
     }
 
     /**
@@ -802,7 +800,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор результата из выпадающего списка Сведения об ознакомлении контролируемых лиц с результатами КНМ")
     public void setInformationAboutRecognitionDropDown(String result) {
         $(By.xpath(informationAboutRecognitionDropDown)).click();
-        clickToText(result);
+        setValueDropDownToText(result);
     }
 
     /**
@@ -871,7 +869,7 @@ public class ListEventsPage extends Common {
         $(By.xpath(addInformationAboutOfficialsParticipatingButton)).click();
         $(By.xpath(addFIOParticipatingField)).setValue(fio);
         $(By.xpath(addPositionParticipatingDropDown)).click();
-        clickToText(positionSpecialistExpert);
+        setValueDropDownToText(positionSpecialistExpert);
     }
 
     /**
@@ -884,7 +882,7 @@ public class ListEventsPage extends Common {
         $(By.xpath(checklistCheckbox)).click(); //выбор чек-бокса
         $(By.xpath(addChecklistButton)).click(); //нажать кнопку Добавить у блока Проверочные листы
         $(By.xpath(nameChecklistDropDown)).click(); //нажатие на выпадающий список Наименование проверочного листа
-        clickToText(addNewSampleButton);
+        setValueDropDownToText(addNewSampleButton);
         $(By.xpath(nameChecklistField)).setValue(name);
     }
 

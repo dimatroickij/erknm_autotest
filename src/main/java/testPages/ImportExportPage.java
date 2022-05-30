@@ -7,7 +7,7 @@ public class ImportExportPage extends Common {
     String knoOrganizationDropDown = "//*[@id='knoOrganization']"; // выпадающий список Орган контроля
     String prosecutorOrganizationDropDown = "//*[@id='prosecutorOrganization']"; // выпадающий список Наименование прокуратуры
 
-    String selectFileButton = "//*[@id='selectFileButton']"; //кнопка Выберете файл на форме загрузки
+    String selectFileButton = "//*[@id='selectFileButton']"; //кнопка Выберите файл на форме загрузки
 
 
     public ImportExportPage() throws Exception {
