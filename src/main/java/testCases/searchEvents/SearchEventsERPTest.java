@@ -27,9 +27,9 @@ public class SearchEventsERPTest extends SearchERPPage {
         System.out.println("Проверка в статусе В процессе формирования " + completedKNM);
         //String deletedKNM = searchKNM(statusDeleted); // Поиск проверки в статусе Удалено
         gotoSearchEvents();
-        checkKNMOrPM(conductingKNM, true); // Проверка нашлась
+        checkKNMOrPMSearch(conductingKNM, true); // Проверка нашлась
         //checkKNM(formationKNM, false); // Проверка не нашлась
-        checkKNMOrPM(completedKNM, true); // Проверка не нашлась
+        checkKNMOrPMSearch(completedKNM, true); // Проверка не нашлась
         //checkKNM(deletedKNM, false); // Проверка нашлась
         logout();
     }

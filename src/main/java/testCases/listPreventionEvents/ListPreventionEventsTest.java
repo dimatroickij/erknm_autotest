@@ -6,8 +6,6 @@ import testPages.ListPreventionEventsPage;
 public class ListPreventionEventsTest extends ListPreventionEventsPage {
     //раздел Список ПМ
 
-    public String numberPM;
-
 
     public ListPreventionEventsTest() throws Exception {
     }
@@ -24,7 +22,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
-        numberPM = getNumberPM();
+        numberPMEventWarningPublished = getNumberPM();
         logout();
 
     }
@@ -42,7 +40,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        openCard(numberPM);
+        openCard(numberPMEventWarningPublished);
         transferPMEventWarningAnnouncementStatusWarningAnnounced(currentDate);
         logout();
     }
@@ -76,7 +74,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
-        numberPM = getNumberPM();
+        numberPMPreventiveVisitPublished = getNumberPM();
         logout();
     }
 
@@ -93,7 +91,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        openCard(numberPM);
+        openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusLookingForward(currentDate);
         logout();
     }
@@ -110,7 +108,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        openCard(numberPM);
+        openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusCompleted();
         logout();
     }
@@ -148,7 +146,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
-        numberPM = getNumberPM();
+        String numberPM = getNumberPM();
         clickActionButton();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();

@@ -8,26 +8,10 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SearchERPPage extends Common {
 
-    public String knmListCell = "//tbody//td";
+
     public String statusKNMCell = "//tr[contains(@class, KnmListTable_TbodyRow)]/td[7 and text()='%s']/../td[2]"; // Ячейка с номером КНМ в зависимости от статуса КНМ TODO должен быть идентификатор
 
     public SearchERPPage() throws Exception {
-    }
-
-    /**
-     * проверка существования КНМ на странице Список проверок
-     *
-     * @param exist true - проверка на существование КНМ в списке, false - проверка на отсутствие КНМ
-     * @param knm   Номер КНМ
-     */
-    @Step("Проверка существования КНМ на странице Список проверок - {knm} - {exist}")
-    public void checkKNMOrPM(String knm, boolean exist) {
-        setSearchField(knm);
-        clickSearchButton();
-        if (exist)
-            $(By.xpath(knmListCell)).should(Text.text(knm));
-        else
-            $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
     }
 
     /**

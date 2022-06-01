@@ -121,10 +121,11 @@ public class ListEventsTest extends ListEventsPage {
      */
     @Test(description = "Перевод КНМ в статус Не согласована")
     public void transferEventStatusNotAgreedTest() throws Exception {
-        createKNM(rejected, statusNotAgreed);
+        String numberNotAgreed = createKNM(rejected, statusNotAgreed);
     }
 
-    private void createKNM(String rejected, String nextStatus) throws Exception {
+    private String createKNM(String rejected, String nextStatus) throws Exception {
+        String numberKNM;
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
@@ -143,6 +144,7 @@ public class ListEventsTest extends ListEventsPage {
         openCard(numberKNM);
         transferEventStatusAgreed(rejected, nextStatus);
         logout();
+        return numberKNM;
     }
 
     /**
@@ -153,7 +155,7 @@ public class ListEventsTest extends ListEventsPage {
      */
     @Test(description = "Перевод КНМ в статус Ожидает проведения")
     public void transferEventStatusLookingForwardTest() throws Exception {
-        createKNM(approved, statusProcessAwaiting);
+        String numberKNMLookingForward = createKNM(approved, statusProcessAwaiting);
     }
 
     /**

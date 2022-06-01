@@ -706,7 +706,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Нажатие на Кнопку Добавить в блоке Сведения об акте")
     public void clickAddInformationAboutActsButton() {
-        $(By.xpath(addInformationAboutActsButton)).should(visible, Duration.ofSeconds(10)).click();
+        $(By.xpath(addInformationAboutActsButton)).scrollIntoView(false).should(visible, Duration.ofSeconds(10)).click();
     }
 
     /**

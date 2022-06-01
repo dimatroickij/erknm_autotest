@@ -142,6 +142,8 @@ public class Common {
 
     public static String numberPublishedKNMBVT;//номер опубликованной внеплановой КНМ, созданной при bvt
     public static String numberUnpublishedKNMBVT; //номер неопубликованной КНМ, созданной при bvt
+    public static String numberPMEventWarningPublished; // Номер ПМ
+    public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
     String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
@@ -373,7 +375,7 @@ public class Common {
     public void choiceSignature() {
         sleep(5000);
         $(By.xpath(choiceSignature)).click();
-        setValueDropDownToNumber(2);
+        setValueDropDownToNumber(1);
     }
 
     /**
@@ -748,6 +750,23 @@ public class Common {
         clickSearchButton();
         if (isExist) $(By.xpath(String.format(planCheckBox, number))).should(Condition.exist);
         else $(By.xpath(String.format(planCheckBox, number))).shouldNot(Condition.exist);
+    }
+
+    /**
+     * Проверка существования КНМ на странице Поиск проверок или поиск Мероприятий
+     *
+     * @param exist true - проверка на существование КНМ в списке, false - проверка на отсутствие КНМ
+     * @param knm   Номер КНМ
+     */
+    @Step("Проверка существования КНМ на странице Поиск проверок или поиск Мероприятий - {knm} - {exist}")
+    public void checkKNMOrPMSearch(String knm, boolean exist) {
+        setSearchField(knm);
+        clickSearchButton();
+        String knmListCell = "//tbody//td";
+        if (exist)
+            $(By.xpath(knmListCell)).should(Text.text(knm));
+        else
+            $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
     }
 }
 
