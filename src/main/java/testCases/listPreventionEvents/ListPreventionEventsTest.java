@@ -153,10 +153,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         closeNotification();
-        checkObject(statusDeleted);
+        checkStatusPM(statusDeleted);
         gotoListPreventionEventsPage();
         searchRequest(numberPM);
-        checkAbsenceObject(numberPM);
+        checkKNMOrPM(numberPM, statusDeleted, false);
         logout();
 
     }

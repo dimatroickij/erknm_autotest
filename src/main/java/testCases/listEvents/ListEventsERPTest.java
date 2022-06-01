@@ -39,7 +39,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
-        checkKNM(knmNumber, statusProcessFormation, true);
+        checkKNMOrPM(knmNumber, statusProcessFormation, true);
         logout();
     }
 
@@ -62,7 +62,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
-        checkKNM(knmNumber, statusProcessConducting, true);
+        checkKNMOrPM(knmNumber, statusProcessConducting, true);
         System.out.println("Проверка " + knmNumber + " переведена в статус '" + statusProcessConducting + "'");
         logout();
     }
@@ -91,7 +91,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(knmNumber);
         clickSearchButton();
-        checkKNM(knmNumber, statusCompleted, true);
+        checkKNMOrPM(knmNumber, statusCompleted, true);
         System.out.println("Проверка " + knmNumber + " переведена в статус '" + statusCompleted + "'");
         logout();
     }
@@ -123,7 +123,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(deleteKNMNumber);
         clickSearchButton();
-        checkKNM(deleteKNMNumber, statusCompleted, false);
+        checkKNMOrPM(deleteKNMNumber, statusDeleted, false);
         System.out.println("Проверка " + deleteKNMNumber + " удалена");
         logout();
     }
@@ -152,7 +152,7 @@ public class ListEventsERPTest extends ListEventsERPPage {
         gotoERPListKNMPage();
         setSearchField(scheduledKNMNumber);
         clickSearchButton();
-        checkKNM(scheduledKNMNumber, statusProcessConducting, true);
+        checkKNMOrPM(scheduledKNMNumber, statusProcessConducting, true);
         System.out.printf("Созданная проверка с добавлением шаблонов %s %n", knmNumber);
         logout();
     }

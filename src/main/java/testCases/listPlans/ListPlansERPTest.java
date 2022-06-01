@@ -56,7 +56,7 @@ public class ListPlansERPTest extends ListPlanERPPage {
 
         setSearchField(scheduledKNMNumber);
         clickSearchButton();
-        listEventsERPPage.checkKNM(scheduledKNMNumber, true);
+        listEventsERPPage.checkKNMOrPM(scheduledKNMNumber, true);
         logout();
     }
 

@@ -12,9 +12,7 @@ public class ListPlanERPPage extends Common {
     public String controlAuthorityDropDown = "//*[@id='kno']"; // Выпадающий список Орган контроля
     public String prosecutorOfficeDropDown = "//*[@id='prosecutor']"; // Выпадающий список Орган прокуратуры
     public String typePlanDropDown = "//*[@id='type']"; // Выпадающий список Тип плана КНМ
-    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
 
-    public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
     public String planStatusText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellStatus')]"; // Ячейка со статусом плана TODO Должен быть идентификатор
     public String planCountKNMText = "//*[@id='%s']/../../../../..//td[contains(@class, 'PlanListTable_CellKnmAmount')]"; // Ячейка с количеством провеерок в плане TODO Должен быть идентификатор
 
@@ -32,9 +30,9 @@ public class ListPlanERPPage extends Common {
     public String newPlan = "Новый";
     public String onRevisionPlan = "На доработке";
     public String agreedPlan = "Согласован";
-    public String approvedPlan = "Утверждён";
 
-    public String numberPlan; // номер плана. Для использования в нескольких автотестах
+
+    public String numberPlan; // Номер плана. Для использования в нескольких автотестах
 
     public ListPlanERPPage() throws Exception {
     }
@@ -83,17 +81,7 @@ public class ListPlanERPPage extends Common {
         setProsecutorOfficeDropDown(prosecutorsOffice);
         setTypePlanDropDown(summaryPlan294);
         clickCreateButton();
-        return $(By.xpath(numberPlanNotificationText)).getText();
-    }
-
-    /**
-     * Выбор чек-бокса по номеру плана
-     *
-     * @param number Номер плана
-     */
-    @Step("Выбор чек-бокса по номеру плана {number}")
-    public void clickPlanCheckBox(String number) {
-        $(By.xpath(String.format(planCheckBox, number))).scrollIntoView(false).click();
+        return getNumberPlan();
     }
 
     /**
@@ -109,20 +97,6 @@ public class ListPlanERPPage extends Common {
         transferOfPlanToStatus(number, status);
         closeNotification();
         searchPlan(number, status, true);
-    }
-
-    /**
-     * Поиск плана по номеру
-     *
-     * @param number  Номер плана
-     * @param isExist true - план должен быть в списке, false - план должен отсутствовать в списке
-     */
-    @Step("Поиск плана по номеру {number} {isExist}")
-    public void searchPlan(String number, boolean isExist) {
-        setSearchField(number);
-        clickSearchButton();
-        if (isExist) $(By.xpath(String.format(planCheckBox, number))).should(Condition.exist);
-        else $(By.xpath(String.format(planCheckBox, number))).shouldNot(Condition.exist);
     }
 
     /**

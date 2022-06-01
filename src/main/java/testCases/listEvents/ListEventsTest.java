@@ -174,7 +174,7 @@ public class ListEventsTest extends ListEventsPage {
         closeNotification();
         checkStatusKNM(statusDeleted);
         gotoListKNMPage();
-        checkAbsenceObject(number);
+        checkKNMOrPM(number, statusDeleted, false);
         logout();
     }
 

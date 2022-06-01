@@ -85,14 +85,6 @@ public class PersonalAccountPage extends Common {
     }
 
     /**
-     * Переход в Раздел общая информация
-     */
-    @Step("Переход в Раздел общая информация")
-    public void gotoCommonInformationMenu() {
-        clickToText(commonInformation);
-    }
-
-    /**
      * Переход в раздел Уполномоченные на проведение КНМ
      */
     @Step("Переход в раздел Уполномоченные на проведение КНМ")

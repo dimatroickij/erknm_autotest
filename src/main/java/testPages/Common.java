@@ -1,5 +1,7 @@
 package testPages;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
@@ -124,6 +126,10 @@ public class Common {
 
     public String approved = "Согласовано";
     public String rejected = "Отклонено";
+
+    public String statusPlanUnderConsideration = "На рассмотрении";
+    public String statusPlanReviewed = "Рассмотрен";
+    public String approvedPlan = "Утверждён";
     //есть замечания
     //исключение обжаловано
     //не может быть проведено
@@ -181,6 +187,10 @@ public class Common {
 
     public String exclusionGround = "В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
 
+    String knmListCell = "//td[contains(@class, 'KnmListTable_CellErpId')]"; // ячейка с номером КНМ или ПМ в таблицах на страницах Список проверок (ЕРП), Список КНМ (ЕРКНМ) и Список ПМ (ЕРКНМ)
+
+    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
+    public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
     public Common() throws Exception {
     }
 
@@ -420,6 +430,8 @@ public class Common {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
+        reloadPage();
+        switchTo().window(0);
 
     }
 
@@ -503,18 +515,6 @@ public class Common {
         $(By.xpath(feedback)).click();
     }
 
-
-    /**
-     * Универсальный метод для поиска по тексту и клик на это место
-     *
-     * @param text Название поля
-     */
-    public void clickToText(String text) {
-        String newXpath = "//*[text()='" + text + "']";
-        $(By.xpath(newXpath)).click();
-    }
-
-
     /**
      * Нажатие на кнопку Создать
      */
@@ -559,16 +559,6 @@ public class Common {
     }
 
     /**
-     * Проверка отсутствия объекта
-     *
-     * @param name Объект
-     */
-    @Step("Проверка отсутствия - {name}")
-    public void checkAbsenceObject(String name) {
-        $(By.xpath("//*[contains(text(),'" + name + "')]")).shouldNotBe(exist);
-    }
-
-    /**
      * Нажатие на кнопку Действия на странице с таблицей
      */
     @Step("Нажатие на кнопку Действия на странице с таблицей")
@@ -582,7 +572,6 @@ public class Common {
     @Step("Нажатие на кнопку Действия на странице КНМ")
     public void clickActionsOnCardButton() {
         $(By.xpath("//div[@id='root']")).scrollIntoView(false);
-        //$(By.xpath(actionsOnCardButton)).click();
         $(By.xpath(actionsOnCardButton)).shouldBe(visible).click();
     }
 
@@ -615,7 +604,7 @@ public class Common {
      */
     @Step("Нажатие на крестик закрытия сообщения")
     public void closeNotification() {
-        $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(10)).click();
+        $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(15)).click();
     }
 
     /**
@@ -700,8 +689,65 @@ public class Common {
      * Перезагрузка страницы для включения плагина подписания
      */
     @Step("Перезагрузка страницы для включения плагина подписания")
-    public void reloadPage(){
+    public void reloadPage() {
         refresh();
+    }
+
+    /**
+     * Проверка существования КНМ или ПМ на страницах Список проверок, Список КНМ и Список ПМ
+     *
+     * @param knm    Номер КНМ
+     * @param exist  Должна ли найтись проверка с указанным статусом
+     * @param status Наименование статуса, на который нужно провести проверку
+     */
+    @Step("Проверка существования КНМ или ПМ на страницах Список проверок, Список КНМ и Список ПМ - {knm}, {status}, {exist}")
+    public void checkKNMOrPM(String knm, String status, boolean exist) {
+        if (exist) $(By.xpath(knmListCell)).should(Text.text(knm)).parent().should(Text.text(status));
+        else $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
+    }
+
+    /**
+     * Проверка существования КНМ или ПМ на страницах Список проверок, Список КНМ и Список ПМ
+     *
+     * @param knm   Номер КНМ
+     * @param exist Должна ли найтись проверка с указанным статусом
+     */
+    @Step("Проверка существования КНМ или ПМ на страницах Список проверок, Список КНМ и Список ПМ - {knm}, {exist}")
+    public void checkKNMOrPM(String knm, boolean exist) {
+        if (exist) $(By.xpath(knmListCell)).should(Text.text(knm));
+        else $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
+    }
+
+    /**
+     * Получение номера плана
+     */
+    @Step("Получение номера плана - {number}")
+    public String getNumberPlan() {
+        return $(By.xpath(numberPlanNotificationText)).getText();
+    }
+
+    /**
+     * Выбор чек-бокса по номеру плана
+     *
+     * @param number Номер плана
+     */
+    @Step("Выбор чек-бокса по номеру плана {number}")
+    public void clickPlanCheckBox(String number) {
+        $(By.xpath(String.format(planCheckBox, number))).scrollIntoView(false).click();
+    }
+
+    /**
+     * Поиск плана по номеру
+     *
+     * @param number  Номер плана
+     * @param isExist true - план должен быть в списке, false - план должен отсутствовать в списке
+     */
+    @Step("Поиск плана по номеру {number} {isExist}")
+    public void searchPlan(String number, boolean isExist) {
+        setSearchField(number);
+        clickSearchButton();
+        if (isExist) $(By.xpath(String.format(planCheckBox, number))).should(Condition.exist);
+        else $(By.xpath(String.format(planCheckBox, number))).shouldNot(Condition.exist);
     }
 }
 

@@ -21,7 +21,7 @@ public class SearchERPPage extends Common {
      * @param knm   Номер КНМ
      */
     @Step("Проверка существования КНМ на странице Список проверок - {knm} - {exist}")
-    public void checkKNM(String knm, boolean exist) {
+    public void checkKNMOrPM(String knm, boolean exist) {
         setSearchField(knm);
         clickSearchButton();
         if (exist)

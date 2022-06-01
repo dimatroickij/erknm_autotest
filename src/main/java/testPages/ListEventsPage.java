@@ -119,6 +119,10 @@ public class ListEventsPage extends Common {
     String nameChecklistDropDown = "//*[contains(@id, 'checklists')]//div[contains(@class, 'SelectInput_SelectInput')]"; // Выпадающий список Наименование проверочного листа TODO Должен быть идентификатор
     String nameChecklistField = "//*[@name='checklistsErknm[0].newTitle']"; // поле для ввода наименования нового проверочного листа
 
+    String excludeKNMFromPlanButton = "//*[text()='Исключить из плана']"; // кнопка Исключить из плана TODO Должен быть идентификатор
+    String exclusionGroundDropDown = "//div[contains(@class, 'ModalBody_Body')]//div[contains(@class, 'SelectInput_SelectContainer')]"; // выпадающий список Основание исключение TODO Должен быть идентификатор
+    String docInput = "//input[@id='document']"; // выбор документа
+    String exclusionButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; //кнопка Исключить на форме Исключение КНМ из плана TODO Должен быть идентификатор
     public ListEventsPage() throws Exception {
     }
 
@@ -612,6 +616,36 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Создание плановой КНМ через план
+     *
+     * @param viewKNO Вид контроля (надзора) и его номер
+     * @param kind    Вид КНМ
+     * @param date    Дата начала КНМ
+     * @param inn     ИНН
+     */
+    @Step("Создание плановой КНМ через план: Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, " +
+            "Дата начала КНМ - {date}, ИНН - {inn}")
+    public String addPlannedKNM(String viewKNO, String kind, String date, String inn) {
+        setKindControlAndNumberDropDown(viewKNO);
+        setKindKNMDropDown(kind);
+        setStartKNMDate(date);
+        setInnField(inn);
+        setTypeObjectDropDown();
+        setKindObjectDropDown();
+        setDangerClassDropDown();
+        setDurationDaysField(number);
+        addGroundsIncludePlan(date);
+        addListActions(date, date);
+        createMandatoryRequirements(nameTitle, nameTitle, currentDate);
+        clickAddVenueButton();
+        setVenueField(place);
+        clickSaveButton();
+        closeNotification();
+        checkStatusKNM(statusReadyApproval);
+        return getNumberKNM();
+    }
+
+    /**
      * Добавление документа и подписи в блоке Основания проведения КНМ
      *
      * @param fPath путь к документу
@@ -826,6 +860,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение блока сведения об акте
+     *
      * @param fPath
      * @param sPath
      * @param numberAct
@@ -863,6 +898,7 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ
+     *
      * @param fio ФИО
      */
     @Step("Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ")
@@ -998,5 +1034,19 @@ public class ListEventsPage extends Common {
                 officialField, "Факт устранения", familiarWith, officialField, positionDirectorTerritorialAuthority);
         clickSaveButton();
         checkStatusKNM(statusCompleted);
+    }
+
+    /**
+     * Исключение из плана КНМ
+     */
+    @Step("Исключение из плана КНМ")
+    public void excludeKNMFromPlan() {
+        $(By.xpath(excludeKNMFromPlanButton)).click();
+        $(By.xpath(exclusionGroundDropDown)).click();
+        setValueDropDownToText(exclusionGround);
+        $(By.xpath(docInput)).uploadFile(new File(filePath));
+        $(By.xpath(exclusionButton)).click();
+        closeNotification();
+        checkStatusKNM(statusExcluded);
     }
 }

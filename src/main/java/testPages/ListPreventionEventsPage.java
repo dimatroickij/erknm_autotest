@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import java.io.File;
 import java.util.UUID;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListPreventionEventsPage extends Common {
@@ -464,7 +463,7 @@ public class ListPreventionEventsPage extends Common {
         closeNotification();
         clickConfirmButton();
         closeNotification();
-        checkObject(statusProcessAwaiting);
+        checkStatusPM(statusProcessAwaiting);
     }
 
     /**
@@ -477,7 +476,7 @@ public class ListPreventionEventsPage extends Common {
         clickSaveButton();
         clickConfirmButton();
         closeNotification();
-        checkObject(statusCompleted);
+        checkStatusPM(statusCompleted);
     }
 
     /**
@@ -491,6 +490,6 @@ public class ListPreventionEventsPage extends Common {
         setDatePresenceOfDisagreementField(date);
         clickSaveButton();
         closeNotification();
-        checkObject(statusRefusalToConduct);
+        checkStatusPM(statusRefusalToConduct);
     }
 }

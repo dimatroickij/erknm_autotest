@@ -44,7 +44,6 @@ public class ListEventsERPPage extends Common {
     String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[4]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы TODO должен быть идентификатор
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ TODO должен быть идентификатор
-    String knmListCell = "//td[contains(@class, 'KnmListTable_CellErpId')]"; // ячейка с номером КНМ из списка КНМ на страние Список проверок
 
     String deleteObjectButton = "//button[contains(@class, 'KnmCollapse_DeleteButton')]"; // крестик у блока Объект в разделе Объекты проведения КНМ TODO должен быть идентификатор
     String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ" TODO должен быть идентификатор
@@ -295,32 +294,6 @@ public class ListEventsERPPage extends Common {
             setValueDropDownToNumber(1);
         }
         clickAddModalButton();
-    }
-
-    /**
-     * Проверка существования КНМ на странице Список проверок
-     *
-     * @param knm    Номер КНМ
-     * @param exist  Должна ли найтись проверка с указанным статусом
-     * @param status Наименование статуса, на который нужно провести проверку
-     */
-    // TODO Может не работать
-    @Step("Проверка существования КНМ на странице Список проверок - {knm}, {status}, {exist}")
-    public void checkKNM(String knm, String status, boolean exist) {
-        if (exist) $(By.xpath(knmListCell)).should(Text.text(knm)).parent().should(Text.text(status));
-        else $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
-    }
-
-    /**
-     * Проверка существования КНМ на странице Список проверок
-     *
-     * @param knm   Номер КНМ
-     * @param exist Должна ли найтись проверка с указанным статусом
-     */
-    @Step("Проверка существования КНМ на странице Список проверок - {knm}, {exist}")
-    public void checkKNM(String knm, boolean exist) {
-        if (exist) $(By.xpath(knmListCell)).should(Text.text(knm));
-        else $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
     }
 
     /**

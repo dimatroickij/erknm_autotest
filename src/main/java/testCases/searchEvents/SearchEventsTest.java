@@ -26,6 +26,6 @@ public class SearchEventsTest extends Common {
         checkObject(numberPublishedKNMBVT);
         gotoSearchEvents();
         searchRequest(numberUnpublishedKNMBVT);
-        checkAbsenceObject(numberUnpublishedKNMBVT);
+        //checkAbsenceObject(numberUnpublishedKNMBVT);
     }
 }

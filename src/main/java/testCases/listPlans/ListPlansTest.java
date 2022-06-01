@@ -4,15 +4,8 @@ import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
-
-import java.util.Random;
-
 public class ListPlansTest extends ListPlanPage {
     //раздел Список планов
-    public String numberPlan = "";
-    public String numberKNM = "";
-    Random rnd = new Random();
-    int prefix = rnd.nextInt(1000000);
 
     public ListPlansTest() throws Exception {
     }
@@ -28,16 +21,9 @@ public class ListPlansTest extends ListPlanPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
-        clickAddButton();
-        // setKNOFormPlanDropDown(); выбор, если по умолчанию выбрано не здравоохранение
-        // setProsecutorDropDown();
-        clickCreateButton();
-        numberPlan = getNumberPlan();
+        numberPlan = createPlan();
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
-        gotoListPlansPage();
-        openCardPlan(numberPlan);
-        checkObject(statusProcessFormation);
-
+        logout();
     }
 
     /**
@@ -47,35 +33,11 @@ public class ListPlansTest extends ListPlanPage {
      * @author Frolova S.I 02.2022
      */
     @Test(description = "Добавление плановой КНМ в созданный план", dependsOnMethods = {"createPlanTest"})
-    //@Test(description = "3 - Добавление плановой КНМ в созданный план")
-    public void addPlannedKNMInPlanTest() throws Exception, Exception {
-        logout();
+    public void addPlannedKNMInPlanTest() throws Exception {
         authorization("supervisor");
-        ListEventsPage event = new ListEventsPage();
         choiceMode(true);
         gotoListPlansPage();
-        //openCardPlan("2023037785");
-        openCardPlan(numberPlan);
-        clickAddKNMButton();
-        event.setKindControlAndNumberDropDown(viewKNO);
-        event.setKindKNMDropDown(controlPurchase);
-        event.setStartKNMDate(futureDate);
-        event.setInnField(INN);
-        event.setTypeObjectDropDown();
-        event.setKindObjectDropDown();
-        event.setDangerClassDropDown();
-        clickSaveButton();
-        closeNotification();
-        numberKNM = event.getNumberKNM();
-        event.setDurationDaysField(number);
-        event.addGroundsIncludePlan(futureDate);
-        event.addListActions(futureDate, futureDate);
-        event.createMandatoryRequirements(prefix + "авто", prefix + "авто", currentDate);
-        event.clickAddVenueButton();
-        event.setVenueField(place);
-        clickSaveButton();
-        closeNotification();
-        checkObject(statusReadyApproval);
+        addPlannedKNMInPlan(numberPlan);
         logout();
     }
 
@@ -85,24 +47,13 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    // @Test(description = "4 - Перевод плана в статус На рассмотрении")
     @Test(description = "Перевод плана в статус На рассмотрении", dependsOnMethods = {"addPlannedKNMInPlanTest"})
     public void transferPlanStatusOnConsiderationTest() throws Exception {
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
-        openCardPlan(numberPlan);
-        // openCardPlan("2023037785");
-        clickActionsHeaderButton();
-        clickSignatureButton();
-        choiceSignature();
-        clickSignatureButton();
-        clickSubmitReviewButton();
-        clickApproveChangeStatus();
-        clickSaveButton();
-        closeNotification();
-        checkObject("На рассмотрении");
+        transferPlanStatusOnConsideration(numberPlan);
         logout();
     }
 
@@ -113,23 +64,10 @@ public class ListPlansTest extends ListPlanPage {
      * @author Frolova S.I. 03.2022
      */
     @Test(description = "Перевод плана в статус Рассмотрен", dependsOnMethods = {"transferPlanStatusOnConsiderationTest"})
-    //@Test(description = "5 - Перевод плана в статус Рассмотрен")
-    public void transferPlanStatusReviewed() throws Exception, Exception {
+    public void transferPlanStatusReviewedTest() throws Exception {
         authorization("prosecutor");
         choiceMode(true);
-        ListEventsPage event = new ListEventsPage();
-        gotoListKNMPage();
-        event.openCard(numberKNM);
-        //event.openCard("77230660001100009047");
-        event.setDecisionApplicationDropDown(approved);
-        clickSaveButton();
-        closeNotification();
-        gotoListPlansPage();
-        // openCardPlan("2023037785");
-        openCardPlan(numberPlan);
-        clickReviewedPlanButton();
-        approveChangeStatus(fio, number);
-        checkObject("Рассмотрен");
+        transferPlanStatusReviewed(numberPlan);
         logout();
     }
 
@@ -139,19 +77,17 @@ public class ListPlansTest extends ListPlanPage {
      *
      * @author Frolova S.I 02.2022
      */
-    //@Test(description = "6 - Перевод плана в статус Утвержден")
-    @Test(description = "Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusReviewed"})
+    @Test(description = "Перевод плана в статус Утвержден", dependsOnMethods = {"transferPlanStatusReviewedTest"})
     public void transferPlanStatusApprovedTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
         openCardPlan(numberPlan);
-        //openCardPlan("2023037785");
         clickApprovePlanButton();
         clickApproveChangeStatus();
         clickSaveButton();
         closeNotification();
-        checkObject("Утверждён");
+        checkStatusPlan(approvedPlan);
         logout();
     }
 
@@ -162,18 +98,11 @@ public class ListPlansTest extends ListPlanPage {
      * @author Frolova S.I 03.2022
      */
     @Test(description = "Исключение КНМ из плана в статусе Утвержден", dependsOnMethods = {"transferPlanStatusApprovedTest"})
-    //@Test(description = "6 - Исключение КНМ из плана в статусе Утвержден")
     public void exceptionKNMFromApprovedPlanTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
-        gotoListKNMPage();
-        openCard(numberKNM);
-        //openCard("77230370001100008833");
-        clickActionsOnCardButton();
-        excludeKNMFromPlan();
-        checkObject(statusExcluded);
+        exceptionKNMFromApprovedPlan(numberKNM);
         logout();
-
     }
 
     /**
@@ -184,14 +113,12 @@ public class ListPlansTest extends ListPlanPage {
      */
     @Test(description = "Удаление плана")
     public void deletePlanTest() throws Exception {
-        createPlanTest();
+        authorization("supervisor");
+        choiceMode(true);
         gotoListPlansPage();
-        searchRequest(numberPlan);
-        clickCheckBoxListPlan(numberPlan);
-        clickDeleteButton();
-        clickConfirmationDeleteButton();
-        searchRequest(numberPlan);
-        checkAbsenceObject(numberPlan);
+        String number = deletePlan();
+        System.out.println("НОМЕР УДАЛЁННОГО ПЛАНА " + number);
+        logout();
     }
 
 
