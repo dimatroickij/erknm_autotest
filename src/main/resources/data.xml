@@ -8,14 +8,14 @@
                 <url name="test" value="http://private.proverki.local/">http://proverki.local</url>
             </urls>
             <users>
-                <user name="supervisor" value="@@@@@"/>
-                <user name="prosecutor" value="@@@@@"/>
+                <user name="supervisor" value="P@ssw0rd"/>
+                <user name="prosecutor" value="P@ssw0rd"/>
                 <user name="ombudsman" value="@@@@@"/>
                 <user name="admin" value="@@@@@"/>
             </users>
 
             <data>
-                <information name="inn" value="7811689828"/> <!--1215212198-->
+                <information name="inn" value="7743943819"/> <!--1215212198-->
                 <!-- <information name="inn" value ="1215043750" /> -->
             </data>
 

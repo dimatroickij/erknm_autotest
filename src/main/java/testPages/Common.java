@@ -27,8 +27,8 @@ public class Common {
 
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "demo");
-    public String openUrl = readParameters.getPublicUrl("demo");
+    public String url = readParameters.getParameter("url", "test");
+    public String openUrl = readParameters.getPublicUrl("test");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
 
@@ -46,7 +46,7 @@ public class Common {
     public String modeERKNM = "//*[text()='ЕРКНМ']"; // TODO должен быть идентификатор
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
 
-    public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
+    public String nameKNO = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
@@ -145,8 +145,8 @@ public class Common {
     public static String numberPMEventWarningPublished; // Номер ПМ
     public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
-    String selectValueByText = "//div[contains(@class, 'SelectInput_Option') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
-    String selectValueByNumber = "//div[contains(@class, 'SelectInput_Option')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
+    String selectValueByText = "//div[contains(@class, 'SelectInput') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
+    String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
 
     public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
     //информация для заполнения КНМ

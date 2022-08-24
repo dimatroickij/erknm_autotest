@@ -21,8 +21,8 @@ public class ListPreventionEventsPage extends Common {
     public String typeAnnouncementWarningsPM = "Объявление предостережения";
     public String typePreventiveVisitPM = "Профилактический визит";
     public String typeObject = "Деятельность и действия";
-    public String viewObject = "используемые контролируемыми лицами при осуществлении деятельности в " +
-            "сфере обращения лекарственных средств помещения, к которым предъявляются обязательные требования";
+    public String viewObject = "используемые контролируемыми лицами при осуществлении деятельности в сфере обращения " +
+            "лекарственных средств для медицинского применения помещения, к которым предъявляются обязательные требования";
     public String classDanger = "Первый";
     public String classDanger2 = "Второй";
 

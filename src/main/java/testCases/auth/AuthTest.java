@@ -18,8 +18,8 @@ public class AuthTest extends Common {
     @Test(description = "Авторизация")
     public void authorizationSomeTest() throws Exception {
         open(url);
-        setLogin("prosecutor");
-        setPassword(readParameters.getParameter("user", "prosecutor"));
+        setLogin("supervisor");
+        setPassword(readParameters.getParameter("user", "supervisor"));
         clickEnterButton();
         logout();
     }
