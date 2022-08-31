@@ -66,7 +66,7 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Выбор значения в выпадающем списке Тип плана КНМ {type}")
     public void setTypePlanDropDown(String type) {
-        $(By.xpath(typePlanDropDown)).click();
+        //$(By.xpath(typePlanDropDown)).click();
         setValueDropDownToText(type);
     }
 
@@ -75,7 +75,7 @@ public class ListPlanERPPage extends Common {
      */
     @Step("Создание плана КНМ")
     public String createPlan() {
-        refresh();
+        //refresh();
         clickAddButton();
         setControlAuthorityDropDown(nameKNO);
         setProsecutorOfficeDropDown(prosecutorsOffice);

@@ -23,7 +23,7 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
+        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, prosecutorsOffice, INN);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         numberPublishedKNMBVT = numberKNM;
@@ -36,7 +36,8 @@ public class ListEventsTest extends ListEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Добавление шаблонов обязательных требований в КНМ (т. е. создание нового ОТ) (для ЕРКНМ)")
+    @Test(description = "Добавление шаблонов обязательных требований в КНМ (т. е. создание нового ОТ) (для ЕРКНМ)",
+            dependsOnMethods = {"createEventStatusProcessCompletionTest"})
     public void createTemplateMandatoryRequirementsERKNMTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
@@ -53,13 +54,14 @@ public class ListEventsTest extends ListEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод КНМ в статус Готово к согласованию", dependsOnMethods = {"createTemplateMandatoryRequirementsERKNMTest"})
+    @Test(description = "Перевод КНМ в статус Готово к согласованию"/*,
+            dependsOnMethods = {"createTemplateMandatoryRequirementsERKNMTest"}*/)
     public void transferEventStatusReadyApprovalTest() throws Exception {
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        openCard(numberKNM);
+        openCard("77210370001100042064");
         transferEventStatusReadyApproval(currentDate, currentDate, currentDate);
         logout();
     }

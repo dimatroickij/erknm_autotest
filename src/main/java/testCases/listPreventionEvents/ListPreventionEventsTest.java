@@ -21,10 +21,9 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(knoName, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
         numberPMEventWarningPublished = getNumberPM();
         logout();
-
     }
 
     /**
@@ -34,7 +33,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "Перевод Объявление предостережения в статус Предостережение объявлено",
-            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
+            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})   // 500 при клике сохранить
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws Exception {
         installPlugin();
         authorization("supervisor");
@@ -51,13 +50,13 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод Объявление предостережения в статус Есть возражение")
+    @Test(description = "Перевод Объявление предостережения в статус Есть возражение",
+            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})  // 500 при клике сохранить
     public void transferPMEventWarningAnnouncementStatusAnObjectionTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
-        String number = getNumberPM();
+        openCard(numberPMEventWarningPublished);
         transferPMEventWarningAnnouncementStatusAnObjection();
         logout();
     }
@@ -73,7 +72,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(knoName, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
         numberPMPreventiveVisitPublished = getNumberPM();
         logout();
     }
@@ -119,16 +118,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Перевод Профилактического визита из статуса Ожидает проведения в статус отказ в проведении")
+    @Test(description = "Перевод Профилактического визита из статуса Ожидает проведения в статус отказ в проведении",
+            dependsOnMethods = {"transferPMEventPreventiveVisitStatusLookingForwardTest"})
     public void transferPMEventPreventiveVisitStatusRefusalToConductTest() throws Exception {
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
-        String number = getNumberPM();
-        reloadPage();
-        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
+        openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusRefusalToConduct(currentDate);
         logout();
     }
@@ -140,21 +137,20 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      *
      * @author Frolova S.I 01.2022
      */
-    @Test(description = "Удаление ПМ")
+    @Test(description = "Удаление ПМ", dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     public void deletePMEventTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNO, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
-        String numberPM = getNumberPM();
-        clickActionButton();
+        openCard(numberPMEventWarningPublished);
+        //clickActionButton();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         closeNotification();
         checkStatusPM(statusDeleted);
         gotoListPreventionEventsPage();
-        searchRequest(numberPM);
-        checkKNMOrPM(numberPM, statusDeleted, false);
+        searchRequest(numberPMEventWarningPublished);
+        checkKNMOrPM(numberPMEventWarningPublished, statusDeleted, false);
         logout();
 
     }

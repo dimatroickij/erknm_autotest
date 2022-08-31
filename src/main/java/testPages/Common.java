@@ -46,7 +46,8 @@ public class Common {
     public String modeERKNM = "//*[text()='ЕРКНМ']"; // TODO должен быть идентификатор
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
 
-    public String nameKNO = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
+    public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
+    public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
@@ -182,9 +183,9 @@ public class Common {
     public String typeItemNews = "//*[text()='Новость']";
     public String INN = readParameters.getParameter("information", "inn");// "7811689828";
     public String menuButton = "//*[@id='userMenuButton']";
-    public static String currentDate = "";
+    public static String currentDate = "01.02.2023";
     public static String currentDateTime = "";
-    public static String futureDate = "";
+    public static String futureDate = "01.03.2023";
     public String choiceSignature = "//*[@id='certs']/div/div[1]";
 
     public String exclusionGround = "В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
@@ -193,6 +194,11 @@ public class Common {
 
     public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
     public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
+    public String fillingTextInputs = "Автотест"; // Для заполнения свободных текстовых инпутов
+    public String phoneNumber = "77777777777"; // Для заполнения номера телефона
+    public String email = "autotest@autotest.ru"; // Для заполнения адреса электронной почты
+
+
     public Common() throws Exception {
     }
 

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class ListEventsPage extends Common {
 //раздел Список КНМ
@@ -45,7 +46,10 @@ public class ListEventsPage extends Common {
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']"; // Вид объекта
     String kingObject = "используемые контролируемыми лицами при осуществлении деятельности в сфере обращения " +
-            "лекарственных средств помещения, к которым предъявляются обязательные требования";
+            "лекарственных средств для медицинского применения помещения, к которым предъявляются обязательные требования";
+    //редактировал 25.08 для addPlannedKNMInPlanTest()
+
+
     String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']"; // Подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']"; // Класс опасности
     String dangerClass = "Первый"; // Класс опасности для заполнения dangerClassDropDown
@@ -255,6 +259,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Нажатие на кнопку Добавить в разделе Основания включения в план")
     public void clickAddGroundsIncludePlanButton() {
+        $x(addGroundsIncludePlanButton).scrollTo();
         $(By.xpath(addGroundsIncludePlanButton)).click();
     }
 
@@ -625,16 +630,16 @@ public class ListEventsPage extends Common {
      */
     @Step("Создание плановой КНМ через план: Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, " +
             "Дата начала КНМ - {date}, ИНН - {inn}")
-    public String addPlannedKNM(String viewKNO, String kind, String date, String inn) {
+    public String addPlannedKNM(String viewKNO, String kind, String date, String inn) throws InterruptedException {
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(kind);
         setStartKNMDate(date);
+        addGroundsIncludePlan(date);
         setInnField(inn);
         setTypeObjectDropDown();
         setKindObjectDropDown();
         setDangerClassDropDown();
-        setDurationDaysField(number);
-        addGroundsIncludePlan(date);
+        //setDurationDaysField(number);
         addListActions(date, date);
         createMandatoryRequirements(nameTitle, nameTitle, currentDate);
         clickAddVenueButton();

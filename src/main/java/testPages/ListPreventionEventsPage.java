@@ -433,6 +433,7 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Перевод Объявление предостережения в статус Есть возражение")
     public void transferPMEventWarningAnnouncementStatusAnObjection() {
+        clickConfirmButton();
         clickAddInformationDirectionObjectionButton();
         addDocumentAndSignatureInformationDirectionObjection(filePath, signPath);
         clickUploadButton();
