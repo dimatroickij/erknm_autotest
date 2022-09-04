@@ -32,11 +32,11 @@ public class OpenPartTest extends OpenPartPage {
         clearBrowserCookies();
         open(openUrl);
         gotoHomeOpenPage();
-        searchEventsWithCaptcha(numberPublishedKNMBVT, captcha);
-        checkObject(numberPublishedKNMBVT);
+        searchEventsWithCaptcha(/*numberPublishedKNMBVT*/ "01210511000300045235", captcha);
+        checkObject("01210511000300045235");
         gotoHomeOpenPage();
-        searchEventsWithoutCaptcha(numberUnpublishedKNMBVT);
-        //checkAbsenceObject(numberUnpublishedKNMBVT);
+        searchEventsWithoutCaptcha("01210511000300045235");
+        checkObject("01210511000300045235");
     }
 
     /**
@@ -54,7 +54,7 @@ public class OpenPartTest extends OpenPartPage {
         checkObject(numberPublishedKNMBVT);
         gotoSearchCheckOpenPage();
         searchEventsWithoutCaptcha(numberUnpublishedKNMBVT);
-        //checkAbsenceObject(numberUnpublishedKNMBVT);
+        checkObject(numberPublishedKNMBVT);
 
     }
 

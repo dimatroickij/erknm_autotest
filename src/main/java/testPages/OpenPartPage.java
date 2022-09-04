@@ -3,12 +3,13 @@ package testPages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class OpenPartPage extends Common {
     //для открытой части
 
-    String searchField = "//*[@type='text']"; //поле для ввода поискового запроса
+    String searchField = "//input[@name='searchString']"; //поле для ввода поискового запроса
     String captchaField = "//*[@name='captcha']"; //поле для ввода капчи
     String sendButton = "//*[text()='Отправить']"; //кнопка отправить на форме капчи
 
@@ -67,7 +68,7 @@ public class OpenPartPage extends Common {
     public void searchEventsWithCaptcha(String number, String captcha) {
         $(By.xpath(searchField)).setValue(number); //ввод поискового запроса
         $(By.xpath(searchOpenPartButton)).click(); //нажатие на кнопку Искать
-        $(By.xpath(captchaField)).setValue(captcha); //ввод капчи
+        $(By.xpath(captchaField)).shouldBe(visible).setValue(captcha); //ввод капчи
         $(By.xpath(sendButton)).click(); //нажатие на кнопку Отправить
     }
 

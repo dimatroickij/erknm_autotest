@@ -33,7 +33,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "Перевод Объявление предостережения в статус Предостережение объявлено",
-            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})   // 500 при клике сохранить
+            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     public void transferPMEventWarningAnnouncementStatusWarningAnnouncedTest() throws Exception {
         installPlugin();
         authorization("supervisor");
@@ -51,7 +51,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "Перевод Объявление предостережения в статус Есть возражение",
-            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})  // 500 при клике сохранить
+            dependsOnMethods = {"createPMEventWarningAnnouncementStatusProcessCompletionTest"})
     public void transferPMEventWarningAnnouncementStatusAnObjectionTest() throws Exception {
         authorization("supervisor");
         choiceMode(true);
@@ -102,10 +102,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено",
-            dependsOnMethods = {"transferPMEventPreventiveVisitStatusLookingForwardTest"})
+            dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     public void transferPMEventPreventiveVisitStatusCompletedTest() throws Exception {
+        installPlugin();
         authorization("supervisor");
         choiceMode(true);
+        gotoListPreventionEventsPage();
+        openCard(numberPMPreventiveVisitPublished);
+        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusCompleted();
@@ -119,11 +123,14 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
      * @author Frolova S.I 01.2022
      */
     @Test(description = "Перевод Профилактического визита из статуса Ожидает проведения в статус отказ в проведении",
-            dependsOnMethods = {"transferPMEventPreventiveVisitStatusLookingForwardTest"})
+            dependsOnMethods = {"createPMEventPreventiveVisitStatusProcessCompletionTest"})
     public void transferPMEventPreventiveVisitStatusRefusalToConductTest() throws Exception {
         installPlugin();
         authorization("supervisor");
         choiceMode(true);
+        gotoListPreventionEventsPage();
+        openCard(numberPMPreventiveVisitPublished);
+        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusRefusalToConduct(currentDate);
@@ -142,15 +149,15 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        openCard(numberPMEventWarningPublished);
-        //clickActionButton();
+        openCard(numberPMPreventiveVisitPublished);
+        clickConfirmButton();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
         closeNotification();
         checkStatusPM(statusDeleted);
         gotoListPreventionEventsPage();
-        searchRequest(numberPMEventWarningPublished);
-        checkKNMOrPM(numberPMEventWarningPublished, statusDeleted, false);
+        searchRequest(numberPMPreventiveVisitPublished);
+        checkKNMOrPM(numberPMPreventiveVisitPublished, statusDeleted, false);
         logout();
 
     }

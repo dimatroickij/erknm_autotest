@@ -28,7 +28,7 @@ public class Common {
     public ReadParameters readParameters = new ReadParameters();
 
     public String url = readParameters.getParameter("url", "test");
-    public String openUrl = readParameters.getPublicUrl("test");
+    public String openUrl = readParameters.getParameter("url", "testOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
 
@@ -148,7 +148,7 @@ public class Common {
 
     String selectValueByText = "//div[contains(@class, 'SelectInput') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
-
+    String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
     public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
     //информация для заполнения КНМ
     public String number = "1";
@@ -632,7 +632,8 @@ public class Common {
      */
     @Step("Выбор значения из выпадающего списка по номеру записи {number}")
     public void setValueDropDownToNumber(Integer number) {
-        $(By.xpath(String.format(selectValueByNumber, number))).click();
+        //$(By.xpath(String.format(selectValueByNumber, number))).click();
+        $(By.xpath(electronicSignature)).click();
     }
 
     /**

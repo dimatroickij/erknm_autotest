@@ -6,12 +6,13 @@
                 <url name="demo" value="http://demoproverki.wavea.cc/">http://demoproverki-public.wavea.cc</url>
                 <url name="dev" value="http://devproverki.wavea.cc/">http://knilrats-cluster.wavea.cc</url>
                 <url name="test" value="http://private.proverki.local/">http://proverki.local</url>
+                <url name="testOpen" value="http://proverki.local/">http://proverki.local</url>
             </urls>
             <users>
                 <user name="supervisor" value="P@ssw0rd"/>
                 <user name="prosecutor" value="P@ssw0rd"/>
-                <user name="ombudsman" value="@@@@@"/>
-                <user name="admin" value="@@@@@"/>
+                <user name="ombudsman" value="P@ssw0rd"/>
+                <user name="sysadmin" value="P@ssw0rd"/>
             </users>
 
             <data>

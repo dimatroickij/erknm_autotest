@@ -110,6 +110,7 @@ public class ListPreventionEventsPage extends Common {
     @Step("Заполнение поля Дата начала - {date}")
     public void setStartDate(String date) {
         $(By.xpath(startDateField)).setValue(date);
+        System.out.println(date);
     }
 
     /**
@@ -334,6 +335,7 @@ public class ListPreventionEventsPage extends Common {
         setKindControlAndNumberPMDropDown(view);
         setKindPMDropDown(typePM);
         setStartDate(date);
+        //setStopDate(date);
         setInnField(inn);
         addObjectData(typeObject, viewObject, classDanger);
         clickSaveButton();
@@ -487,6 +489,7 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении")
     public void transferPMEventPreventiveVisitStatusRefusalToConduct(String date) {
+        clickConfirmButton();
         setPresenceOfDisagreementDropDown("Да");
         setDatePresenceOfDisagreementField(date);
         clickSaveButton();

@@ -122,13 +122,9 @@ public class ListPlansTest extends ListPlanPage {
     }
 
 
-//    @Test(description = "Создание проверок в статусе Исключено")
-//    public void exceptionTest() throws Exception {
-//        createPlanTest();
-//        addPlannedKNMInPlanTest();
-//        transferPlanStatusOnConsiderationTest();
-//        transferPlanStatusReviewed();
-//        transferPlanStatusApprovedTest();
-//    }
+    @Test(description = "Создание проверок в статусе Исключено", dependsOnMethods = {"transferPlanStatusApprovedTest"})
+    public void exceptionTest() throws Exception {
+        authorization("supervisor");
+    }
 
 }

@@ -6,12 +6,12 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ListEventsPage extends Common {
 //раздел Список КНМ
@@ -27,6 +27,7 @@ public class ListEventsPage extends Common {
     String kindKNMDropDown = "//*[@id='kindKnm']"; // Выпадающий список Вид КНМ
     String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
+    String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
     String innListField = "//*[@id='autoCompleteList']"; // Появившийся список ИНН
@@ -186,10 +187,37 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение поля Дата начала КНМ
+     *
+     * @param date дата ДД.ММ.ГГГГ
      */
     @Step("Заполнение поля Дата начала КНМ - {date}")
     public void setStartKNMDate(String date) {
-        $(By.xpath(startKNMDate)).setValue(date);
+        try {
+            if(date == null) {
+                return;
+            }
+            $(By.xpath(startKNMDate)).setValue(date);
+        } catch (Exception e) {
+            System.out.println("Ошибка на шаге заполнения поля Дата начала КНМ");
+        }
+
+    }
+
+    /**
+     * Заполнение поля Дата окончания КНМ
+     *
+     * @param date дата ДД.ММ.ГГГГ
+     */
+    @Step("Заполнение поля Дата окончания КНМ - {date}")
+    public void setStopKNMDate(String date) {
+        try {
+            if (date == null) {
+                return;
+            }
+            $(By.xpath(stopKNMDate)).setValue(date);
+        } catch (Exception e) {
+            System.out.println("Ошибка на шаге заполнения поля Дата окончания КНМ");
+        }
     }
 
     /**
@@ -602,15 +630,19 @@ public class ListEventsPage extends Common {
      * @param inn            ИНН
      */
     @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
-            "Вид КНМ - {kind}, Дата начала КНМ - {date}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
-    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String date, String nameProsecutor,
-                                String inn) {
+            "Вид КНМ - {kind}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String startDate, String stopDate,
+                                String nameProsecutor, String inn) {
         clickAddButton();
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(kind);
         setCharacterKNMDropDown(unplannedCheck);
-        setStartKNMDate(date);
+        sleep(5000);
+        setStartKNMDate(startDate);
+        sleep(5000);
+        setStopKNMDate(stopDate);
+        sleep(5000);
         setNameProsecutorDropDown(nameProsecutor);
         setInnField(inn);
         setTypeObjectDropDown();
@@ -631,9 +663,10 @@ public class ListEventsPage extends Common {
     @Step("Создание плановой КНМ через план: Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, " +
             "Дата начала КНМ - {date}, ИНН - {inn}")
     public String addPlannedKNM(String viewKNO, String kind, String date, String inn) throws InterruptedException {
+        setStartKNMDate(date);
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(kind);
-        setStartKNMDate(date);
+
         addGroundsIncludePlan(date);
         setInnField(inn);
         setTypeObjectDropDown();
