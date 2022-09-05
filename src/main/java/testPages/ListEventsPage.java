@@ -28,6 +28,9 @@ public class ListEventsPage extends Common {
     String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
     String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
+    String errorStopKNMDate = "//div[@class='DatePicker_DatePickerError__19c5M']"; // Текст ошибки под полем Дата окончания КНМ
+    String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
+    String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
     String innListField = "//*[@id='autoCompleteList']"; // Появившийся список ИНН
@@ -217,6 +220,40 @@ public class ListEventsPage extends Common {
             $(By.xpath(stopKNMDate)).setValue(date);
         } catch (Exception e) {
             System.out.println("Ошибка на шаге заполнения поля Дата окончания КНМ");
+        }
+    }
+
+    /**
+     * Заполнение поля Срок непосредственного взаимодействия дней
+     *
+     * @param days колличество дней до 365
+     */
+    @Step("Заполнение поля Срок непосредственного взаимодействия дней - {days}")
+    public void interactionTimeDays(String days) {
+        try {
+            if (days == null) {
+                return;
+            }
+            $(By.xpath(interactionTimeDays)).setValue(days);
+        } catch (Exception e) {
+            System.out.println("Ошибка на шаге заполнения поля Срок непосредственного взаимодействия дней");
+        }
+    }
+
+    /**
+     * Заполнение поля Срок непосредственного взаимодействия часов
+     *
+     * @param hours колличество часов до 256
+     */
+    @Step("Заполнение поля Срок непосредственного взаимодействия часов - {hours}")
+    public void interactionTimeHours(String hours) {
+        try {
+            if (hours == null) {
+                return;
+            }
+            $(By.xpath(interactionTimeHours)).setValue(hours);
+        } catch (Exception e) {
+            System.out.println("Ошибка на шаге заполнения поля Срок непосредственного взаимодействия часов");
         }
     }
 
@@ -630,9 +667,11 @@ public class ListEventsPage extends Common {
      * @param inn            ИНН
      */
     @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
-            "Вид КНМ - {kind}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+            "Вид КНМ - {kind}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
+            "Срок непосредственного взаимодействия дней - {days}, Срок непосредственного взаимодействия часов - {hours}," +
+            " Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
     public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String startDate, String stopDate,
-                                String nameProsecutor, String inn) {
+                                String days, String hours, String nameProsecutor, String inn) {
         clickAddButton();
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
@@ -643,6 +682,8 @@ public class ListEventsPage extends Common {
         sleep(5000);
         setStopKNMDate(stopDate);
         sleep(5000);
+        interactionTimeDays(days);
+        interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
         setInnField(inn);
         setTypeObjectDropDown();

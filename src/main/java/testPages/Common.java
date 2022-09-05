@@ -175,7 +175,10 @@ public class Common {
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
-    public String closeMessageButton = "//*[contains(@class,'Notification_CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
+    public String closeMessageButton = "//button[@class='Notification_CloseButton__2qh4j']"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
+    public String textMessage = "//div[@class='Notification_ClosingNotificationText__2hGjl']"; // текст сообщения
+    public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']/span";  // [!] иконка сообщающая об ошибке при заполнении
+    public String emptyFields = "//div[@class='ErrorsIcon_ErrorsTooltip__1HfXo ErrorsIcon_ErrorsTooltipVisible__3_96_']//a"; // незаполненные поля под [!]
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -186,6 +189,8 @@ public class Common {
     public static String currentDate = "01.02.2023";
     public static String currentDateTime = "";
     public static String futureDate = "01.03.2023";
+    public static String interactionDays = "1"; // Дней непосредственного взаимодействия
+    public static String interactionHours = "1"; // Часов непосредственного взаимодействия
     public String choiceSignature = "//*[@id='certs']/div/div[1]";
 
     public String exclusionGround = "В связи с ликвидацией организации, прекращением гражданином деятельности в качестве индивидуального предпринимателя, влекущими невозможность проведения контрольного (надзорного) мероприятия";
@@ -613,6 +618,38 @@ public class Common {
     @Step("Нажатие на крестик закрытия сообщения")
     public void closeNotification() {
         $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(15)).click();
+    }
+
+    /**
+     * Проверка текста сообщения на соответствие
+     *
+     * @param text Ожидаемый текст сообщения
+     */
+    @Step("Проверка текста из сообщения")
+    public void checkTextNotification(String text) {
+        $(By.xpath(textMessage)).should(visible, Duration.ofSeconds(15)).should(Text.text(text));
+    }
+
+    /**
+     * Проверка названий не заполненных полей в блоке [!]
+     *
+     * @param namesInput Строковый массив названий полей
+     */
+    @Step("Проверка названий не заполненных полей в блоке [!]")
+    public void checkNamesEmptyFields(String[] namesInput) {
+        for(int i = 0; i < namesInput.length; i++) {
+            $$ (emptyFields).findBy(text(namesInput[i])).shouldBe(visible);
+        }
+    }
+
+    /**
+     * Проверка текста ошибки под полем на соответсвие
+     *
+     * @param text Ожидаемый текст ошибки
+     */
+    @Step("Проверка текста ошибки под полем")
+    public void checkTextErrorField(String text) {
+        $(By.xpath(textMessage)).should(visible, Duration.ofSeconds(15)).should(Text.text(text));
     }
 
     /**

@@ -26,7 +26,10 @@ public class TestERKNM extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, null, prosecutorsOffice, INN);
-        numberKNM = getNumberKNM();
+        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, null, interactionDays, null, prosecutorsOffice, INN);
+        checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
+        String[] nameFields = {"Дата окончания КНМ"};
+        checkNamesEmptyFields(nameFields);
+
     }
 }
