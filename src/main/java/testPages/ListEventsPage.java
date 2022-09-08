@@ -4,14 +4,17 @@ import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.UUID;
 
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
+import static java.lang.Thread.sleep;
 
 public class ListEventsPage extends Common {
 //раздел Список КНМ
@@ -28,15 +31,21 @@ public class ListEventsPage extends Common {
     String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
     String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
-    String errorStopKNMDate = "//div[@class='DatePicker_DatePickerError__19c5M']"; // Текст ошибки под полем Дата окончания КНМ
+    public String nameInputStopKNMDate = "Дата окончания КНМ"; // Название поля Дата окончания КНМ
+    public String errorStopKNMDate = "//div[@class='DatePicker_DatePickerError__19c5M']"; // Текст ошибки под полем Дата окончания КНМ
     String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
     String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
-    String innListField = "//*[@id='autoCompleteList']"; // Появившийся список ИНН
+    String innListField = "//*[@id='autoCompleteList']/li"; // Появившийся список ИНН
 
     String numberPlanField = "//*[@id='planId']"; // Номер плана
-    String durationDaysField = "//*[@name='durationDays']"; // Срок проведения(дней)
+    public String durationDaysField = "//*[@name='durationDays']"; // Срок проведения(дней)
+    public String nameInputDurationDaysField = "Срок проведения (дней)"; // Название поля Срок проведения (дней)
+    public String clearDurationDays = "//div[@class='TextInput_InputField__L6W0V shared-row-field TextInput_InputFieldDisabled" +
+            "__1dQ1R']//button"; // Иконка [X] удаления данных из поля Срок проведения(дней)
+    public String textUnderDurationDaysField = "//div[@class='CanBeChangedInNonWorkDaysMessage_CanBeChangedInNonWorkDays" +
+            "Message__VLFba']"; // Текс под полем Срок проведения (дней)
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде " +
@@ -276,17 +285,29 @@ public class ListEventsPage extends Common {
     @Step("Заполнить поле ИНН, выбрать из появившегося окна - {INN}")
     public void setInnField(String INN) {
         $(By.xpath(innField)).setValue(INN);
-        $(By.xpath(innListField)).click();
+        $(By.xpath(innListField)).shouldBe(visible, Duration.ofSeconds(10000)).click();
     }
 
     /**
      * Получение номера КНМ
      */
     @Step("Получение номера КНМ")
-    public String getNumberKNM() {
-        String number = $(By.xpath(numberKNM)).getText().split(" ")[1];
+    public String getNumberKNM() throws InterruptedException {
+        sleep(3000);
+        String number = $(By.xpath(numberKNM)).shouldBe(visible, Duration.ofSeconds(15)).getText().split(" ")[1];
         System.out.println("НОМЕР - " + number);
         return number;
+    }
+
+    /**
+     * Получение значения из поля Срок проведения (дней) и сравнение с ожидаемым значением
+     *
+     * @param days Ожидаемое количество дней
+     */
+    @Step("Проверка значения в поле Срок проведения (дней) - {days} дней")
+    public void checkDurationOfDays(String days) throws InterruptedException {
+        sleep(3000);
+        $(By.xpath(durationDaysField)).scrollIntoView(false).shouldHave(value(days));
     }
 
     /**
@@ -306,7 +327,11 @@ public class ListEventsPage extends Common {
      */
     @Step("Заполнение поля Срок проведения(дней) - {days} дней")
     public void setDurationDaysField(String days) {
-        $(By.xpath(durationDaysField)).setValue(days);
+        try {
+            $(By.xpath(durationDaysField)).setValue(days);
+        } catch (Exception e) {
+            System.out.println("Ошибка при заполнении поля Срок проведения дней");
+        }
     }
 
     /**
@@ -677,11 +702,8 @@ public class ListEventsPage extends Common {
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(kind);
         setCharacterKNMDropDown(unplannedCheck);
-        sleep(5000);
         setStartKNMDate(startDate);
-        sleep(5000);
         setStopKNMDate(stopDate);
-        sleep(5000);
         interactionTimeDays(days);
         interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
@@ -690,7 +712,7 @@ public class ListEventsPage extends Common {
         setKindObjectDropDown();
         setDangerClassDropDown();
         clickSaveButton();
-        closeNotification();
+        //closeNotification();
     }
 
     /**

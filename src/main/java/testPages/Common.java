@@ -51,7 +51,7 @@ public class Common {
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
-    public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
+    public String prosecutorsOffice = "Ярославская область, Тестовая Прокуратура Ярославской области";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
     //Основное меню (на всех страницах)
@@ -177,8 +177,9 @@ public class Common {
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
     public String closeMessageButton = "//button[@class='Notification_CloseButton__2qh4j']"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
     public String textMessage = "//div[@class='Notification_ClosingNotificationText__2hGjl']"; // текст сообщения
-    public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']/span";  // [!] иконка сообщающая об ошибке при заполнении
+    public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']";  // [!] иконка сообщающая об ошибке при заполнении
     public String emptyFields = "//div[@class='ErrorsIcon_ErrorsTooltip__1HfXo ErrorsIcon_ErrorsTooltipVisible__3_96_']//a"; // незаполненные поля под [!]
+    public String textErrorInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -186,9 +187,10 @@ public class Common {
     public String typeItemNews = "//*[text()='Новость']";
     public String INN = readParameters.getParameter("information", "inn");// "7811689828";
     public String menuButton = "//*[@id='userMenuButton']";
-    public static String currentDate = "01.02.2023";
+    public static String currentDate = ""; // Формирует сегодняшнюю дату
     public static String currentDateTime = "";
-    public static String futureDate = "01.03.2023";
+    public static String futureDate = ""; // Формирует дату на год позже
+    public static String weekendDate = "21.01.2023"; // Дата выходного дня
     public static String interactionDays = "1"; // Дней непосредственного взаимодействия
     public static String interactionHours = "1"; // Часов непосредственного взаимодействия
     public String choiceSignature = "//*[@id='certs']/div/div[1]";
@@ -336,6 +338,24 @@ public class Common {
     }
 
     /**
+     * Выбор режима ЕРП
+     *
+     */
+    @Step("Переключение в режим ЕРП")
+    public void selectionERP() {
+        choiceMode(false);
+    }
+
+    /**
+     * Выбор режима ЕРКНМ
+     *
+     */
+    @Step("Переключение в режим ЕРКНМ")
+    public void selectionERKNM() {
+        choiceMode(true);
+    }
+
+    /**
      * Заполнение поля Логин
      *
      * @param login Логин
@@ -461,7 +481,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Сохранить")
     public void clickSaveButton() {
-        $(By.xpath(saveButton)).click();
+        $(By.xpath(saveButton)).scrollIntoView(false).click();
     }
 
     /**
@@ -617,7 +637,7 @@ public class Common {
      */
     @Step("Нажатие на крестик закрытия сообщения")
     public void closeNotification() {
-        $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(15)).click();
+        $(By.xpath(closeMessageButton)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).click();
     }
 
     /**
@@ -635,21 +655,68 @@ public class Common {
      *
      * @param namesInput Строковый массив названий полей
      */
-    @Step("Проверка названий не заполненных полей в блоке [!]")
+    @Step("Проверка названий не заполненных полей в блоке [!] - {namesInput}")
     public void checkNamesEmptyFields(String[] namesInput) {
+        $(By.xpath(iconError)).scrollIntoView(false).click();
         for(int i = 0; i < namesInput.length; i++) {
-            $$ (emptyFields).findBy(text(namesInput[i])).shouldBe(visible);
+            $$ (By.xpath(emptyFields)).findBy(text(namesInput[i])).shouldBe(visible);
         }
     }
 
     /**
-     * Проверка текста ошибки под полем на соответсвие
+     * Проверка текста под полем на соответствие
      *
+     * @param nameInput Наименование поля
+     * @param locator Локатор проверяемого поля
      * @param text Ожидаемый текст ошибки
      */
-    @Step("Проверка текста ошибки под полем")
-    public void checkTextErrorField(String text) {
-        $(By.xpath(textMessage)).should(visible, Duration.ofSeconds(15)).should(Text.text(text));
+    @Step("Проверка текста под полем - {nameInput}, {text}")
+    public void checkTextErrorField(String nameInput, String locator, String text) {
+        $(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(text));
+    }
+
+    /**
+     * Проверка на отсутствие(невидимость) элемента на странице
+     *
+     * @param nameElement Название проверяемого элемента
+     * @param locator Локатор проверяемого элемента
+     */
+    @Step("Проверка на отсутствие элемента на странице - {nameElement}")
+    public void checkElementVisible(String nameElement,  String locator) {
+        $(By.xpath(locator)).shouldNotBe(visible);
+    }
+
+    /**
+     * Проверка на то что элемент не доступен для нажатия, редактирования
+     *
+     * @param nameElement Название проверяемого элемента
+     * @param locator Локатор проверяемого элемента
+     */
+    @Step("Проверка на недоступность элемента - {nameElement}")
+    public void checkElementNotAvailable(String nameElement, String locator) {
+       $(By.xpath(locator)).shouldBe(disabled);
+    }
+
+    /**
+     * Проверка на то что элемент доступен для нажатия, редактирования
+     *
+     * @param nameElement Название проверяемого элемента
+     * @param locator Локатор проверяемого элемента
+     */
+    @Step("Проверка на доступность элемента - {nameElement}")
+    public void checkElementAvailable(String nameElement, String locator) {
+        $(By.xpath(locator)).shouldNotBe(disabled);
+    }
+
+    /**
+     * Отчистка поля нажатием на [X]
+     *
+     * @param nameField Название поля
+     * @param locator Локатор элемента [X]
+     */
+    @Step("Отчистка поля - {nameField}")
+    public void clearField(String nameField, String locator) {
+        $(By.xpath(locator)).click();
     }
 
     /**
