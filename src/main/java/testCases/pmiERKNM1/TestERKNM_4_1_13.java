@@ -14,8 +14,8 @@ import static java.lang.Thread.sleep;
  * непосредственного взаимодействия (дней)» в зависимости от критериев проводимого КНМ.
  */
 
-public class TestERKNM extends ListEventsPage {
-    public TestERKNM() throws Exception {
+public class TestERKNM_4_1_13 extends ListEventsPage {
+    public TestERKNM_4_1_13() throws Exception {
     }
 
     public String numberKNM;
@@ -64,10 +64,10 @@ public class TestERKNM extends ListEventsPage {
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, null, interactionHours,
                 prosecutorsOffice, INN);
-        checkDurationOfDays("1");
+        checkValueOfField("Срок проведения дней", durationDaysField,"1");
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
-        clearField(nameInputDurationDaysField, clearDurationDays);
+        clickButtonClearField(nameInputDurationDaysField, clearDurationDays);
         setDurationDaysField("365");
         closeNotification();
         clickSaveButton();
@@ -107,8 +107,8 @@ public class TestERKNM extends ListEventsPage {
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
-        checkDurationOfDays("5");
-        clearField(nameInputDurationDaysField, clearDurationDays);
+        checkValueOfField("Срок проведения дней", durationDaysField,"5");
+        clickButtonClearField(nameInputDurationDaysField, clearDurationDays);
         checkElementAvailable(nameInputDurationDaysField, durationDaysField);
     }
 
@@ -133,9 +133,52 @@ public class TestERKNM extends ListEventsPage {
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
-        checkDurationOfDays("0");
-        clearField(nameInputDurationDaysField, clearDurationDays);
+        checkValueOfField("Срок проведения дней", durationDaysField,"0");
+        clickButtonClearField(nameInputDurationDaysField, clearDurationDays);
         checkElementAvailable(nameInputDurationDaysField, durationDaysField);
     }
+
+    /**
+     * Цель: Проверка наличия поля «Срок непосредственного взаимодействия (дней)», а также алгоритмов доступности для
+     * ввода значений в поля «Срок непосредственного взаимодействия (дней)» и «Срок непосредственного взаимодействия (часов)».
+     * A.1.1.3
+     *
+     * @author Kirilenko P.A. 09.2022
+     */
+    @Epic("4.1.13")
+    @Feature("ЕРКНМ")
+    @Story("КНМ")
+    @Test(description = "A.1.1.3. Проверка наличия поля «Срок непосредственного взаимодействия (дней)», а также " +
+            "алгоритмов доступности для ввода значений в поля «Срок непосредственного взаимодействия (дней)» и «Срок " +
+            "непосредственного взаимодействия (часов)»")
+    public void createEventWitchCheckFieldsInteractionTime() throws Exception {
+        authorization("supervisor");
+        selectionERKNM();
+        gotoListKNMPage();
+        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, "", "",
+                prosecutorsOffice, INN);
+        String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
+                "Срок непосредственного взаимодействия (часов)"};
+        checkNamesEmptyFields(nameFields);
+        checkTextErrorField("Срок непосредственного взаимодействия (дней)", errorInteractionTimeDays,
+                textErrorInput);
+        checkTextErrorField("Срок непосредственного взаимодействия (часов)", errorInteractionTimeHours,
+                textErrorInput);
+        interactionTimeHours("256");
+        checkElementNotAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
+        checkValueOfField("Срок непосредственного взаимодействия (дней)", interactionTimeDays,"");
+        closeNotification();
+        clickSaveButton();
+        getNumberKNM();
+        clearInput("Срок непосредственного взаимодействия (часов)", interactionTimeHours);
+        interactionTimeDays("356");
+        closeNotification();
+        clickSaveButton();
+        checkElementNotAvailable("Срок непосредственного взаимодействия (часов)", interactionTimeHours);
+        checkValueOfField("Срок непосредственного взаимодействия (часов)", interactionTimeHours,"");
+        checkValueOfField("Срок непосредственного взаимодействия (дней)", interactionTimeDays,"356");
+        checkElementAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
+    }
+
 
 }

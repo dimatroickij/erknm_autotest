@@ -225,7 +225,7 @@ public class ListPlanPage extends Common {
      * @param number номер плана
      */
     @Step("Перевод плана в статус На рассмотрении")
-    public void transferPlanStatusOnConsideration(String number) {
+    public void transferPlanStatusOnConsideration(String number) throws InterruptedException {
         openCardPlan(number);
         clickActionsHeaderButton();
         clickSignatureButton();

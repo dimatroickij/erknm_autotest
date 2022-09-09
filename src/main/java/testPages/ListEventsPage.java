@@ -33,8 +33,12 @@ public class ListEventsPage extends Common {
     String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
     public String nameInputStopKNMDate = "Дата окончания КНМ"; // Название поля Дата окончания КНМ
     public String errorStopKNMDate = "//div[@class='DatePicker_DatePickerError__19c5M']"; // Текст ошибки под полем Дата окончания КНМ
-    String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
-    String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
+    public String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
+    public String errorInteractionTimeDays = "//div[@id='directDurationDaysBlock']//" +
+            "div[@class='TextInput_TextInputError__3EVBp']"; // Текст ошибки под полем Срок непосредственного взаимодействия дней
+    public String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
+    public String errorInteractionTimeHours = "//div[@id='durationHoursBlock']//" +
+            "div[@class='TextInput_TextInputError__3EVBp']"; // Текст ошибки под полем Срок непосредственного взаимодействия часов
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
     String innListField = "//*[@id='autoCompleteList']/li"; // Появившийся список ИНН
@@ -48,6 +52,10 @@ public class ListEventsPage extends Common {
             "Message__VLFba']"; // Текс под полем Срок проведения (дней)
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
+    String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
+    String orderDateInput = "//input[@class='DatePicker_Input__1FFmH DatePicker_InputInvalid__12R6T']"; // Поле Дата поручения в блоке Основания проведения КНМ
+    public String detailsRequirementInput = "//*[@id=\"reasonsErknm[0].requirementDetails\"]"; // Поле Реквизиты требования в блоке Основания проведения КНМ
+    public String textUnderDetailsRequirement = "//div[@class='Textarea_TextareaError__1m0qx']"; // Текст под полем Реквизиты требования в блоке Основания проведения КНМ
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде " +
             "контроля период времени с даты окончания проведения последнего планового контрольного (надзорного) " +
             "мероприятия"; // Основание включения в план
@@ -299,16 +307,6 @@ public class ListEventsPage extends Common {
         return number;
     }
 
-    /**
-     * Получение значения из поля Срок проведения (дней) и сравнение с ожидаемым значением
-     *
-     * @param days Ожидаемое количество дней
-     */
-    @Step("Проверка значения в поле Срок проведения (дней) - {days} дней")
-    public void checkDurationOfDays(String days) throws InterruptedException {
-        sleep(3000);
-        $(By.xpath(durationDaysField)).scrollIntoView(false).shouldHave(value(days));
-    }
 
     /**
      * Заполнение поля Номер плана
@@ -389,6 +387,7 @@ public class ListEventsPage extends Common {
     public void clickAddObjectControlKNMButton() {
         $(By.xpath(addObjectControlKNMButton)).click();
     }
+
 
     /**
      * Заполнение поля Местонахождение
@@ -559,16 +558,18 @@ public class ListEventsPage extends Common {
      */
     @Step("Нажатие на кнопку Добавить в блоке Основания проведения КНМ")
     public void clickAddGroundConductingButton() {
-        $(By.xpath(addGroundConductingButton)).click();
+        $(By.xpath(addGroundConductingButton)).scrollIntoView(false).click();
     }
 
     /**
      * Заполнение выпадающего списка Основание регистрации КНМ
+     *
+     * @param parameter Необходимое основание из списка
      */
-    @Step("Заполнение выпадающего списка Основание регистрации КНМ - {groundConduction}")
-    public void setGroundConductingDropDown() {
+    @Step("Заполнение выпадающего списка Основание регистрации КНМ - {parameter}")
+    public void setGroundConductingDropDown(String parameter) {
         $(By.xpath(groundConductingDropDown)).click();
-        setValueDropDownToText(groundConduction);
+        setValueDropDownToText(parameter);
     }
 
     /**
@@ -576,7 +577,7 @@ public class ListEventsPage extends Common {
      *
      * @param parameter необходимый параметр
      */
-    @Step("Заполнение выпадающего списка Необходимость согласования - {needCoordination}")
+    @Step("Заполнение выпадающего списка Необходимость согласования - {parameter}")
     public void setNeedCoordinationDropDown(String parameter) {
         $(By.xpath(needCoordinationDropDown)).click();
         setValueDropDownToText(parameter);
@@ -716,6 +717,41 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Заполнение обязательных полей при создании КНМ
+     *
+     * @param nameKNO        Наименование органа контроля
+     * @param viewKNO        Вид контроля (надзора) и его нормер
+     * @param kind           Вид КНМ
+     * @param character      Характер КНМ
+     * @param startDate      Дата начала КНМ
+     * @param stopDate       Дата окончания КНМ
+     * @param days           Срок непосредственного взаимодействия дней
+     * @param hours          Срок непосредственного взаимодействия часов
+     * @param nameProsecutor Наименование прокуратуры
+     * @param inn            ИНН
+     */
+    @Step("Заполнение обязательных полей КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
+            "Вид КНМ - {kind}, Характер КНМ - {character}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
+            "Срок непосредственного взаимодействия дней - {days}, Срок непосредственного взаимодействия часов - {hours}," +
+            " Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+    public void setRequiredFieldsKNM(String nameKNO, String viewKNO, String kind, String character, String startDate,
+                                String stopDate, String days, String hours, String nameProsecutor, String inn) {
+        setNameKNODropDown(nameKNO);
+        setKindControlAndNumberDropDown(viewKNO);
+        setKindKNMDropDown(kind);
+        setCharacterKNMDropDown(character);
+        setStartKNMDate(startDate);
+        setStopKNMDate(stopDate);
+        interactionTimeDays(days);
+        interactionTimeHours(hours);
+        setNameProsecutorDropDown(nameProsecutor);
+        setInnField(inn);
+        setTypeObjectDropDown();
+        setKindObjectDropDown();
+        setDangerClassDropDown();
+    }
+
+    /**
      * Создание плановой КНМ через план
      *
      * @param viewKNO Вид контроля (надзора) и его номер
@@ -761,20 +797,71 @@ public class ListEventsPage extends Common {
     /**
      * Добавление блока Основания проведения КНМ для внеплановой КНМ
      *
-     * @param fPath путь к документу
-     * @param sPath путь к подписи
-     * @param param параметр требует/не требует согласования
+     * @param grounds            Основания проведения КНМ
+     * @param orderNumber        Номер поручения
+     * @param orderDate          Дата поручения
+     * @param detailsRequirement Реквизиты требования
+     * @param param              Параметр требует/не требует согласования
      */
-    @Step("Добавление блока Основания проведения КНМ для внеплановой КНМ")
-    public void addGroundsConductingUnscheduled(String fPath, String sPath, String param) {
+    @Step("Добавление блока Основания проведения КНМ для внеплановой КНМ: Основания проведения КНМ - {grounds}, " +
+            "Номер поручения - {orderNumber}, Дата поручения - {orderDate}, Реквизиты требования - {detailsRequirement}," +
+            "Параметр требует/не требует согласования - {param}")
+    public void addGroundsConductingUnscheduled(String grounds, String orderNumber, String orderDate,
+                                                String detailsRequirement, String param) {
         clickAddGroundConductingButton();
-        setGroundConductingDropDown();
+        setGroundConductingDropDown(grounds);
+        if(grounds == "4.0.18" || grounds == "4.0.19" || grounds == "4.0.20") {
+            setOrderNumber(orderNumber);
+            setOrderDate(orderDate);
+        } else if(grounds == "4.0.21") {
+            setDetailsRequirement(detailsRequirement);
+        }
         setNeedCoordinationDropDown(param);
-        clickAddFoundationButton();
-        setTypeDocumentDropDown();
-        clickAddFileButton();
-        addDocumentAndSignatureGroundsConducting(fPath, sPath);
-        clickUploadButton();
+    }
+
+    /**
+     * Заполнение поля Реквизиты требования в блоке Основания проведения КНМ
+     *
+     * @param detailsRequirement Реквизиты требования
+     */
+    @Step("Заполнение поля Реквизиты требования в блоке Основания проведения КНМ: Реквизиты требования - {detailsRequirement}")
+    public void setDetailsRequirement(String detailsRequirement) {
+        if(detailsRequirement == null) {
+            return;
+        }
+        else {
+            $(By.xpath(detailsRequirementInput)).setValue(detailsRequirement);
+        }
+    }
+
+    /**
+     * Заполнение поля Дата поручения в блоке Основания проведения КНМ
+     *
+     * @param orderDate Дата поручения
+     */
+    @Step("Заполнение поля Дата поручения в блоке Основания проведения КНМ: Дата поручения - {orderDate}")
+    private void setOrderDate(String orderDate) {
+        if(orderDate == null) {
+            return;
+        }
+        else {
+            $(By.xpath(orderDateInput)).setValue(orderDate);
+        }
+    }
+
+    /**
+     * Заполнение поля Номер поручения в блоке Основания проведения КНМ
+     *
+     * @param orderNumber Номер поручения
+     */
+    @Step("Заполнение поля Номер поручения в блоке Основания проведения КНМ: Номер поручения - {orderNumber}")
+    private void setOrderNumber(String orderNumber) {
+        if(orderNumber == null) {
+            return;
+        }
+        else {
+            $(By.xpath(orderNumberInput)).setValue(orderNumber);
+        }
     }
 
     /**
@@ -783,16 +870,16 @@ public class ListEventsPage extends Common {
      * @param fPath путь к документу
      * @param sPath путь к подписи
      */
-    @Step("Добавление блока Основания проведения КНМ для плановой КНМ")
-    public void addGroundsConductingPlanned(String fPath, String sPath) {
-        clickAddGroundConductingButton();
-        setGroundConductingDropDown();
-        clickAddFoundationButton();
-        setTypeDocumentDropDown();
-        clickAddFileButton();
-        addDocumentAndSignatureGroundsConducting(fPath, sPath);
-        clickUploadButton();
-    }
+//    @Step("Добавление блока Основания проведения КНМ для плановой КНМ")
+//    public void addGroundsConductingPlanned(String fPath, String sPath) {
+//        clickAddGroundConductingButton();
+//        setGroundConductingDropDown();
+//        clickAddFoundationButton();
+//        setTypeDocumentDropDown();
+//        clickAddFileButton();
+//        addDocumentAndSignatureGroundsConducting(fPath, sPath);
+//        clickUploadButton();
+//    }
 
     /**
      * Нажатие на кнопку На согласование
@@ -1074,14 +1161,14 @@ public class ListEventsPage extends Common {
      * @param stopDate            Дата окончания действий, осуществляемый в рамках КНМ
      */
     @Step("Перевод проверки из статуса В процессе заполнения в статус Готово к согласованию")
-    public void transferEventStatusReadyApproval(String dateTimePublication, String startDate, String stopDate) {
+    public void transferEventStatusReadyApproval(String dateTimePublication, String startDate, String stopDate) throws InterruptedException {
         setDateTimePublicationDecisionField(dateTimePublication);
         setSolutionNumberField(prefix);
         setPlaceDecisionField(placeDecision);
         setNameOfficialField(officialField);
         setPositionPersonSignedDecisionsDropDown();
         setDurationDaysField("1");
-        addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
+        //addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
         addListActions(startDate, stopDate);
         clickAddVenueButton();
         setVenueField(placeDecision);

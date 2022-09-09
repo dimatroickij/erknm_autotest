@@ -7,6 +7,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeSuite;
 
 import java.awt.*;
@@ -22,6 +23,7 @@ import java.util.concurrent.locks.LockSupport;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static java.lang.Thread.sleep;
 
 public class Common {
 
@@ -146,7 +148,7 @@ public class Common {
     public static String numberPMEventWarningPublished; // Номер ПМ
     public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
-    String selectValueByText = "//div[contains(@class, 'SelectInput') and text()='%s']"; // Локатор для выбора значения в выпадающем списке по тексту
+    String selectValueByText = "//div[contains(@class, 'SelectInput') and contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
     public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
@@ -403,7 +405,7 @@ public class Common {
      * Выбор подписи из выпадающего списка
      */
     @Step("Выбор подписи из выпадающего списка")
-    public void choiceSignature() {
+    public void choiceSignature() throws InterruptedException {
         sleep(5000);
         $(By.xpath(choiceSignature)).click();
         setValueDropDownToNumber(1);
@@ -709,14 +711,39 @@ public class Common {
     }
 
     /**
+     * Получение значения из поля и сравнение с ожидаемым значением
+     *
+     * @param nameField Название поля
+     * @param locator Локатор проверяемого поля
+     * @param value Ожидаемое значение
+     */
+    @Step("Проверка: значения в поле - {nameField} соответствует ожидаемому значению: {value}")
+    public void checkValueOfField(String nameField, String locator, String value) throws InterruptedException {
+        sleep(3000);
+        $(By.xpath(locator)).scrollIntoView(false).shouldHave(value(value));
+    }
+
+    /**
      * Отчистка поля нажатием на [X]
      *
      * @param nameField Название поля
      * @param locator Локатор элемента [X]
      */
     @Step("Отчистка поля - {nameField}")
-    public void clearField(String nameField, String locator) {
+    public void clickButtonClearField(String nameField, String locator) {
         $(By.xpath(locator)).click();
+    }
+
+    /**
+     * Стереть данные из поля ввода
+     *
+     * @param nameInput Название поля
+     * @param locator Локатор поля
+     */
+    @Step("Стереть данные из - {nameInput}")
+    public void clearInput(String nameInput, String locator) {
+        $(By.xpath(locator)).sendKeys(Keys.CONTROL + "a");
+        $(By.xpath(locator)).sendKeys(Keys.BACK_SPACE);
     }
 
     /**

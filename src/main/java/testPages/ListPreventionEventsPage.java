@@ -407,7 +407,7 @@ public class ListPreventionEventsPage extends Common {
      * @param date Дата окончания ПМ
      */
     @Step("Перевод Объявление предостережения в статус Предостережение объявлено")
-    public void transferPMEventWarningAnnouncementStatusWarningAnnounced(String date) {
+    public void transferPMEventWarningAnnouncementStatusWarningAnnounced(String date) throws InterruptedException {
         clickConfirmButton();
         setStopDate(date);
         setNoteWarningField(prefix + "авто Описание");
@@ -451,7 +451,7 @@ public class ListPreventionEventsPage extends Common {
      * @param date Дата окончания ПМ
      */
     @Step("Перевод Профилактического визита из статуса В процессе заполнения в статус Ожидает проведения")
-    public void transferPMEventPreventiveVisitStatusLookingForward(String date) {
+    public void transferPMEventPreventiveVisitStatusLookingForward(String date) throws InterruptedException {
         clickConfirmButton();
         setStopDate(date);
         addGroundsPM(grounds);
