@@ -19,11 +19,10 @@ import static java.lang.Thread.sleep;
 public class ListEventsPage extends Common {
 //раздел Список КНМ
 
-    public String prefix = UUID.randomUUID().toString();
+
     public String placeDecision = prefix + " автотестМесто"; // Значение для поля Место вынесения решения или похожих полей
     public String nameTitle = prefix + "авто"; // Значение для поля Наименование в блоке ОТ
     public String officialField = prefix + " autoFIO"; // Значение для поля ФИО должностного лица
-    String numberKNM = "//h3[contains(@class, 'KnmHeader_Title')]"; // Объект для получения номера КНМ
     String statusKNM = "//span[contains(@class, 'KnmHeader_Status')]"; // Статус КНМ
     String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; // Выпадающий список Наименование органа контроля
     String kindControlAndNumberDropDown = "//*[@id='kindControl']"; // Выпадающий список Вид контроля (надзора) и его номер
@@ -52,8 +51,10 @@ public class ListEventsPage extends Common {
             "Message__VLFba']"; // Текс под полем Срок проведения (дней)
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
-    String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
-    String orderDateInput = "//input[@class='DatePicker_Input__1FFmH DatePicker_InputInvalid__12R6T']"; // Поле Дата поручения в блоке Основания проведения КНМ
+    public String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
+    public String textUnderOrderNumberInput = "// "; // Текст под полем Номер поручения в блоке Основания проведения КНМ
+    public String orderDateInput = "//input[@class='DatePicker_Input__1FFmH DatePicker_InputInvalid__12R6T']"; // Поле Дата поручения в блоке Основания проведения КНМ
+    public String textUnderOrderDateInput = "//"; // Текст под полем Дата поручения в блоке Основания проведения КНМ
     public String detailsRequirementInput = "//*[@id=\"reasonsErknm[0].requirementDetails\"]"; // Поле Реквизиты требования в блоке Основания проведения КНМ
     public String textUnderDetailsRequirement = "//div[@class='Textarea_TextareaError__1m0qx']"; // Текст под полем Реквизиты требования в блоке Основания проведения КНМ
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде " +
@@ -829,9 +830,7 @@ public class ListEventsPage extends Common {
         if(detailsRequirement == null) {
             return;
         }
-        else {
-            $(By.xpath(detailsRequirementInput)).setValue(detailsRequirement);
-        }
+        $(By.xpath(detailsRequirementInput)).setValue(detailsRequirement);
     }
 
     /**
@@ -840,13 +839,11 @@ public class ListEventsPage extends Common {
      * @param orderDate Дата поручения
      */
     @Step("Заполнение поля Дата поручения в блоке Основания проведения КНМ: Дата поручения - {orderDate}")
-    private void setOrderDate(String orderDate) {
+    public void setOrderDate(String orderDate) {
         if(orderDate == null) {
             return;
         }
-        else {
-            $(By.xpath(orderDateInput)).setValue(orderDate);
-        }
+        $(By.xpath(orderDateInput)).setValue(orderDate);
     }
 
     /**
@@ -855,13 +852,11 @@ public class ListEventsPage extends Common {
      * @param orderNumber Номер поручения
      */
     @Step("Заполнение поля Номер поручения в блоке Основания проведения КНМ: Номер поручения - {orderNumber}")
-    private void setOrderNumber(String orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         if(orderNumber == null) {
             return;
         }
-        else {
-            $(By.xpath(orderNumberInput)).setValue(orderNumber);
-        }
+        $(By.xpath(orderNumberInput)).setValue(orderNumber);
     }
 
     /**

@@ -1,4 +1,4 @@
-package testCases.pmiERKNM1;
+package testCases.pmi1;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -39,7 +39,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Дата окончания КНМ"};
         checkNamesEmptyFields(nameFields);
-        checkTextErrorField(nameInputStopKNMDate, errorStopKNMDate, textErrorInput);
+        checkTextErrorField(nameInputStopKNMDate, errorStopKNMDate, textErrorNotNullInput);
         setStopKNMDate(currentDate);
         closeNotification();
         clickSaveButton();
@@ -161,9 +161,9 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
                 "Срок непосредственного взаимодействия (часов)"};
         checkNamesEmptyFields(nameFields);
         checkTextErrorField("Срок непосредственного взаимодействия (дней)", errorInteractionTimeDays,
-                textErrorInput);
+                textErrorNotNullInput);
         checkTextErrorField("Срок непосредственного взаимодействия (часов)", errorInteractionTimeHours,
-                textErrorInput);
+                textErrorNotNullInput);
         interactionTimeHours("256");
         checkElementNotAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
         checkValueOfField("Срок непосредственного взаимодействия (дней)", interactionTimeDays,"");

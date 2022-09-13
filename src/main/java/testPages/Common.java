@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import java.time.Duration;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -33,6 +34,7 @@ public class Common {
     public String openUrl = readParameters.getParameter("url", "testOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
+    public String prefix = UUID.randomUUID().toString();
 
     public String filePath = ".\\file\\sign.docx";
     public String signPath = ".\\file\\sign.docx.sig";
@@ -148,6 +150,7 @@ public class Common {
     public static String numberPMEventWarningPublished; // Номер ПМ
     public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
+    public String numberKNM = "//h3[contains(@class, 'KnmHeader_Title')]"; // Объект для получения номера КНМ
     String selectValueByText = "//div[contains(@class, 'SelectInput') and contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
@@ -181,7 +184,8 @@ public class Common {
     public String textMessage = "//div[@class='Notification_ClosingNotificationText__2hGjl']"; // текст сообщения
     public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']";  // [!] иконка сообщающая об ошибке при заполнении
     public String emptyFields = "//div[@class='ErrorsIcon_ErrorsTooltip__1HfXo ErrorsIcon_ErrorsTooltipVisible__3_96_']//a"; // незаполненные поля под [!]
-    public String textErrorInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
+    public String textErrorNotNullInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
+    public String textErrorIncorrectlyInput = "Поле заполнено некорректно"; // Текст сообщения об ошибке при некорректно заполненном поле
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";

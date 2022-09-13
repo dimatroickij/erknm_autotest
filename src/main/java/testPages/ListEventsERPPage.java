@@ -4,7 +4,11 @@ import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static java.lang.Thread.sleep;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
@@ -29,6 +33,7 @@ public class ListEventsERPPage extends Common {
 
     String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']//button"; // кнопка Добавить в разделе Основания регистрации  КНМ TODO должен быть идентификатор
     String groundRegistrationDropDown = "//*[@id ='reasons[0].type']"; //выпадающий список Основание регистрации КНМ
+    String nameProsecutorDropDown = "//div[@id=\"prosecutorOrganization\"]"; // Выпадающий список Наименование органа прокуратуры
 
     String nameKNODropDown = "//div[@id='knoOrganizationBlock']/div[2]"; //выпадающий список Наименование органа контроля TODO должен быть идентификатор
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора) TODO должен быть идентификатор
@@ -61,9 +66,19 @@ public class ListEventsERPPage extends Common {
 
     String addInspectorsButton = "//div[@id='inspectorsTitle']//button"; // Кнопка Добавить в блоке Уполномоченные на проведение проверки TODO должен быть идентификатор
     String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного TODO должен быть идентификатор
+    public String detailsRequirementInput = "//*[@id=\"reasons[0].requirementDetails\"]"; // Поле Реквизиты требования
+    public String textUnderDetailsRequirementInput = "//div[@class=\"Textarea_TextareaError__1m0qx\"]"; // Текст под полем Реквизиты требования
+    public String orderDateInput = "//input[@class=\"DatePicker_Input__1FFmH DatePicker_InputInvalid__12R6T\"]"; // Поле Дата поручения
+    public String textUnderOrderDateInput = "//div[@class=\"DatePicker_DatePickerError__19c5M\"]"; // Текст под полем Дата поручения
+    public String orderNumberInput = "//*[@id=\"reasons[0].assignmentNumber\"]"; // Поле Номер поручения
+    public String textUnderOrderNumberInput = "//div[@class='Textarea_TextareaError__1m0qx']"; // Текст под полем Номер поручения
 
     public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
+    String filtersButton = "//div[@class=\"KnmListPanel_Filters__2PbQw\"]/button"; // Кнопка фильтры
+    String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
+    String nameKNODropDownFiltrationBlock = "//"; // Выпадающий список Наименование органа контроля (надзора) в блоке   фильтров
+
 
     // Значения переменных для создания проверки
     public String numberOrders = "122345"; // Номер приказа
@@ -73,6 +88,7 @@ public class ListEventsERPPage extends Common {
     public String durationEventHours = "30"; // Срок проведения (часов)
     public String listControlMeasures = "Автотест"; // Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
     public String address = "Автотест"; // Местонахождение в блоке Объекты проведения КНМ
+
 
     public ListEventsERPPage() throws Exception {
     }
@@ -197,6 +213,9 @@ public class ListEventsERPPage extends Common {
      */
     @Step("Заполнение поля Срок проведения (дней) - {days}")
     public void setDurationEventDaysField(String days) {
+        if(days == null) {
+            return;
+        }
         $(By.xpath(durationEventDaysField)).setValue(days);
     }
 
@@ -207,6 +226,9 @@ public class ListEventsERPPage extends Common {
      */
     @Step("Заполнение поля Срок проведения (часов) - {hours}")
     public void setDurationEventHoursField(String hours) {
+        if(hours == null) {
+            return;
+        }
         $(By.xpath(durationEventHoursField)).setValue(hours);
     }
 
@@ -417,6 +439,7 @@ public class ListEventsERPPage extends Common {
         else setValueDropDownToNumber(1);
     }
 
+
     /**
      * Создание внеплановой проверки
      *
@@ -429,8 +452,11 @@ public class ListEventsERPPage extends Common {
      * @param isDeleteObject          Удаление объекта проведения КНМ, который создался автоматически из-за поиска ИНН
      * @param isNewObject             true - В карточке Объекты проведения КНМ не было заполнено автоматически Местонахождение и Тип места
      */
-    @Step("Создание внеплановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, " + "{isResresentatives}, {isDeleteObject}, {isNewObject}")
-    public String createUnscheduledEvent(String dateOrders, String dateStart, String dateStop, String groundRegistration, boolean isMandatoryRequirements, boolean isResresentatives, boolean isDeleteObject, boolean isNewObject) {
+    @Step("Создание внеплановой проверки - {dateOrders}, {dateStart}, {dateStop}, {isMandatoryRequirements}, "
+            + "{isResresentatives}, {isDeleteObject}, {isNewObject}")
+    public String createUnscheduledEvent(String dateOrders, String dateStart, String dateStop, String groundRegistration,
+                                         boolean isMandatoryRequirements, boolean isResresentatives, boolean isDeleteObject,
+                                         boolean isNewObject) {
         clickAddButton();
         setViewKNMDropDown(unscheduledCheck);
         setFormKMNDropDown(exitAndDocumentaryForm);
@@ -450,6 +476,54 @@ public class ListEventsERPPage extends Common {
         setListControlMeasuresField(listControlMeasures);
         return fillingCard(groundRegistration, isMandatoryRequirements, isResresentatives, isDeleteObject, isNewObject);
     }
+
+    /**
+     * Заполнение обязательных полей при создании КНМ в ЕРП
+     *
+     * @param kind                    Вид КНМ
+     * @param form                    Форма КНМ
+     * @param type                    Тип субъекта КНМ
+     * @param numberOrders            Номер приказа
+     * @param dateOrders              Дата приказа
+     * @param dateStart               Дата начала КНМ
+     * @param dateStop                Дата окончания КНМ
+     * @param durationOfDays          Срок проведения дней
+     * @param durationOfHours         Срок проведения часов
+     * @param prosecutorName          Наименование прокуратуры
+     * @param nameKNO                 Наименование органа контроля
+     * @param kindControl             Вид контроля (надзора)
+     * @param inn                     ИНН
+     */
+    @Step("Заполнение обязательных полей при создании КНМ в ЕРП: Вид КНМ - {kind}, Форма КНМ - {form}, Тип субъекта КНМ " +
+            "- {type}, Номер приказа - {numberOrders}, Дата приказа - {dateOrders}, Дата начала КНМ - {startDate}, " +
+            "Дата окончания КНМ - {dateStop}, Срок проведения дней - {durationEventDays}, Срок проведения часов - " +
+            "{durationOfHours}, Наименование органа контроля - {nameKNO}, Наименование прокуратуры - {prosecutorName}," +
+            "Вид контроля (надзора) - {kindControl}, ИНН - {inn}")
+    public void setRequiredFieldsKNMForERP(String kind, String form, String type, String numberOrders, String dateOrders,
+                                             String dateStart, String dateStop, String durationOfDays, String durationOfHours,
+                                           String prosecutorName, String nameKNO, String kindControl, String inn) {
+        setViewKNMDropDown(kind);
+        setFormKMNDropDown(form);
+        setTypeSubjectDropDown(type);
+        setNumberOrdersField(numberOrders);
+        setDateOrdersField(dateOrders);
+        setDateStartKNMField(dateStart);
+        setDateStopKNMField(dateStop);
+        clickAddLegalGroundsConductingButton();
+        clickAbsenceDirectoryRadioButton();
+        setLegalGroundsConductingField(legalGroundsConducting);
+        clickModalSaveButton();
+        setGoalsTasksSubjectField(goalsTasksSubject);
+        setDurationEventDaysField(durationOfDays);
+        setDurationEventHoursField(durationOfHours);
+        clickAddListControlMeasuresButton();
+        setListControlMeasuresField(listControlMeasures);
+        setNameProsecutorDropDown(prosecutorName);
+        setNameKNODropDown(nameKNO);
+        setKindControlDropDown(kindControl);
+        setInnField(inn);
+    }
+
 
     /**
      * Создание плановой проверки
@@ -547,4 +621,149 @@ public class ListEventsERPPage extends Common {
     public void clickModalTemplateDropDown() {
         $(By.xpath(modalTemplateDropDown)).click();
     }
+
+    /**
+     * Выбор из выпадающего списка Наименование прокуратуры
+     *
+     * @param name Наименование прокуратуры
+     */
+    @Step("Выбор из выпадающего списка Наименование прокуратуры - {name}")
+    public void setNameProsecutorDropDown(String name) {
+        $(By.xpath(nameProsecutorDropDown)).click(); // клик на выпадающем списке Наименование прокуратуры
+        setValueDropDownToText(name); // клик на нужной прокуратуре
+    }
+
+    /**
+     * Добавление Основания регистрации КНМ
+     *
+     * @param grounds            Основания проведения КНМ
+     * @param orderNumber        Номер поручения
+     * @param orderDate          Дата поручения
+     * @param detailsRequirement Реквизиты требования
+     */
+    @Step("Добавление Основания проведения КНМ - {grounds}, Номер поручения - {orderNumber}, Дата поручения - {orderDate}," +
+            " Реквизиты требования - {detailsRequirement},")
+    public void addGroundsConductingKNM(String grounds, String orderNumber, String orderDate, String detailsRequirement) {
+        clickAddGroundRegistrationButton();
+        setGroundRegistrationDropDown(grounds);
+        if(grounds == "1.2.18" || grounds == "1.2.27" || grounds == "4.0.20" || grounds == "3.2.6" || grounds == "3.2.7"
+        || grounds == "3.2.8" || grounds == "3.2.15" || grounds == "3.2.16") {
+            setOrderNumber(orderNumber);
+            setOrderDate(orderDate);
+        } else if(grounds == "3.2.9" || grounds == "3.2.17") {
+            setDetailsRequirement(detailsRequirement);
+        }
+    }
+
+    /**
+     * Заполнение поля Номер поручения в блоке Основания проведения КНМ
+     *
+     * @param orderNumber Номер поручения
+     */
+    @Step("Заполнение поля Номер поручения в блоке Основания проведения КНМ: Номер поручения - {orderNumber}")
+    public void setOrderNumber(String orderNumber) {
+        if(orderNumber == null) {
+            return;
+        }
+        $(By.xpath(orderNumberInput)).setValue(orderNumber);
+    }
+
+    /**
+     * Заполнение поля Дата поручения в блоке Основания проведения КНМ
+     *
+     * @param orderDate Дата поручения
+     */
+    @Step("Заполнение поля Дата поручения в блоке Основания проведения КНМ: Дата поручения - {orderDate}")
+    public void setOrderDate(String orderDate) {
+        if(orderDate == null) {
+            return;
+        }
+        $(By.xpath(orderDateInput)).setValue(orderDate);
+    }
+
+    /**
+     * Заполнение поля Реквизиты требования в блоке Основания проведения КНМ
+     *
+     * @param detailsRequirement Реквизиты требования
+     */
+    @Step("Заполнение поля Реквизиты требования в блоке Основания проведения КНМ: Реквизиты требования - {detailsRequirement}")
+    public void setDetailsRequirement(String detailsRequirement) {
+        if(detailsRequirement == null) {
+            return;
+        }
+        $(By.xpath(detailsRequirementInput)).setValue(detailsRequirement);
+    }
+
+    /**
+     * Получение номера КНМ
+     */
+    @Step("Получение номера КНМ")
+    public String getNumberKNM() throws InterruptedException {
+        sleep(3000);
+        String number = $(By.xpath(numberKNM)).shouldBe(visible, Duration.ofSeconds(15)).getText().split(" ")[1];
+        System.out.println("НОМЕР - " + number);
+        return number;
+    }
+
+    /**
+     * Фильтрация КНМ
+     *
+     *
+     */
+    @Step("Фильтрация КНМ")
+    public void filtrationKNM() throws InterruptedException {
+        openFiltrationForm();
+        // заполнить основные параметры
+        // добавить в доп параметрах
+        // выделить нужные фильтры
+        // добавить
+        // заполнить добавленные фильтры
+        // применить
+    }
+
+    /**
+     * Открыть форму фильтрации
+     */
+    @Step("Открыть форму фильтрации")
+    public void openFiltrationForm() throws InterruptedException {
+        $(By.xpath(filtersButton)).click();
+    }
+
+    /**
+     * Заполнить блок Основные параметры
+     *
+     * @param territorialUnit  Наименование территориальной единицы
+     * @param
+     */
+    @Step("Заполнение блока Основные параметры: Наименование территориальной единицы - {territorialUnit}")
+    public void setBasicFilterParameters(String territorialUnit) throws InterruptedException {
+        setTerritorialUnit(territorialUnit);
+        //setNameKNOForBlockFiltration();
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Территориальная единица
+     *
+     * @param name Наименование территориальной единицы
+     */
+    @Step("Выбор значения в выпадающем списке Территориальная единица - {name}")
+    public void setTerritorialUnit(String name) {
+        $(By.xpath(territorialUnit)).click();
+        setValueDropDownToText(name);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров
+     *
+     * @param nameKNO Наименование органа контроля (надзора)
+     */
+    @Step("Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров - {nameNKO}")
+    public void setNameKNOForBlockFiltration(String nameKNO) {
+        $(By.xpath(nameKNODropDownFiltrationBlock)).click();
+        setValueDropDownToText(nameKNO);
+    }
+
+
+
+
 }
