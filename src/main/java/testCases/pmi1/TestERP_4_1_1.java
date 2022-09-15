@@ -82,15 +82,18 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         getNumberKNM();
         checkValueOfField("Номер поручения", orderNumberInput, value);
         setGroundRegistrationDropDown("3.2.7");
+        setOrderNumber(value);
+        setOrderDate(currentDate);
         checkTextErrorField("Номер поручения", textUnderOrderNumberInput, textErrorIncorrectlyInput);
         value = "РР-А52-12345";
+        clearInput("Номер поручения", orderNumberInput);
         setOrderNumber(value);
         checkElementVisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
         closeNotification();
         clickSaveButton();
         checkTextNotification("КНМ успешно сохранено");
         checkValueOfField("Номер поручения", orderNumberInput, value);
-        setGroundRegistrationDropDown("3.2.8");
+        setGroundRegistrationDropDown("3.2.9");
         checkElementVisible("Номер поручения", orderNumberInput);
     }
 
@@ -123,7 +126,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         clickSaveButton();
         getNumberKNM();
         checkValueOfField("Дата поручения", orderDateInput, value);
-        setGroundRegistrationDropDown("3.2.6");
+        setGroundRegistrationDropDown("1.2.16");
         checkElementVisible("Дата поручения", orderDateInput);
     }
 
@@ -192,6 +195,13 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Test(description = "A.1.1.10. Проверка фильтрации данных в ЗЧ ЕРП.")
     public void checkFiltrationData() throws Exception {
         authorization("supervisor");
+        selectionERP();
+        gotoListKNMPage();
+        openFiltrationForm();
+        setBasicFilterParameters(nameKNO);
+        addAdditionalFilter("Реквизиты требования");
+        addAdditionalFilter("Номер поручения");
+        addAdditionalFilter("Дата поручения");
 
     }
 

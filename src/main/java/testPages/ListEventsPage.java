@@ -52,9 +52,9 @@ public class ListEventsPage extends Common {
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
     public String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
-    public String textUnderOrderNumberInput = "// "; // Текст под полем Номер поручения в блоке Основания проведения КНМ
-    public String orderDateInput = "//input[@class='DatePicker_Input__1FFmH DatePicker_InputInvalid__12R6T']"; // Поле Дата поручения в блоке Основания проведения КНМ
-    public String textUnderOrderDateInput = "//"; // Текст под полем Дата поручения в блоке Основания проведения КНМ
+    public String textUnderOrderNumberInput = "//div[@class=\"Textarea_TextareaError__1m0qx\"]"; // Текст под полем Номер поручения в блоке Основания проведения КНМ
+    public String orderDateInput = "//div[@id=\"reasonsBlock\"]//input[contains(@class, 'DatePicker_Input__1FFmH')]"; // Поле Дата поручения в блоке Основания проведения КНМ
+    public String textUnderOrderDateInput = "//div[@class=\"DatePicker_DatePickerError__19c5M\"]"; // Текст под полем Дата поручения в блоке Основания проведения КНМ
     public String detailsRequirementInput = "//*[@id=\"reasonsErknm[0].requirementDetails\"]"; // Поле Реквизиты требования в блоке Основания проведения КНМ
     public String textUnderDetailsRequirement = "//div[@class='Textarea_TextareaError__1m0qx']"; // Текст под полем Реквизиты требования в блоке Основания проведения КНМ
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде " +
@@ -302,7 +302,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Получение номера КНМ")
     public String getNumberKNM() throws InterruptedException {
-        sleep(3000);
+        sleep(4000);
         String number = $(By.xpath(numberKNM)).shouldBe(visible, Duration.ofSeconds(15)).getText().split(" ")[1];
         System.out.println("НОМЕР - " + number);
         return number;
@@ -808,10 +808,11 @@ public class ListEventsPage extends Common {
             "Номер поручения - {orderNumber}, Дата поручения - {orderDate}, Реквизиты требования - {detailsRequirement}," +
             "Параметр требует/не требует согласования - {param}")
     public void addGroundsConductingUnscheduled(String grounds, String orderNumber, String orderDate,
-                                                String detailsRequirement, String param) {
+                                                String detailsRequirement, String param) throws InterruptedException {
         clickAddGroundConductingButton();
         setGroundConductingDropDown(grounds);
         if(grounds == "4.0.18" || grounds == "4.0.19" || grounds == "4.0.20") {
+            sleep(3000);
             setOrderNumber(orderNumber);
             setOrderDate(orderDate);
         } else if(grounds == "4.0.21") {

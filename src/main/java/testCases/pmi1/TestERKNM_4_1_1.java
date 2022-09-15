@@ -83,8 +83,11 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         getNumberKNM();
         checkValueOfField("Номер поручения", orderNumberInput, value);
         setGroundConductingDropDown("4.0.19");
+        setOrderNumber(value);
+        setOrderDate(currentDate);
         checkTextErrorField("Номер поручения", textUnderOrderNumberInput, textErrorIncorrectlyInput);
         value = "ДГ-П36-23пр";
+        clearInput("Номер поручения", orderNumberInput);
         setOrderNumber(value);
         checkElementVisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
         closeNotification();

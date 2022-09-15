@@ -185,7 +185,7 @@ public class Common {
     public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']";  // [!] иконка сообщающая об ошибке при заполнении
     public String emptyFields = "//div[@class='ErrorsIcon_ErrorsTooltip__1HfXo ErrorsIcon_ErrorsTooltipVisible__3_96_']//a"; // незаполненные поля под [!]
     public String textErrorNotNullInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
-    public String textErrorIncorrectlyInput = "Поле заполнено некорректно"; // Текст сообщения об ошибке при некорректно заполненном поле
+    public String textErrorIncorrectlyInput = "Номер поручения указан неверно"; // Текст сообщения об ошибке при некорректно заполненном поле
 
     //общее для новостей
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
@@ -723,7 +723,7 @@ public class Common {
      */
     @Step("Проверка: значения в поле - {nameField} соответствует ожидаемому значению: {value}")
     public void checkValueOfField(String nameField, String locator, String value) throws InterruptedException {
-        sleep(3000);
+        sleep(4000);
         $(By.xpath(locator)).scrollIntoView(false).shouldHave(value(value));
     }
 
