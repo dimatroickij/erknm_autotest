@@ -1,17 +1,21 @@
 package testPages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static java.lang.Thread.sleep;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
+    public String numberKNMInList = "//tr[@class=\"Table_TBodyRow__3q1_B\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
     String viewKNMDropDown = "//*[@id='type']"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//*[@id='kind']"; //Выпадающий список Форма КНМ
     String typeSubjectDropDown = "//*[@id='subjectType']"; // Выпадающий список Тип субъекта КНМ
@@ -77,12 +81,19 @@ public class ListEventsERPPage extends Common {
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
     String filtersButton = "//div[@class=\"KnmListPanel_Filters__2PbQw\"]/button"; // Кнопка фильтры
     String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
-    String nameKNODropDownFiltrationBlock = "//"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
+    String checkboxTerritorialUnit = "//input[@id=\"includeDomainChild\"]"; // Чекбокс под полем Территориальная единица
+    String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
     String addButtonFilters = "//div[@class=\"FiltersForm_FilterPanelBody__2BEna\"]//button"; // кнопка Добавить в блоке фильтров
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
     String parameterFilter = "//div[@class=\"SelectTable_Field__3-qWc\"]"; // Параметр фильтрации из списка
     String buttonUpdateNewFilters = "//div[@class=\"FiltersModal_FilterFooterButtons__1pAv0\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
+    String deleteButtonAdditionalFilter = "//button[@class=\"CloseButton_Close__MwB1U\"]"; // Иконка [X] удаления поля дополнительного фильтра
+    String buttonUpdateFilters = "//div[@class=\"FiltersForm_FilterFooter__1LYC_\"]//button[1]"; // Кнопка Применить в блоке фильтров
 
+    // Дополнительные фильтры
+    public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах
+    public String orderDateFilterInput = "//div[@class=\"react-datepicker__input-container\"]//input"; // Поле Дата поручения в дополнительных фильтрах
+    public String orderNumberFilterInput = "//input[@name=\"assignmentNumber\"]"; // Поле Номер поручения в дополнительных фильтрах
 
     // Значения переменных для создания проверки
     public String numberOrders = "122345"; // Номер приказа
@@ -745,6 +756,7 @@ public class ListEventsERPPage extends Common {
     public void setBasicFilterParameters(String nameKNO) throws InterruptedException {
         //setTerritorialUnit(territorialUnit);
         setNameKNOForBlockFiltration(nameKNO);
+        clickCheckboxUnderTerritorialUnit();
     }
 
     /**
@@ -767,6 +779,15 @@ public class ListEventsERPPage extends Common {
     public void setNameKNOForBlockFiltration(String nameKNO) {
         $(By.xpath(nameKNODropDownFiltrationBlock)).click();
         setValueDropDownToText(nameKNO);
+    }
+
+    /**
+     * Включить чекбокс Включая подчиненные организации под полем Территориальные единицы
+     *
+     */
+    @Step("Включить чекбокс Включая подчиненные организации под полем Территориальные единицы")
+    public void clickCheckboxUnderTerritorialUnit() {
+        $(By.xpath(checkboxTerritorialUnit)).click();
     }
 
     /**
@@ -814,12 +835,41 @@ public class ListEventsERPPage extends Common {
      * @param locator Локатор поля
      * @param text    Заполняемый текст
      */
-    @Step("Заполнение дополнительного параметра фильтрации - {parameter}")
-    public void addAdditionalFilter(String parameter) {
-        clickButtonForFiltersBlock();
-        searchAdditionalFilter(parameter);
-        clickButtonUpdateForNewFilters();
+    @Step("Заполнение поля дополнительного параметра фильтрации - {text}")
+    public void setAdditionalFilterInput(String locator, String text) {
+        $(By.xpath(locator)).scrollIntoView(false).setValue(text);
     }
 
+    /**
+     * Удаление поля дополнительного параметра фильтрации
+     *
+     */
+    @Step("Удаление поля дополнительного параметра фильтрации")
+    public void deleteAdditionalFilterInput() {
+        ElementsCollection elements = $$(By.xpath(deleteButtonAdditionalFilter));
+        elements.first().click();
+    }
+
+    /**
+     * Нажать кнопку Применить в блоке фильтров
+     *
+     */
+    @Step("Нажать кнопку Применить в блоке фильтров")
+    public void clickButtonUpdateForFilterBlock() {
+        $(By.xpath(buttonUpdateFilters)).click();
+    }
+
+    /**
+     * Проверка номера КНМ из таблицы Список КНМ на соответствие
+     *
+     * @param numberKNM  Ожидаемый номер КНМ
+     */
+    @Step("Проверка номера КНМ из таблицы Список КНМ на соответствие ожидаемому номеру - {numberKNM}")
+    public void checkNumberKNMFromTable(String numberKNM) {
+        $(By.xpath(numberKNMInList))
+                .should(visible, Duration.ofSeconds(15))
+                .scrollIntoView(false)
+                .should(Text.text(numberKNM));
+    }
 
 }

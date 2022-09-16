@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
 
 public class OpenPartPage extends Common {
     //для открытой части
@@ -19,6 +20,9 @@ public class OpenPartPage extends Common {
     String openDataPage = "//*[@id='/portal/public-open-data']"; //пункт меню Открытые данные
     String searchCheckPage = "//*[@id='/portal/public-search']";//пункт меню Поиск проверок
     String newsPage = "//*[@id='/portal/public-news']"; //пункт меню Новости
+    String numberSearchResult = "//*[@class=\"SearchResults_TableSearchData__g1l1k\"]//a"; // номер найденного мероприятия
+    public String fieldTable = "//div[contains(@class, 'styles_ColText') and contains(text(),'%s')]"; // поле в таблице найденного мероприятия
+    public String captcha ="12345";
 
     public OpenPartPage() throws Exception {
     }
@@ -32,7 +36,7 @@ public class OpenPartPage extends Common {
      */
     @Step("Переход на Главную страницу в открытой части")
     public void gotoHomeOpenPage() {
-        $(By.xpath(homePage)).click();
+        $(By.xpath(homePage)).scrollIntoView(false).click();
     }
 
     /**
@@ -82,4 +86,27 @@ public class OpenPartPage extends Common {
         $(By.xpath(searchField)).setValue(number); //ввод поискового запроса
         $(By.xpath(searchOpenPartButton)).click(); //нажатие на кнопку Искать
     }
+
+    /**
+     * Открыть найденное мероприятие
+     *
+     */
+    @Step("Открыть найденное мероприятие")
+    public void openFoundEvent() {
+        $(By.xpath(numberSearchResult)).click();  // нажатие на номер мероприятия
+        switchTo().window(1);   // переключение на открывшуюся вкладку
+    }
+
+    /**
+     * Проверка на присутствие(видимость) поля в таблице информации о мероприятии
+     *
+     * @param nameField Название проверяемого поля
+     */
+    @Step("Проверка на присутствие(видимость) поля - {nameField} в таблице информации о мероприятии")
+    public void checkFieldVisible(String nameField) {
+        $(By.xpath(String.format(fieldTable, nameField))).scrollTo().shouldBe(visible);
+    }
+
+
+
 }

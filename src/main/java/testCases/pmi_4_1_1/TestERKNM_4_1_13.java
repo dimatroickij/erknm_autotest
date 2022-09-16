@@ -1,4 +1,4 @@
-package testCases.pmi1;
+package testCases.pmi_4_1_1;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -81,7 +81,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
             selectionERKNM();
             gotoListKNMPage();
             openCard(numberKNM);
-            checkElementVisible("Текст под полем Срок проведения дней", textUnderDurationDaysField);
+            checkElementInvisible("Текст под полем Срок проведения дней", textUnderDurationDaysField);
             checkElementNotAvailable(nameInputDurationDaysField, durationDaysField);
         }
     }

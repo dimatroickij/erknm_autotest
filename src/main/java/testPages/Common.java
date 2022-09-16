@@ -56,6 +56,7 @@ public class Common {
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "Ярославская область, Тестовая Прокуратура Ярославской области";
+    public String territorialUnitName = "РОССИЯ - состав федеральных округов";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
     //Основное меню (на всех страницах)
@@ -688,8 +689,19 @@ public class Common {
      * @param locator Локатор проверяемого элемента
      */
     @Step("Проверка на отсутствие элемента на странице - {nameElement}")
-    public void checkElementVisible(String nameElement,  String locator) {
+    public void checkElementInvisible(String nameElement, String locator) {
         $(By.xpath(locator)).shouldNotBe(visible);
+    }
+
+    /**
+     * Проверка на присутствие(видимость) элемента на странице
+     *
+     * @param nameElement Название проверяемого элемента
+     * @param locator Локатор проверяемого элемента
+     */
+    @Step("Проверка на присутствие(видимость) на странице - {nameElement}")
+    public void checkElementVisible(String nameElement,  String locator) {
+        $(By.xpath(locator)).shouldBe(visible);
     }
 
     /**

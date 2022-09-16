@@ -7,6 +7,9 @@
                 <url name="dev" value="http://devproverki.wavea.cc/">http://knilrats-cluster.wavea.cc</url>
                 <url name="test" value="http://private.proverki.local/">http://proverki.local</url>
                 <url name="testOpen" value="http://proverki.local/">http://proverki.local</url>
+                <url name="sgk" value="https://proverki-portal.wavea.cc/">http://proverki.local</url>
+                <url name="sgkOpen" value=" https://public-proverki-portal.wavea.cc/portal">http://proverki.local</url>
+
             </urls>
             <users>
                 <user name="supervisor" value="P@ssw0rd"/>
@@ -18,6 +21,7 @@
             <data>
                 <information name="inn" value="9103081181"/> <!--1215212198-->
                 <!-- <information name="inn" value ="1215043750" /> -->
+                <!--7811689828 для СГК-->
             </data>
 
         </colo>

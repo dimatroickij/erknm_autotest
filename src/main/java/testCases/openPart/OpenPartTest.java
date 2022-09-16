@@ -17,7 +17,7 @@ public class OpenPartTest extends OpenPartPage {
     String titleNews = prefix + "автотест ЗаголовокОЧ";
     String shortText = prefix + "автотест Краткий текст новостиОЧ";
     String textNews = prefix + "автотест Текст новостиОЧ";
-    String captcha ="12345";
+
 
     public OpenPartTest() throws Exception {
     }

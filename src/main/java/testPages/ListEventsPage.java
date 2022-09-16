@@ -1,5 +1,6 @@
 package testPages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
@@ -12,8 +13,7 @@ import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 import static java.lang.Thread.sleep;
 
 public class ListEventsPage extends Common {
@@ -149,6 +149,28 @@ public class ListEventsPage extends Common {
     String exclusionGroundDropDown = "//div[contains(@class, 'ModalBody_Body')]//div[contains(@class, 'SelectInput_SelectContainer')]"; // выпадающий список Основание исключение TODO Должен быть идентификатор
     String docInput = "//input[@id='document']"; // выбор документа
     String exclusionButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; //кнопка Исключить на форме Исключение КНМ из плана TODO Должен быть идентификатор
+
+    // Фильтрация КНМ
+    String filtersButton = "//div[@class=\"KnmListPanel_Filters__2PbQw\"]/button"; // Кнопка фильтры
+    String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
+    String checkboxTerritorialUnit = "//input[@id=\"includeDomainChild\"]"; // Чекбокс под полем Территориальная единица
+    String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
+    String addButtonFilters = "//div[@class=\"FiltersForm_FilterPanelBody__2BEna\"]//button"; // кнопка Добавить в блоке фильтров
+    String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
+    String parameterFilter = "//div[@class=\"SelectTable_Field__3-qWc\"]"; // Параметр фильтрации из списка
+    String buttonUpdateNewFilters = "//div[@class=\"FiltersModal_FilterFooterButtons__1pAv0\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
+    String deleteButtonAdditionalFilter = "//button[@class=\"CloseButton_Close__MwB1U\"]"; // Иконка [X] удаления поля дополнительного фильтра
+    String buttonUpdateFilters = "//div[@class=\"FiltersForm_FilterFooter__1LYC_\"]//button[1]"; // Кнопка Применить в блоке фильтров
+
+    // Дополнительные фильтры
+    public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах
+    public String orderDateFilterInput = "//div[@class=\"react-datepicker__input-container\"]//input"; // Поле Дата поручения в дополнительных фильтрах
+    public String orderDateStartIntervalInput = "//div[@class=\"KnmListFiltersModal_FilterFormDateGroup__jbfkP\"]/div[1]//input"; // поле Дата начала периода в дополнительном фильтре Дата поручения по периоду
+    public String orderDateStopIntervalInput = "//div[@class=\"KnmListFiltersModal_FilterFormDateGroup__jbfkP\"]/div[2]//input"; // поле Дата окончания периода в дополнительном фильтре Дата поручения по периоду
+    public String orderNumberFilterInput = "//input[@name=\"assignmentNumber\"]"; // Поле Номер поручения в дополнительных фильтрах
+
+    public String numberKNMInList = "//tr[@class=\"Table_TBodyRow__3q1_B\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+
     public ListEventsPage() throws Exception {
     }
 
@@ -1232,5 +1254,156 @@ public class ListEventsPage extends Common {
         $(By.xpath(exclusionButton)).click();
         closeNotification();
         checkStatusKNM(statusExcluded);
+    }
+
+    /**
+     * Открыть форму фильтрации
+     */
+    @Step("Открыть форму фильтрации")
+    public void openFiltrationForm() throws InterruptedException {
+        $(By.xpath(filtersButton)).click();
+    }
+
+    /**
+     * Заполнить блок Основные параметры
+     *
+     * @param nameKNO                  Наименование органа контроля
+     * @param territorialUnit          Наименование Территориальной единицы
+     */
+    @Step("Заполнение блока Основные параметры: Наименование органа контроля - {nameKNO}, Наименование Территориальной" +
+            " единицы - {territorialUnit}")
+    public void setBasicFilterParameters(String nameKNO, String territorialUnit) throws InterruptedException {
+        setTerritorialUnit(territorialUnit);
+        setNameKNOForBlockFiltration(nameKNO);
+        clickCheckboxUnderTerritorialUnit();
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Территориальная единица
+     *
+     * @param name Наименование территориальной единицы
+     */
+    @Step("Выбор значения в выпадающем списке Территориальная единица - {name}")
+    public void setTerritorialUnit(String name) {
+        $(By.xpath(territorialUnit)).click();
+        setValueDropDownToText(name);
+    }
+
+    /**
+     * Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров
+     *
+     * @param nameKNO Наименование органа контроля (надзора)
+     */
+    @Step("Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров - {nameNKO}")
+    public void setNameKNOForBlockFiltration(String nameKNO) {
+        $(By.xpath(nameKNODropDownFiltrationBlock)).click();
+        setValueDropDownToText(nameKNO);
+    }
+
+    /**
+     * Включить чекбокс Включая подчиненные организации под полем Территориальные единицы
+     *
+     */
+    @Step("Включить чекбокс Включая подчиненные организации под полем Территориальные единицы")
+    public void clickCheckboxUnderTerritorialUnit() {
+        $(By.xpath(checkboxTerritorialUnit)).click();
+    }
+
+    /**
+     * Нажать на кнопку Добавить в блоке фильтров
+     */
+    @Step("Нажать на кнопку Добавить в блоке фильтров")
+    public void clickButtonForFiltersBlock() {
+        $(By.xpath(addButtonFilters)).scrollIntoView(false).click();
+    }
+
+    /**
+     * Поиск дополнительного фильтра
+     *
+     * @param parameter Параметр фильтрации
+     */
+    @Step("Поиск дополнительного фильтра - {parameter}")
+    public void searchAdditionalFilter(String parameter) {
+        $(By.xpath(inputSearchFilters)).setValue(parameter);
+        $(By.xpath(parameterFilter)).click();
+    }
+
+    /**
+     * Нажать на кнопку Применить при выборе дополнительного фильтра
+     */
+    @Step("Нажать на кнопку Добавить в блоке фильтров")
+    public void clickButtonUpdateForNewFilters() {
+        $(By.xpath(buttonUpdateNewFilters)).click();
+    }
+
+    /**
+     * Добавление дополнительного параметра фильтрации
+     *
+     * @param parameter Параметр фильтрации
+     */
+    @Step("Добавление дополнительного параметра фильтрации - {parameter}")
+    public void addAdditionalFilter(String parameter) {
+        clickButtonForFiltersBlock();
+        searchAdditionalFilter(parameter);
+        clickButtonUpdateForNewFilters();
+    }
+
+    /**
+     * Заполнение поля дополнительного параметра фильтрации
+     *
+     * @param locator Локатор поля
+     * @param text    Заполняемый текст
+     */
+    @Step("Заполнение поля дополнительного параметра фильтрации - {text}")
+    public void setAdditionalFilterInput(String locator, String text) {
+        $(By.xpath(locator)).scrollIntoView(false).setValue(text);
+    }
+
+    /**
+     * Удаление поля дополнительного параметра фильтрации
+     *
+     */
+    @Step("Удаление поля дополнительного параметра фильтрации")
+    public void deleteAdditionalFilterInput() {
+        ElementsCollection elements = $$(By.xpath(deleteButtonAdditionalFilter));
+        elements.first().click();
+    }
+
+    /**
+     * Нажать кнопку Применить в блоке фильтров
+     *
+     */
+    @Step("Нажать кнопку Применить в блоке фильтров")
+    public void clickButtonUpdateForFilterBlock() {
+        $(By.xpath(buttonUpdateFilters)).click();
+    }
+
+    /**
+     * Проверка номера КНМ из таблицы Список КНМ на соответствие
+     *
+     * @param numberKNM  Ожидаемый номер КНМ
+     */
+    @Step("Проверка номера КНМ из таблицы Список КНМ на соответствие ожидаемому номеру - {numberKNM}")
+    public void checkNumberKNMFromTable(String numberKNM) {
+        $(By.xpath(numberKNMInList))
+                .should(visible, Duration.ofSeconds(15))
+                .scrollIntoView(false)
+                .should(Text.text(numberKNM));
+    }
+
+    /**
+     * Заполнение поля дополнительного параметра фильтрации датами по периоду
+     *
+     * @param locatorStartDate Локатор поля даты начала
+     * @param locatorStopDate  Локатор поля даты окончания
+     * @param startDate        Дата начала
+     * @param stopDate         Дата окончания
+     */
+    @Step("Заполнение поля дополнительного параметра фильтрации датами по периоду: Дата начала  - {startDate}, " +
+            "Дата окончания - {stopDate}")
+    public void setAdditionalFilterIntervalInput(String locatorStartDate, String locatorStopDate, String startDate,
+                                         String stopDate) {
+        $(By.xpath(locatorStartDate)).scrollIntoView(false).setValue(startDate);
+        $(By.xpath(locatorStopDate)).scrollIntoView(false).setValue(stopDate);
     }
 }

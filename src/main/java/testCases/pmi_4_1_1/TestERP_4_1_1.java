@@ -1,11 +1,10 @@
-package testCases.pmi1;
+package testCases.pmi_4_1_1;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import testPages.ListEventsERPPage;
-import testPages.ListEventsPage;
 
 /**
  * Проверка выполнения требований по добавлению возможности выбора КНО из данных ЕРВК и вывод данных в поле
@@ -49,7 +48,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         getNumberKNM();
         checkValueOfField("Реквизиты требования", detailsRequirementInput, value);
         setGroundRegistrationDropDown("1.2.10");
-        checkElementVisible("Реквизиты требования", detailsRequirementInput);
+        checkElementInvisible("Реквизиты требования", detailsRequirementInput);
     }
 
     /**
@@ -88,13 +87,13 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         value = "РР-А52-12345";
         clearInput("Номер поручения", orderNumberInput);
         setOrderNumber(value);
-        checkElementVisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
+        checkElementInvisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
         closeNotification();
         clickSaveButton();
         checkTextNotification("КНМ успешно сохранено");
         checkValueOfField("Номер поручения", orderNumberInput, value);
         setGroundRegistrationDropDown("3.2.9");
-        checkElementVisible("Номер поручения", orderNumberInput);
+        checkElementInvisible("Номер поручения", orderNumberInput);
     }
 
     /**
@@ -127,7 +126,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         getNumberKNM();
         checkValueOfField("Дата поручения", orderDateInput, value);
         setGroundRegistrationDropDown("1.2.16");
-        checkElementVisible("Дата поручения", orderDateInput);
+        checkElementInvisible("Дата поручения", orderDateInput);
     }
 
     /**
@@ -145,21 +144,21 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
-        openCard(""); // В процессе заполнения
+        openCard("772200065697"); // В процессе заполнения
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // В процессе заполнения
+        openCard("772200065688"); // В процессе проведения
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard(""); // Завершено
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard(""); // Отклонено
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
@@ -174,12 +173,12 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         authorization("prosecutor");
         selectionERP();
         gotoListKNMPage();
-        openCard(""); // В процессе заполнения
+        openCard("772200065697"); // В процессе заполнения
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard(""); // Завершено
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
     }
 
@@ -200,9 +199,23 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         openFiltrationForm();
         setBasicFilterParameters(nameKNO);
         addAdditionalFilter("Реквизиты требования");
-        addAdditionalFilter("Номер поручения");
-        addAdditionalFilter("Дата поручения");
+        setAdditionalFilterInput(requirementDetailsFilterInput, "12345");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("772200065688");
 
+        openFiltrationForm();
+        deleteAdditionalFilterInput();
+        addAdditionalFilter("Номер поручения");
+        setAdditionalFilterInput(orderNumberFilterInput, "54321");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("772200065687");
+
+        openFiltrationForm();
+        deleteAdditionalFilterInput();
+        addAdditionalFilter("Дата поручения");
+        setAdditionalFilterInput(orderDateFilterInput, "15.09.2022");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("772200065687");
     }
 
 }

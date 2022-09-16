@@ -1,10 +1,13 @@
-package testCases.pmi1;
+package testCases.pmi_4_1_1;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
+
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * Проверка выполнения требований по добавлению возможности выбора КНО из данных ЕРВК и вывод данных в поле
@@ -49,7 +52,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         getNumberKNM();
         checkValueOfField("Реквизиты требования", detailsRequirementInput, value);
         setGroundConductingDropDown("4.0.15");
-        checkElementVisible("Реквизиты требования", detailsRequirementInput);
+        checkElementInvisible("Реквизиты требования", detailsRequirementInput);
     }
 
     /**
@@ -89,13 +92,13 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         value = "ДГ-П36-23пр";
         clearInput("Номер поручения", orderNumberInput);
         setOrderNumber(value);
-        checkElementVisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
+        checkElementInvisible("Текст ошибки под полем Номер поручения", textUnderOrderNumberInput);
         closeNotification();
         clickSaveButton();
         checkTextNotification("КНМ успешно сохранено");
         checkValueOfField("Номер поручения", orderNumberInput, value);
         setGroundConductingDropDown("4.0.16");
-        checkElementVisible("Номер поручения", orderNumberInput);
+        checkElementInvisible("Номер поручения", orderNumberInput);
     }
 
     /**
@@ -129,7 +132,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         getNumberKNM();
         checkValueOfField("Дата поручения", orderDateInput, value);
         setGroundConductingDropDown("4.0.17");
-        checkElementVisible("Дата поручения", orderDateInput);
+        checkElementInvisible("Дата поручения", orderDateInput);
     }
 
     /**
@@ -147,43 +150,99 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("01220441000300056542"); // В процессе заполнения
+        openCard("77220661000000065690"); // В процессе заполнения
+        sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // В процессе заполнения
+        openCard("77220661000000065689"); // В процессе заполнения
+        sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard("77220661000000065414"); // Готова к согласованию
+        sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard("77220661000000065623"); // Готова к согласованию
+        sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
-        openCard(""); // На согласовании
+        openCard("77220371000000065581"); // На согласовании
+        sleep(3000);
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
-        openCard(""); // Ожидает завершения
+        openCard("77220671000000065658"); // Ожидает завершения
+        sleep(3000);
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
 
         authorization("prosecutor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("01220441000300056542"); // В процессе заполнения
+        openCard("77220661000000065690"); // В процессе заполнения
+        sleep(3000);
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard(""); // Готова к согласованию
+        openCard("77220661000000065623"); // Готова к согласованию
+        sleep(3000);
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
     }
+
+    /**
+     * Цель: Проверка фильтрации данных в ЗЧ ЕРКНМ.
+     * A.1.1.10
+     *
+     * @author Kirilenko P.A. 09.2022
+     */
+    @Epic("4.1.1")
+    @Feature("ЕРКНМ")
+    @Story("КНМ")
+    @Test(description = "A.1.1.10. Проверка фильтрации данных в ЗЧ ЕРКНМ.")
+    public void checkFiltrationData() throws Exception {
+        authorization("supervisor");
+        selectionERKNM();
+        gotoListKNMPage();
+        openFiltrationForm();
+        setBasicFilterParameters(knoName, territorialUnitName);
+        addAdditionalFilter("Реквизиты требования");
+        setAdditionalFilterInput(requirementDetailsFilterInput, "12345");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("77220661000000065689");
+
+        openFiltrationForm();
+        deleteAdditionalFilterInput();
+        addAdditionalFilter("Номер поручения");
+        setAdditionalFilterInput(orderNumberFilterInput, "54321");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("77220661000000065690");
+
+        openFiltrationForm();
+        deleteAdditionalFilterInput();
+        addAdditionalFilter("Дата поручения");
+        setAdditionalFilterInput(orderDateFilterInput, "15.09.2022");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("77220661000000065690");
+
+        authorization("prosecutor");
+        selectionERKNM();
+        gotoListKNMPage();
+        openFiltrationForm();
+        setBasicFilterParameters(knoName, territorialUnitName);
+        addAdditionalFilter("Дата поручения правительства о проведении КНМ (интервал)");
+        setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
+                "01.09.2022", "02.09.2022");
+        clickButtonUpdateForFilterBlock();
+        checkNumberKNMFromTable("77220661000000065690");
+    }
+
 
 
 
