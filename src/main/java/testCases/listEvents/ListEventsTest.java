@@ -23,7 +23,8 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null, prosecutorsOffice, INN);
+        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null,
+                prosecutorsOffice, INN, kingObject);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         numberPublishedKNMBVT = numberKNM;
@@ -133,7 +134,8 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         reloadPage();
-        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, futureDate, futureDate, interactionDays, null, prosecutorsOffice, INN);
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, futureDate, futureDate, interactionDays, null,
+                prosecutorsOffice, INN, kingObject);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         createTemplateMandatoryRequirements();
@@ -171,7 +173,8 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null, prosecutorsOffice, INN);
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null,
+                prosecutorsOffice, INN, kingObject);
         String number = getNumberKNM();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
@@ -193,7 +196,8 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(nameKNO, viewKNO, raidInspection, currentDate, currentDate, interactionDays, null, prosecutorsOffice, INN);
+        addUnplannedKNM(nameKNO, viewKNO, raidInspection, currentDate, currentDate, interactionDays, null,
+                prosecutorsOffice, INN, kingObject);
         String numberKNMTemplate = getNumberKNM();
         addCheckList(prefix);
         clickSaveButton();
@@ -213,7 +217,8 @@ public class ListEventsTest extends ListEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListKNMPage();
-        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null, prosecutorsOffice, INN);
+        addUnplannedKNM(nameKNO, viewKNO, controlPurchase, currentDate, currentDate, interactionDays, null,
+                prosecutorsOffice, INN, kingObject);
         String numberKNMRepresentatives = getNumberKNM();
         addInformationAboutOfficialsParticipatingInTheKNM(officialField);
         clickSaveButton();

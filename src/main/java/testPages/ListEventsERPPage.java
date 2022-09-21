@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-    public String numberKNMInList = "//tr[@class=\"Table_TBodyRow__3q1_B\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+    public String numberKNMInList = "//tr[@class=\"_TBodyRow_1iybu_80\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
     String viewKNMDropDown = "//*[@id='type']"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//*[@id='kind']"; //Выпадающий список Форма КНМ
     String typeSubjectDropDown = "//*[@id='subjectType']"; // Выпадающий список Тип субъекта КНМ
@@ -43,12 +43,12 @@ public class ListEventsERPPage extends Common {
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора) TODO должен быть идентификатор
 
     String innField = "//*[@id='inn']"; //ИНН
-    String innListField = "//li[contains(@class,'AutoComplete_OptionItem')]"; // Появившийся спискок ИНН
+    String innListField = "//li[contains(@class,'_OptionItem_1bku0_26')]"; // Появившийся спискок ИНН
 
     String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования TODO должен быть идентификатор
 
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы TODO должен быть идентификатор
-    String modalTemplateDropDown = "//div[contains(@class, 'ModalBody_Body')]/div[2]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
+    String modalTemplateDropDown = "//div[contains(@class, '_ModalBody_9nshc_41')]//div[contains(@class, 'SelectContainer')]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
 
     String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[4]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы TODO должен быть идентификатор
 
@@ -71,24 +71,24 @@ public class ListEventsERPPage extends Common {
     String addInspectorsButton = "//div[@id='inspectorsTitle']//button"; // Кнопка Добавить в блоке Уполномоченные на проведение проверки TODO должен быть идентификатор
     String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного TODO должен быть идентификатор
     public String detailsRequirementInput = "//*[@id=\"reasons[0].requirementDetails\"]"; // Поле Реквизиты требования
-    public String textUnderDetailsRequirementInput = "//div[@class=\"Textarea_TextareaError__1m0qx\"]"; // Текст под полем Реквизиты требования
-    public String orderDateInput = "//div[@id=\"reasonsTitleBlock\"]//input[contains(@class, 'DatePicker_Input__1FFmH')]"; // Поле Дата поручения
-    public String textUnderOrderDateInput = "//div[@class=\"DatePicker_DatePickerError__19c5M\"]"; // Текст под полем Дата поручения
+    public String textUnderDetailsRequirementInput = "//div[@class=\"_TextareaError_6efvq_105\"]"; // Текст под полем Реквизиты требования
+    public String orderDateInput = "//div[@id=\"reasonsTitleBlock\"]//input[contains(@class, '_Input_1a70y_6')]"; // Поле Дата поручения
+    public String textUnderOrderDateInput = "//div[@class=\"_DatePickerError_1a70y_78\"]"; // Текст под полем Дата поручения
     public String orderNumberInput = "//*[@id=\"reasons[0].assignmentNumber\"]"; // Поле Номер поручения
-    public String textUnderOrderNumberInput = "//div[@class='Textarea_TextareaError__1m0qx']"; // Текст под полем Номер поручения
+    public String textUnderOrderNumberInput = "//div[@class='_TextareaError_6efvq_105']"; // Текст под полем Номер поручения
 
     public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
-    String filtersButton = "//div[@class=\"KnmListPanel_Filters__2PbQw\"]/button"; // Кнопка фильтры
+    String filtersButton = "//div[@class=\"_Filters_1uab2_15\"]/button"; // Кнопка фильтры
     String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
     String checkboxTerritorialUnit = "//input[@id=\"includeDomainChild\"]"; // Чекбокс под полем Территориальная единица
     String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
-    String addButtonFilters = "//div[@class=\"FiltersForm_FilterPanelBody__2BEna\"]//button"; // кнопка Добавить в блоке фильтров
+    String addButtonFilters = "//div[@class=\"_FilterPanelBody_bspy4_42\"]//button"; // кнопка Добавить в блоке фильтров
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
-    String parameterFilter = "//div[@class=\"SelectTable_Field__3-qWc\"]"; // Параметр фильтрации из списка
-    String buttonUpdateNewFilters = "//div[@class=\"FiltersModal_FilterFooterButtons__1pAv0\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
-    String deleteButtonAdditionalFilter = "//button[@class=\"CloseButton_Close__MwB1U\"]"; // Иконка [X] удаления поля дополнительного фильтра
-    String buttonUpdateFilters = "//div[@class=\"FiltersForm_FilterFooter__1LYC_\"]//button[1]"; // Кнопка Применить в блоке фильтров
+    String parameterFilter = "//div[@class=\"_Field_19ems_106\"]"; // Параметр фильтрации из списка
+    String buttonUpdateNewFilters = "//div[@class=\"_FilterFooterButtons_1ifag_24\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
+    String deleteButtonAdditionalFilter = "//button[@class=\"_Close_onqbf_1\"]"; // Иконка [X] удаления поля дополнительного фильтра
+    String buttonUpdateFilters = "//div[@class=\"_FilterFooter_bspy4_46\"]//button[1]"; // Кнопка Применить в блоке фильтров
 
     // Дополнительные фильтры
     public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах

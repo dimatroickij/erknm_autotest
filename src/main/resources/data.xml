@@ -7,8 +7,8 @@
                 <url name="dev" value="http://devproverki.wavea.cc/">http://knilrats-cluster.wavea.cc</url>
                 <url name="test" value="http://private.proverki.local/">http://proverki.local</url>
                 <url name="testOpen" value="http://proverki.local/">http://proverki.local</url>
-                <url name="sgk" value="https://proverki-portal.wavea.cc/">http://proverki.local</url>
-                <url name="sgkOpen" value=" https://public-proverki-portal.wavea.cc/portal">http://proverki.local</url>
+                <url name="sgk" value="https://proverki-portal.voskhod.ru/">http://proverki.local</url>
+                <url name="sgkOpen" value="https://public-proverki-portal.voskhod.ru/">http://proverki.local</url>
 
             </urls>
             <users>

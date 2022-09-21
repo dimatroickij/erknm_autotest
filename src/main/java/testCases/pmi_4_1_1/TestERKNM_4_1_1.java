@@ -37,7 +37,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         gotoListKNMPage();
         clickAddButton();
         setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN);
+                null, prosecutorsOffice, INN, kingObject);
         addGroundsConductingUnscheduled("4.0.21", null, null, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -71,7 +71,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         gotoListKNMPage();
         clickAddButton();
         setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN);
+                null, prosecutorsOffice, INN, kingObject);
         addGroundsConductingUnscheduled("4.0.18", null, currentDate, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -117,7 +117,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         gotoListKNMPage();
         clickAddButton();
         setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN);
+                null, prosecutorsOffice, INN, kingObject);
         addGroundsConductingUnscheduled("4.0.19", "АА-Б1-2", null, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -150,24 +150,24 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("77220661000000065690"); // В процессе заполнения
+        openCard("77220661000000065707"); // В процессе заполнения
         sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard("77220661000000065689"); // В процессе заполнения
+        openCard("777220661000000065702"); // В процессе заполнения
         sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
         gotoListKNMPage();
-        openCard("77220661000000065414"); // Готова к согласованию
+        openCard("77220661000000065710"); // Готова к согласованию
         sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard("77220661000000065623"); // Готова к согласованию
+        openCard("77220661000000065712"); // Готова к согласованию
         sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
@@ -185,13 +185,13 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("prosecutor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("77220661000000065690"); // В процессе заполнения
+        openCard("77220661000000065707"); // В процессе заполнения
         sleep(3000);
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
 
         gotoListKNMPage();
-        openCard("77220661000000065623"); // Готова к согласованию
+        openCard("77220661000000065704"); // Готова к согласованию
         sleep(3000);
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
     }
@@ -213,23 +213,23 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         openFiltrationForm();
         setBasicFilterParameters(knoName, territorialUnitName);
         addAdditionalFilter("Реквизиты требования");
-        setAdditionalFilterInput(requirementDetailsFilterInput, "12345");
+        setAdditionalFilterInput(requirementDetailsFilterInput, "1233");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220661000000065689");
+        checkNumberKNMFromTable("77220661000000065712");
 
         openFiltrationForm();
         deleteAdditionalFilterInput();
         addAdditionalFilter("Номер поручения");
         setAdditionalFilterInput(orderNumberFilterInput, "54321");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220661000000065690");
+        checkNumberKNMFromTable("77220661000000065707");
 
         openFiltrationForm();
         deleteAdditionalFilterInput();
         addAdditionalFilter("Дата поручения");
-        setAdditionalFilterInput(orderDateFilterInput, "15.09.2022");
+        setAdditionalFilterInput(orderDateFilterInput, "20.09.2022");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220661000000065690");
+        checkNumberKNMFromTable("77220661000000065707");
 
         authorization("prosecutor");
         selectionERKNM();
@@ -238,9 +238,9 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         setBasicFilterParameters(knoName, territorialUnitName);
         addAdditionalFilter("Дата поручения правительства о проведении КНМ (интервал)");
         setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
-                "01.09.2022", "02.09.2022");
+                "20.09.2022", "21.09.2022");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220661000000065690");
+        checkNumberKNMFromTable("77220661000000065707");
     }
 
 

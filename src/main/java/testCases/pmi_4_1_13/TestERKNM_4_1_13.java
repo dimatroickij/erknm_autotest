@@ -1,4 +1,4 @@
-package testCases.pmi_4_1_1;
+package testCases.pmi_4_1_13;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -35,7 +35,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, null, interactionDays, null,
-                prosecutorsOffice, INN);
+                prosecutorsOffice, INN, kingObject);
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Дата окончания КНМ"};
         checkNamesEmptyFields(nameFields);
@@ -63,7 +63,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, null, interactionHours,
-                prosecutorsOffice, INN);
+                prosecutorsOffice, INN, kingObject);
         checkValueOfField("Срок проведения дней", durationDaysField,"1");
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -103,7 +103,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, "16.01.2023", "20.01.2023", null,
-                interactionHours, prosecutorsOffice, INN);
+                interactionHours, prosecutorsOffice, INN, kingObject);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -129,7 +129,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, "21.01.2023", "22.01.2023", null,
-                interactionHours, prosecutorsOffice, INN);
+                interactionHours, prosecutorsOffice, INN, kingObject);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -156,7 +156,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, "", "",
-                prosecutorsOffice, INN);
+                prosecutorsOffice, INN, kingObject);
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
         checkNamesEmptyFields(nameFields);

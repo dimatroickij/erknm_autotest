@@ -53,9 +53,10 @@ public class Common {
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
+    public String viewKNOForPlan = "067 - Федеральный государственный контроль (надзор) в сфере обращения биомедицинских клеточных продуктов";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
-    public String prosecutorsOffice = "Ярославская область, Тестовая Прокуратура Ярославской области";
+    public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String territorialUnitName = "РОССИЯ - состав федеральных округов";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
@@ -82,6 +83,7 @@ public class Common {
     public String onsiteInspection = "Выездная проверка";
     public String unscheduledCheck = "Внеплановая проверка";
     public String scheduleCheck = "Плановая проверка";
+    public String numberPlan = "2023003594";
 
     //Характер КНМ
     public String plannedCheck = "Плановое КНМ";
@@ -101,6 +103,9 @@ public class Common {
     //Необходимость согласования
     public String needCoordination = "Требует согласования";
     public String doesNotRequire = "Не требует согласования";
+
+    //Типы документов для основания проведения КНМ
+    public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
     public String positionDirector = "Руководитель Росздравнадзора";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
@@ -151,8 +156,8 @@ public class Common {
     public static String numberPMEventWarningPublished; // Номер ПМ
     public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
-    public String numberKNM = "//h3[contains(@class, 'KnmHeader_Title')]"; // Объект для получения номера КНМ
-    String selectValueByText = "//div[contains(@class, 'SelectInput') and contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
+    public String numberKNM = "//h3[contains(@class, '_Title_5dm4o_45')]"; // Объект для получения номера КНМ
+    String selectValueByText = "//div[contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
     public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
@@ -169,8 +174,8 @@ public class Common {
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//*[@id='searchButton']"; //кнопка Искать
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
-    String modalSaveButton = "//div[contains(@class, 'ModalActions_Container')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
-    String modalAddButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
+    String modalSaveButton = "//div[contains(@class, '_Container_1yq2a_1')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
+    String modalAddButton = "//div[contains(@class, '_ModalBody_9nshc_41')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
     String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
@@ -181,10 +186,10 @@ public class Common {
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
-    public String closeMessageButton = "//button[@class='Notification_CloseButton__2qh4j']"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
-    public String textMessage = "//div[@class='Notification_ClosingNotificationText__2hGjl']"; // текст сообщения
-    public String iconError = "//div[@class='ErrorsIcon_Container__1WW_B KnmHeader_Errors__RYVez']";  // [!] иконка сообщающая об ошибке при заполнении
-    public String emptyFields = "//div[@class='ErrorsIcon_ErrorsTooltip__1HfXo ErrorsIcon_ErrorsTooltipVisible__3_96_']//a"; // незаполненные поля под [!]
+    public String closeMessageButton = "//button[@class='_CloseButton_np6jc_50']"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
+    public String textMessage = "//div[@class='_ClosingNotificationText_np6jc_28']"; // текст сообщения
+    public String iconError = "//div[@class='_Container_1baqa_1 _Errors_5dm4o_84']";  // [!] иконка сообщающая об ошибке при заполнении
+    public String emptyFields = "//div[@class='_ErrorsTooltip_1baqa_18 _ErrorsTooltipVisible_1baqa_39']//a"; // незаполненные поля под [!]
     public String textErrorNotNullInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
     public String textErrorIncorrectlyInput = "Номер поручения указан неверно"; // Текст сообщения об ошибке при некорректно заполненном поле
 
