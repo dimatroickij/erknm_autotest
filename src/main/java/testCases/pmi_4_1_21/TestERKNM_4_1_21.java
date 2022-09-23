@@ -5,6 +5,8 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
+import testPages.ListPlanERPPage;
+import testPages.ListPlanPage;
 
 /**
  * Проверка выполнения требований по реализации совместимости ФГИС ЕРКНМ со статусной моделью ЕРВК в части планового контроля.
@@ -15,6 +17,8 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
 
     public TestERKNM_4_1_21() throws Exception {
     }
+
+    ListPlanPage plan = new ListPlanPage();
 
     /**
      * Цель: Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку «Список КНМ».
@@ -41,8 +45,8 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         setKindControlAndNumberDropDown(viewKNO);
         String[] typeCharacterKNO = {plannedCheck};
         checkInVisibleListCharacterKNMDropDown(typeCharacterKNO);
-        setRequiredFieldsKNM(null, viewKNOForPlan, documentaryVerification, plannedCheck, futureDate, futureDate, interactionDays,
-                null, prosecutorsOffice, INN, kingObjectOne);
+        setRequiredFieldsKNM(null, viewKNOForPlan, documentaryVerification, plannedCheck, futureDate,
+                futureDate, interactionDays, null, prosecutorsOffice, INN, kingObjectOne);
         clickSaveButton();
         getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
@@ -67,10 +71,62 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     public void characterKNMCreateInPlanValuesDisplayTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
+        gotoListPlansPage();
+        openCardPlan("2023003597");
+        plan.clickAddKNMButton();
+        checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, knoNameTransport);
+        checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
+        checkValueForDropDownOfField("Наименование прокуратуры", nameProsecutorFieldText, prosecutorsOffice);
+        checkInVisibleValueOfDropDown("Вид контроля (надзора) и его номер", kindControlAndNumberDropDown);
+
+        gotoListPlansPage();
+        openCardPlan("2023003594");
+        plan.clickAddKNMButton();
+        checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, knoName);
+        checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
+        checkValueForDropDownOfField("Наименование прокуратуры", nameProsecutorFieldText, prosecutorsOffice);
+        String[] kindsOfControls = {"066", "052", "037"};
+        checkInVisibleListKindOfControlDropDown(kindsOfControls);
+        setRequiredFieldsKNM(null, viewKNOForPlan, documentaryVerification, null, futureDate,
+                futureDate, interactionDays, null, null, INN, kingObjectOne);
+        clickSaveButton();
+        getNumberKNM();
+        checkStatusKNM(statusProcessFilling);
+        checkElementAvailable("Характер КНМ", characterKNMDropDown);
+    }
+
+    /**
+     * Цель: Проверка применения валидации требования к КНМ, созданным в системе после выхода требования в промышленный контур.
+     * A.1.5.4
+     *
+     * @author Kirilenko P.A. 09.2022
+     */
+    @Epic("4.1.21")
+    @Feature("ЕРКНМ")
+    @Story("КНМ")
+    @Test(description = "A.1.5.4. Проверка применения валидации требования к КНМ, созданным в системе после выхода " +
+            "требования в промышленный контур.")
+    public void validationOfRequirementsForPreviouslyCreatedKNMTest() throws Exception {
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
+        setRequiredFieldsKNM(knoName, null, null, null, currentDate,
+                currentDate, interactionDays, null, prosecutorsOffice, INN, null);
+        clickSaveButton();
+        checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
+        String[] nameFields = {"Необходимо заполнить поле \"Вид контроля (надзора) и его номер\"",
+                "Вид контроля (надзора) и его номер", "Вид КНМ"};
+        checkNamesEmptyFields(nameFields);
 
+        authorization("supervisor");
+        selectionERKNM();
+        gotoListKNMPage();
+        openCard("7722231000000027972");  // 77220660001100046634
+        clickSaveButton();
+        checkTextNotification("КНМ успешно сохранено");
     }
+
 
 
 }

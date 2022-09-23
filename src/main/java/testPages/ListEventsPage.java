@@ -24,10 +24,13 @@ public class ListEventsPage extends Common {
     public String nameTitle = prefix + "авто"; // Значение для поля Наименование в блоке ОТ
     public String officialField = prefix + " autoFIO"; // Значение для поля ФИО должностного лица
     String statusKNM = "//div[@class=\"_TitleBlock_5dm4o_45\"]/span[contains(@class, '_Status_5dm4o_73')]"; // Статус КНМ
-    String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; // Выпадающий список Наименование органа контроля
-    String kindControlAndNumberDropDown = "//*[@id='kindControl']"; // Выпадающий список Вид контроля (надзора) и его номер
+    public String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; // Выпадающий список Наименование органа контроля
+    public String nameKNOFiledText = "//*[@id='knoOrganizationErknm']//div[contains(@class,'_SingleValue_')]"; // Текст в поле Наименование органа контроля
+    public String kindControlAndNumberDropDown = "//*[@id='kindControl']"; // Выпадающий список Вид контроля (надзора) и его номер
+
     String kindKNMDropDown = "//*[@id='kindKnm']"; // Выпадающий список Вид КНМ
     public String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
+    public String characterKNMFieldText = "//*[@id='typeErknm']//div[contains(@class,'_SingleValue_')]"; // Текст в поле Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
     String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
     public String nameInputStopKNMDate = "Дата окончания КНМ"; // Название поля Дата окончания КНМ
@@ -39,6 +42,7 @@ public class ListEventsPage extends Common {
     public String errorInteractionTimeHours = "//div[@id='durationHoursBlock']//" +
             "div[@class='_TextInputError_rwxxl_73']"; // Текст ошибки под полем Срок непосредственного взаимодействия часов
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
+    public String nameProsecutorFieldText = "//*[@id='prosecutorOrganizationErknm']//div[contains(@class,'_SingleValue_')]"; // текст в поле Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
     String innListField = "//*[@id='autoCompleteList']/li"; // Появившийся список ИНН
 
@@ -73,6 +77,7 @@ public class ListEventsPage extends Common {
 
     String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']"; // Подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']"; // Класс опасности
+    String deleteObjectButton = "//button[@class=\"_DeleteButton_oacge_81\"]"; // Иконка [X] удаления объекта
     String dangerClass = "Первый"; // Класс опасности для заполнения dangerClassDropDown
 
     String addListActionsButton = "//*[@id='erknmEventsAddButton']"; // Кнопка Добавить в разделе Перечень действий
@@ -206,6 +211,9 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор из выпадающего списка Вид контроля - {kind}")
     public void setKindControlAndNumberDropDown(String kind) {
+        if (kind == null) {
+            return;
+        }
         $(By.xpath(kindControlAndNumberDropDown)).click(); // клик на выпадающем списке Вид контроля
         setValueDropDownToText(kind); // клик на нужном виде контроля
     }
@@ -217,6 +225,9 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор из выпадающего списка Вид КНМ - {kind}")
     public void setKindKNMDropDown(String kind) {
+        if (kind == null) {
+            return;
+        }
         $(By.xpath(kindKNMDropDown)).click(); // клик на выпадающем списке Вид КНМ
         setValueDropDownToText(kind); // клик на нужном виде КНМ
     }
@@ -248,6 +259,21 @@ public class ListEventsPage extends Common {
         for(String value : listValue){
             $(By.xpath(String.format(selectValueByText, value))).shouldNotBe(visible);
         }
+        $(By.xpath(characterKNMDropDown)).click();
+    }
+
+    /**
+     * Проверка на отсутствие значений в выпадающем списке Вид контроля (надзора) и его номер
+     *
+     * @param listValue Список проверяемых значений
+     */
+    @Step("Проверка на отсутствие значений - {listValue} в выпадающем списке Вид контроля (надзора) и его номер")
+    public void checkInVisibleListKindOfControlDropDown(String[] listValue) {
+        $(By.xpath(kindControlAndNumberDropDown)).scrollIntoView(false).click();
+        for(String value : listValue){
+            $(By.xpath(String.format(selectValueByText, value))).shouldNotBe(visible);
+        }
+        $(By.xpath(kindControlAndNumberDropDown)).scrollIntoView(false).click();
     }
 
     /**
@@ -326,6 +352,9 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор из выпадающего списка Наименование прокуратуры - {name}")
     public void setNameProsecutorDropDown(String name) {
+        if (name == null) {
+            return;
+        }
         $(By.xpath(nameProsecutorDropDown)).click(); // клик на выпадающем списке Наименование прокуратуры
         setValueDropDownToText(name); // клик на нужной прокуратуре
     }
@@ -480,6 +509,14 @@ public class ListEventsPage extends Common {
     public void setDangerClassDropDown() {
         $(By.xpath(dangerClassDropDown)).click();
         setValueDropDownToText(dangerClass);
+    }
+
+    /**
+     * Удаление объекта
+     */
+    @Step("Удаление объекта")
+    public void deleteObject() {
+        $(By.xpath(deleteObjectButton)).click();
     }
 
     /**
@@ -823,6 +860,10 @@ public class ListEventsPage extends Common {
         interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
         setInnField(inn);
+        if(view == null) {
+            deleteObject();
+            return;
+        }
         setTypeObjectDropDown();
         setKindObjectDropDown(view);
         setDangerClassDropDown();

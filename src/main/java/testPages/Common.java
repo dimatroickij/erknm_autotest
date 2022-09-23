@@ -52,6 +52,7 @@ public class Common {
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
+    public String knoNameTransport = "Федеральная служба по надзору в сфере транспорта";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOForPlan = "067 - Федеральный государственный контроль (надзор) в сфере обращения биомедицинских клеточных продуктов";
     public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
@@ -176,7 +177,7 @@ public class Common {
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
     String modalSaveButton = "//div[contains(@class, '_Container_1yq2a_1')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
     String modalAddButton = "//div[contains(@class, '_ModalBody_9nshc_41')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
-    String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
+    String saveButton = "//div[@class=\"_HeaderContent_5dm4o_13\"]//*[@id='saveButton'][1]"; //кнопка Сохранить
     String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
@@ -742,6 +743,31 @@ public class Common {
     public void checkValueOfField(String nameField, String locator, String value) throws InterruptedException {
         sleep(4000);
         $(By.xpath(locator)).scrollIntoView(false).shouldHave(value(value));
+    }
+
+    /**
+     * Получение выбранного значения из выпадающего списка и сравнение с ожидаемым значением
+     *
+     * @param nameField Название поля
+     * @param locator Локатор проверяемого поля
+     * @param value Ожидаемое значение
+     */
+    @Step("Проверка: выбранного из списка значения в поле - {nameField} соответствует ожидаемому значению: {value}")
+    public void checkValueForDropDownOfField(String nameField, String locator, String value) throws InterruptedException {
+        sleep(4000);
+        $(By.xpath(locator)).scrollIntoView(false).shouldHave(text(value));
+    }
+
+    /**
+     * Проверка на отсутствие значений в выпадающем списке
+     *
+     * @param nameField Наименование поля
+     * @param locator Локатор
+     */
+    @Step("Проверка на отсутствие значений в выпадающем - {nameField}")
+    public void checkInVisibleValueOfDropDown(String nameField, String locator) {
+        $(By.xpath(locator)).scrollIntoView(false).click();
+        $(By.xpath(String.format(selectValueByText, "Значение отсутствует"))).shouldBe(visible);
     }
 
     /**
