@@ -6,6 +6,8 @@ import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import testPages.ListEventsERPPage;
 
+import static com.codeborne.selenide.Selenide.sleep;
+
 /**
  * Проверка выполнения требований по добавлению возможности выбора КНО из данных ЕРВК и вывод данных в поле
  * «Наименование органа контроля, с которым КНМ проводится совместно» в паспорте КНМ.
@@ -45,6 +47,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         setDetailsRequirement(value);
         closeNotification();
         clickSaveButton();
+        sleep(3000);
         getNumberKNM();
         checkValueOfField("Реквизиты требования", detailsRequirementInput, value);
         setGroundRegistrationDropDown("1.2.10");
@@ -78,6 +81,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         setOrderNumber(value);
         closeNotification();
         clickSaveButton();
+        sleep(3000);
         getNumberKNM();
         checkValueOfField("Номер поручения", orderNumberInput, value);
         setGroundRegistrationDropDown("3.2.7");
@@ -123,6 +127,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         setOrderDate(value);
         closeNotification();
         clickSaveButton();
+        sleep(3000);
         getNumberKNM();
         checkValueOfField("Дата поручения", orderDateInput, value);
         setGroundRegistrationDropDown("1.2.16");

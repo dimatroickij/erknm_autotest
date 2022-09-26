@@ -718,7 +718,7 @@ public class Common {
      */
     @Step("Проверка на недоступность элемента - {nameElement}")
     public void checkElementNotAvailable(String nameElement, String locator) {
-       $(By.xpath(locator)).shouldBe(disabled);
+       $(By.xpath(locator)).scrollIntoView(false).shouldBe(disabled);
     }
 
     /**
@@ -729,7 +729,7 @@ public class Common {
      */
     @Step("Проверка на доступность элемента - {nameElement}")
     public void checkElementAvailable(String nameElement, String locator) {
-        $(By.xpath(locator)).shouldNotBe(disabled);
+        $(By.xpath(locator)).scrollIntoView(false).shouldNotBe(disabled);
     }
 
     /**
