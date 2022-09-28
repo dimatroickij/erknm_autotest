@@ -36,8 +36,8 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN, kingObject);
+        setRequiredFieldsKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
+                null, prosecutorsOffice, INN, kingObjectForFNS);
         addGroundsConductingUnscheduled("4.0.21", null, null, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -70,8 +70,8 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN, kingObject);
+        setRequiredFieldsKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
+                null, prosecutorsOffice, INN, kingObjectForFNS);
         addGroundsConductingUnscheduled("4.0.18", null, currentDate, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -116,8 +116,8 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setRequiredFieldsKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
-                null, prosecutorsOffice, INN, kingObject);
+        setRequiredFieldsKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
+                null, prosecutorsOffice, INN, kingObjectForFNS);
         addGroundsConductingUnscheduled("4.0.19", "АА-Б1-2", null, null,
                 "Не требует согласования");
         clickSaveButton();
@@ -211,7 +211,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
-        setBasicFilterParameters(knoName, territorialUnitName);
+        setBasicFilterParameters(nameKNOFNS, territorialUnitName);
         addAdditionalFilter("Реквизиты требования");
         setAdditionalFilterInput(requirementDetailsFilterInput, "1233");
         clickButtonUpdateForFilterBlock();
@@ -235,7 +235,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
-        setBasicFilterParameters(knoName, territorialUnitName);
+        setBasicFilterParameters(nameKNOFNS, territorialUnitName);
         addAdditionalFilter("Дата поручения правительства о проведении КНМ (интервал)");
         setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
                 "20.09.2022", "21.09.2022");

@@ -1,9 +1,9 @@
 package testPages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.conditions.Text;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import java.io.File;
 import java.util.UUID;
@@ -38,7 +38,29 @@ public class ListPlanPage extends Common {
     String filePlanInput = "//input[@id='documentFile']"; // Выберите файл на форме Смена статуса
     String approvePlanButton = "//*[@id='planChangeStatusButton']"; // кнопка Утвердить план
 
+    // список КНМ
+    public String numberKNMOfTableValue = "//td[@class=\"_Cell_1iybu_368 _CellErpId_1cug4_5\"]/a"; // номер КНМ в таблице списка КНМ в плане
+    public String durationsOfDaysColumnName = "//div[@data-id=\"durationDays\"]"; // название колонки срок непосредственного взаимодействия в таблице списка КНМ в плане
+    public String durationsOfDaysColumnValue = "//td[@class=\"_Cell_1iybu_368 _CellDurationDays_1cug4_318\"]"; // значение в колонке срок непосредственного взаимодействия в таблице списка КНМ в плане
+    public String openAllKNMButton = "//div[@class=\"_PlanBodyComposition_12w7q_18\"]//a[@class=\"_PlanBodyCompostionItem_12w7q_50\"][1]"; // кнопка Перейти к перечню всех КНМ
+
     public ListPlanPage() throws Exception {
+    }
+
+    /**
+     * Нажать Перейти к перечню всех КНМ
+     */
+    @Step("Нажать Перейти к перечню всех КНМ")
+    public void clickAllEventsOpen() {
+        $(By.xpath(openAllKNMButton)).click();
+    }
+
+    /**
+     * Открытие КНМ из таблицы Список КНМ
+     */
+    @Step("Открытие КНМ из таблицы Список КНМ")
+    public void openEventFromListEventsTable() {
+        $(By.xpath(numberKNMOfTableValue)).scrollIntoView(false).click();
     }
 
     /**
@@ -76,7 +98,7 @@ public class ListPlanPage extends Common {
         openCardPlan(number);
         clickAddKNMButton();
         ListEventsPage event = new ListEventsPage();
-        numberKNM = event.addPlannedKNM(viewKNO, controlPurchase, futureDate, INN);
+        numberKNM = event.addPlannedKNM(viewKNOFNS, controlPurchase, futureDate, INN);
     }
 
     /**
@@ -99,6 +121,27 @@ public class ListPlanPage extends Common {
     public void setKNOFormPlanDropDown() {
         $(By.xpath(knoDropDown)).click();
         setValueDropDownToText(nameKNO);
+    }
+
+    /**
+     * Получить значение из колонки срок непосредственного взаимодействия в таблице списка КНМ в плане
+     */
+    @Step("Получаем значение из колонки срок непосредственного взаимодействия в таблице списка КНМ в плане")
+    public String getValueOfColumnDurationOfDays() {
+        return $(By.xpath(durationsOfDaysColumnValue)).getText();
+    }
+
+    /**
+     * Проверка значения из колонки срок непосредственного взаимодействия в таблице списка КНМ в плане на
+     * ожидаемый результат
+     *
+     * @param result Ожидаемый результат
+     */
+    @Step("Проверка значения из колонки срок непосредственного взаимодействия в таблице списка КНМ в плане на " +
+            "ожидаемый результат - {result}")
+    public void checkValueOfColumnDurationOfDays(String result) {
+        String value = getValueOfColumnDurationOfDays();
+        Assert.assertEquals(value, result);
     }
 
     /**

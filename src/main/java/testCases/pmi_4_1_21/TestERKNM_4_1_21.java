@@ -5,7 +5,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import testPages.ListEventsPage;
-import testPages.ListPlanERPPage;
 import testPages.ListPlanPage;
 
 /**
@@ -36,17 +35,17 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setNameKNODropDown(knoName);
+        setNameKNODropDown(nameKNOFNS);
         setCharacterKNMDropDown(null);
         String[] nameFields = {"Необходимо заполнить поле \"Вид контроля (надзора) и его номер\""};
         checkNamesEmptyFields(nameFields);
         String[] typesCharactersKNO = {plannedCheckFZ, unplannedCheck, plannedCheck};
         checkInVisibleListCharacterKNMDropDown(typesCharactersKNO);
-        setKindControlAndNumberDropDown(viewKNO);
+        setKindControlAndNumberDropDown(viewKNOFNS);
         String[] typeCharacterKNO = {plannedCheck};
         checkInVisibleListCharacterKNMDropDown(typeCharacterKNO);
-        setRequiredFieldsKNM(null, viewKNOForPlan, documentaryVerification, plannedCheck, futureDate,
-                futureDate, interactionDays, null, prosecutorsOffice, INN, kingObjectOne);
+        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, plannedCheck, futureDate,
+                futureDate, interactionDays, null, prosecutorsOffice, INN, kingObjectForFNSInPlaned);
         clickSaveButton();
         getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
@@ -82,13 +81,13 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         gotoListPlansPage();
         openCardPlan("2023003594");
         plan.clickAddKNMButton();
-        checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, knoName);
+        checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, nameKNOFNS);
         checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
         checkValueForDropDownOfField("Наименование прокуратуры", nameProsecutorFieldText, prosecutorsOffice);
         String[] kindsOfControls = {"066", "052", "037"};
         checkInVisibleListKindOfControlDropDown(kindsOfControls);
-        setRequiredFieldsKNM(null, viewKNOForPlan, documentaryVerification, null, futureDate,
-                futureDate, interactionDays, null, null, INN, kingObjectOne);
+        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, null, futureDate,
+                futureDate, interactionDays, null, null, INN, kingObjectForFNSInPlaned);
         clickSaveButton();
         getNumberKNM();
         checkStatusKNM(statusProcessFilling);
@@ -111,7 +110,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setRequiredFieldsKNM(knoName, null, null, null, currentDate,
+        setRequiredFieldsKNM(nameKNOFNS, null, null, null, currentDate,
                 currentDate, interactionDays, null, prosecutorsOffice, INN, null);
         clickSaveButton();
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");

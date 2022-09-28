@@ -21,7 +21,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(knoName, viewKNO, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
         numberPMEventWarningPublished = getNumberPM();
         logout();
     }
@@ -72,7 +72,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(knoName, viewKNO, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
         numberPMPreventiveVisitPublished = getNumberPM();
         logout();
     }

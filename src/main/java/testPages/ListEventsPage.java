@@ -5,13 +5,10 @@ import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.UUID;
 
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static java.lang.Thread.sleep;
@@ -32,7 +29,7 @@ public class ListEventsPage extends Common {
     public String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
     public String characterKNMFieldText = "//*[@id='typeErknm']//div[contains(@class,'_SingleValue_')]"; // Текст в поле Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
-    String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
+    public String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
     public String nameInputStopKNMDate = "Дата окончания КНМ"; // Название поля Дата окончания КНМ
     public String errorStopKNMDate = "//div[@class='_DatePickerError_1a70y_78']"; // Текст ошибки под полем Дата окончания КНМ
     public String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
@@ -41,6 +38,7 @@ public class ListEventsPage extends Common {
     public String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
     public String errorInteractionTimeHours = "//div[@id='durationHoursBlock']//" +
             "div[@class='_TextInputError_rwxxl_73']"; // Текст ошибки под полем Срок непосредственного взаимодействия часов
+
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
     public String nameProsecutorFieldText = "//*[@id='prosecutorOrganizationErknm']//div[contains(@class,'_SingleValue_')]"; // текст в поле Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
@@ -70,12 +68,12 @@ public class ListEventsPage extends Common {
     String typeObjectDropDown = "//*[@id='objectsErknm[0].objectType']"; // Тип объекта
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']"; // Вид объекта
-    public String kingObject = "используемые контролируемыми лицами при осуществлении деятельности в сфере обращения " +
-            "лекарственных средств для медицинского применения помещения, к которым предъявляются обязательные требования";
-    //редактировал 25.08 для addPlannedKNMInPlanTest()
-    public String kingObjectOne = "Деятельность контролируемых лиц в сфере обращения биомедицинских клеточных продуктов";
+    public String kingObjectForFNS = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
+    public String kingObjectForFNSInPlaned = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
+            "организации и проведению азартных игр в игорной зоне";
 
-    String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']"; // Подвид объекта
+    String subkindObjectDropDown = "//*[@id='objectsE" +
+            "rknm[0].objectSubKind']"; // Подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']"; // Класс опасности
     String deleteObjectButton = "//button[@class=\"_DeleteButton_oacge_81\"]"; // Иконка [X] удаления объекта
     String dangerClass = "Первый"; // Класс опасности для заполнения dangerClassDropDown
@@ -346,6 +344,20 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Редактирование полей сроков непосредственного взаимодействия
+     *
+     * @param value Вводимое значение
+     */
+    @Step("Редактирование полей сроков непосредственного взаимодействия")
+    public void editInteractionTime(String value) {
+        try {
+            interactionTimeDays(value);
+        } catch (Exception e) {
+            interactionTimeHours(value);
+        }
+    }
+
+    /**
      * Выбор из выпадающего списка Наименование прокуратуры
      *
      * @param name Наименование прокуратуры
@@ -499,7 +511,7 @@ public class ListEventsPage extends Common {
     @Step("Выбор Подвида объекта - {}")
     public void setSubkindObjectDropDown() {
         $(By.xpath(subkindObjectDropDown)).click();
-        setValueDropDownToText(kingObject);
+        setValueDropDownToText(kingObjectForFNS);
     }
 
     /**
@@ -887,7 +899,7 @@ public class ListEventsPage extends Common {
         addGroundsIncludePlan(date);
         setInnField(inn);
         setTypeObjectDropDown();
-        setKindObjectDropDown(kingObject);
+        setKindObjectDropDown(kingObjectForFNS);
         setDangerClassDropDown();
         //setDurationDaysField(number);
         addListActions(date, date);

@@ -30,8 +30,8 @@ public class Common {
 
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "test");
-    public String openUrl = readParameters.getParameter("url", "testOpen");
+    public String url = readParameters.getParameter("url", "sgk");
+    public String openUrl = readParameters.getParameter("url", "sgkOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
@@ -51,11 +51,15 @@ public class Common {
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
-    public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
+    public String nameKNOFNS = "Федеральная налоговая служба";
     public String knoNameTransport = "Федеральная служба по надзору в сфере транспорта";
-    public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
-    public String viewKNOForPlan = "067 - Федеральный государственный контроль (надзор) в сфере обращения биомедицинских клеточных продуктов";
-    public String viewKNOERP = "1.176 294 ФЗ  - Выборочный контроль качества биомедицинских клеточных продуктов.";
+
+    public String viewKNOFNS = "017 - Федеральный государственный лицензионный контроль (надзор) за производством и " +
+            "реализацией защищенной от подделок полиграфической продукции";
+    public String viewKNOFNSForPlan = "051 - Федеральный государственный контроль (надзор) за организацией и проведением " +
+            "азартных игр";
+    public String viewKNOERP = "1.19 294 ФЗ  - Федеральный лицензионный контроль за деятельностью по перевозкам " +
+            "внутренним водным транспортом, морским транспортом пассажиров.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String territorialUnitName = "РОССИЯ - состав федеральных округов";
