@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 public class ListEventsERPPage extends Common {
     //Список проверок
-    public String numberKNMInList = "//tr[@class=\"_TBodyRow_1iybu_80\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+    public String numberKNMInList = "//tr[contains(@class,\"TBodyRow\")]//td[2]/a"; // Номер КНМ в таблице Список КНМ
     String viewKNMDropDown = "//*[@id='type']"; //выпадающий список Вид КНМ
     String formKMNDropDown = "//*[@id='kind']"; //Выпадающий список Форма КНМ
     String typeSubjectDropDown = "//*[@id='subjectType']"; // Выпадающий список Тип субъекта КНМ
@@ -328,7 +328,7 @@ public class ListEventsERPPage extends Common {
         clickModalTemplateDropDown(); // Открытие выпадающего списка ОТ
         if (addedTest) setValueDropDownToText(templateMandatoryRequirements);
         else {
-            setValueDropDownToText("12");
+            setValueDropDownToText("автотест");
         }
         clickAddModalButton();
     }
@@ -871,5 +871,7 @@ public class ListEventsERPPage extends Common {
                 .scrollIntoView(false)
                 .should(Text.text(numberKNM));
     }
+
+
 
 }

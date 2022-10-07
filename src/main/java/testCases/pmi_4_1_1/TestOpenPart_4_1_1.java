@@ -26,25 +26,31 @@ public class TestOpenPart_4_1_1 extends OpenPartPage {
     public void checkFieldsInOpenPart() throws Exception {
         open(openUrl);
         gotoHomeOpenPage();
-        searchEventsWithCaptcha("77220171000000065441", captcha);
+        searchEventsWithCaptcha("77220501000000065700", captcha);
         openFoundEvent();
         checkFieldVisible("Номер поручения");
         checkFieldVisible("Дата поручения");
 
+        switchTo().window(1).close();
         switchTo().window(0);
+
         gotoHomeOpenPage();
         searchEventsWithoutCaptcha("77220661000000065679");
         openFoundEvent();
         checkFieldVisible("Реквизиты требования");
 
+        switchTo().window(1).close();
         switchTo().window(0);
+
         gotoHomeOpenPage();
-        searchEventsWithoutCaptcha("772200065697");
+        searchEventsWithoutCaptcha("772200065889");
         openFoundEvent();
         checkFieldVisible("Номер поручения");
         checkFieldVisible("Дата поручения");
 
+        switchTo().window(1).close();
         switchTo().window(0);
+
         gotoHomeOpenPage();
         searchEventsWithoutCaptcha("772200065688");
         openFoundEvent();

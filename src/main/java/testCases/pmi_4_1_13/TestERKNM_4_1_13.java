@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
+import static com.codeborne.selenide.Selenide.switchTo;
 import static java.lang.Thread.sleep;
 
 /**
@@ -36,7 +37,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, null, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Дата окончания КНМ"};
         checkNamesEmptyFields(nameFields);
@@ -63,8 +64,8 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, null, interactionHours,
-                prosecutorsOffice, INN, kingObjectForFNS);
+        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, null, interactionHours,
+                prosecutorsOffice, viewEntity, INN, kingObject);
         checkValueOfField("Срок проведения дней", durationDaysField,"1");
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -104,7 +105,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, "16.01.2023", "20.01.2023", null,
-                interactionHours, prosecutorsOffice, INN, kingObjectForFNS);
+                interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -130,7 +131,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, "21.01.2023", "22.01.2023", null,
-                interactionHours, prosecutorsOffice, INN, kingObjectForFNS);
+                interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -157,7 +158,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, "", "",
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
         checkNamesEmptyFields(nameFields);
@@ -198,7 +199,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, null, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         clickSaveButton();
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
@@ -232,6 +233,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
                                         };
         for (String role : roles) {
             for (String event : events) {
+                System.out.println("Role: " + role + " КНМ " + event);
                 authorization(role);
                 sleep(4000);
                 selectionERKNM();
@@ -270,11 +272,17 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         checkTextErrorField("Наименование колонки сроков непосредственного взаимодействия",
                 planPage.durationsOfDaysColumnName, "Срок проведения (в днях) \\ Срок непосредственного взаимодействия");
         planPage.openEventFromListEventsTable();
-        String value = "25";
+        switchTo().window(1);
+        String value = String.valueOf(1 + (int) ( Math.random() * 100 ));
+        sleep(3000);
         editInteractionTime(value);
+        sleep(3000);
         clickSaveButton();
+        sleep(3000);
         gotoListPlansPage();
+        sleep(3000);
         openCardPlan("2023003594");
+        sleep(3000);
         planPage.clickAllEventsOpen();
         planPage.checkValueOfColumnDurationOfDays(value);
     }
@@ -295,7 +303,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, null, null, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         clickSaveButton();
         String[] nameFields = {"Дата окончания КНМ", "Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
@@ -309,7 +317,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("7721221000000041580");
+        openCard("77220061000100056383");
         checkValueOfField("Дата окончания КНМ", stopKNMDate, "");
         checkValueOfField("Срок непосредственного взаимодействия (дней)", interactionTimeDays, "");
         checkValueOfField("Срок непосредственного взаимодействия (часов)", interactionTimeHours, "");

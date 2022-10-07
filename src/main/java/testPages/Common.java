@@ -1,6 +1,8 @@
 package testPages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -8,16 +10,16 @@ import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -30,14 +32,14 @@ public class Common {
 
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "sgk");
-    public String openUrl = readParameters.getParameter("url", "sgkOpen");
+    public String url = readParameters.getParameter("url", "test");
+    public String openUrl = readParameters.getParameter("url", "testOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
 
-    public String filePath = ".\\file\\sign.docx";
-    public String signPath = ".\\file\\sign.docx.sig";
+    public String filePath = "./file/sign.docx";
+    public String signPath = "./file/sign.docx.sig";
 
 
     String messageButton = "//div[contains(@class, 'CheckNotificationModal')]//button"; //кнопка на временной форме с информацией TODO должен быть идентификатор
@@ -49,17 +51,20 @@ public class Common {
     //режимы ЕРКНМ и ЕРП
     public String modeERKNM = "//*[text()='ЕРКНМ']"; // TODO должен быть идентификатор
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
+    public String viewEntity = "Юридические лица";
+
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
+    public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String nameKNOFNS = "Федеральная налоговая служба";
     public String knoNameTransport = "Федеральная служба по надзору в сфере транспорта";
 
-    public String viewKNOFNS = "017 - Федеральный государственный лицензионный контроль (надзор) за производством и " +
+    public String viewKNOFNSForPlan = "017 - Федеральный государственный лицензионный контроль (надзор) за производством и " +
             "реализацией защищенной от подделок полиграфической продукции";
-    public String viewKNOFNSForPlan = "051 - Федеральный государственный контроль (надзор) за организацией и проведением " +
+    public String viewKNOFNS = "051 - Федеральный государственный контроль (надзор) за организацией и проведением " +
             "азартных игр";
-    public String viewKNOERP = "1.19 294 ФЗ  - Федеральный лицензионный контроль за деятельностью по перевозкам " +
-            "внутренним водным транспортом, морским транспортом пассажиров.";
+    public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
+    public String viewKNOERP = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
     public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
     public String territorialUnitName = "РОССИЯ - состав федеральных округов";
@@ -70,6 +75,7 @@ public class Common {
     public String listEventsERP = "//*[@id='/private/knms']/a"; // Список проверок
     public String listPreventionEvents = "//*[@id='/private/preventions']/a"; // "Список ПМ";
     public String listPlans = "//*[@id='/private/templates']/a"; // Список планов
+    public String analytics = "//div[@id=\"/private/analytics\"]"; // Вкладка Аналитика
     public String importExport = "//*[@id='/private/import']/a"; // Импорт/Экспорт
     public String matchResolution = "//*[@id='/private/similarities']/a"; // Разрешение совпадений
     public String searchEvents = "//*[@id='/private/search']/a"; // Поиск мероприятий
@@ -88,7 +94,7 @@ public class Common {
     public String onsiteInspection = "Выездная проверка";
     public String unscheduledCheck = "Внеплановая проверка";
     public String scheduleCheck = "Плановая проверка";
-    public String numberPlan = "2023003594";
+    public String numberPlan = "2024003601";
 
     //Характер КНМ
     public String plannedCheck = "Плановое КНМ";
@@ -112,7 +118,7 @@ public class Common {
     //Типы документов для основания проведения КНМ
     public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
-    public String positionDirector = "Руководитель Росздравнадзора";
+    public String positionDirector = "Руководитель ФНС России";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
     public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
@@ -481,7 +487,7 @@ public class Common {
         clickSearchButton();
         $(By.xpath(openRequest)).click();
         reloadPage();
-        switchTo().window(0);
+        //switchTo().window(0);
 
     }
 
@@ -506,7 +512,7 @@ public class Common {
      */
     @Step("Переход в список КНМ")
     public void gotoListKNMPage() {
-        $(By.xpath(listEvents)).click();
+        $(By.xpath(listEvents)).scrollIntoView(false).click();
     }
 
     /**
@@ -531,6 +537,14 @@ public class Common {
     @Step("Переход в список планов")
     public void gotoListPlansPage() {
         $(By.xpath(listPlans)).click();
+    }
+
+    /**
+     * Переход во вкладку Аналитика для ЕРКНМ
+     */
+    @Step("Переход во вкладку Аналитика для ЕРКНМ")
+    public void gotoAnalyticsPage() {
+        $(By.xpath(analytics)).click();
     }
 
     /**
@@ -690,6 +704,25 @@ public class Common {
     @Step("Проверка текста под полем - {nameInput}, {text}")
     public void checkTextErrorField(String nameInput, String locator, String text) {
         $(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(text));
+    }
+
+    /**
+     * Проверка текста в модальном окне
+     *
+     * @param locator Локатор проверяемого поля
+     * @param text Ожидаемый текст ошибки
+     */
+    @Step("Проверка текста в модальном окне - {text}")
+    public void checkTextModalWindow(String locator, String text) {
+        //$(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(text));
+        ElementsCollection elements = $$ (By.xpath(locator));
+        String[] messageText = new String[elements.size()];
+        for(int i = 0; i < elements.size(); i++) {
+            SelenideElement element = elements.get(i);
+            messageText[i] = element.text();
+        }
+        String resultAllText = Arrays.toString(messageText);
+        Assert.assertEquals(text, resultAllText, "Текст не совпадает");
     }
 
     /**

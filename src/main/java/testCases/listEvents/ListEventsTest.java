@@ -24,7 +24,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         numberPublishedKNMBVT = numberKNM;
@@ -135,7 +135,7 @@ public class ListEventsTest extends ListEventsPage {
         gotoListKNMPage();
         reloadPage();
         addUnplannedKNM(nameKNO, viewKNOFNS, controlPurchase, futureDate, futureDate, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         createTemplateMandatoryRequirements();
@@ -174,7 +174,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNOFNS, controlPurchase, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         String number = getNumberKNM();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
@@ -197,7 +197,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNOFNS, raidInspection, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         String numberKNMTemplate = getNumberKNM();
         addCheckList(prefix);
         clickSaveButton();
@@ -218,7 +218,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addUnplannedKNM(nameKNO, viewKNOFNS, controlPurchase, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, INN, kingObjectForFNS);
+                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         String numberKNMRepresentatives = getNumberKNM();
         addInformationAboutOfficialsParticipatingInTheKNM(officialField);
         clickSaveButton();

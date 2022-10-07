@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import testPages.ListEventsPage;
 import testPages.ListPlanPage;
 
+import static com.codeborne.selenide.Selenide.sleep;
+
 /**
  * Проверка выполнения требований по реализации совместимости ФГИС ЕРКНМ со статусной моделью ЕРВК в части планового контроля.
  * A.1.5
@@ -44,12 +46,12 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         setKindControlAndNumberDropDown(viewKNOFNS);
         String[] typeCharacterKNO = {plannedCheck};
         checkInVisibleListCharacterKNMDropDown(typeCharacterKNO);
-        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, plannedCheck, futureDate,
-                futureDate, interactionDays, null, prosecutorsOffice, INN, kingObjectForFNSInPlaned);
+        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, plannedCheck, "01.02.2024",
+                "01.02.2024", interactionDays, null, prosecutorsOffice, viewEntity, INN, kingObjectForFNSInPlaned);
         clickSaveButton();
         getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
-        setFieldsNecessaryForHarmonization("4.0.11", futureDate, plannedCheck);
+        setFieldsNecessaryForHarmonization("4.0.11", "01.02.2024", plannedCheck);
         closeNotification();
         clickSaveButton();
         checkStatusKNM(statusReadyApproval);
@@ -71,7 +73,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListPlansPage();
-        openCardPlan("2023003597");
+        openCardPlan("2024003602");
         plan.clickAddKNMButton();
         checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, knoNameTransport);
         checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
@@ -79,16 +81,17 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         checkInVisibleValueOfDropDown("Вид контроля (надзора) и его номер", kindControlAndNumberDropDown);
 
         gotoListPlansPage();
-        openCardPlan("2023003594");
+        openCardPlan(numberPlan);
         plan.clickAddKNMButton();
         checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, nameKNOFNS);
         checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
         checkValueForDropDownOfField("Наименование прокуратуры", nameProsecutorFieldText, prosecutorsOffice);
         String[] kindsOfControls = {"066", "052", "037"};
         checkInVisibleListKindOfControlDropDown(kindsOfControls);
-        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, null, futureDate,
-                futureDate, interactionDays, null, null, INN, kingObjectForFNSInPlaned);
+        setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, null, "01.02.2024",
+                "01.02.2024", interactionDays, null, null, viewEntity, INN, kingObjectForFNSInPlaned);
         clickSaveButton();
+        sleep(3000);
         getNumberKNM();
         checkStatusKNM(statusProcessFilling);
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
@@ -111,7 +114,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         gotoListKNMPage();
         clickAddButton();
         setRequiredFieldsKNM(nameKNOFNS, null, null, null, currentDate,
-                currentDate, interactionDays, null, prosecutorsOffice, INN, null);
+                currentDate, interactionDays, null, prosecutorsOffice, viewEntity, INN, null);
         clickSaveButton();
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Необходимо заполнить поле \"Вид контроля (надзора) и его номер\"",
@@ -125,7 +128,4 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         clickSaveButton();
         checkTextNotification("КНМ успешно сохранено");
     }
-
-
-
 }

@@ -6,8 +6,10 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.UUID;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ListPlanPage extends Common {
@@ -39,10 +41,12 @@ public class ListPlanPage extends Common {
     String approvePlanButton = "//*[@id='planChangeStatusButton']"; // кнопка Утвердить план
 
     // список КНМ
-    public String numberKNMOfTableValue = "//td[@class=\"_Cell_1iybu_368 _CellErpId_1cug4_5\"]/a"; // номер КНМ в таблице списка КНМ в плане
+    public String numberKNMOfTableValue = "//td[contains(@class,\"CellErpId\")]/a"; // номер КНМ в таблице списка КНМ в плане
     public String durationsOfDaysColumnName = "//div[@data-id=\"durationDays\"]"; // название колонки срок непосредственного взаимодействия в таблице списка КНМ в плане
-    public String durationsOfDaysColumnValue = "//td[@class=\"_Cell_1iybu_368 _CellDurationDays_1cug4_318\"]"; // значение в колонке срок непосредственного взаимодействия в таблице списка КНМ в плане
-    public String openAllKNMButton = "//div[@class=\"_PlanBodyComposition_12w7q_18\"]//a[@class=\"_PlanBodyCompostionItem_12w7q_50\"][1]"; // кнопка Перейти к перечню всех КНМ
+    public String durationsOfDaysColumnValue = "//td[contains(@class,\"CellDurationDays\")]"; // значение в колонке срок непосредственного взаимодействия в таблице списка КНМ в плане
+    public String openAllKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][1]"; // кнопка Перейти к перечню всех КНМ
+    public String openAgreedKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][3]"; // кнопка Перейти к перечню согласованных КНМ
+    public String openExcludedKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][4]"; // кнопка Перейти к перечню исключенных КНМ
 
     public ListPlanPage() throws Exception {
     }
@@ -53,6 +57,22 @@ public class ListPlanPage extends Common {
     @Step("Нажать Перейти к перечню всех КНМ")
     public void clickAllEventsOpen() {
         $(By.xpath(openAllKNMButton)).click();
+    }
+
+    /**
+     * Нажать Перейти к перечню согласованных КНМ
+     */
+    @Step("Нажать Перейти к перечню согласованных КНМ")
+    public void clickAgreedEventsOpen() {
+        $(By.xpath(openAgreedKNMButton)).click();
+    }
+
+    /**
+     * Нажать Перейти к перечню исключенных КНМ
+     */
+    @Step("Нажать Перейти к перечню исключенных КНМ")
+    public void clickExcludedEventsOpen() {
+        $(By.xpath(openExcludedKNMButton)).click();
     }
 
     /**
@@ -128,7 +148,7 @@ public class ListPlanPage extends Common {
      */
     @Step("Получаем значение из колонки срок непосредственного взаимодействия в таблице списка КНМ в плане")
     public String getValueOfColumnDurationOfDays() {
-        return $(By.xpath(durationsOfDaysColumnValue)).getText();
+        return $(By.xpath(durationsOfDaysColumnValue)).shouldBe(visible, Duration.ofSeconds(15)).getText().split(" ")[0];
     }
 
     /**

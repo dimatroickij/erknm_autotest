@@ -20,7 +20,7 @@ public class OpenPartPage extends Common {
     String openDataPage = "//*[@id='/portal/public-open-data']"; //пункт меню Открытые данные
     String searchCheckPage = "//*[@id='/portal/public-search']";//пункт меню Поиск проверок
     String newsPage = "//*[@id='/portal/public-news']"; //пункт меню Новости
-    String numberSearchResult = "//*[@class=\"SearchResults_TableSearchData__g1l1k\"]//a"; // номер найденного мероприятия
+    String numberSearchResult = "//*[contains(@class,\"SearchResults_TableSearchData\")]//a"; // номер найденного мероприятия
     public String fieldTable = "//div[contains(@class, 'styles_ColText') and contains(text(),'%s')]"; // поле в таблице найденного мероприятия
     public String captcha ="12345";
 
@@ -104,7 +104,7 @@ public class OpenPartPage extends Common {
      */
     @Step("Проверка на присутствие(видимость) поля - {nameField} в таблице информации о мероприятии")
     public void checkFieldVisible(String nameField) {
-        $(By.xpath(String.format(fieldTable, nameField))).scrollTo().shouldBe(visible);
+        $(By.xpath(String.format(fieldTable, nameField))).scrollIntoView(false).shouldBe(visible);
     }
 
 

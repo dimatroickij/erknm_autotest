@@ -3,8 +3,12 @@ package testPages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
+import io.netty.util.Timeout;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.time.Duration;
@@ -20,44 +24,41 @@ public class ListEventsPage extends Common {
     public String placeDecision = prefix + " автотестМесто"; // Значение для поля Место вынесения решения или похожих полей
     public String nameTitle = prefix + "авто"; // Значение для поля Наименование в блоке ОТ
     public String officialField = prefix + " autoFIO"; // Значение для поля ФИО должностного лица
-    String statusKNM = "//div[@class=\"_TitleBlock_5dm4o_45\"]/span[contains(@class, '_Status_5dm4o_73')]"; // Статус КНМ
+    String statusKNM = "//div[contains(@class,\"TitleBlock\")]/span[contains(@class, 'Status')]"; // Статус КНМ
     public String nameKNODropDown = "//*[@id='knoOrganizationErknm']"; // Выпадающий список Наименование органа контроля
-    public String nameKNOFiledText = "//*[@id='knoOrganizationErknm']//div[contains(@class,'_SingleValue_')]"; // Текст в поле Наименование органа контроля
+    public String nameKNOFiledText = "//*[@id='knoOrganizationErknm']//div[contains(@class,'SingleValue')]"; // Текст в поле Наименование органа контроля
     public String kindControlAndNumberDropDown = "//*[@id='kindControl']"; // Выпадающий список Вид контроля (надзора) и его номер
 
     String kindKNMDropDown = "//*[@id='kindKnm']"; // Выпадающий список Вид КНМ
     public String characterKNMDropDown = "//*[@id='typeErknm']"; // Выпадающий список Характер КНМ
-    public String characterKNMFieldText = "//*[@id='typeErknm']//div[contains(@class,'_SingleValue_')]"; // Текст в поле Характер КНМ
+    public String characterKNMFieldText = "//*[@id='typeErknm']//div[contains(@class,'SingleValue')]"; // Текст в поле Характер КНМ
     String startKNMDate = "//*[@id='startDateBlock']//input"; // Дата начала КНМ
     public String stopKNMDate = "//div[@id='stopDateBlock']//input"; // Дата окончания КНМ
     public String nameInputStopKNMDate = "Дата окончания КНМ"; // Название поля Дата окончания КНМ
-    public String errorStopKNMDate = "//div[@class='_DatePickerError_1a70y_78']"; // Текст ошибки под полем Дата окончания КНМ
+    public String errorStopKNMDate = "//div[contains(@class,'DatePickerError')]"; // Текст ошибки под полем Дата окончания КНМ
     public String interactionTimeDays = "//div[@id='directDurationDaysBlock']//input"; // Срок непосредственного взаимодействия дней
-    public String errorInteractionTimeDays = "//div[@id='directDurationDaysBlock']//" +
-            "div[@class='_TextInputError_rwxxl_73']"; // Текст ошибки под полем Срок непосредственного взаимодействия дней
+    public String errorInteractionTimeDays = "//div[@id='directDurationDaysBlock']//div[contains(@class,'TextInputError')]"; // Текст ошибки под полем Срок непосредственного взаимодействия дней
     public String interactionTimeHours = "//div[@id='durationHoursBlock']//input"; // Срок непосредственного взаимодействия часов
-    public String errorInteractionTimeHours = "//div[@id='durationHoursBlock']//" +
-            "div[@class='_TextInputError_rwxxl_73']"; // Текст ошибки под полем Срок непосредственного взаимодействия часов
+    public String errorInteractionTimeHours = "//div[@id='durationHoursBlock']//div[contains(@class,'TextInputError')]"; // Текст ошибки под полем Срок непосредственного взаимодействия часов
 
     String nameProsecutorDropDown = "//*[@id='prosecutorOrganizationErknm']"; // Наименование прокуратуры
-    public String nameProsecutorFieldText = "//*[@id='prosecutorOrganizationErknm']//div[contains(@class,'_SingleValue_')]"; // текст в поле Наименование прокуратуры
+    public String nameProsecutorFieldText = "//*[@id='prosecutorOrganizationErknm']//div[contains(@class,'SingleValue')]"; // текст в поле Наименование прокуратуры
     String innField = "//*[@name='organizations[0].inn']"; // ИНН
     String innListField = "//*[@id='autoCompleteList']/li"; // Появившийся список ИНН
 
     String numberPlanField = "//*[@id='planId']"; // Номер плана
     public String durationDaysField = "//*[@name='durationDays']"; // Срок проведения(дней)
     public String nameInputDurationDaysField = "Срок проведения (дней)"; // Название поля Срок проведения (дней)
-    public String clearDurationDays = "//div[@class='_InputField_rwxxl_2 shared-row-field _InputFieldDisabled_rwxxl_42']" +
-            "//button"; // Иконка [X] удаления данных из поля Срок проведения(дней)
-    public String textUnderDurationDaysField = "//div[@class='_CanBeChangedInNonWorkDaysMessage_1i8yp_1']"; // Текс под полем Срок проведения (дней)
+    public String clearDurationDays = "//div[@id=\"durationDaysBlock\"]//button"; // Иконка [X] удаления данных из поля Срок проведения(дней)
+    public String textUnderDurationDaysField = "//div[contains(@class,'CanBeChangedInNonWorkDaysMessage')]"; // Текс под полем Срок проведения (дней)
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
     public String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
-    public String textUnderOrderNumberInput = "//div[@class=\"_TextareaError_6efvq_105\"]"; // Текст под полем Номер поручения в блоке Основания проведения КНМ
-    public String orderDateInput = "//div[@id=\"reasonsBlock\"]//input[contains(@class, 'Input_1a70y_6')]"; // Поле Дата поручения в блоке Основания проведения КНМ
-    public String textUnderOrderDateInput = "//div[@class=\"_DatePickerError_1a70y_78\"]"; // Текст под полем Дата поручения в блоке Основания проведения КНМ
+    public String textUnderOrderNumberInput = "//div[contains(@class,\"TextareaError\")]"; // Текст под полем Номер поручения в блоке Основания проведения КНМ
+    public String orderDateInput = "//div[@id=\"reasonsBlock\"]//input[contains(@class, 'Input')]"; // Поле Дата поручения в блоке Основания проведения КНМ
+    public String textUnderOrderDateInput = "//div[contains(@class,\"DatePickerError\")]"; // Текст под полем Дата поручения в блоке Основания проведения КНМ
     public String detailsRequirementInput = "//*[@id=\"reasonsErknm[0].requirementDetails\"]"; // Поле Реквизиты требования в блоке Основания проведения КНМ
-    public String textUnderDetailsRequirement = "//div[@class='_TextareaError_6efvq_105']"; // Текст под полем Реквизиты требования в блоке Основания проведения КНМ
+    public String textUnderDetailsRequirement = "//div[contains(@class,'TextareaError')]"; // Текст под полем Реквизиты требования в блоке Основания проведения КНМ
     String GIP = "4.0.1 (ФЗ 248) Истечение установленного федеральным законом о виде контроля, положением о виде " +
             "контроля период времени с даты окончания проведения последнего планового контрольного (надзорного) " +
             "мероприятия"; // Основание включения в план
@@ -68,27 +69,26 @@ public class ListEventsPage extends Common {
     String typeObjectDropDown = "//*[@id='objectsErknm[0].objectType']"; // Тип объекта
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']"; // Вид объекта
-    public String kingObjectForFNS = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
-    public String kingObjectForFNSInPlaned = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
+    public String kingObjectForFNSInPlaned = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
+    public String kingObjectForFNS = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
             "организации и проведению азартных игр в игорной зоне";
-
-    String subkindObjectDropDown = "//*[@id='objectsE" +
-            "rknm[0].objectSubKind']"; // Подвид объекта
+    public String kingObject = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
+    String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']"; // Подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']"; // Класс опасности
-    String deleteObjectButton = "//button[@class=\"_DeleteButton_oacge_81\"]"; // Иконка [X] удаления объекта
+    String deleteObjectButton = "//div[@id=\"objects-info\"]//button[contains(@class,\"DeleteButton\")]"; // Иконка [X] удаления объекта
     String dangerClass = "Первый"; // Класс опасности для заполнения dangerClassDropDown
 
     String addListActionsButton = "//*[@id='erknmEventsAddButton']"; // Кнопка Добавить в разделе Перечень действий
     String typeActionsDropDown = "//*[@id='eventsErknm[0].type']"; // Выберите тип действия
     String typeActions = "Истребование документов";
-    String dateStartActions = "//*[@id='checklist-info']//div[contains(@class, '_Row_kfkhv_1')]/div[2]//input"; // Дата начала TODO Должен быть идентификатор
-    String dateEndActions = "//*[@id='checklist-info']//div[contains(@class, '_Row_kfkhv_1')]/div[3]//input"; // Дата окончания TODO Должен быть идентификатор
+    String dateStartActions = "//*[@id='checklist-info']//div[contains(@class, 'Row_kfkhv')]/div[2]//input"; // Дата начала TODO Должен быть идентификатор
+    String dateEndActions = "//*[@id='checklist-info']//div[contains(@class, 'Row_kfkhv')]/div[3]//input"; // Дата окончания TODO Должен быть идентификатор
 
     String addVenueButton = "//*[@id ='erknmPlacesAddButton']"; // Кнопка добавить в разделе Место (места) проведение КНМ
     String venueField = "//*[@name='places[0].value']"; // поле для введения Места
 
 
-    String dateTimePublicationDecisionField = "//section[@id='info']//div[contains(@class, '_Row_kfkhv_1')][5]/div[1]//input"; // Поле Дата и время издания решения в разделе о проведении КНМ TODO Должен быть идентификатор
+    String dateTimePublicationDecisionField = "//section[@id='info']//div[contains(@class, 'Row_kfkhv')][5]/div[1]//input"; // Поле Дата и время издания решения в разделе о проведении КНМ TODO Должен быть идентификатор
     String solutionNumberField = "//*[@id='numberDecision']"; // Поле Номер решения в разделе Решение о проведении КНМ
     String placeDecisionField = "//*[@id='placeDecision']"; // Поле Место вынесения решения
     String nameOfficialField = "//*[@id='fioSigner']"; // Поле ФИО должностного лица
@@ -99,12 +99,12 @@ public class ListEventsPage extends Common {
     String groundConduction = "4.0.15 (Постановление 336) Непосредственная угроза причинения вреда жизни и тяжкого " +
             "вреда здоровью граждан, факты причинения вреда жизни и тяжкого вреда здоровью граждан";
     String needCoordinationDropDown = "//*[@id='approveRequired']/div/div[1]"; // выпадающий список Необходимость согласования
-    String addFoundationButton = "//*[text()='Добавить основание']";
+    String addFoundationButton = "//div[@id=\"reasonDocumentsBlock\"]//button"; // кнопка Добавить основание при необходимости согласования КНМ
     String typeDocumentDropDown = "//*[@id='reasonDocuments[0].type']"; // выпадающий список Тип документа
     String typeDocument = "Мотивированное представление о проведении контрольного (надзорного)";
     String addFileButton = "//*[@id='reasonDocumentsBlock']/div[2]//button"; // кнопка Добавить у блока Файл TODO Должен быть идентификатор
 
-    String addMandatoryRequirementsButton = "//button[@id='erknmRequirementsAddButton']"; // кнопка Добавить в блоке обязательные требования, подлежащие проверке
+    String addMandatoryRequirementsButton = "//button[@id=\"erknmRequirementsNpaAddButton\"]"; // кнопка Добавить в блоке обязательные требования, подлежащие проверке
     String mandatoryRequirementsDropDown = "//*[@id='requirementsErknm[0].requirement']"; // выпадающий список Обязательные требования
     String addNewSampleButton = "Создать новый"; // создать новый шаблон TODO Должен быть идентификатор
     String nameMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualTitle']"; // поле Наименование в блоке ОТ
@@ -120,6 +120,10 @@ public class ListEventsPage extends Common {
     String approvalButton = "//button[text()='На согласование']"; // кнопка в подменю На согласование
 
     String decisionApplicationDropDown = "//*[@id='approved']"; // Выпадающий список Решение по заявлению
+
+    // Блок Сведения о контролируемом лице
+    String addButtonInInformationControlledPerson = "//*[@id=\"verified-person\"]//*[@class=\"shared-no-wrap-text\"]/button"; // кнопка Добавить в разделе Сведения о контролируемом лице
+    String typesControlledPersons = "//div[@id=\"organizations[0].subjectType\"]"; // выпадающий список Тип контролируемых лиц
 
     //Блок Сведения об акте
     String addInformationAboutActsButton = "//*[@id='act']//button"; // Кнопка Добавить в блоке Сведения об акте TODO Должен быть идентификатор
@@ -148,11 +152,16 @@ public class ListEventsPage extends Common {
     String addChecklistButton = "//*[@id='event-subject']/div[6]//button"; // Добавить проверочный лист TODO Должен быть идентификатор
     String nameChecklistDropDown = "//*[contains(@id, 'checklists')]//div[contains(@class, 'SelectInput_SelectInput')]"; // Выпадающий список Наименование проверочного листа TODO Должен быть идентификатор
     String nameChecklistField = "//*[@name='checklistsErknm[0].newTitle']"; // поле для ввода наименования нового проверочного листа
+    String actionButtonInKNM = "//div[@class=\"_Container_1hdsc_1 _Buttons_5dm4o_89\"]//*[@id=\"visibleChangeActionsButton\"]"; // Кнопка Действие
 
     String excludeKNMFromPlanButton = "//*[text()='Исключить из плана']"; // кнопка Исключить из плана TODO Должен быть идентификатор
-    String exclusionGroundDropDown = "//div[contains(@class, 'ModalBody_Body')]//div[contains(@class, 'SelectInput_SelectContainer')]"; // выпадающий список Основание исключение TODO Должен быть идентификатор
+    String exclusionGroundDropDown = "//div[contains(@class, 'ModalBody')]//div[contains(@class, '_ValueContainer_nx4nv_75')]"; // выпадающий список Основание исключение TODO Должен быть идентификатор
     String docInput = "//input[@id='document']"; // выбор документа
-    String exclusionButton = "//div[contains(@class, 'ModalActions_Container')]//button[1]"; //кнопка Исключить на форме Исключение КНМ из плана TODO Должен быть идентификатор
+    String exclusionButton = "//div[contains(@class, '_Container_1yq2a_1')]//button[1]"; //кнопка Исключить на форме Исключение КНМ из плана TODO Должен быть идентификатор
+    public String completePPButton = "//div[contains(@class,\"HeaderContent\")]//button[@id=\"complete336Button\"]"; // кнопка Завершить 336
+    String buttonNotForModalCompletePP = "//div[@id=\"modal\"]//button[2]"; // кнопка Нет в модальном окне завершения по 336
+    String buttonYesForModalCompletePP = "//div[@id=\"modal\"]//button[1]"; // Кнопка Да в модальном окне завершения по 336
+    public String textModalForCompletePP = "//div[contains(@class,\"BodyText\")]//p"; // текст в модальном окне после Завершить 336
 
     // Фильтрация КНМ
     String filtersButton = "//div[@class=\"_Filters_1uab2_15\"]/button"; // Кнопка фильтры
@@ -163,19 +172,45 @@ public class ListEventsPage extends Common {
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
     String parameterFilter = "//div[@class=\"_Field_19ems_106\"]"; // Параметр фильтрации из списка
     String buttonUpdateNewFilters = "//div[@class=\"_FilterFooterButtons_1ifag_24\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
-    String deleteButtonAdditionalFilter = "//button[@class=\"CloseButton_Close__MwB1U\"]"; // Иконка [X] удаления поля дополнительного фильтра
+    String deleteButtonAdditionalFilter = "//button[@class=\"_Close_onqbf_1\"]"; // Иконка [X] удаления поля дополнительного фильтра
     String buttonUpdateFilters = "//div[@class=\"_FilterFooter_bspy4_46\"]//button[1]"; // Кнопка Применить в блоке фильтров
 
     // Дополнительные фильтры
     public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах
     public String orderDateFilterInput = "//div[@class=\"react-datepicker__input-container\"]//input"; // Поле Дата поручения в дополнительных фильтрах
-    public String orderDateStartIntervalInput = "//div[@class=\"KnmListFiltersModal_FilterFormDateGroup__jbfkP\"]/div[1]//input"; // поле Дата начала периода в дополнительном фильтре Дата поручения по периоду
-    public String orderDateStopIntervalInput = "//div[@class=\"KnmListFiltersModal_FilterFormDateGroup__jbfkP\"]/div[2]//input"; // поле Дата окончания периода в дополнительном фильтре Дата поручения по периоду
+    public String orderDateStartIntervalInput = "//div[@class=\"_FilterFormDateGroup_1n385_1\"]/div[1]//input"; // поле Дата начала периода в дополнительном фильтре Дата поручения по периоду
+    public String orderDateStopIntervalInput = "//div[@class=\"_FilterFormDateGroup_1n385_1\"]/div[2]//input"; // поле Дата окончания периода в дополнительном фильтре Дата поручения по периоду
     public String orderNumberFilterInput = "//input[@name=\"assignmentNumber\"]"; // Поле Номер поручения в дополнительных фильтрах
 
-    public String numberKNMInList = "//tr[@class=\"Table_TBodyRow__3q1_B\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+    public String numberKNMInList = "//tr[@class=\"_TBodyRow_1fac6_80\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+
+
 
     public ListEventsPage() throws Exception {
+    }
+
+    /**
+     * Нажать на кнопку Завершить ПП 336
+     */
+    @Step("Нажать на кнопку Завершить ПП 336")
+    public void clickButtonCompletePP() {
+        $(By.xpath(completePPButton)).click();
+    }
+
+    /**
+     * Нажать на кнопку Да в модальном окне при Завершить ПП 336
+     */
+    @Step("Нажать на кнопку Да в модальном окне при Завершить ПП 336")
+    public void clickYesButtonForModalCompletePP() {
+        $(By.xpath(buttonYesForModalCompletePP)).click();
+    }
+
+    /**
+     * Нажать на кнопку Нет в модальном окне при Завершить ПП 336
+     */
+    @Step("Нажать на кнопку Нет в модальном окне при Завершить ПП 336")
+    public void clickNotButtonForModalCompletePP() {
+        $(By.xpath(buttonNotForModalCompletePP)).click();
     }
 
     /**
@@ -351,8 +386,11 @@ public class ListEventsPage extends Common {
     @Step("Редактирование полей сроков непосредственного взаимодействия")
     public void editInteractionTime(String value) {
         try {
-            interactionTimeDays(value);
+            webdriver().object().findElement(By.xpath(interactionTimeDays)).clear();
+            webdriver().object().findElement(By.xpath(interactionTimeDays)).sendKeys(value);
+            //$(By.xpath(interactionTimeDays)).sendKeys(value);
         } catch (Exception e) {
+            clearInput("Срок непосредственного взаимодействия (часов)", interactionTimeHours);
             interactionTimeHours(value);
         }
     }
@@ -806,21 +844,64 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Добавление сведений о контролируемом лице
+     *
+     * @param typePerson    Тип контролируемого лица
+     * @param inn           ИНН
+     * @param view          Вид объекта
+     */
+    @Step("Добавление сведений о контролируемом лице: Тип контролируемого лица - {typePerson}, ИНН - {inn}, " +
+            "Вид объекта - {view}")
+    public void addInformationControlledPerson(String typePerson, String inn, String view) {
+        clickAddButtonInInformationControlledPerson();
+        setTypeControlledPersonDropDown(typePerson);
+        setInnField(inn);
+        if(view == null) {
+            deleteObject();
+            return;
+        }
+        setTypeObjectDropDown();
+        setKindObjectDropDown(view);
+        setDangerClassDropDown();
+
+    }
+
+    /**
+     * Нажать на кнопку Добавить в Сведения о контролируемом лице
+     */
+    @Step("Нажать на кнопку Добавить в Сведения о контролируемом лице")
+    public void clickAddButtonInInformationControlledPerson() {
+        $(By.xpath(addButtonInInformationControlledPerson)).click();
+    }
+
+    /**
+     * Выбор типа контролируемого лица
+     *
+     * @param typePerson    Тип контролируемого лица
+     */
+    @Step("Выбор типа контролируемого лица - {typePerson}")
+    public void setTypeControlledPersonDropDown(String typePerson) {
+        $(By.xpath(typesControlledPersons)).scrollIntoView(false).click();
+        setValueDropDownToText(typePerson);
+    }
+
+    /**
      * Создание КНМ
      *
      * @param nameKNO        Наименование органа контроля
      * @param viewKNO        Вид контроля (надзора) и его нормер
      * @param kind           Вид КНМ
      * @param nameProsecutor Наименование прокуратуры
+     * @param typePerson     Тип контролируемого лица
      * @param inn            ИНН
      * @param viewObject     Вид объекта
      */
     @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
             "Вид КНМ - {kind}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
             "Срок непосредственного взаимодействия дней - {days}, Срок непосредственного взаимодействия часов - {hours}," +
-            " Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+            " Наименование прокуратуры - {nameProsecutor}, Тип контролируемого лица - {typePerson}, ИНН - {inn}, Вид объекта - {viewObject}")
     public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String startDate, String stopDate,
-                                String days, String hours, String nameProsecutor, String inn, String viewObject) {
+                                String days, String hours, String nameProsecutor, String typePerson, String inn, String viewObject) {
         clickAddButton();
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
@@ -831,12 +912,8 @@ public class ListEventsPage extends Common {
         interactionTimeDays(days);
         interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
-        setInnField(inn);
-        setTypeObjectDropDown();
-        setKindObjectDropDown(viewObject);
-        setDangerClassDropDown();
+        addInformationControlledPerson(typePerson, inn, viewObject);
         clickSaveButton();
-        //closeNotification();
     }
 
     /**
@@ -851,14 +928,17 @@ public class ListEventsPage extends Common {
      * @param days           Срок непосредственного взаимодействия дней
      * @param hours          Срок непосредственного взаимодействия часов
      * @param nameProsecutor Наименование прокуратуры
+     * @param typePerson     Тип контролируемого лица
      * @param inn            ИНН
+     * @param viewObject     Вид объекта
      */
     @Step("Заполнение обязательных полей КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
             "Вид КНМ - {kind}, Характер КНМ - {character}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
             "Срок непосредственного взаимодействия дней - {days}, Срок непосредственного взаимодействия часов - {hours}," +
-            " Наименование прокуратуры - {nameProsecutor}, ИНН - {inn}")
+            " Наименование прокуратуры - {nameProsecutor}, Тип контролируемого лица - {typePerson}, ИНН - {inn}, Вид объекта - {viewObject}")
     public void setRequiredFieldsKNM(String nameKNO, String viewKNO, String kind, String character, String startDate,
-                                String stopDate, String days, String hours, String nameProsecutor, String inn, String view) {
+                                String stopDate, String days, String hours, String nameProsecutor, String typePerson,
+                                     String inn, String viewObject) {
         setNameKNODropDown(nameKNO);
         setKindControlAndNumberDropDown(viewKNO);
         setKindKNMDropDown(kind);
@@ -871,14 +951,16 @@ public class ListEventsPage extends Common {
         interactionTimeDays(days);
         interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
-        setInnField(inn);
+        addInformationControlledPerson(typePerson, inn, viewObject);
+
+        /*setInnField(inn);
         if(view == null) {
             deleteObject();
             return;
         }
         setTypeObjectDropDown();
         setKindObjectDropDown(view);
-        setDangerClassDropDown();
+        setDangerClassDropDown();*/
     }
 
     /**
@@ -1395,7 +1477,8 @@ public class ListEventsPage extends Common {
      */
     @Step("Исключение из плана КНМ")
     public void excludeKNMFromPlan() {
-        $(By.xpath(excludeKNMFromPlanButton)).click();
+        $(By.xpath(actionButtonInKNM)).click();  // нажать кнопку Действия
+        $(By.xpath(excludeKNMFromPlanButton)).click(); // выбрать исключить из плана
         $(By.xpath(exclusionGroundDropDown)).click();
         setValueDropDownToText(exclusionGround);
         $(By.xpath(docInput)).uploadFile(new File(filePath));
