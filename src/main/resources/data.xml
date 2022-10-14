@@ -12,14 +12,14 @@
 
             </urls>
             <users>
-                <user name="supervisor" value="P@ssw0rd"/>
-                <user name="prosecutor" value="P@ssw0rd"/>
-                <user name="ombudsman" value="P@ssw0rd"/>
+                <user name="supervisor" value="AXzMj49qNn"/>
+                <user name="prosecutor" value="AXzMj49qNn"/>
+                <user name="ombudsman" value="AXzMj49qNn"/>
                 <user name="sysadmin" value="P@ssw0rd"/>
             </users>
 
             <data>
-                <information name="inn" value="9103081181"/> <!--1215212198-->
+                <information name="inn" value="7811689828"/> <!--1215212198-->
                 <!-- <information name="inn" value ="1215043750" /> -->
                 <!--9103081181 для тест-->
                 <!--7811689828 для СГК-->

@@ -239,6 +239,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
                 selectionERKNM();
                 gotoListKNMPage();
                 openCard(event);
+                sleep(4000);
                 if (event == "77220370001100042369") {
                     checkElementNotAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
                 } else {

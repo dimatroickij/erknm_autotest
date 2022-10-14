@@ -22,15 +22,15 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
 
     /**
      * Цель: Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРП.
-     * A.1.1.6
+     * A.1.1.1.6
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРП")
     @Story("КНМ")
-    @Test(description = "A.1.1.6. Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРП.")
-    public void createEventsCheckEditGroundsForRegistration() throws Exception {
+    @Test(description = "A.1.1.1.6. Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРП.")
+    public void createEventsCheckEditGroundsForRegistrationTest() throws Exception {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
@@ -56,15 +56,15 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
 
     /**
      * Цель: Проверка поля «Номер поручения» в карточке КНМ в системе ЕРП.
-     * A.1.1.7
+     * A.1.1.1.7
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРП")
     @Story("КНМ")
-    @Test(description = "A.1.1.7. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРП.")
-    public void createEventCheckNumberOrder() throws Exception {
+    @Test(description = "A.1.1.1.7. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРП.")
+    public void createEventCheckNumberOrderTest() throws Exception {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
@@ -102,15 +102,15 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
 
     /**
      * Цель: Проверка поля «Дата поручения» в карточке КНМ в системе ЕРП.
-     * A.1.1.8
+     * A.1.1.1.8
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРП")
     @Story("КНМ")
-    @Test(description = "A.1.1.8. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРП.")
-    public void createEventCheckDateOrder() throws Exception {
+    @Test(description = "A.1.1.1.8. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРП.")
+    public void createEventCheckDateOrderTest() throws Exception {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
@@ -136,68 +136,67 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
 
     /**
      * Цель: Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» для заполнения в ЕРП.
-     * A.1.1.9
+     * A.1.1.1.9
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРП")
     @Story("КНМ")
-    @Test(description = "A.1.1.9. Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
+    @Test(description = "A.1.1.1.9 Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
             "для заполнения в ЕРП.")
-    public void openEventsCheckAvailabilityFields() throws Exception {
+    public void openEventsCheckAvailabilityFieldsTest() throws Exception {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
-        openCard(""); // В процессе формирования
+        openCard("772200054237"); // В процессе формирования
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
+        authorization("supervisor");
+        selectionERP();
         gotoListKNMPage();
-        openCard(""); // В процессе проведения
+        openCard("772200054125"); // В процессе проведения
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
+        authorization("supervisor");
+        selectionERP();
         gotoListKNMPage();
-        openCard(""); // Завершено
+        openCard("772200065883"); // Завершено
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
+        authorization("supervisor");
+        selectionERP();
         gotoListKNMPage();
-        openCard(""); // Отклонено
+        openCard("772200054995"); // Отклонено
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
-
-        gotoListKNMPage();
-        openCard(""); // иной статус?
-        checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
-
-        gotoListKNMPage();
-        openCard(""); // иной статус?
-        checkElementNotAvailable("Дата поручения", orderDateInput);
-        checkElementNotAvailable("Номер поручения", orderNumberInput);
 
         authorization("prosecutor");
         selectionERP();
         gotoListKNMPage();
-        openCard(""); // В процессе формирования
-        checkElementNotAvailable("Дата поручения", orderDateInput);
-        checkElementNotAvailable("Номер поручения", orderNumberInput);
+        openCard("772200054237"); // В процессе формирования
+        checkElementAvailable("Дата поручения", orderDateInput);
+        checkElementAvailable("Номер поручения", orderNumberInput);
 
+        authorization("prosecutor");
+        selectionERP();
         gotoListKNMPage();
-        openCard(""); // Завершено
-        checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
+        openCard("772200054219"); // Завершено
+        checkElementAvailable("Реквизиты требования", detailsRequirementInput);
     }
 
     /**
      * Цель: Проверка фильтрации данных в ЗЧ ЕРП.
-     * A.1.1.10
+     * A.1.1.1.10
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРП")
     @Story("КНМ")
-    @Test(description = "A.1.1.10. Проверка фильтрации данных в ЗЧ ЕРП.")
-    public void checkFiltrationData() throws Exception {
+    @Test(description = "A.1.1.1.10. Проверка фильтрации данных в ЗЧ ЕРП.")
+    public void checkFiltrationDataTest() throws Exception {
         authorization("supervisor");
         selectionERP();
         gotoListKNMPage();
@@ -221,6 +220,63 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         setAdditionalFilterInput(orderDateFilterInput, "01.01.2022");
         clickButtonUpdateForFilterBlock();
         checkNumberKNMFromTable("772200065889");
+    }
+
+    /**
+     * Цель: Проверка валидации поля "Реквизиты требования" в ранее созданных КНМ.
+     * A.1.1.1.11
+     *
+     * @author Kirilenko P.A. 10.2022
+     */
+    @Epic("4.1.1")
+    @Feature("ЕРП")
+    @Story("КНМ")
+    @Test(description = "A.1.1.1.11. Проверка валидации полей Реквизиты требования в ранее созданных КНМ.")
+    public void fieldValidationDetailsOfRequirementInCreatedEventsTest() throws Exception {
+        String[] events = new String[] {"772200054879",  // в процессе формирования
+        "772200054995",  // отклонено
+        "772200054230",  // в процессе проведения
+        "772200054345"}; // завершено
+
+        authorization("supervisor");
+        selectionERP();
+        for(String event : events){
+            System.out.println(event);
+            gotoListKNMPage();
+            openCard(event);
+            deleteGroundsConductingKNM();
+            addGroundsConductingKNM("3.2.9", null, null, null);
+            checkTextNotification("КНМ успешно сохранено");
+        }
+    }
+
+    /**
+     * Цель: Проверка валидации полей "Дата поручения" и "Номер поручения" в ранее созданных КНМ.
+     * A.1.1.1.12
+     *
+     * @author Kirilenko P.A. 10.2022
+     */
+    @Epic("4.1.1")
+    @Feature("ЕРП")
+    @Story("КНМ")
+    @Test(description = "A.1.1.1.12. Проверка валидации полей полей Дата поручения и Номер поручения в ранее созданных КНМ.")
+    public void fieldValidationDateAndNumberAssignmentInCreatedEventsTest() throws Exception {
+        String[] events = new String[] {"772200054237",  // в процессе формирования
+                "772200054998",  // отклонено
+                "772200054125",  // в процессе проведения
+                "772200054220"}; // завершено
+
+        authorization("supervisor");
+        selectionERP();
+        for(String event : events){
+            System.out.println(event);
+            gotoListKNMPage();
+            openCard(event);
+            deleteGroundsConductingKNM();
+            addGroundsConductingKNM("3.2.6", null, null, null);
+            clickSaveButton();
+            checkTextNotification("КНМ успешно сохранено");
+        }
     }
 
 }

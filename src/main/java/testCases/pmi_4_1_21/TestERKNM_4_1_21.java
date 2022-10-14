@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * Проверка выполнения требований по реализации совместимости ФГИС ЕРКНМ со статусной моделью ЕРВК в части планового контроля.
- * A.1.5
+ * A.1.1.3
  */
 
 public class TestERKNM_4_1_21 extends ListEventsPage {
@@ -23,14 +23,14 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
 
     /**
      * Цель: Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку «Список КНМ».
-     * A.1.5.1
+     * A.1.1.3.1
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.21")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.5.1. Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку " +
+    @Test(description = "A.1.1.3.1 Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку " +
             "«Список КНМ».")
     public void characterKNMValuesDisplayTest() throws Exception {
         authorization("supervisor");
@@ -60,14 +60,14 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
 
     /**
      * Цель: Проверка отображения значений в поле «Вид контроля (надзора) и его номер» при создании КНМ через план КНМ.
-     * A.1.5.2
+     * A.1.1.3.2
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.21")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.5.2. Проверка отображения значений в поле «Вид контроля (надзора) и его номер» при создании" +
+    @Test(description = "A.1.1.3.2 Проверка отображения значений в поле «Вид контроля (надзора) и его номер» при создании" +
             " КНМ через план КНМ.")
     public void characterKNMCreateInPlanValuesDisplayTest() throws Exception {
         authorization("supervisor");
@@ -92,21 +92,21 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
                 "01.02.2024", interactionDays, null, null, viewEntity, INN, kingObjectForFNSInPlaned);
         clickSaveButton();
         sleep(3000);
-        getNumberKNM();
         checkStatusKNM(statusProcessFilling);
+        getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
     }
 
     /**
      * Цель: Проверка применения валидации требования к КНМ, созданным в системе после выхода требования в промышленный контур.
-     * A.1.5.4
+     * A.1.1.3.3
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.21")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.5.4. Проверка применения валидации требования к КНМ, созданным в системе после выхода " +
+    @Test(description = "A.1.1.3.3 Проверка применения валидации требования к КНМ, созданным в системе после выхода " +
             "требования в промышленный контур.")
     public void validationOfRequirementsForPreviouslyCreatedKNMTest() throws Exception {
         authorization("supervisor");

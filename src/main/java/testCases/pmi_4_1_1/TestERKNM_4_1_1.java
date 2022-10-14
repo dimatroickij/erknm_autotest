@@ -23,14 +23,14 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
 
     /**
      * Цель: Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРКНМ.
-     * A.1.1.1
+     * A.1.1.1.1
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.1.1. Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРКНМ.")
+    @Test(description = "A.1.1.1.1 Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРКНМ.")
     public void createEventCheckRequirementsDetails() throws Exception {
         authorization("supervisor");
         selectionERKNM();
@@ -57,14 +57,14 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
 
     /**
      * Цель: Проверка поля «Номер поручения» в карточке КНМ в системе ЕРКНМ.
-     * A.1.1.2
+     * A.1.1.1.2
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.1.2. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРКНМ.")
+    @Test(description = "A.1.1.1.2. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРКНМ.")
     public void createEventCheckNumberOrder() throws Exception {
         authorization("supervisor");
         selectionERKNM();
@@ -103,14 +103,14 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
 
     /**
      * Цель: Проверка поля «Дата поручения» в карточке КНМ в системе ЕРКНМ.
-     * A.1.1.3
+     * A.1.1.1.3
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.1.3. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРКНМ.")
+    @Test(description = "A.1.1.1.3. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРКНМ.")
     public void createEventCheckDateOrder() throws Exception {
         authorization("supervisor");
         selectionERKNM();
@@ -137,47 +137,69 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
 
     /**
      * Цель: Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» для заполнения в ЕРКНМ.
-     * A.1.1.4
+     * A.1.1.1.4
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.1.4. Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
+    @Test(description = "A.1.1.1.4. Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
             "для заполнения в ЕРКНМ.")
     public void openEventsCheckAvailabilityFields() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("77221321000000065842"); // В процессе заполнения
+        String[] parametersFiltration_1 = {"Статус КНМ", "Дата поручения правительства о проведении КНМ (интервал)"};
+        filtrationEventsForParameters(null, null, parametersFiltration_1, futureDate, statusProcessFilling);
+        openCard(getNumberRandomEvent());  // В процессе заполнения
         sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220661000000065792"); // В процессе заполнения
+        String[] parametersFiltration_2 = {"Статус КНМ", "Реквизиты требования"};
+        filtrationEventsForParameters(null, null, parametersFiltration_2, futureDate, statusProcessFilling);
+        openCard(getNumberRandomEvent()); // В процессе заполнения
         sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220171000000065735"); // Готова к согласованию
+        String[] parametersFiltration_3 = {"Статус КНМ", "Дата поручения правительства о проведении КНМ (интервал)"};
+        filtrationEventsForParameters(null, null, parametersFiltration_3, futureDate, statusReadyApproval);
+        openCard(getNumberRandomEvent()); // Готова к согласованию
         sleep(3000);
         checkElementAvailable("Дата поручения", orderDateInput);
         checkElementAvailable("Номер поручения", orderNumberInput);
 
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220661000000065623"); // Готова к согласованию
+        String[] parametersFiltration_4 = {"Статус КНМ", "Реквизиты требования"};
+        filtrationEventsForParameters(null, null, parametersFiltration_4, futureDate, statusReadyApproval);
+        openCard(getNumberRandomEvent()); // Готова к согласованию
         sleep(3000);
         checkElementAvailable("Реквизиты требования", detailsRequirementInput);
 
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220371000000065581"); // На согласовании
+        String[] parametersFiltration_5 = {"Статус КНМ", "Реквизиты требования"};
+        filtrationEventsForParameters(null, null, parametersFiltration_5, futureDate, statusOnApproval);
+        openCard(getNumberRandomEvent()); // На согласовании
         sleep(3000);
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
 
+        authorization("supervisor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220671000000065804"); // Ожидает завершения
+        String[] parametersFiltration_6 = {"Статус КНМ", "Дата поручения правительства о проведении КНМ (интервал)"};
+        filtrationEventsForParameters(null, null, parametersFiltration_6, futureDate, statusProcessCompletion);
+        openCard(getNumberRandomEvent()); // Ожидает завершения
         sleep(3000);
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
@@ -185,33 +207,39 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("prosecutor");
         selectionERKNM();
         gotoListKNMPage();
-        openCard("77221321000000065842"); // В процессе заполнения
+        String[] parametersFiltration_7 = {"Статус КНМ", "Дата поручения правительства о проведении КНМ (интервал)"};
+        filtrationEventsForParameters(null, null, parametersFiltration_7, futureDate, statusProcessFilling);
+        openCard(getNumberRandomEvent()); // В процессе заполнения
         sleep(3000);
         checkElementNotAvailable("Дата поручения", orderDateInput);
         checkElementNotAvailable("Номер поручения", orderNumberInput);
 
+        authorization("prosecutor");
+        selectionERKNM();
         gotoListKNMPage();
-        openCard("77220661000000065704"); // Готова к согласованию
+        String[] parametersFiltration_8 = {"Статус КНМ", "Реквизиты требования"};
+        filtrationEventsForParameters(null, null, parametersFiltration_8, futureDate, statusReadyApproval);
+        openCard(getNumberRandomEvent()); // Готова к согласованию
         sleep(3000);
         checkElementNotAvailable("Реквизиты требования", detailsRequirementInput);
     }
 
     /**
      * Цель: Проверка фильтрации данных в ЗЧ ЕРКНМ.
-     * A.1.1.10
+     * A.1.1.1.10
      *
      * @author Kirilenko P.A. 09.2022
      */
     @Epic("4.1.1")
     @Feature("ЕРКНМ")
     @Story("КНМ")
-    @Test(description = "A.1.1.10. Проверка фильтрации данных в ЗЧ ЕРКНМ.")
+    @Test(description = "A.1.1.1.10. Проверка фильтрации данных в ЗЧ ЕРКНМ.")
     public void checkFiltrationData() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
-        setBasicFilterParameters(knoName, territorialUnitName);
+        setBasicFilterParameters(knoName, null);
         addAdditionalFilter("Реквизиты требования");
         setAdditionalFilterInput(requirementDetailsFilterInput, "1233");
         clickButtonUpdateForFilterBlock();
@@ -235,7 +263,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
-        setBasicFilterParameters(nameKNOFNS, territorialUnitName);
+        setBasicFilterParameters(nameKNOFNS, null);
         addAdditionalFilter("Дата поручения правительства о проведении КНМ (интервал)");
         setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
                 "20.09.2022", "21.09.2022");
@@ -243,7 +271,61 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         checkNumberKNMFromTable("77220171000000065735");
     }
 
+    /**
+     * Цель: Проверка валидации поля "Реквизиты требования" в ранее созданных КНМ.
+     * A.1.1.1.11
+     *
+     * @author Kirilenko P.A. 10.2022
+     */
+    @Epic("4.1.1")
+    @Feature("ЕРКНМ")
+    @Story("КНМ")
+    @Test(description = "A.1.1.1.11 Проверка валидации полей Реквизиты требования в ранее созданных КНМ.")
+    public void fieldValidationDetailsOfRequirementInCreatedEventsTest() throws Exception {
+        authorization("supervisor");
+        selectionERKNM();
+        gotoListKNMPage();
+        String[] parametersFiltration = {"Статус КНМ"};
+        filtrationEventsForParameters(knoName, unplannedCheck, parametersFiltration, dateOfOneStage, statusProcessFilling);
+        openCard(getNumberRandomEvent());
+        try{
+            deleteGroundsConductingKNM();
+        } catch (Exception e) {}
+        finally {
+            addGroundsConductingUnscheduled("4.0.21", null, null, null,
+                    "Не требует согласования");
+            clickSaveButton();
+            checkTextNotification("КНМ успешно сохранено");
+        }
+    }
 
+    /**
+     * Цель: Проверка валидации полей "Дата поручения" и "Номер поручения" в ранее созданных КНМ.
+     * A.1.1.1.12
+     *
+     * @author Kirilenko P.A. 10.2022
+     */
+    @Epic("4.1.1")
+    @Feature("ЕРКНМ")
+    @Story("КНМ")
+    @Test(description = "A.1.1.1.12 Проверка валидации полей Дата поручения и Номер поручения в ранее созданных КНМ.")
+    public void fieldValidationDateAndNumberAssignmentInCreatedEventsTest() throws Exception {
+        authorization("supervisor");
+        selectionERKNM();
+        gotoListKNMPage();
+        String[] parametersFiltration = {"Статус КНМ"};
+        filtrationEventsForParameters(null, unplannedCheck, parametersFiltration, dateOfOneStage, statusProcessFilling);
+        openCard(getNumberRandomEvent());
+        try{
+            deleteGroundsConductingKNM();
+        } catch (Exception e) {}
+        finally {
+            addGroundsConductingUnscheduled("4.0.19", null, null, null,
+                    "Не требует согласования");
+            clickSaveButton();
+            checkTextNotification("КНМ успешно сохранено");
+        }
+    }
 
 
 }

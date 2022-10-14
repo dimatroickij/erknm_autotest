@@ -8,9 +8,8 @@ import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 
@@ -32,8 +31,8 @@ public class Common {
 
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "test");
-    public String openUrl = readParameters.getParameter("url", "testOpen");
+    public String url = readParameters.getParameter("url", "sgk");
+    public String openUrl = readParameters.getParameter("url", "sgkOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
@@ -58,11 +57,17 @@ public class Common {
     public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String nameKNOFNS = "Федеральная налоговая служба";
     public String knoNameTransport = "Федеральная служба по надзору в сфере транспорта";
+    public String knoNameGO = "ГЛАВНОЕ УПРАВЛЕНИЕ МИНИСТЕРСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ";
 
     public String viewKNOFNSForPlan = "017 - Федеральный государственный лицензионный контроль (надзор) за производством и " +
             "реализацией защищенной от подделок полиграфической продукции";
     public String viewKNOFNS = "051 - Федеральный государственный контроль (надзор) за организацией и проведением " +
             "азартных игр";
+
+    public String kingObjectForFNSInPlaned = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
+    public String kingObjectForFNS = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
+            "организации и проведению азартных игр в игорной зоне";
+    public String kingObject = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
     public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
     public String viewKNOERP = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
@@ -71,7 +76,7 @@ public class Common {
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
     //Основное меню (на всех страницах)
-    public String listEvents = "//*[@id='/private/knms']/a"; // Список КНМ
+    public String listEvents = "//div[@id='/private/knms']/a"; // Список КНМ
     public String listEventsERP = "//*[@id='/private/knms']/a"; // Список проверок
     public String listPreventionEvents = "//*[@id='/private/preventions']/a"; // "Список ПМ";
     public String listPlans = "//*[@id='/private/templates']/a"; // Список планов
@@ -98,7 +103,7 @@ public class Common {
 
     //Характер КНМ
     public String plannedCheck = "Плановое КНМ";
-    public String plannedCheckFZ = "Плановая проверка по 248-ФЗ(утвержденная по плану 294-ФЗ)";
+    public String plannedCheckFZ = "Плановая проверка по 248-ФЗ (утвержденная по плану 294-ФЗ)";
     public String unplannedCheck = "Внеплановое КНМ";
 
     // Форма КНМ
@@ -167,7 +172,7 @@ public class Common {
     public static String numberPMEventWarningPublished; // Номер ПМ
     public static String numberPMPreventiveVisitPublished; // Номер ПМ
 
-    public String numberKNM = "//h3[contains(@class, '_Title_5dm4o_45')]"; // Объект для получения номера КНМ
+    public String numberKNM = "//div[contains(@class, 'TitleBlock')]/h3"; // Объект для получения номера КНМ
     String selectValueByText = "//div[contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
@@ -196,11 +201,11 @@ public class Common {
     public String deleteButton = "//*[@id='deleteButton']";
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
-    String openRequest = "//*[(@class='shared-table-link')]"; // открытие найденной записи
-    public String closeMessageButton = "//button[@class='_CloseButton_np6jc_50']"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
-    public String textMessage = "//div[@class='_ClosingNotificationText_np6jc_28']"; // текст сообщения
-    public String iconError = "//div[@class='_Container_1baqa_1 _Errors_5dm4o_84']";  // [!] иконка сообщающая об ошибке при заполнении
-    public String emptyFields = "//div[@class='_ErrorsTooltip_1baqa_18 _ErrorsTooltipVisible_1baqa_39']//a"; // незаполненные поля под [!]
+    String openRequest = "//*[contains(@class,'TBodyRow')]/td[2]/a"; // открытие найденной записи
+    public String closeMessageButton = "//button[contains(@class,'CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
+    public String textMessage = "//div[contains(@class,'ClosingNotificationText')]"; // текст сообщения
+    public String iconError = "//div[contains(@class,'TitleBlock')]//div[contains(@class,'Errors')]/span";  // [!] иконка сообщающая об ошибке при заполнении
+    public String emptyFields = "//div[contains(@class,'ErrorsTooltipVisible')]//a"; // незаполненные поля под [!]
     public String textErrorNotNullInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
     public String textErrorIncorrectlyInput = "Номер поручения указан неверно"; // Текст сообщения об ошибке при некорректно заполненном поле
 
@@ -213,7 +218,8 @@ public class Common {
     public static String currentDate = ""; // Формирует сегодняшнюю дату
     public static String currentDateTime = "";
     public static String futureDate = ""; // Формирует дату на год позже
-    public static String weekendDate = "21.01.2023"; // Дата выходного дня
+    public String weekendDate = "21.01.2023"; // Дата выходного дня
+    public String dateOfOneStage = "01.08.2022"; // Дата доработок для первого этапа
     public static String interactionDays = "1"; // Дней непосредственного взаимодействия
     public static String interactionHours = "1"; // Часов непосредственного взаимодействия
     public String choiceSignature = "//*[@id='certs']/div/div[1]";
@@ -359,6 +365,17 @@ public class Common {
         else
             $(By.xpath(modeERP)).should(visible, Duration.ofSeconds(10)).click();
     }
+
+    /**
+     * Нажать на пункт в боковом меню навигации
+     *
+     * @param locator Локатор пункта меню
+     */
+    @Step("Нажать на пункт в боковом меню навигации")
+    public void clickedOnNavigationMenuItem(String locator) {
+        $(By.xpath(locator)).click();
+    }
+
 
     /**
      * Выбор режима ЕРП
@@ -512,7 +529,7 @@ public class Common {
      */
     @Step("Переход в список КНМ")
     public void gotoListKNMPage() {
-        $(By.xpath(listEvents)).scrollIntoView(false).click();
+        $(By.xpath(listEvents)).scrollTo().click();
     }
 
     /**
@@ -990,6 +1007,20 @@ public class Common {
         else
             $(By.xpath(knmListCell)).shouldNot(Text.text(knm));
     }
+
+    /**
+     * Получение случайной карточки проверки из таблицы
+     */
+    @Step("Получение случайной карточки проверки из таблицы")
+    public String getNumberRandomEvent() throws InterruptedException {
+        sleep(4000);
+        ElementsCollection numbersEvents = $$ (By.xpath(openRequest));
+        int a = (int) ( Math.random() * numbersEvents.size() );
+        String number = numbersEvents.get(a).getText();
+        System.out.println("НОМЕР - " + number);
+        return number;
+    }
+
 }
 
 

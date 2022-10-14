@@ -1,6 +1,7 @@
 package testPages;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
 import io.netty.util.Timeout;
@@ -11,7 +12,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
+import java.sql.Array;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
@@ -53,6 +57,7 @@ public class ListEventsPage extends Common {
     public String textUnderDurationDaysField = "//div[contains(@class,'CanBeChangedInNonWorkDaysMessage')]"; // Текс под полем Срок проведения (дней)
     String addGroundsIncludePlanButton = "//*[@id='addReasonButton']"; // Кнопка добавить в раздел Основания включения в план
     String groundsIncludePlanDropDown = "//*[@id='reasonsErknm[0].type']"; // Основания включения в план
+    String deleteGroundRegistrationButton = "//div[@id=\"reasonsBlock\"]//button[contains(@class,'Close')]"; // иконка [X] удаления основания регистрации КНМ
     public String orderNumberInput = "//*[@id=\"reasonsErknm[0].assignmentNumber\"]"; // Поле Номер поручения в блоке Основания проведения КНМ
     public String textUnderOrderNumberInput = "//div[contains(@class,\"TextareaError\")]"; // Текст под полем Номер поручения в блоке Основания проведения КНМ
     public String orderDateInput = "//div[@id=\"reasonsBlock\"]//input[contains(@class, 'Input')]"; // Поле Дата поручения в блоке Основания проведения КНМ
@@ -69,10 +74,6 @@ public class ListEventsPage extends Common {
     String typeObjectDropDown = "//*[@id='objectsErknm[0].objectType']"; // Тип объекта
     String typeObject = "Деятельность и действия";
     String kindObjectDropDown = "//*[@id='objectsErknm[0].objectKind']"; // Вид объекта
-    public String kingObjectForFNSInPlaned = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
-    public String kingObjectForFNS = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
-            "организации и проведению азартных игр в игорной зоне";
-    public String kingObject = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
     String subkindObjectDropDown = "//*[@id='objectsErknm[0].objectSubKind']"; // Подвид объекта
     String dangerClassDropDown = "//*[@id='objectsErknm[0].dangerClass']"; // Класс опасности
     String deleteObjectButton = "//div[@id=\"objects-info\"]//button[contains(@class,\"DeleteButton\")]"; // Иконка [X] удаления объекта
@@ -88,7 +89,7 @@ public class ListEventsPage extends Common {
     String venueField = "//*[@name='places[0].value']"; // поле для введения Места
 
 
-    String dateTimePublicationDecisionField = "//section[@id='info']//div[contains(@class, 'Row_kfkhv')][5]/div[1]//input"; // Поле Дата и время издания решения в разделе о проведении КНМ TODO Должен быть идентификатор
+    String dateTimePublicationDecisionField = "//section[@id='info']//div[contains(@class, 'Row_kfkhv')][6]/div[1]//input"; // Поле Дата и время издания решения в разделе о проведении КНМ TODO Должен быть идентификатор
     String solutionNumberField = "//*[@id='numberDecision']"; // Поле Номер решения в разделе Решение о проведении КНМ
     String placeDecisionField = "//*[@id='placeDecision']"; // Поле Место вынесения решения
     String nameOfficialField = "//*[@id='fioSigner']"; // Поле ФИО должностного лица
@@ -165,24 +166,29 @@ public class ListEventsPage extends Common {
 
     // Фильтрация КНМ
     String filtersButton = "//div[@class=\"_Filters_1uab2_15\"]/button"; // Кнопка фильтры
+    String savedFilter = "//button[contains(text(), 'автотест')]"; // сохраненный фильтр
     String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
     String checkboxTerritorialUnit = "//input[@id=\"includeDomainChild\"]"; // Чекбокс под полем Территориальная единица
+    String characterKNMField = "//div[@id=\"knmTypes\"]//div[contains(@class, 'Indicators')]"; // поле Характер КНМ в блоке фильтров
+    String deleteCharacterKNMValue = "//div[@id=\"knmTypes\"]//div[contains(@class, 'MultiValueRemove')]"; // иконка [X] удаления значения характера КНМ
     String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
-    String addButtonFilters = "//div[@class=\"_FilterPanelBody_bspy4_42\"]//button"; // кнопка Добавить в блоке фильтров
+    String deleteNameKNO = "//div[@id=\"kinds\"]//div[contains(@class, 'MultiValueRemove')]"; // иконка [X] удаления КНО
+    String addButtonFilters = "//div[contains(@class,\"_FilterPanelBody\")]//button[contains(@class,'ButtonPrimar')]"; // кнопка Добавить в блоке фильтров
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
     String parameterFilter = "//div[@class=\"_Field_19ems_106\"]"; // Параметр фильтрации из списка
     String buttonUpdateNewFilters = "//div[@class=\"_FilterFooterButtons_1ifag_24\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
     String deleteButtonAdditionalFilter = "//button[@class=\"_Close_onqbf_1\"]"; // Иконка [X] удаления поля дополнительного фильтра
     String buttonUpdateFilters = "//div[@class=\"_FilterFooter_bspy4_46\"]//button[1]"; // Кнопка Применить в блоке фильтров
+    String statusKNMFieldFilter = "//div[@id='statuses']"; // поле Статус КНМ в дополнительных фильтрах
 
     // Дополнительные фильтры
     public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах
     public String orderDateFilterInput = "//div[@class=\"react-datepicker__input-container\"]//input"; // Поле Дата поручения в дополнительных фильтрах
-    public String orderDateStartIntervalInput = "//div[@class=\"_FilterFormDateGroup_1n385_1\"]/div[1]//input"; // поле Дата начала периода в дополнительном фильтре Дата поручения по периоду
-    public String orderDateStopIntervalInput = "//div[@class=\"_FilterFormDateGroup_1n385_1\"]/div[2]//input"; // поле Дата окончания периода в дополнительном фильтре Дата поручения по периоду
+    public String orderDateStartIntervalInput = "//div[contains(@class,\"FilterFormDateGroup\")]/div[1]//input"; // поле Дата начала периода в дополнительном фильтре Дата поручения по периоду
+    public String orderDateStopIntervalInput = "//div[contains(@class,\"FilterFormDateGroup\")]/div[2]//input"; // поле Дата окончания периода в дополнительном фильтре Дата поручения по периоду
     public String orderNumberFilterInput = "//input[@name=\"assignmentNumber\"]"; // Поле Номер поручения в дополнительных фильтрах
 
-    public String numberKNMInList = "//tr[@class=\"_TBodyRow_1fac6_80\"]//td[2]/a"; // Номер КНМ в таблице Список КНМ
+    public String numberKNMInList = "//tr[contains(@class,\"TBodyRow\")]//td[2]/a"; // Номер КНМ в таблице Список КНМ
 
 
 
@@ -482,6 +488,14 @@ public class ListEventsPage extends Common {
     public void setGroundsIncludePlanDropDown() {
         $(By.xpath(groundsIncludePlanDropDown)).click();
         setValueDropDownToText(GIP);
+    }
+
+    /**
+     * Удалить основание регистрации КНМ
+     */
+    @Step("Удалить основание регистрации КНМ")
+    public void deleteGroundsConductingKNM() {
+        $(By.xpath(deleteGroundRegistrationButton)).scrollIntoView(false).click(); // клик на Х у основания регистрации КНМ
     }
 
     /**
@@ -1499,14 +1513,14 @@ public class ListEventsPage extends Common {
      * Заполнить блок Основные параметры
      *
      * @param nameKNO                  Наименование органа контроля
-     * @param territorialUnit          Наименование Территориальной единицы
+     * @param character                Характер КНМ
      */
-    @Step("Заполнение блока Основные параметры: Наименование органа контроля - {nameKNO}, Наименование Территориальной" +
-            " единицы - {territorialUnit}")
-    public void setBasicFilterParameters(String nameKNO, String territorialUnit) throws InterruptedException {
-        setTerritorialUnit(territorialUnit);
+    @Step("Заполнение блока Основные параметры: Наименование органа контроля - {nameKNO}, Характер КНМ - {character}")
+    public void setBasicFilterParameters(String nameKNO, String character) throws InterruptedException {
+        setTerritorialUnit(territorialUnitName);
         setNameKNOForBlockFiltration(nameKNO);
         clickCheckboxUnderTerritorialUnit();
+        selectCharacterKNMForBlockFiltration(character);
     }
 
     /**
@@ -1523,12 +1537,39 @@ public class ListEventsPage extends Common {
     /**
      * Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров
      *
-     * @param nameKNO Наименование органа контроля (надзора)
+     * @param name Наименование органа контроля (надзора)
      */
-    @Step("Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров - {nameNKO}")
-    public void setNameKNOForBlockFiltration(String nameKNO) {
-        $(By.xpath(nameKNODropDownFiltrationBlock)).click();
-        setValueDropDownToText(nameKNO);
+    @Step("Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров - {name}")
+    public void setNameKNOForBlockFiltration(String name) throws InterruptedException {
+        if(name != null) {
+            ElementsCollection elements = $$(By.xpath(deleteNameKNO));
+            for (int i = 0; i < elements.size(); i++) {
+                $(By.xpath(deleteNameKNO)).click();
+            }
+            $(By.xpath(nameKNODropDownFiltrationBlock)).click();
+            setValueDropDownToText(name);
+        } else {
+            return;
+        }
+    }
+
+    /**
+     * Выбор характера КНМ в блоке фильтров
+     *
+     * @param character Характер КНМ
+     */
+    @Step("Выбор характера КНМ - {character} в блоке фильтров")
+    public void selectCharacterKNMForBlockFiltration(String character) throws InterruptedException {
+        if (character != null) {
+            ElementsCollection elements = $$(By.xpath(deleteCharacterKNMValue));
+            for (int i = 0; i < elements.size(); i++) {
+                $(By.xpath(deleteCharacterKNMValue)).click();
+            }
+            $(By.xpath(characterKNMField)).click();
+            setValueDropDownToText(character);
+        } else {
+            return;
+        }
     }
 
     /**
@@ -1591,6 +1632,17 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Выбор статуса КНМ в блоке дополнительного параметра фильтрации
+     *
+     * @param status Статус КНМ
+     */
+    @Step("Выбор статуса КНМ - {status} в блоке дополнительного параметра фильтрации")
+    public void selectStatusKNMInFiltration(String status) {
+        $(By.xpath(statusKNMFieldFilter)).scrollIntoView(false).click();
+        setValueDropDownToText(status);
+    }
+
+    /**
      * Удаление поля дополнительного параметра фильтрации
      *
      */
@@ -1607,6 +1659,15 @@ public class ListEventsPage extends Common {
     @Step("Нажать кнопку Применить в блоке фильтров")
     public void clickButtonUpdateForFilterBlock() {
         $(By.xpath(buttonUpdateFilters)).click();
+    }
+
+    /**
+     * Открыть сохраненный фильтр
+     */
+    @Step("Открыть сохраненный фильтр")
+    public void openSavedFilter() throws InterruptedException {
+        $(By.xpath(savedFilter)).scrollIntoView(false).click();
+        $(By.xpath(savedFilter)).scrollIntoView(false).click();
     }
 
     /**
@@ -1637,4 +1698,49 @@ public class ListEventsPage extends Common {
         $(By.xpath(locatorStartDate)).scrollIntoView(false).setValue(startDate);
         $(By.xpath(locatorStopDate)).scrollIntoView(false).setValue(stopDate);
     }
+
+    /**
+     * Фильтрация КНМ по параметрам
+     *
+     * @param nameKNO                  Наименование органа контроля
+     * @param character                Характер КНМ
+     * @param parameters               Дополнительные параметры фильтрации
+     * @param stopDate                 Финальная дата для начала проведения КНМ
+     * @param status                   Статус КНМ
+     */
+    @Step("Фильтрация КНМ по параметрам: Наименование органа контроля  - {nameKNO}, Характер КНМ - {character}, Дополнительные параметры фильтрации" +
+            " - {parameters}, Статус КНМ - {status}")
+    public void filtrationEventsForParameters(String nameKNO, String character, String[] parameters, String stopDate,
+                                              String status) throws InterruptedException {
+        openFiltrationForm();
+        openSavedFilter();
+        setBasicFilterParameters(nameKNO, character);
+        deleteAdditionalFilterInput();
+        if(parameters != null) {
+            for(String parameter : parameters) {
+                addAdditionalFilter(parameter);
+                sleep(3000);
+                if (parameter == "Дата начала проведения КНМ") {
+                    setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
+                            "01.01.2021", stopDate);
+                }
+                if (parameter == "Статус КНМ") {
+                    selectStatusKNMInFiltration(status);
+                }
+                if (parameter == "Реквизиты требования") {
+                    setAdditionalFilterInput(requirementDetailsFilterInput, "1");
+                }
+                if (parameter == "Дата поручения правительства о проведении КНМ (интервал)") {
+                    setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
+                            "01.01.2021", futureDate);
+                }
+
+            }
+        }
+        clickButtonUpdateForFilterBlock();
+    }
+
+
+
+
 }

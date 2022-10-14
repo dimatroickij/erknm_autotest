@@ -36,6 +36,7 @@ public class ListEventsERPPage extends Common {
     String listControlMeasuresField = "//textarea[@name='events[0].name']"; // поле для ввода в разделе Перечень мероприятий по контролю, необходимых для достижения целей и задач проведения КНМ
 
     String addGroundRegistrationButton = "//*[@id='reasonsTitleBlock']//button"; // кнопка Добавить в разделе Основания регистрации  КНМ TODO должен быть идентификатор
+    String deleteGroundRegistrationButton = "//div[@id=\"reasonsTitleBlock\"]//button[contains(@class,'Close')]"; // иконка [X] удаления основания регистрации КНМ
     String groundRegistrationDropDown = "//*[@id ='reasons[0].type']"; //выпадающий список Основание регистрации КНМ
     String nameProsecutorDropDown = "//div[@id=\"prosecutorOrganization\"]"; // Выпадающий список Наименование органа прокуратуры
 
@@ -43,17 +44,20 @@ public class ListEventsERPPage extends Common {
     String kindControlDropDown = "//*[@id='supervisionTypeBlock']/div[2]"; // выпадающий список Вид государственного контроля (надзора) TODO должен быть идентификатор
 
     String innField = "//*[@id='inn']"; //ИНН
-    String innListField = "//li[contains(@class,'_OptionItem_1bku0_26')]"; // Появившийся спискок ИНН
+    String innListField = "//li[contains(@class,'OptionItem')]"; // Появившийся спискок ИНН
 
     String addMandatoryRequirementsButton = "//*[@id='requirements']//button"; // кнопка Добавить в блоке Подлежащие проверке обязательные требования TODO должен быть идентификатор
 
     String addTemplateSheetsButton = "//*[@id='check-sheets']/div[2]//button"; // кнопка Добавить в блоке Проверочные листы TODO должен быть идентификатор
-    String modalTemplateDropDown = "//div[contains(@class, '_ModalBody_9nshc_41')]//div[contains(@class, 'SelectContainer')]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
+    String modalTemplateDropDown = "//div[contains(@class, 'ModalBody')]//div[contains(@class, 'SelectContainer')]"; // Выпадающий список в модальном окне Добавление проверочного листа TODO должен быть идентификатор
 
     String templateSheetsObjectDropDown = "//section[contains(@id, 'check-sheets')]//div[contains(@class, 'KnmCollapse_Body')]/div[4]/div[1]/div[2]"; // Объект проведения КНМ в блоке Проверочные листы TODO должен быть идентификатор
 
     String KNMNumberText = "//h3[contains(@class, 'KnmInfo_Title')]"; // Заголовок на странице с КНМ, в котором находится номер КНМ TODO должен быть идентификатор
 
+    public String completePPButton = "//div[contains(@class,\"HeaderContent\")]//button[@id=\"complete336Button\"]"; // кнопка Завершить 336
+    String buttonNotForModalCompletePP = "//div[@id=\"modal\"]//button[2]"; // кнопка Нет в модальном окне завершения по 336
+    public String textModalForCompletePP = "//div[contains(@class,\"BodyText\")]//p"; // текст в модальном окне после Завершить 336
     String deleteObjectButton = "//button[contains(@class, 'KnmCollapse_DeleteButton')]"; // крестик у блока Объект в разделе Объекты проведения КНМ TODO должен быть идентификатор
     String objectsKNMButton = "//*[@id='objectsBlock']/div[1]//button"; // Кнопка Добавить в блоке "Объекты проведения КНМ" TODO должен быть идентификатор
     String addressField = "//*[@name='objects[0].addressText']"; // поле Местоположение в блоке Объекты проведения КНМ
@@ -71,24 +75,24 @@ public class ListEventsERPPage extends Common {
     String addInspectorsButton = "//div[@id='inspectorsTitle']//button"; // Кнопка Добавить в блоке Уполномоченные на проведение проверки TODO должен быть идентификатор
     String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного TODO должен быть идентификатор
     public String detailsRequirementInput = "//*[@id=\"reasons[0].requirementDetails\"]"; // Поле Реквизиты требования
-    public String textUnderDetailsRequirementInput = "//div[@class=\"_TextareaError_6efvq_105\"]"; // Текст под полем Реквизиты требования
-    public String orderDateInput = "//div[@id=\"reasonsTitleBlock\"]//input[contains(@class, '_Input_1a70y_6')]"; // Поле Дата поручения
-    public String textUnderOrderDateInput = "//div[@class=\"_DatePickerError_1a70y_78\"]"; // Текст под полем Дата поручения
+    public String textUnderDetailsRequirementInput = "//div[contains(@class,\"TextareaError\")]"; // Текст под полем Реквизиты требования
+    public String orderDateInput = "//div[@id=\"reasonsTitleBlock\"]//input[contains(@class, 'Input')]"; // Поле Дата поручения
+    public String textUnderOrderDateInput = "//div[contains(@class,\"DatePickerError\")]"; // Текст под полем Дата поручения
     public String orderNumberInput = "//*[@id=\"reasons[0].assignmentNumber\"]"; // Поле Номер поручения
-    public String textUnderOrderNumberInput = "//div[@class='_TextareaError_6efvq_105']"; // Текст под полем Номер поручения
+    public String textUnderOrderNumberInput = "//div[contains(@class,'TextareaError')]"; // Текст под полем Номер поручения
 
     public String groundRegistration = "1.2.27 (99-ФЗ) Наличие приказа (распоряжения), изданного лицензирующим органом в соответствии с поручением Президента Российской Федерации или Правительства Российской Федерации.";
     public String groundPlannedRegistration = "1.1.4 Повторное КНМ в связи с отсутствием или фактическим неосуществлением деятельности или иным действием (бездействием) проверяемого лица повлекшим невозможность проведения КНМ.";
-    String filtersButton = "//div[@class=\"_Filters_1uab2_15\"]/button"; // Кнопка фильтры
+    String filtersButton = "//div[contains(@class,\"Filters\")]/button"; // Кнопка фильтры
     String territorialUnit = "//div[@id=\"domains\"]"; // Выпадающий список Территориальная единица
     String checkboxTerritorialUnit = "//input[@id=\"includeDomainChild\"]"; // Чекбокс под полем Территориальная единица
     String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
-    String addButtonFilters = "//div[@class=\"_FilterPanelBody_bspy4_42\"]//button"; // кнопка Добавить в блоке фильтров
+    String addButtonFilters = "//div[contains(@class,\"FilterPanelBody\")]//button"; // кнопка Добавить в блоке фильтров
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
-    String parameterFilter = "//div[@class=\"_Field_19ems_106\"]"; // Параметр фильтрации из списка
-    String buttonUpdateNewFilters = "//div[@class=\"_FilterFooterButtons_1ifag_24\"]//button[1]"; // Кнопка применить при добавлении фильтров поиска
-    String deleteButtonAdditionalFilter = "//button[@class=\"_Close_onqbf_1\"]"; // Иконка [X] удаления поля дополнительного фильтра
-    String buttonUpdateFilters = "//div[@class=\"_FilterFooter_bspy4_46\"]//button[1]"; // Кнопка Применить в блоке фильтров
+    String parameterFilter = "//div[contains(@class,\"Field\")]"; // Параметр фильтрации из списка
+    String buttonUpdateNewFilters = "//div[contains(@class,\"FilterFooterButtons\")]//button[1]"; // Кнопка применить при добавлении фильтров поиска
+    String deleteButtonAdditionalFilter = "//button[contains(@class,\"Close\")]"; // Иконка [X] удаления поля дополнительного фильтра
+    String buttonUpdateFilters = "//div[contains(@class,\"FilterFooter\")]//button[1]"; // Кнопка Применить в блоке фильтров
 
     // Дополнительные фильтры
     public String requirementDetailsFilterInput = "//input[@name=\"requirementDetails\"]"; // Поле Реквизиты требования в дополнительных фильтрах
@@ -106,6 +110,22 @@ public class ListEventsERPPage extends Common {
 
 
     public ListEventsERPPage() throws Exception {
+    }
+
+    /**
+     * Нажать на кнопку Нет в модальном окне при Завершить ПП 336
+     */
+    @Step("Нажать на кнопку Нет в модальном окне при Завершить ПП 336")
+    public void clickNotButtonForModalCompletePP() {
+        $(By.xpath(buttonNotForModalCompletePP)).click();
+    }
+
+    /**
+     * Нажать на кнопку Завершить ПП 336
+     */
+    @Step("Нажать на кнопку Завершить ПП 336")
+    public void clickButtonCompletePP() {
+        $(By.xpath(completePPButton)).click();
     }
 
     /**
@@ -650,6 +670,14 @@ public class ListEventsERPPage extends Common {
     public void setNameProsecutorDropDown(String name) {
         $(By.xpath(nameProsecutorDropDown)).click(); // клик на выпадающем списке Наименование прокуратуры
         setValueDropDownToText(name); // клик на нужной прокуратуре
+    }
+
+    /**
+     * Удалить основание регистрации КНМ
+     */
+    @Step("Удалить основание регистрации КНМ")
+    public void deleteGroundsConductingKNM() {
+        $(By.xpath(deleteGroundRegistrationButton)).click(); // клик на Х у основания регистрации КНМ
     }
 
     /**

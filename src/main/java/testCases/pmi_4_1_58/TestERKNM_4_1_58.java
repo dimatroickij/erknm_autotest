@@ -111,10 +111,6 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
         analytics.clickOnValueOfTableCell(analytics.plannedKNMValue);
         sleep(5000);
         analytics.checkStatusKNMInTable(statusCompleted);
-
-
-
-
     }
 
 
