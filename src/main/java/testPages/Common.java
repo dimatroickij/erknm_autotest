@@ -9,6 +9,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
@@ -36,6 +37,7 @@ public class Common {
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
+    public String randomNumber = numberRandom();
 
     public String filePath = "./file/sign.docx";
     public String signPath = "./file/sign.docx.sig";
@@ -197,11 +199,12 @@ public class Common {
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
     String actionsOnCardButton = "(//*[@id='visibleChangeActionsButton'])[2]"; //кнопка для открытия выпадающего списка Действия на карточке TODO должен быть идентификатор
-    String actionsHeaderButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия, в header TODO должен быть идентификатор
+    String actionsHeaderButton = "//*[contains(@class,'HeaderContent')]//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия, в header TODO должен быть идентификатор
     public String deleteButton = "//*[@id='deleteButton']";
     public String deleteOnCardButton = "//button[text()='Удалить']"; // TODO должен быть идентификатор
     public String signatureButton = "//*[@id='signButton']";
-    String openRequest = "//*[contains(@class,'TBodyRow')]/td[2]/a"; // открытие найденной записи
+    String openRequest = "//*[contains(@class,'TBodyRow')]/td[2]//a"; // открытие найденной записи
+    String openRequestForPlan   = "//*[contains(@class,'TBodyRow')]/td[3]//a"; // открытие найденной карточки в плане
     public String closeMessageButton = "//button[contains(@class,'CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
     public String textMessage = "//div[contains(@class,'ClosingNotificationText')]"; // текст сообщения
     public String iconError = "//div[contains(@class,'TitleBlock')]//div[contains(@class,'Errors')]/span";  // [!] иконка сообщающая об ошибке при заполнении
@@ -334,11 +337,11 @@ public class Common {
      * Установка плагина для подписания
      */
     @Step("Установка плагина для подписания")
-    public void installPlugin() {
+    public void installPlugin() throws InterruptedException {
         open(urlPlugin);
-
         try {
             $(By.xpath(installPluginButton)).click();
+            sleep(2000);
             try {
                 Robot r = new Robot();
                 LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
@@ -347,6 +350,8 @@ public class Common {
                 LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(1000));
                 r.keyPress(KeyEvent.VK_ENTER);
                 r.keyRelease(KeyEvent.VK_ENTER);
+                sleep(10000);
+                refresh();
             } catch (AWTException e) {
                 e.printStackTrace();
             }
@@ -488,6 +493,21 @@ public class Common {
         setSearchField(value);
         clickSearchButton();
         $(By.xpath(openRequest)).click();
+        switchTo().window(getWebDriver().getWindowHandle()).close();
+        switchTo().window(0);
+
+    }
+
+    /**
+     * Открытие найденной карточки проверки в плане
+     *
+     * @param value Номер карточки
+     */
+    @Step("Открытие найденной карточки - {value} в плане")
+    public void openCardForPlan(String value) {
+        setSearchField(value);
+        clickSearchButton();
+        $(By.xpath(openRequestForPlan)).click();
         switchTo().window(getWebDriver().getWindowHandle()).close();
         switchTo().window(0);
 
@@ -661,6 +681,7 @@ public class Common {
      */
     @Step("Нажатие на кнопку Действия, когда она в header")
     public void clickActionsHeaderButton() {
+        $(By.xpath("//div[@id='root']")).scrollIntoView(false);
         $(By.xpath(actionsHeaderButton)).shouldBe(visible).click();
     }
 
@@ -721,6 +742,28 @@ public class Common {
     @Step("Проверка текста под полем - {nameInput}, {text}")
     public void checkTextErrorField(String nameInput, String locator, String text) {
         $(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(text));
+    }
+
+    /**
+     * Проверка названия поля на соответствие
+     *
+     * @param nameInput Ожидаемое наименование поля
+     * @param locator   Локатор наименования поля
+     */
+    @Step("Проверка названия поля - {nameInput}")
+    public void checkNameField(String nameInput, String locator) {
+        $(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(nameInput));
+    }
+
+    /**
+     * Получение значения поля
+     *
+     * @param nameInput Наименование поля
+     * @param locator   Локатор поля
+     */
+    @Step("Получение значения поля - {nameInput}")
+    public String getValueOfField(String nameInput, String locator) {
+        return $(By.xpath(locator)).getText();
     }
 
     /**
@@ -825,6 +868,16 @@ public class Common {
     }
 
     /**
+     * Проверка на логирование записи в истории
+     *
+     * @param text    Текст записи
+     */
+    @Step("Проверка на логирование записи - {text} в истории")
+    public void checkLogInHistory(String text) {
+        $(By.xpath(String.format(selectValueByText, text))).shouldBe(visible);
+    }
+
+    /**
      * Отчистка поля нажатием на [X]
      *
      * @param nameField Название поля
@@ -883,7 +936,9 @@ public class Common {
      */
     @Step("Клик по кнопке Применить или Удалить в модальном окне при подтверждении действия")
     public void clickConfirmButton() {
-        $(By.xpath(confirmButton)).should(visible, Duration.ofSeconds(10)).click();
+        try {
+            $(By.xpath(confirmButton)).should(visible, Duration.ofSeconds(10)).click();
+        } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
     }
 
     /**
@@ -1019,6 +1074,15 @@ public class Common {
         String number = numbersEvents.get(a).getText();
         System.out.println("НОМЕР - " + number);
         return number;
+    }
+
+    /**
+     * Случайный номер
+     */
+    public String numberRandom() {
+        int a = (int) ( Math.random() * 1000 ) + 100;
+        String randNumber = Integer.toString(a);
+        return randNumber;
     }
 
 }

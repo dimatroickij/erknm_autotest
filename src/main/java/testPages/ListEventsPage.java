@@ -965,7 +965,10 @@ public class ListEventsPage extends Common {
         interactionTimeDays(days);
         interactionTimeHours(hours);
         setNameProsecutorDropDown(nameProsecutor);
-        addInformationControlledPerson(typePerson, inn, viewObject);
+        if (viewKNO != null) {
+            addInformationControlledPerson(typePerson, inn, viewObject);
+        }
+
 
         /*setInnField(inn);
         if(view == null) {
@@ -1518,8 +1521,8 @@ public class ListEventsPage extends Common {
     @Step("Заполнение блока Основные параметры: Наименование органа контроля - {nameKNO}, Характер КНМ - {character}")
     public void setBasicFilterParameters(String nameKNO, String character) throws InterruptedException {
         setTerritorialUnit(territorialUnitName);
-        setNameKNOForBlockFiltration(nameKNO);
         clickCheckboxUnderTerritorialUnit();
+        setNameKNOForBlockFiltration(nameKNO);
         selectCharacterKNMForBlockFiltration(character);
     }
 
@@ -1542,10 +1545,6 @@ public class ListEventsPage extends Common {
     @Step("Выбор значения в выпадающем списке Наименование органа контроля (надзора) в блоке фильтров - {name}")
     public void setNameKNOForBlockFiltration(String name) throws InterruptedException {
         if(name != null) {
-            ElementsCollection elements = $$(By.xpath(deleteNameKNO));
-            for (int i = 0; i < elements.size(); i++) {
-                $(By.xpath(deleteNameKNO)).click();
-            }
             $(By.xpath(nameKNODropDownFiltrationBlock)).click();
             setValueDropDownToText(name);
         } else {
@@ -1720,7 +1719,7 @@ public class ListEventsPage extends Common {
             for(String parameter : parameters) {
                 addAdditionalFilter(parameter);
                 sleep(3000);
-                if (parameter == "Дата начала проведения КНМ") {
+                if (parameter == "Дата начала проведения КНМ (интервал)") {
                     setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
                             "01.01.2021", stopDate);
                 }

@@ -21,7 +21,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, viewObject);
         numberPMEventWarningPublished = getNumberPM();
         logout();
     }
@@ -40,7 +40,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPMEventWarningPublished);
-        transferPMEventWarningAnnouncementStatusWarningAnnounced(currentDate);
+        transferPMEventWarningAnnouncementStatusWarningAnnounced();
         logout();
     }
 
@@ -72,7 +72,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPreventionEventsPage();
-        addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, typeObject, viewObject, classDanger);
+        addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, viewObject);
         numberPMPreventiveVisitPublished = getNumberPM();
         logout();
     }

@@ -31,7 +31,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
     @Feature("ЕРКНМ")
     @Story("КНМ")
     @Test(description = "A.1.1.1.1 Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРКНМ.")
-    public void createEventCheckRequirementsDetails() throws Exception {
+    public void createEventCheckRequirementsDetailsTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
@@ -65,7 +65,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
     @Feature("ЕРКНМ")
     @Story("КНМ")
     @Test(description = "A.1.1.1.2. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРКНМ.")
-    public void createEventCheckNumberOrder() throws Exception {
+    public void createEventCheckNumberOrderTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
@@ -111,7 +111,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
     @Feature("ЕРКНМ")
     @Story("КНМ")
     @Test(description = "A.1.1.1.3. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРКНМ.")
-    public void createEventCheckDateOrder() throws Exception {
+    public void createEventCheckDateOrderTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
@@ -146,7 +146,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.4. Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
             "для заполнения в ЕРКНМ.")
-    public void openEventsCheckAvailabilityFields() throws Exception {
+    public void openEventsCheckAvailabilityFieldsTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
@@ -234,14 +234,14 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
     @Feature("ЕРКНМ")
     @Story("КНМ")
     @Test(description = "A.1.1.1.10. Проверка фильтрации данных в ЗЧ ЕРКНМ.")
-    public void checkFiltrationData() throws Exception {
+    public void checkFiltrationDataTest() throws Exception {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
         setBasicFilterParameters(knoName, null);
         addAdditionalFilter("Реквизиты требования");
-        setAdditionalFilterInput(requirementDetailsFilterInput, "1233");
+        setAdditionalFilterInput(requirementDetailsFilterInput, "автотест");
         clickButtonUpdateForFilterBlock();
         checkNumberKNMFromTable("77220661000000065712");
 
@@ -255,20 +255,20 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         openFiltrationForm();
         deleteAdditionalFilterInput();
         addAdditionalFilter("Дата поручения");
-        setAdditionalFilterInput(orderDateFilterInput, "20.09.2022");
+        setAdditionalFilterInput(orderDateFilterInput, "01.01.2021");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220131000100065706");
+        checkNumberKNMFromTable("77220661000000065791");
 
         authorization("prosecutor");
         selectionERKNM();
         gotoListKNMPage();
         openFiltrationForm();
-        setBasicFilterParameters(nameKNOFNS, null);
+        setBasicFilterParameters(knoName, null);
         addAdditionalFilter("Дата поручения правительства о проведении КНМ (интервал)");
         setAdditionalFilterIntervalInput(orderDateStartIntervalInput, orderDateStopIntervalInput,
-                "20.09.2022", "21.09.2022");
+                "01.01.2021", "02.01.2021");
         clickButtonUpdateForFilterBlock();
-        checkNumberKNMFromTable("77220171000000065735");
+        checkNumberKNMFromTable("77220661000000065791");
     }
 
     /**
@@ -285,7 +285,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        String[] parametersFiltration = {"Статус КНМ"};
+        String[] parametersFiltration = {"Статус КНМ", "Дата начала проведения КНМ (интервал)"};
         filtrationEventsForParameters(knoName, unplannedCheck, parametersFiltration, dateOfOneStage, statusProcessFilling);
         openCard(getNumberRandomEvent());
         try{
@@ -313,7 +313,7 @@ public class TestERKNM_4_1_1 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        String[] parametersFiltration = {"Статус КНМ"};
+        String[] parametersFiltration = {"Статус КНМ", "Дата начала проведения КНМ (интервал)"};
         filtrationEventsForParameters(null, unplannedCheck, parametersFiltration, dateOfOneStage, statusProcessFilling);
         openCard(getNumberRandomEvent());
         try{

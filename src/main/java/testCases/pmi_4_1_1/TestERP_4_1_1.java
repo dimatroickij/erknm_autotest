@@ -131,6 +131,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         getNumberKNM();
         checkValueOfField("Дата поручения", orderDateInput, value);
         setGroundRegistrationDropDown("1.2.16");
+        sleep(3000);
         checkElementInvisible("Дата поручения", orderDateInput);
     }
 
@@ -246,6 +247,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
             openCard(event);
             deleteGroundsConductingKNM();
             addGroundsConductingKNM("3.2.9", null, null, null);
+            clickSaveButton();
             checkTextNotification("КНМ успешно сохранено");
         }
     }

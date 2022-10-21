@@ -20,8 +20,9 @@ public class OpenPartPage extends Common {
     String openDataPage = "//*[@id='/portal/public-open-data']"; //пункт меню Открытые данные
     String searchCheckPage = "//*[@id='/portal/public-search']";//пункт меню Поиск проверок
     String newsPage = "//*[@id='/portal/public-news']"; //пункт меню Новости
-    String numberSearchResult = "//*[contains(@class,\"SearchResults_TableSearchData\")]//a"; // номер найденного мероприятия
+    String numberSearchResult = "//*[contains(@class,\"TableSearchData\")]//a"; // номер найденного мероприятия
     public String fieldTable = "//div[contains(@class, 'styles_ColText') and contains(text(),'%s')]"; // поле в таблице найденного мероприятия
+    public String fieldAnnouncementDateWarning = "//div[contains(text(), 'Дата объявления предостережения')]";  // поле Дата объявления предостережения в ПМ
     public String captcha ="12345";
 
     public OpenPartPage() throws Exception {
@@ -107,6 +108,14 @@ public class OpenPartPage extends Common {
         $(By.xpath(String.format(fieldTable, nameField))).scrollIntoView(false).shouldBe(visible);
     }
 
-
+    /**
+     * Проверка на отсутствие(не видимость) поля в таблице информации о мероприятии
+     *
+     * @param nameField Название проверяемого поля
+     */
+    @Step("Проверка на отсутствие(не видимость) поля - {nameField} в таблице информации о мероприятии")
+    public void checkFieldInVisible(String nameField) {
+        $(By.xpath(String.format(fieldTable, nameField))).shouldNotBe(visible);
+    }
 
 }

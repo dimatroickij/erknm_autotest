@@ -84,7 +84,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
         gotoListPlansPage();
         openCardPlan("2023002609");
         planPage.clickExcludedEventsOpen();
-        openCard(numberEvent);
+        openCardForPlan(numberEvent);
     }
 
     /**

@@ -76,7 +76,7 @@ public class ListEventsERPPage extends Common {
     String inspectorsDropDown = "//div[@id='inspectorsTitle']/div[2]/div[1]/div[1]/div[1]/div[1]"; // Выпадающий список ФИО уполномоченного TODO должен быть идентификатор
     public String detailsRequirementInput = "//*[@id=\"reasons[0].requirementDetails\"]"; // Поле Реквизиты требования
     public String textUnderDetailsRequirementInput = "//div[contains(@class,\"TextareaError\")]"; // Текст под полем Реквизиты требования
-    public String orderDateInput = "//div[@id=\"reasonsTitleBlock\"]//input[contains(@class, 'Input')]"; // Поле Дата поручения
+    public String orderDateInput = "//*[@id=\"reasonsTitleBlock\"]//*[contains(@class,'react-datepicker__input-container')]//input"; // Поле Дата поручения
     public String textUnderOrderDateInput = "//div[contains(@class,\"DatePickerError\")]"; // Текст под полем Дата поручения
     public String orderNumberInput = "//*[@id=\"reasons[0].assignmentNumber\"]"; // Поле Номер поручения
     public String textUnderOrderNumberInput = "//div[contains(@class,'TextareaError')]"; // Текст под полем Номер поручения
@@ -89,9 +89,9 @@ public class ListEventsERPPage extends Common {
     String nameKNODropDownFiltrationBlock = "//div[@id=\"controllingOrganizations\"]"; // Выпадающий список Наименование органа контроля (надзора) в блоке фильтров
     String addButtonFilters = "//div[contains(@class,\"FilterPanelBody\")]//button"; // кнопка Добавить в блоке фильтров
     String inputSearchFilters = "//input[@id=\"select-table-search-value\"]"; // Поле поиска дополнительных параметров фильтрации
-    String parameterFilter = "//div[contains(@class,\"Field\")]"; // Параметр фильтрации из списка
+    String parameterFilter = "//div[contains(@class,\"Table\")]//div[contains(@class,\"Field\")]"; // Параметр фильтрации из списка
     String buttonUpdateNewFilters = "//div[contains(@class,\"FilterFooterButtons\")]//button[1]"; // Кнопка применить при добавлении фильтров поиска
-    String deleteButtonAdditionalFilter = "//button[contains(@class,\"Close\")]"; // Иконка [X] удаления поля дополнительного фильтра
+    String deleteButtonAdditionalFilter = "//div[contains(@class,'FilterPanelBody')]//button[contains(@class,\"Close\")]"; // Иконка [X] удаления поля дополнительного фильтра
     String buttonUpdateFilters = "//div[contains(@class,\"FilterFooter\")]//button[1]"; // Кнопка Применить в блоке фильтров
 
     // Дополнительные фильтры

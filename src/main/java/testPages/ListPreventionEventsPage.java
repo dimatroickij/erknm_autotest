@@ -8,22 +8,24 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 import static java.lang.Thread.sleep;
 
 public class ListPreventionEventsPage extends Common {
     //список ПМ
 
     public String prefix = UUID.randomUUID().toString();
+    String sortingByPeriod = "//div[@data-id=\"startDateEn\"]"; // сортировка по периоду проведения
     String statusPM = "//div[contains(@class,'TitleBlock')]/span[contains(@class, 'Status')]"; // Статус ПМ
-    public String officialPost = "руководитель Федеральной налоговой службы";
+    public String officialPost = "Руководитель";
     String nameKNOPMDropDown = "//*[@id='knoOrganizationPm']"; // выпадающий список Контрольный надзорный орган
     String kindControlAndNumberPMDropDown = "//*[@id='supervisionTypePm']"; // выпадающий список Вид контроля (надзора) и его номер
     String kindPMDropDown = "//*[@id='pmType']"; // выпадающий список Вид ПМ
+    public String valueOfFieldKindPM = "//*[@id='pmType']//div[contains(@class,'_SingleValue')]"; // значение в поле Вид ПМ
     public String typeAnnouncementWarningsPM = "Объявление предостережения";
     public String typePreventiveVisitPM = "Профилактический визит";
     public String typeObject = "Деятельность и действия";
@@ -33,7 +35,8 @@ public class ListPreventionEventsPage extends Common {
     public String classDanger2 = "Второй";
 
     String startDateField = "//*[@id='startDateBlock']//input"; // поле Дата начала
-    String stopDateField = "//*[@id='stopDateBlock']//input"; // поле Дата окончания
+    public String nameFieldForStartDate = "//div[@id=\"startDateBlock\"]//label"; // наименование поля даты начала при Объявление предостережения
+    public String stopDateField = "//*[@id='stopDateBlock']//input"; // поле Дата окончания
     String placeOfEventField = "//*[@name=\"location\"]"; // поле Место проведения профилактического мероприятия
     String innField = "//*[@name='inn']"; // Поле ИНН
     String innListField = "//*[@id='autoCompleteList']/li"; // выбор из выпадающего списка ИНН
@@ -53,6 +56,7 @@ public class ListPreventionEventsPage extends Common {
     String addOfficialPMButton = "//*[@id='erknmInspectorsAddButton']"; // кнопка Добавить должностное лицо
     String officialField = "//*[@name='inspectorsErknm[0].fullName']"; // поле Введите ФИО должностного лица
     String officialPostPMDropDown = "//*[@id='inspectorsErknm[0].position']"; // выпадающий список Выберите должность в ПМ
+    String deleteOfficialPost = "//div[@id=\"inspectors\"]//span[contains(@class,'Icon')]"; // иконка [X] удаления должностного лица
 
     String numberPM = "//div[contains(@class, 'TitleBloc')]/h3"; // номер ПМ
 
@@ -73,20 +77,44 @@ public class ListPreventionEventsPage extends Common {
 
     public String statusRefusalToConduct = "Отказ в проведении";
 
+
     // Блок обязательные требования, подлежащие проверке
     public String buttonAddForRequirements = "//button[@id=\"pmRequirementsAddButton\"]"; // кнопка Добавить в разделе Обязательные требования подлежащие проверке
-    public String requirementsNPA = "//span[contains(@class, \"OpenButtonBody\")]"; // НПА в обязательных требованиях подлежащих проверке
+    public String requirementsNPA = "//div[@id=\"requirementsNpa\"]//span[contains(@class, \"OpenButtonBody\")]"; // НПА в обязательных требованиях подлежащих проверке
     public String contentOfRequirements = "//div[contains(@class, 'BodyIsActive')]//div[contains(@class, 'MandatoryBlockBody')]"; // Текст содержания требования
     String inputNameNPA = "//input[@id=\"npaSearchString\"]"; // поле наименование НПА в форме добавления обязательного требования
     String buttonSearchNPA = "//div[contains(@class,'RowNoWrap')]//button"; // кнопка Искать в форме добавления обязательного требования
     String npaInTable = "//div[contains(@class,'NpaNameBlock')]"; // найденный НПА в таблице
-    String buttonAddInFormRequirement = "//form/div[contains(@class,'Container')]//button[1]"; // Кнопка Далее в форме добавления обязательного требования
+    public String buttonAddInFormRequirement = "//form/div[contains(@class,'Container')]//button[1]"; // Кнопка Далее в форме добавления обязательного требования
     String listOfStructuralUnits = "//input[@name=\"structuralUnits\"]"; // список СЕ в форме добавления обязательного требования
-    String checkboxContentOfRequirement = "//div[@id=\"mandatoryBlock\"]//label[contains(@class,\"CheckboxLabel\")]"; // чекбокс содержания требования в форме добавления обязательного требования
-    String buttonSaveInFormRequirement = "//div[contains(@class,'ModalActionsWithBack')]/div/button[1]"; //  кнопка Сохранить в форме добавления обязательного требования
+    String checkboxContentOfRequirement = "//div[@id=\"mandatoryBlock\"]//input"; // чекбокс содержания требования в форме добавления обязательного требования
+    public String buttonSaveInFormRequirement = "//div[contains(@class,'ModalActionsWithBack')]/div/button[1]"; //  кнопка Сохранить в форме добавления обязательного требования
+    String buttonAddContentOfRequirement = "//div[@id='modal']//div[contains(@class, 'Row')]/button[contains(@class, 'ButtonDefault')]"; // кнопка Добавить формулировку в форме добавления обязательного требования
+    String textInputContentOfRequirement = "//textarea[contains(@class, 'NewMandatoryInputField')]"; // текстовое поле ввода Содержание формулировки в форме добавления обязательного требования
+    String buttonAddNewNPA = "//div[contains(@class,'_CountResultsRow')]/button"; // кнопка Создать новый НПА
+    String inputNumberNPA = "//input[@name='number']"; // поле номер НПА
+    String inputDateNPA = "//div[@id='modal']//div[@class=\"react-datepicker-wrapper\"]//input"; // поле Дата утверждения НПА
+    public String textErrorUnderInputDateNPA = "//div[@id='modal']//div[contains(@class,\"DatePickerError\")]"; // текст ошибки под полем Дата утверждения НПА
+    String inputTitleNPA = "//div[@id='modal']//textarea[@name='title']"; // поле Наименование НПА
+    public String textErrorUnderInputTitleNPA = "//div[@id='modal']//div[contains(@class, '_TextareaError')]"; // текст ошибки под полем Наименование НПА
+    String buttonAddSE = "//div[contains(@class,'Row')][3]//button"; // кнопка Добавить в блоке Структурные единицы
+    String selectInitField = "//div[contains(@class,'_SelectInputSizeLarge')]"; // поле выбора типа Структурной единицы
+    String inputValueSE = "//*[contains(@name,'newStructuralUnits[0].components[0].v')]"; // поле Значение СЕ
+    String buttonSaveNewNPA = "//div[contains(@class,'_ModalActionsWithBack')]/div/button[1]"; // кнопка Сохранить при создании НПА
+    String buttonCancelNewNPA = "//div[contains(@class,'_ModalActionsWithBack')]/div/button[2]"; // кнопка Отмена при создании НПА
+    String messageErrorForValidationCreateNPA = "//div[@id='modal']//div[contains(@class,'ClosingNotificationText')]"; // сообщение об ошибке при попытке создать одинаковый НПА
+    String iconEditNPA = "//div[contains(@class,'NpaNameBlock')]/button"; // иконка редактирования НПА
+    public String numberNPAInTableSearchResults = "//div[contains(@class,'TableContent')]/div[1]"; // номер НПА в таблице найденных
 
     // Боковое меню навигации
     public String linkInfoSubjectOfPreventionEvent = "//li[@id=\"#requirementsNpa\"]/a"; // ссылка в боковом меню навигации Сведения о предмете профилактического мероприятия
+    public String linkInfoHistoryOfChanges = "//li[@id=\"#knm-history\"]/a"; // ссылка в боковом меню навигации История изменений
+
+    // История изменений
+    public String logTextInHistoryOfChanges = "//*[contains(@class,'WrapperOpened')]//*[contains(@class,'Patch')]"; // запись в логировании Истории изменений
+    String buttonOpenHistoryOfChanges = "//*[@id=\"knm-history\"]//button[contains(@class,'OpenButton')]"; // поле/кнопка История изменения профилактических мероприятий
+
+
 
     public ListPreventionEventsPage() throws Exception {
     }
@@ -342,9 +370,14 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Добавление должностного лица для ПМ - {name}, {post}")
     public void addOfficialPM(String name, String post) {
-        clickOfficialPMButton();
-        setOfficialField(name);
-        setOfficialPostPMDropDown(post);
+        try {
+            $(By.xpath(deleteOfficialPost)).click(); // клик по [X]
+        } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
+        finally {
+            clickOfficialPMButton();
+            setOfficialField(name);
+            setOfficialPostPMDropDown(post);
+        }
     }
 
     /**
@@ -355,18 +388,19 @@ public class ListPreventionEventsPage extends Common {
      * @param typePM      Вид ПМ
      * @param date        Дата начала
      * @param inn         ИНН
-     * @param typeObject  тип объекта
      * @param viewObject  вид объекта
-     * @param classDanger класс опасности
      */
-    @Step("Добавление ПМ")
-    public void addPreventionEvent(String name, String view, String typePM, String date, String inn, String typeObject, String viewObject, String classDanger) {
+    @Step("Добавление ПМ: Название контрольного (надзорного) органа - {name}, Вид контроля (надзора) и его номер - {view}," +
+            " Вид ПМ - {typePM}, Дата начала - {date}, ИНН - {inn}, Вид объекта - {viewObject}")
+    public void addPreventionEvent(String name, String view, String typePM, String date, String inn, String viewObject) throws InterruptedException {
         clickAddButton();
         setNameKNOPMDropDown(name);
         setKindControlAndNumberPMDropDown(view);
         setKindPMDropDown(typePM);
+        if(typePM == typePreventiveVisitPM) {
+            setPlaceOfPreventionEvent("Автотест");
+        }
         setStartDate(date);
-        //setStopDate(date);
         setInnField(inn);
         addObjectData(typeObject, viewObject, classDanger);
         clickSaveButton();
@@ -443,7 +477,8 @@ public class ListPreventionEventsPage extends Common {
      * @param date Дата
      */
     @Step("Заполнение даты в блоке Информация о несогласии контролируемого лица на проведение мероприятия")
-    public void setDatePresenceOfDisagreementField(String date) {
+    public void setDatePresenceOfDisagreementField(String date) throws InterruptedException {
+        sleep(2000);
         $(By.xpath(datePresenceOfDisagreementField)).setValue(date);
     }
 
@@ -453,45 +488,63 @@ public class ListPreventionEventsPage extends Common {
      * @param status Статус, который должен быть у ПМ
      */
     @Step("Проверка статуса ПМ - {status}")
-    public void checkStatusPM(String status) {
+    public void checkStatusPM(String status) throws InterruptedException {
         $(By.xpath(statusPM)).should(Text.text(status));
+    }
+
+    /**
+     * Получение статуса ПМ
+     */
+    @Step("Получение статуса ПМ")
+    public String getStatusPM() {
+        return $(By.xpath(statusPM)).getText();
     }
 
     /**
      * Перевод Объявление предостережения в статус Предостережение объявлено
      *
-     * @param date Дата окончания ПМ
      */
     @Step("Перевод Объявление предостережения в статус Предостережение объявлено")
-    public void transferPMEventWarningAnnouncementStatusWarningAnnounced(String date) throws InterruptedException {
-        clickConfirmButton();
-        setStopDate(date);
+    public String transferPMEventWarningAnnouncementStatusWarningAnnounced() throws InterruptedException {
         setNoteWarningField(prefix + "авто Описание");
         clickAddContentWarningButton();
         addDocumentAndSignatureNoteWarning(filePath, signPath);
         clickUploadButton();
         addGroundsPM(grounds);
         addOfficialPM(prefix + "авто ФИО", officialPost);
-        closeNotification();
+        String numberNPA = setBlockOfRequirements("правительство");
         clickSaveButton();
         closeNotification();
+        electronicSignatureInBrowser();
+        sleep(5000);
+        clickConfirmButton();
+
+//        closeNotification();
+//        clickConfirmButton();
+//        closeNotification();
+        checkStatusPM(statusWarningAnnounced);
+        return numberNPA;
+    }
+
+
+    /**
+     * Подписание ПМ электронной подписью в браузере
+     */
+    @Step("Подписание ПМ электронной подписью в браузере")
+    public void electronicSignatureInBrowser() throws InterruptedException {
         clickActionsHeaderButton();
         clickSignatureButton();
         choiceSignature();
         clickSignatureButton();
         closeNotification();
-        closeNotification();
-        clickConfirmButton();
-        closeNotification();
-        checkStatusPM(statusWarningAnnounced);
     }
 
     /**
-     * Заполнение полей необходимых для сохранения ПМ Объявление предостережения в статус Предостережение объявлено
+     * Заполнение полей необходимых для перевода ПМ Объявление предостережения в статус Предостережение объявлено
      *
      * @param date Дата окончания ПМ
      */
-    @Step("Заполнение полей необходимых для сохранения ПМ Объявление предостережения в статус Предостережение объявлено")
+    @Step("Заполнение полей необходимых для перевода ПМ Объявление предостережения в статус Предостережение объявлено")
     public void setFieldsForSavePMStatusWarningDeclared(String date) {
 
         setNoteWarningField(prefix + "Автотест");
@@ -506,7 +559,7 @@ public class ListPreventionEventsPage extends Common {
      * Перевод Объявление предостережения в статус Есть возражение
      */
     @Step("Перевод Объявление предостережения в статус Есть возражение")
-    public void transferPMEventWarningAnnouncementStatusAnObjection() {
+    public void transferPMEventWarningAnnouncementStatusAnObjection() throws InterruptedException {
         clickConfirmButton();
         clickAddInformationDirectionObjectionButton();
         addDocumentAndSignatureInformationDirectionObjection(filePath, signPath);
@@ -542,10 +595,22 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
+     * Заполнение полей необходимых для перевода ПМ Профилактического визита в статус Ожидает проведения
+     *
+     * @param date Дата окончания ПМ
+     */
+    @Step("Заполнение полей необходимых для перевода ПМ Профилактического визита в статус Ожидает проведения")
+    public void setFieldsForSavePMStatusPreventiveVisit(String date) {
+        setStopDate(date);
+        addGroundsPM(grounds);
+        addOfficialPM(prefix + "авто ФИО", officialPost);
+    }
+
+    /**
      * Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено
      */
     @Step("Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено")
-    public void transferPMEventPreventiveVisitStatusCompleted() {
+    public void transferPMEventPreventiveVisitStatusCompleted() throws InterruptedException {
         clickConfirmButton();
         setResultPMField(prefix + "авто результат");
         clickSaveButton();
@@ -560,7 +625,7 @@ public class ListPreventionEventsPage extends Common {
      * @param date Дата поля Наличие несогласия
      */
     @Step("Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении")
-    public void transferPMEventPreventiveVisitStatusRefusalToConduct(String date) {
+    public void transferPMEventPreventiveVisitStatusRefusalToConduct(String date) throws InterruptedException {
         clickConfirmButton();
         setPresenceOfDisagreementDropDown("Да");
         setDatePresenceOfDisagreementField(date);
@@ -592,6 +657,7 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Поиск НПА - {nameNPA} в форме добавления обязательного требования")
     public void searchNameNPA(String nameNPA) {
+        clearInput("Поиск НПА", inputNameNPA);
         $(By.xpath(inputNameNPA)).setValue(nameNPA);
         $(By.xpath(buttonSearchNPA)).click();
     }
@@ -623,6 +689,16 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
+     * Добавление формулировки содержания требования в форме добавления обязательного требования
+     */
+    @Step("Добавление формулировки содержания требования в форме добавления обязательного требования")
+    public void addContentFromList() {
+        $(By.xpath(buttonAddContentOfRequirement)).click();
+        $(By.xpath(textInputContentOfRequirement)).setValue("Автотест содержание");
+        selectContentFromList();
+    }
+
+    /**
      * Раскрыть НПА в разделе Обязательные требования подлежащие проверке
      */
     @Step("Раскрыть НПА в разделе Обязательные требования подлежащие проверке")
@@ -647,16 +723,164 @@ public class ListPreventionEventsPage extends Common {
      * @param nameNPA Наименование НПА
      */
     @Step("Заполнение блока Обязательные требования, подлежащие проверке: Наименование НПА - {nameNPA}")
-    public void setBlockOfRequirements(String nameNPA) {
+    public String setBlockOfRequirements(String nameNPA) {
+        String numberNPA;
         clickButtonAddForRequirements();
         searchNameNPA(nameNPA);
         Selenide.sleep(3000);
-        selectNPAFromTable();
-        Selenide.sleep(3000);
-        selectSEFromList();
-        selectContentFromList();
-        clickButtonSaveForRequirements();
+        try {
+            selectNPAFromTable();
+            Selenide.sleep(3000);
+        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
+            numberNPA = addNewNPA(randomNumber);
+        }
+        finally {
+            selectSEFromList();
+            try {
+                selectContentFromList();
+            }catch (com.codeborne.selenide.ex.ElementNotFound e) {
+                addContentFromList();
+            }
+            finally {
+                clickButtonSaveForRequirements();
+            }
+            return nameNPA;
+        }
     }
+
+    /**
+     * Создание нового НПА
+     *
+     * @param numberNPA Номер НПА
+     */
+    @Step("Создание нового НПА с номером - {numberNPA}")
+    public String addNewNPA(String numberNPA) {
+        clickButtonAddNewNPA();
+        setFieldsForCreateNewNPA(numberNPA);
+        clickButtonAddSE();
+        setFieldsForNewSE("Статья", numberNPA);
+        clickButtonSaveForCreateNewNPA();
+        return numberNPA;
+    }
+
+    /**
+     * Нажать кнопку Создать новый НПА
+     */
+    @Step("Нажать кнопку Создать новый НПА")
+    public void clickButtonAddNewNPA() {
+        $(By.xpath(buttonAddNewNPA)).click();
+    }
+
+    /**
+     * Заполнение основных полей при создании НПА
+     *
+     * @param numberNPA  Номер НПА
+     */
+    @Step("Заполнение основных полей при создании НПА")
+    public String setFieldsForCreateNewNPA(String numberNPA) {
+        $(By.xpath(inputNumberNPA)).setValue(numberNPA);
+        $(By.xpath(inputDateNPA)).setValue(currentDate);
+        $(By.xpath(inputTitleNPA)).setValue("Автотест ");
+        return numberNPA;
+    }
+
+    /**
+     * Нажать Добавить в Структурные единицы
+     */
+    @Step("Нажать Добавить в Структурные единицы")
+    public void clickButtonAddSE() {
+        $(By.xpath(buttonAddSE)).click();
+    }
+
+    /**
+     * Заполнение новой структурной единицы
+     *
+     * @param nameUnit Наименование единицы
+     * @param value    Значение
+     */
+    @Step("Заполнение новой структурной единицы - {nameUnit} значением - {value}")
+    public void setFieldsForNewSE(String nameUnit, String value) {
+        $(By.xpath(selectInitField)).click();
+        setValueDropDownToText(nameUnit);
+        $(By.xpath(inputValueSE)).setValue(value);
+    }
+
+    /**
+     * Нажать кнопку Сохранить при создании НПА
+     */
+    @Step("Нажать кнопку Сохранить при создании НПА")
+    public void clickButtonSaveForCreateNewNPA() {
+        $(By.xpath(buttonSaveNewNPA)).click();
+    }
+
+    /**
+     * Нажать кнопку Отменить при создании НПА
+     */
+    @Step("Нажать кнопку Отменить при создании НПА")
+    public void clickButtonCancelForCreateNewNPA() {
+        $(By.xpath(buttonCancelNewNPA)).click();
+    }
+
+    /**
+     * Проверка валидации при создании одинаковых НПА
+     */
+    @Step("Проверка валидации при создании одинаковых НПА")
+    public void checkValidationForCreateNewNPA() {
+        $(By.xpath(messageErrorForValidationCreateNPA)).shouldHave(text("Сохранение НПА невозможно. Данное НПА существует"));
+    }
+
+    /**
+     * Редактирование НПА
+     *
+     * @param numberNPA  Номер НПА
+     */
+    @Step("Редактирование НПА")
+    public String editFieldsNPA(String numberNPA) {
+        $(By.xpath(iconEditNPA)).click();  // нажать иконку редактировать
+        String[] fields = {inputNumberNPA, inputDateNPA, inputTitleNPA};
+        for (String field : fields) {
+            clearInput("{field}", field);
+        }   // отчистить поля в цикле
+        setFieldsForCreateNewNPA(numberNPA);  // заполнить поля
+        clickButtonAddSE();
+        setFieldsForNewSE("Пункт", numberNPA);
+        clickButtonSaveForCreateNewNPA();
+        clickConfirmButton();
+        return numberNPA;
+    }
+
+    /**
+     * Раскрыть раздел История изменений профилактических мероприятий
+     */
+    @Step("Раскрыть раздел История изменений профилактических мероприятий")
+    public void openHistoryOfChangesPM() {
+        $(By.xpath(buttonOpenHistoryOfChanges)).click();
+    }
+
+    /**
+     * Проверка номера НПА из таблицы на соответствие
+     *
+     * @param numberNPA Номер НПА
+     */
+    @Step("Проверка номера НПА из таблицы на соответствие - {numberNPA}")
+    public void checkNumberNPAFromTable(String numberNPA) {
+        $(By.xpath(numberNPAInTableSearchResults)).should(Text.text(numberNPA));
+    }
+
+    /**
+     * Сортировка по периоду проведения
+     *
+     * @param parameter Параметр сортировки true - возрастание/false - убывание
+     */
+    @Step("Сортировка по периоду проведения")
+    public void sortingByPeriod(boolean parameter) {
+        if (parameter) {
+            $(By.xpath(sortingByPeriod)).click();
+        } else {
+            $(By.xpath(sortingByPeriod)).doubleClick();
+        }
+    }
+
 
 
 }
