@@ -724,7 +724,7 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Заполнение блока Обязательные требования, подлежащие проверке: Наименование НПА - {nameNPA}")
     public String setBlockOfRequirements(String nameNPA) {
-        String numberNPA;
+        String numberNPA = null;
         clickButtonAddForRequirements();
         searchNameNPA(nameNPA);
         Selenide.sleep(3000);
@@ -744,7 +744,7 @@ public class ListPreventionEventsPage extends Common {
             finally {
                 clickButtonSaveForRequirements();
             }
-            return nameNPA;
+            return numberNPA;
         }
     }
 

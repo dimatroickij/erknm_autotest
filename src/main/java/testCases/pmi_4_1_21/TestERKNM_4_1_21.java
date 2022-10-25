@@ -51,7 +51,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         clickSaveButton();
         getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
-        setFieldsNecessaryForHarmonization("4.0.11", "01.02.2024", plannedCheck);
+        setFieldsNecessaryForHarmonization("4.0.11", "01.02.2024");
         closeNotification();
         clickSaveButton();
         checkStatusKNM(statusReadyApproval);

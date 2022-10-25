@@ -314,7 +314,7 @@ public class ListPlanPage extends Common {
         ListEventsPage event = new ListEventsPage();
         gotoListKNMPage();
         event.openCard(numberKNM);
-        event.setDecisionApplicationDropDown(approved);
+        event.setDecisionApplicationDropDown(approved, currentDate);
         clickSaveButton();
         closeNotification();
         gotoListPlansPage();

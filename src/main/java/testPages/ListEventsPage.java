@@ -1,6 +1,7 @@
 package testPages;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Text;
 import com.codeborne.selenide.conditions.Value;
@@ -113,14 +114,21 @@ public class ListEventsPage extends Common {
     String npaMandatoryRequirementsField = "//*[@id='requirementsErknm[0].manualNameNpa']"; // поле Наименование НПА в блоке ОТ
     String dateNPAMandatoryRequirementsField = "//tr[contains(@id, 'requirements')]//td[contains(@class, 'DateNpaTbodyCell')]//input"; // поле Дата НПА TODO Должен быть идентификатор
     String addGroundsButton = "//div[@id=\"reasonDocumentsBlock\"]//button"; // кнопка Добавить в разделе Основания проведения КНМ
-    String addFileInGroundsButton = "//div[@id=\"reasonDocuments[110759c4-9e66-478c-a7a2-35269d6c3af4].attachments\"]"; // Кнопка Добавить файл в разделе Основания проведения КНМ
+    String addFileInGroundsButton = "//div[contains(@id,\"reasonDocuments\")]/button"; // Кнопка Добавить файл в разделе Основания проведения КНМ
     String selectDocType = "//div[@id=\"reasonDocuments[0].type\"]"; // Поле Выбора типа документа в разделе Основания проведения КНМ
+    String documentType = "//div[@id=\"reasonDocumentsBlock\"]//div[contains(@class, 'SelectInput')][1]"; // первый из списка тип документа
     String documentGroundsConductingInput = "//input[@id='reasonDocuments[0].attachmentsUploadDocument']"; // input для добавления документа в блоке Основания проведения КНМ
     String signatureGroundsConductingInput = "//input[@id='reasonDocuments[0].attachmentsUploadSign']"; // input для добавления подписи в блоке Основания проведения КНМ
+    String uploadFileButton = "//button[@id=\"uploadButton\"]"; // кнопка Загрузить в блоке загрузки документов
 
     String approvalButton = "//button[text()='На согласование']"; // кнопка в подменю На согласование
 
+    // Сведения о согласовании проведения КНМ с органами прокуратуры
     String decisionApplicationDropDown = "//*[@id='approved']"; // Выпадающий список Решение по заявлению
+    String inputDecisionNumber = "//input[@id=\"approveNumberDecision\"]"; // поле Номер решения
+    String inputDecisionDate = "//*[@id=\"approve-info\"]//div[contains(@class,\"react-datepicker-wrapper\")]//input"; // поле Дата решения
+    String inputDecisionSubject = "//*[@id=\"approveFioSigner\"]"; // поле Кем принято решение
+    String inputPosition = "//*[@id=\"approveTitleSigner\"]"; // поле Должность лица, подписавшего решения
 
     // Блок Сведения о контролируемом лице
     String addButtonInInformationControlledPerson = "//*[@id=\"verified-person\"]//*[@class=\"shared-no-wrap-text\"]/button"; // кнопка Добавить в разделе Сведения о контролируемом лице
@@ -128,6 +136,8 @@ public class ListEventsPage extends Common {
 
     //Блок Сведения об акте
     String addInformationAboutActsButton = "//*[@id='act']//button"; // Кнопка Добавить в блоке Сведения об акте TODO Должен быть идентификатор
+    String selectTypeOfAct = "//*[@id='act']//input[contains(@id,'react-select')]"; // поле Вид акта
+    String selectReasonForImpossibility = "//*[@id='react-select-28-input']"; // поле Причина невозможности проведения
     String addFileActButton = "//*[@id='act']//div[contains(@class, 'ErknmActDocument_ActDocument')]//button"; //Кнопка добавить Файл акта TODO Должен быть идентификатор
     String documentInformationAboutActsInput = "//input[@id='acts[0].document.attachmentsUploadDocument']"; // input для добавления документа в блоке Файл акта
     String signatureInformationAboutActsInput = "//input[@id='acts[0].document.attachmentsUploadSign']"; // input для добавления подписи в блоке Файл акта
@@ -163,6 +173,34 @@ public class ListEventsPage extends Common {
     String buttonNotForModalCompletePP = "//div[@id=\"modal\"]//button[2]"; // кнопка Нет в модальном окне завершения по 336
     String buttonYesForModalCompletePP = "//div[@id=\"modal\"]//button[1]"; // Кнопка Да в модальном окне завершения по 336
     public String textModalForCompletePP = "//div[contains(@class,\"BodyText\")]//p"; // текст в модальном окне после Завершить 336
+
+    // Блок обязательные требования, подлежащие проверке
+    public String buttonAddForRequirements = "//button[@id=\"erknmRequirementsNpaAddButton\"]"; // кнопка Добавить в разделе Обязательные требования подлежащие проверке
+    public String requirementsNPA = "//div[@id=\"requirementsNpa\"]//span[contains(@class, \"OpenButtonBody\")]"; // НПА в обязательных требованиях подлежащих проверке
+    public String contentOfRequirements = "//div[contains(@class, 'BodyIsActive')]//div[contains(@class, 'MandatoryBlockBody')]"; // Текст содержания требования
+    String inputNameNPA = "//input[@id=\"npaSearchString\"]"; // поле наименование НПА в форме добавления обязательного требования
+    String buttonSearchNPA = "//div[contains(@class,'ModalBody')]//button"; // кнопка Искать в форме добавления обязательного требования
+    String npaInTable = "//div[contains(@class,'NpaNameBlock')]"; // найденный НПА в таблице
+    public String buttonAddInFormRequirement = "//form/div[contains(@class,'Container')]//button[1]"; // Кнопка Далее в форме добавления обязательного требования
+    String listOfStructuralUnits = "//input[@name=\"structuralUnits\"]"; // список СЕ в форме добавления обязательного требования
+    String checkboxContentOfRequirement = "//div[@id=\"mandatoryBlock\"]//input"; // чекбокс содержания требования в форме добавления обязательного требования
+    public String buttonSaveInFormRequirement = "//div[contains(@class,'ModalActionsWithBack')]/div/button[1]"; //  кнопка Сохранить в форме добавления обязательного требования
+    String buttonAddContentOfRequirement = "//div[@id='modal']//div[contains(@class, 'Row')]/button[contains(@class, 'ButtonDefault')]"; // кнопка Добавить формулировку в форме добавления обязательного требования
+    String textInputContentOfRequirement = "//textarea[contains(@class, 'NewMandatoryInputField')]"; // текстовое поле ввода Содержание формулировки в форме добавления обязательного требования
+    String buttonAddNewNPA = "//div[contains(@class,'_CountResultsRow')]/button"; // кнопка Создать новый НПА
+    String inputNumberNPA = "//input[@name='number']"; // поле номер НПА
+    String inputDateNPA = "//div[@id='modal']//div[@class=\"react-datepicker-wrapper\"]//input"; // поле Дата утверждения НПА
+    public String textErrorUnderInputDateNPA = "//div[@id='modal']//div[contains(@class,\"DatePickerError\")]"; // текст ошибки под полем Дата утверждения НПА
+    String inputTitleNPA = "//div[@id='modal']//textarea[@name='title']"; // поле Наименование НПА
+    public String textErrorUnderInputTitleNPA = "//div[@id='modal']//div[contains(@class, '_TextareaError')]"; // текст ошибки под полем Наименование НПА
+    String buttonAddSE = "//div[contains(@class,'Row')][3]//button"; // кнопка Добавить в блоке Структурные единицы
+    String selectInitField = "//div[contains(@class,'_SelectInputSizeLarge')]"; // поле выбора типа Структурной единицы
+    String inputValueSE = "//*[contains(@name,'newStructuralUnits[0].components[0].v')]"; // поле Значение СЕ
+    String buttonSaveNewNPA = "//div[contains(@class,'_ModalActionsWithBack')]/div/button[1]"; // кнопка Сохранить при создании НПА
+    String buttonCancelNewNPA = "//div[contains(@class,'_ModalActionsWithBack')]/div/button[2]"; // кнопка Отмена при создании НПА
+    String messageErrorForValidationCreateNPA = "//div[@id='modal']//div[contains(@class,'ClosingNotificationText')]"; // сообщение об ошибке при попытке создать одинаковый НПА
+    String iconEditNPA = "//div[contains(@class,'NpaNameBlock')]/button"; // иконка редактирования НПА
+    public String numberNPAInTableSearchResults = "//div[contains(@class,'TableContent')]/div[1]"; // номер НПА в таблице найденных
 
     // Фильтрация КНМ
     String filtersButton = "//div[@class=\"_Filters_1uab2_15\"]/button"; // Кнопка фильтры
@@ -762,12 +800,27 @@ public class ListEventsPage extends Common {
     /**
      * Добавление решения по заявлению
      *
-     * @param result решение
+     * @param result Решение
+     * @param date   Дата принятия решения
      */
-    @Step("Добавление решения по заявлению - {result}")
-    public void setDecisionApplicationDropDown(String result) {
+    @Step("Добавление решения по заявлению - {result}, дата принятия решения - {date}")
+    public void setDecisionApplicationDropDown(String result, String date) {
         $(By.xpath(decisionApplicationDropDown)).should(visible, Duration.ofSeconds(10)).click();
         setValueDropDownToText(result);
+        setFieldsInInformationAboutApproval(date);
+    }
+
+    /**
+     * Заполнение полей в сведениях о согласовании
+     *
+     * @param date Дата принятия решения
+     */
+    @Step("Заполнение полей в сведениях о согласовании")
+    public void setFieldsInInformationAboutApproval(String date) {
+        $(By.xpath(inputDecisionNumber)).setValue(prefix); // заполнение поля Номер решения
+        $(By.xpath(inputDecisionDate)).setValue(date);  // заполнение поля Дата решения
+        $(By.xpath(inputDecisionSubject)).setValue(prefix + " Авто ФИО"); // заполнение поля Лицо принявшее решение
+        $(By.xpath(inputPosition)).setValue(prefix + " Авто должность"); // заполнение поля Должность лица принявшего решение
     }
 
     /**
@@ -905,30 +958,28 @@ public class ListEventsPage extends Common {
      * @param nameKNO        Наименование органа контроля
      * @param viewKNO        Вид контроля (надзора) и его нормер
      * @param kind           Вид КНМ
+     * @param character      Характер КНМ
+     * @param startDate      Дата начала КНМ
+     * @param stopDate       Дата окончания КНМ
+     * @param days           Срок непосредственного взаимодействия дней
+     * @param hours          Срок непосредственного взаимодействия часов
      * @param nameProsecutor Наименование прокуратуры
      * @param typePerson     Тип контролируемого лица
      * @param inn            ИНН
      * @param viewObject     Вид объекта
      */
     @Step("Создание внеплановой КНМ: Наименование органа контроля - {nameKNO}, Вид контроля (надзора) - {viewKNO}, " +
-            "Вид КНМ - {kind}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
+            "Вид КНМ - {kind}, Характер КНМ - {character}, Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, " +
             "Срок непосредственного взаимодействия дней - {days}, Срок непосредственного взаимодействия часов - {hours}," +
             " Наименование прокуратуры - {nameProsecutor}, Тип контролируемого лица - {typePerson}, ИНН - {inn}, Вид объекта - {viewObject}")
-    public void addUnplannedKNM(String nameKNO, String viewKNO, String kind, String startDate, String stopDate,
+    public void addKNM(String nameKNO, String viewKNO, String kind, String character, String startDate, String stopDate,
                                 String days, String hours, String nameProsecutor, String typePerson, String inn, String viewObject) {
         clickAddButton();
-        setNameKNODropDown(nameKNO);
-        setKindControlAndNumberDropDown(viewKNO);
-        setKindKNMDropDown(kind);
-        setCharacterKNMDropDown(unplannedCheck);
-        setStartKNMDate(startDate);
-        setStopKNMDate(stopDate);
-        interactionTimeDays(days);
-        interactionTimeHours(hours);
-        setNameProsecutorDropDown(nameProsecutor);
-        addInformationControlledPerson(typePerson, inn, viewObject);
+        setRequiredFieldsKNM(nameKNO, viewKNO, kind, character, startDate, stopDate, days, hours, nameProsecutor,
+                typePerson, inn, viewObject);
         clickSaveButton();
     }
+
 
     /**
      * Заполнение обязательных полей при создании КНМ
@@ -968,16 +1019,6 @@ public class ListEventsPage extends Common {
         if (viewKNO != null) {
             addInformationControlledPerson(typePerson, inn, viewObject);
         }
-
-
-        /*setInnField(inn);
-        if(view == null) {
-            deleteObject();
-            return;
-        }
-        setTypeObjectDropDown();
-        setKindObjectDropDown(view);
-        setDangerClassDropDown();*/
     }
 
     /**
@@ -1013,29 +1054,24 @@ public class ListEventsPage extends Common {
 
     /**
      * Заполнение выпадающего списка Тип документа в блоке Основание проведения КНМ
-     *
-     * @param docType Тип документа
      */
     @Step("Заполнение выпадающего списка Тип документа в блоке Основание проведения КНМ - {docType}")
-    public void setDocumentTypeDropDown(String docType) {
+    public void setDocumentTypeDropDown() {
         $(By.xpath(selectDocType)).click();
-        setValueDropDownToText(docType);
+        setValueDropDownToText("Мотивированное представление");
     }
 
     /**
      * Добавление документа и подписи в блоке Основания проведения КНМ
-     *
-     * @param docType Тип документа
-     * @param fPath путь к документу
      */
-    @Step("Добавление документа - {docType} и подписи в блоке Основания проведения КНМ")
-    public void addDocumentAndSignatureGroundsConducting(String docType, String fPath) {
+    @Step("Добавление документа и подписи в блоке Основания проведения КНМ")
+    public void addDocumentAndSignatureGroundsConducting() {
         $(By.xpath(addGroundsButton)).click(); // нажимаем добавить документ основания
-        setDocumentTypeDropDown(docType); // выбираем тип документа
+        setDocumentTypeDropDown(); // выбираем тип документа
         $(By.xpath(addFileInGroundsButton)).click();  // нажимаем добавить файл
-        $(By.xpath(documentGroundsConductingInput)).uploadFile(new File(fPath)); // загружаем файл
+        $(By.xpath(documentGroundsConductingInput)).uploadFile(new File(filePath)); // загружаем файл
         //$(By.xpath(signatureGroundsConductingInput)).uploadFile(new File(sPath));
-
+        $(By.xpath(uploadFileButton)).click(); // нажать кнопку загрузить
     }
 
     /**
@@ -1064,6 +1100,9 @@ public class ListEventsPage extends Common {
             return;
         }
         setNeedCoordinationDropDown(param);
+        if(param.equals(needCoordination)) {
+            addDocumentAndSignatureGroundsConducting();
+        }
     }
 
     /**
@@ -1139,6 +1178,17 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Выбор Вида акта
+     *
+     * @param typeOfAct  Вид акта
+     */
+    @Step("Выбор Вида акта - {typeOfAct}")
+    public void setTypeOfActDropDown(String typeOfAct) {
+        $(By.xpath(selectTypeOfAct)).click();
+        setValueDropDownToText(typeOfAct);
+    }
+
+    /**
      * Нажатие на кнопку добавить файл акта
      */
     @Step("Нажатие на кнопку добавить файл акта")
@@ -1148,14 +1198,11 @@ public class ListEventsPage extends Common {
 
     /**
      * Добавление документа и подписи в блоке Файл акта
-     *
-     * @param fPath путь к документу
-     * @param sPath путь к подписи
      */
     @Step("Добавление документа и подписи в блоке Файл акта")
-    public void addDocumentAndSignatureFileAct(String fPath, String sPath) {
-        $(By.xpath(documentInformationAboutActsInput)).uploadFile(new File(fPath));
-        $(By.xpath(signatureInformationAboutActsInput)).uploadFile(new File(sPath));
+    public void addDocumentAndSignatureFileAct() {
+        $(By.xpath(documentInformationAboutActsInput)).uploadFile(new File(filePath));
+        //$(By.xpath(signatureInformationAboutActsInput)).uploadFile(new File(sPath));
     }
 
     /**
@@ -1238,12 +1285,14 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Выбор Выберите должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора
+     * Выбор должности в блоке Должностные лица КНО, участвовавшие в КНМ
+     *
+     * @param name Название должности
      */
-    @Step("Выбор Выберите должность в блоке Должностные лица КНО, участвовавшие в КНМ - Специалист-эксперт отдела Территориального органа Росздравнадзора")
-    public void setPositionOfficialsTerritorialAuthorityParticipatedDropDown() {
+    @Step("Выбор должности - {name} в блоке Должностные лица КНО, участвовавшие в КНМ")
+    public void setPositionOfficialsDropDown(String name) {
         $(By.xpath(positionOfficialsParticipatedDropDown)).click();
-        setValueDropDownToText(positionSpecialistExpert);
+        setValueDropDownToText(name);
     }
 
     /**
@@ -1265,6 +1314,17 @@ public class ListEventsPage extends Common {
     public void setInformationAboutRecognitionDropDown(String result) {
         $(By.xpath(informationAboutRecognitionDropDown)).click();
         setValueDropDownToText(result);
+    }
+
+    /**
+     * Выбор причины невозможности проведения
+     *
+     * @param cause Причина невозможности проведения
+     */
+    @Step("Выбор причины невозможности проведения - {cause}")
+    public void setReasonForImpossibilityDropDown(String cause) {
+        $(By.xpath(selectReasonForImpossibility)).click();
+        setValueDropDownToText(cause);
     }
 
     /**
@@ -1290,39 +1350,39 @@ public class ListEventsPage extends Common {
     /**
      * Заполнение блока сведения об акте
      *
-     * @param fPath
-     * @param sPath
-     * @param numberAct
-     * @param date
-     * @param startDate
-     * @param day
-     * @param name
-     * @param nameOfficials
-     * @param fact
-     * @param result
-     * @param who
-     * @param position
+     * @param typeOfAct  Вид акта
+     * @param numberAct  Номер акта
+     * @param result     Результат ознакомления
      */
-    @Step("Заполнение блока сведения об акте")
-    public void addInformationAboutAct(String fPath, String sPath, String numberAct, String date, String startDate, String day, String name, String nameOfficials, String fact, String result, String who, String position) {
+    @Step("Заполнение блока сведения об акте: Вид акта - {typeOfAct}, Номер акта - {numberAct}, Результат ознакомления - {result}")
+    public void addInformationAboutAct(String typeOfAct, String numberAct, String result) {
         clickAddInformationAboutActsButton();
-        clickAddFileActButton();
-        addDocumentAndSignatureFileAct(fPath, sPath);
-        clickUploadButton();
-        setNumberActField(numberAct);
-        setDateDrawingUpAct(date);
-        setDateStartKNM(startDate);
-        setDurationDaysActField(day);
-        setNameSignatoryActField(name);
-        setPositionSignatoryActDropDown(position);
-        clickAddOfficialsParticipatedButton();
-        setOfficialsParticipatedEventField(nameOfficials);
-        setPositionOfficialsTerritorialAuthorityParticipatedDropDown();
-        setFactField(fact);
-        setInformationAboutRecognitionDropDown(result);
-        setWhoFamiliarWithField(who);
-        setPositionFamiliarWithField(position);
-        closeNotification();
+        setTypeOfActDropDown(typeOfAct);
+        if(typeOfAct == supervisoryAct) {
+            clickAddFileActButton();
+            addDocumentAndSignatureFileAct();
+            clickUploadButton();
+            setNumberActField(numberAct);
+            setDateDrawingUpAct(currentDateTime);
+            setDateStartKNM(currentDateTime);
+            setDurationDaysActField("1");
+            setNameSignatoryActField(prefix + " Авто ФИО");
+            setPositionSignatoryActDropDown(positionDirector);
+            clickAddOfficialsParticipatedButton();
+            setOfficialsParticipatedEventField(prefix + " Авто ФИО");
+            setPositionOfficialsDropDown(positionDirector);
+            setFactField(prefix);
+            setInformationAboutRecognitionDropDown(result);
+            if(result == familiarWith || result == refusalToFamiliarize) {
+                setWhoFamiliarWithField(prefix + " Авто ФИО");
+                setPositionFamiliarWithField(positionDirector);
+            }
+        } else {
+            clickAddFileActButton();
+            addDocumentAndSignatureFileAct();
+            clickUploadButton();
+            setReasonForImpossibilityDropDown(absenceAtLocation);
+        }
     }
 
     /**
@@ -1408,15 +1468,20 @@ public class ListEventsPage extends Common {
         setPlaceDecisionField(placeDecision);
         setNameOfficialField(officialField);
         setPositionPersonSignedDecisionsDropDown();
-        //setDurationDaysField("1");
-        //addGroundsConductingUnscheduled(filePath, signPath, needCoordination);
+        addGroundsConductingUnscheduled("4.0.15", null, null, null, needCoordination);
         addListActions(startDate, stopDate);
+        setBlockOfRequirements("правительство");
         clickAddVenueButton();
         setVenueField(placeDecision);
-        closeNotification();
         clickSaveButton();
         closeNotification();
-        checkStatusKNM(statusReadyApproval);
+    }
+
+    /**
+     * Подписание КНМ электронной подписью
+     */
+    @Step("Подписание КНМ электронной подписью")
+    public void electronicSignatureInBrowser() throws InterruptedException {
         clickActionsOnCardButton();
         clickSignatureButton();
         choiceSignature();
@@ -1427,24 +1492,21 @@ public class ListEventsPage extends Common {
         closeNotification();
     }
 
+
     /**
      * Заполнение полей необходимых для согласования КНМ
      *
      * @param date               Даты в блоке перечень действий
      * @param grounds            Основания проведения КНМ
-     * @param characterKNM       Характер КНМ
      */
-    @Step("Заполнение полей необходимых для согласования {characterKNM} КНМ")
-    public void setFieldsNecessaryForHarmonization(String grounds, String date, String characterKNM) throws InterruptedException {
+    @Step("Заполнение полей необходимых для согласования КНМ")
+    public void setFieldsNecessaryForHarmonization(String grounds, String date) throws InterruptedException {
         setDateTimePublicationDecisionField(currentDateTime);
         setSolutionNumberField(prefix);
         setPlaceDecisionField(placeDecision);
         setNameOfficialField(officialField);
         setPositionPersonSignedDecisionsDropDown();
         addGroundsConductingUnscheduled(grounds, null, null, null, needCoordination);
-        if(characterKNM == unplannedCheck) {
-            addDocumentAndSignatureGroundsConducting(motivatedPerformance, filePath);
-        }
         addListActions(date, date);
         clickAddVenueButton();
         setVenueField(placeDecision);
@@ -1452,41 +1514,39 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Перевод проверки из статуса Готово к согласованию в статус На согласование
+     * Перевод проверки из статуса Готово к согласованию в статус На согласовании
      */
-    @Step("Перевод проверки из статуса Готово к согласованию в статус На согласование")
-    public void transferEventStatusOnApproval() {
+    @Step("Перевод проверки из статуса Готово к согласованию в статус На согласовании")
+    public void transferEventStatusOnApproval() throws InterruptedException {
+        electronicSignatureInBrowser();
         clickActionsOnCardButton();
         clickForApprovalButton();
-        checkStatusKNM(statusOnApproval);
         closeNotification();
     }
 
     /**
-     * Перевод проверки из статуса На согласованию в статус Ожидает завершения, Ожидает проведения, Не согласована
-     * (в зависимости от даты начала КНМ)
+     * Рассмотрение прокурором
      *
-     * @param checkStatus    В какой статус должна перейти проверка: В процессе завершения,
-     *                       Ожидает проведения, Не согласована
      * @param statusDecision Решение по заявлению: Согласовано или Отклонено
+     * @param date           Дата принятия решения
      */
-    @Step("Перевод проверки из статуса На согласованию в статус Ожидает завершения, Ожидает проведения, Не согласована")
-    public void transferEventStatusAgreed(String statusDecision, String checkStatus) {
-        setDecisionApplicationDropDown(statusDecision);
+    @Step("Рассмотрение прокурором с решением - {statusDecision}, датой - {date}")
+    public void transferEventStatusAgreed(String statusDecision, String date) {
+        setDecisionApplicationDropDown(statusDecision, date);
         clickSaveButton();
-        checkStatusKNM(checkStatus);
         closeNotification();
     }
 
     /**
      * Перевод КНМ из статуса Ожидает завершения в статус Завершено
+     *
+     * @param typeOfAct  Вид акта
      */
-    @Step("Перевод КНМ из статуса Ожидает завершения в статус Завершено")
-    public void transferEventStatusWaitCompleted() {
-        addInformationAboutAct(filePath, signPath, number, currentDate, currentDate, number, officialField,
-                officialField, "Факт устранения", familiarWith, officialField, positionDirectorTerritorialAuthority);
+    @Step("Перевод КНМ из статуса Ожидает завершения в статус Завершено. Вид акта - {typeOfAct}")
+    public void transferEventStatusWaitCompleted(String typeOfAct) {
+        addInformationAboutAct(typeOfAct, randomNumber, familiarWith);
         clickSaveButton();
-        checkStatusKNM(statusCompleted);
+        closeNotification();
     }
 
     /**
@@ -1739,7 +1799,157 @@ public class ListEventsPage extends Common {
         clickButtonUpdateForFilterBlock();
     }
 
+    /**
+     * Заполнение блока Обязательные требования, подлежащие проверке
+     *
+     * @param nameNPA Наименование НПА
+     */
+    @Step("Заполнение блока Обязательные требования, подлежащие проверке: Наименование НПА - {nameNPA}")
+    public String setBlockOfRequirements(String nameNPA) throws InterruptedException {
+        String numberNPA = null;
+        clickButtonAddForRequirements();
+        searchNameNPA(nameNPA);
+        Selenide.sleep(3000);
+        try {
+            selectNPAFromTable();
+            Selenide.sleep(3000);
+        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
+            numberNPA = addNewNPA(randomNumber);
+        }
+        finally {
+            selectSEFromList();
+            return numberNPA;
+        }
+    }
 
+    /**
+     * Нажать Добавить в обязательные требования подлежащие проверке
+     */
+    @Step("Нажать Добавить в обязательные требования подлежащие проверке")
+    public void clickButtonAddForRequirements() {
+        $(By.xpath(buttonAddForRequirements)).click();
+    }
+
+    /**
+     * Поиск НПА в форме добавления обязательного требования
+     *
+     * @param nameNPA Наименование НПА
+     */
+    @Step("Поиск НПА - {nameNPA} в форме добавления обязательного требования")
+    public void searchNameNPA(String nameNPA) throws InterruptedException {
+        clearInput("Поиск НПА", inputNameNPA);
+        $(By.xpath(inputNameNPA)).setValue(nameNPA);
+        $(By.xpath(buttonSearchNPA)).click();
+    }
+
+    /**
+     * Выбор НПА из таблицы в форме добавления обязательного требования
+     */
+    @Step("Выбор НПА из таблицы в форме добавления обязательного требования")
+    public void selectNPAFromTable() {
+        $(By.xpath(npaInTable)).click();
+        $(By.xpath(buttonAddInFormRequirement)).click();
+    }
+
+    /**
+     * Создание нового НПА
+     *
+     * @param numberNPA Номер НПА
+     */
+    @Step("Создание нового НПА с номером - {numberNPA}")
+    public String addNewNPA(String numberNPA) {
+        clickButtonAddNewNPA();
+        setFieldsForCreateNewNPA(numberNPA);
+        clickButtonAddSE();
+        setFieldsForNewSE("Статья", numberNPA);
+        clickButtonSaveForCreateNewNPA();
+        return numberNPA;
+    }
+
+    /**
+     * Нажать кнопку Создать новый НПА
+     */
+    @Step("Нажать кнопку Создать новый НПА")
+    public void clickButtonAddNewNPA() {
+        $(By.xpath(buttonAddNewNPA)).click();
+    }
+
+    /**
+     * Заполнение основных полей при создании НПА
+     *
+     * @param numberNPA  Номер НПА
+     */
+    @Step("Заполнение основных полей при создании НПА")
+    public String setFieldsForCreateNewNPA(String numberNPA) {
+        $(By.xpath(inputNumberNPA)).setValue(numberNPA);
+        $(By.xpath(inputDateNPA)).setValue(currentDate);
+        $(By.xpath(inputTitleNPA)).setValue("Автотест ");
+        return numberNPA;
+    }
+
+    /**
+     * Нажать Добавить в Структурные единицы
+     */
+    @Step("Нажать Добавить в Структурные единицы")
+    public void clickButtonAddSE() {
+        $(By.xpath(buttonAddSE)).click();
+    }
+
+    /**
+     * Заполнение новой структурной единицы
+     *
+     * @param nameUnit Наименование единицы
+     * @param value    Значение
+     */
+    @Step("Заполнение новой структурной единицы - {nameUnit} значением - {value}")
+    public void setFieldsForNewSE(String nameUnit, String value) {
+        $(By.xpath(selectInitField)).click();
+        setValueDropDownToText(nameUnit);
+        $(By.xpath(inputValueSE)).setValue(value);
+    }
+
+    /**
+     * Нажать кнопку Сохранить при создании НПА
+     */
+    @Step("Нажать кнопку Сохранить при создании НПА")
+    public void clickButtonSaveForCreateNewNPA() {
+        $(By.xpath(buttonSaveNewNPA)).click();
+    }
+
+    /**
+     * Выбор СЕ из списка в форме добавления обязательного требования
+     */
+    @Step("Выбор СЕ из списка в форме добавления обязательного требования")
+    public void selectSEFromList() {
+        $(By.xpath(listOfStructuralUnits)).click();
+        $(By.xpath(buttonSaveInFormRequirement)).click();
+    }
+
+    /**
+     * Выбор содержания требования из списка в форме добавления обязательного требования
+     */
+    @Step("Выбор содержания требования из списка в форме добавления обязательного требования")
+    public void selectContentFromList() {
+        $(By.xpath(checkboxContentOfRequirement)).click();
+    }
+
+    /**
+     * Добавление формулировки содержания требования в форме добавления обязательного требования
+     */
+    @Step("Добавление формулировки содержания требования в форме добавления обязательного требования")
+    public void addContentFromList() {
+        $(By.xpath(buttonAddContentOfRequirement)).click();
+        $(By.xpath(textInputContentOfRequirement)).setValue("Автотест содержание");
+        selectContentFromList();
+    }
+
+    /**
+     * Нажать Сохранить в обязательные требования подлежащие проверке
+     */
+    @Step("Нажать Сохранить в обязательные требования подлежащие проверке")
+    public void clickButtonSaveForRequirements() {
+        $(By.xpath(buttonSaveInFormRequirement)).click();
+    }
 
 
 }

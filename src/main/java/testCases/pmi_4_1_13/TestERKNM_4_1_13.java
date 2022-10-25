@@ -36,7 +36,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, null, interactionDays, null,
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, interactionDays, null,
                 prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Дата окончания КНМ"};
@@ -64,7 +64,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(knoName, viewKNO, controlPurchase, currentDate, currentDate, null, interactionHours,
+        addKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, null, interactionHours,
                 prosecutorsOffice, viewEntity, INN, kingObject);
         checkValueOfField("Срок проведения дней", durationDaysField,"1");
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
@@ -104,7 +104,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, "16.01.2023", "20.01.2023", null,
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck,"16.01.2023", "20.01.2023", null,
                 interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
@@ -130,7 +130,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, "21.01.2023", "22.01.2023", null,
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, "21.01.2023", "22.01.2023", null,
                 interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
@@ -157,7 +157,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, "", "",
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, "", "",
                 prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
@@ -198,7 +198,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, currentDate, null, null,
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, null, null,
                 prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         clickSaveButton();
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
@@ -303,7 +303,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         authorization("supervisor");
         selectionERKNM();
         gotoListKNMPage();
-        addUnplannedKNM(nameKNOFNS, viewKNOFNS, controlPurchase, currentDate, null, null, null,
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, null, null,
                 prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
         clickSaveButton();
         String[] nameFields = {"Дата окончания КНМ", "Срок непосредственного взаимодействия (дней)",

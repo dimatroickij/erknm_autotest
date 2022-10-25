@@ -125,10 +125,12 @@ public class Common {
     //Типы документов для основания проведения КНМ
     public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
-    public String positionDirector = "Руководитель ФНС России";
+    public String positionDirector = "руководитель";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
     public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
+    public String refusalToFamiliarize = "Отказ в ознакомлении";
+    public String absenceAtLocation = "В связи с отсутствием контролируемого лица по месту нахождения  (осуществления деятельности)";
 
     // Тип места блока Объекты проведения КНМ
     public String locationLE = "Место нахождения юридического лица";
@@ -178,11 +180,14 @@ public class Common {
     String selectValueByText = "//div[contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
-    public String successfullySignNotification = "//div[contains(@class, 'Notification_ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
+    public String successfullySignNotification = "//div[contains(@class, 'ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
+
     //информация для заполнения КНМ
     public String number = "1";
     public String place = "место";
     public String fio = "ФИО";
+    public String supervisoryAct = "Акт контрольного (надзорного) мероприятия";
+    public String actOfImpossibility = "Акт о невозможности проведения контрольного (надзорного) мероприятия";
 
     //страница авторизации
     String loginField = "//*[@name='username']"; //поле Логин
