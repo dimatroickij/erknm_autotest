@@ -21,6 +21,7 @@ public class ListPreventionEventsPage extends Common {
     public String prefix = UUID.randomUUID().toString();
     String sortingByPeriod = "//div[@data-id=\"startDateEn\"]"; // сортировка по периоду проведения
     String statusPM = "//div[contains(@class,'TitleBlock')]/span[contains(@class, 'Status')]"; // Статус ПМ
+    String statusPublication = "//div[contains(@class,\"PublishedStatus\")]/span[contains(@class, 'Status')]"; // Статус публикации
     public String officialPost = "Руководитель";
     String nameKNOPMDropDown = "//*[@id='knoOrganizationPm']"; // выпадающий список Контрольный надзорный орган
     String kindControlAndNumberPMDropDown = "//*[@id='supervisionTypePm']"; // выпадающий список Вид контроля (надзора) и его номер
@@ -70,8 +71,8 @@ public class ListPreventionEventsPage extends Common {
     String documentInformationDirectionObjectionInput = "//input[@id='objectionWarningAttachmentsUploadDocument']"; // input для добавления документа в сведения о направлении возражения на предостережение
     String signatureInformationDirectionObjectionInput = "//input[@id='objectionWarningAttachmentsUploadSign']"; // input для добавления подписи в сведения о направлении возражения на предостережение
 
-    String presenceOfDisagreementDropDown = "//*[@id='isRejectSubjectBlock']//div[contains(@class, 'SelectInput_SelectInput')]"; // Выпадающий список Наличие несогласия в блоке Информация о несогласии контролируемого лица на проведение мероприятия TODO Должен быть идентификатор
-    String datePresenceOfDisagreementField = "//*[@id='isRejectSubjectBlock']//input[contains(@class, 'DatePicker_Input')]"; // Поле Дата информации о несогласии контролируемого лица на проведение мероприятия TODO Должен быть идентификатор
+    String presenceOfDisagreementDropDown = "//*[@id='isRejectSubject']/div/div[2]"; // Выпадающий список Наличие несогласия в блоке Информация о несогласии контролируемого лица на проведение мероприятия TODO Должен быть идентификатор
+    String datePresenceOfDisagreementField = "//*[@id='isRejectSubjectBlock']//input[contains(@class, '_Input')]"; // Поле Дата информации о несогласии контролируемого лица на проведение мероприятия TODO Должен быть идентификатор
     public String statusWarningAnnounced = "Предостережение объявлено";
     public String statusAnObjection = "Есть возражение";
 
@@ -109,6 +110,8 @@ public class ListPreventionEventsPage extends Common {
     // Боковое меню навигации
     public String linkInfoSubjectOfPreventionEvent = "//li[@id=\"#requirementsNpa\"]/a"; // ссылка в боковом меню навигации Сведения о предмете профилактического мероприятия
     public String linkInfoHistoryOfChanges = "//li[@id=\"#knm-history\"]/a"; // ссылка в боковом меню навигации История изменений
+    public String linkInfoAboutDissent = "//li[@id=\"#is-reject-subject\"]/a"; // ссылка в боковом меню навигации информация о несогласии
+
 
     // История изменений
     public String logTextInHistoryOfChanges = "//*[contains(@class,'WrapperOpened')]//*[contains(@class,'Patch')]"; // запись в логировании Истории изменений
@@ -381,7 +384,7 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
-     * Добавление ПМ
+     * Создание ПМ
      *
      * @param name        Название контрольного (надзорного) органа
      * @param view        Вид контроля (надзора) и его номер
@@ -390,23 +393,14 @@ public class ListPreventionEventsPage extends Common {
      * @param inn         ИНН
      * @param viewObject  вид объекта
      */
-    @Step("Добавление ПМ: Название контрольного (надзорного) органа - {name}, Вид контроля (надзора) и его номер - {view}," +
+    @Step("Создание ПМ: Название контрольного (надзорного) органа - {name}, Вид контроля (надзора) и его номер - {view}," +
             " Вид ПМ - {typePM}, Дата начала - {date}, ИНН - {inn}, Вид объекта - {viewObject}")
-    public void addPreventionEvent(String name, String view, String typePM, String date, String inn, String viewObject) throws InterruptedException {
+    public void addPreventionEvent(String name, String view, String typePM, String date, String inn, String viewObject) {
         clickAddButton();
-        setNameKNOPMDropDown(name);
-        setKindControlAndNumberPMDropDown(view);
-        setKindPMDropDown(typePM);
-        if(typePM == typePreventiveVisitPM) {
-            setPlaceOfPreventionEvent("Автотест");
-        }
-        setStartDate(date);
-        setInnField(inn);
-        addObjectData(typeObject, viewObject, classDanger);
+        setFieldsForPreventionEvent(name, view, typePM, date, inn, viewObject);
         clickSaveButton();
         clickConfirmButton();
         closeNotification();
-        checkStatusPM(statusProcessFilling);
     }
 
     /**
@@ -455,7 +449,7 @@ public class ListPreventionEventsPage extends Common {
     @Step("Добавление документа и подписи в Сведения о направлении возражения на предостережение")
     public void addDocumentAndSignatureInformationDirectionObjection(String fPath, String sPath) {
         $(By.xpath(documentInformationDirectionObjectionInput)).uploadFile(new File(fPath));
-        $(By.xpath(signatureInformationDirectionObjectionInput)).uploadFile(new File(sPath));
+        //$(By.xpath(signatureInformationDirectionObjectionInput)).uploadFile(new File(sPath));
     }
 
     /**
@@ -467,8 +461,8 @@ public class ListPreventionEventsPage extends Common {
     @Step("Заполнение выпадающего списка Наличие несогласия в блоке Информация о несогласии контролируемого " +
             "лица на проведение мероприятия")
     public void setPresenceOfDisagreementDropDown(String approval) {
-        $(By.xpath(presenceOfDisagreementDropDown)).click();
-        setValueDropDownToText(approval);
+        $(By.xpath(presenceOfDisagreementDropDown)).scrollIntoView(false).click();
+        $(By.xpath(String.format("//div[text()='%s']", approval))).click();
     }
 
     /**
@@ -501,28 +495,29 @@ public class ListPreventionEventsPage extends Common {
     }
 
     /**
+     * Проверка статуса Публикации ПМ
+     *
+     * @param status Статус, который должен быть у проверки
+     */
+    @Step("Проверка статуса Публикации - {status}")
+    public void checkStatusPublicationPM(String status) {
+        $(By.xpath(statusPublication)).should(Text.text(status));
+    }
+
+    /**
      * Перевод Объявление предостережения в статус Предостережение объявлено
      *
      */
     @Step("Перевод Объявление предостережения в статус Предостережение объявлено")
     public String transferPMEventWarningAnnouncementStatusWarningAnnounced() throws InterruptedException {
-        setNoteWarningField(prefix + "авто Описание");
-        clickAddContentWarningButton();
-        addDocumentAndSignatureNoteWarning(filePath, signPath);
-        clickUploadButton();
-        addGroundsPM(grounds);
-        addOfficialPM(prefix + "авто ФИО", officialPost);
+        setFieldsForSavePMStatusWarningDeclared(currentDate);
         String numberNPA = setBlockOfRequirements("правительство");
         clickSaveButton();
         closeNotification();
         electronicSignatureInBrowser();
         sleep(5000);
         clickConfirmButton();
-
-//        closeNotification();
-//        clickConfirmButton();
-//        closeNotification();
-        checkStatusPM(statusWarningAnnounced);
+        closeNotification();
         return numberNPA;
     }
 
@@ -546,7 +541,6 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Заполнение полей необходимых для перевода ПМ Объявление предостережения в статус Предостережение объявлено")
     public void setFieldsForSavePMStatusWarningDeclared(String date) {
-
         setNoteWarningField(prefix + "Автотест");
         clickAddContentWarningButton();
         addDocumentAndSignatureNoteWarning(filePath, signPath);
@@ -560,38 +554,32 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Перевод Объявление предостережения в статус Есть возражение")
     public void transferPMEventWarningAnnouncementStatusAnObjection() throws InterruptedException {
-        clickConfirmButton();
         clickAddInformationDirectionObjectionButton();
         addDocumentAndSignatureInformationDirectionObjection(filePath, signPath);
         clickUploadButton();
         closeNotification();
         clickSaveButton();
-        checkStatusPM(statusAnObjection);
         closeNotification();
     }
 
     /**
      * Перевод Профилактического визита из статуса В процессе заполнения в статус Ожидает проведения
      *
-     * @param date Дата окончания ПМ
      */
     @Step("Перевод Профилактического визита из статуса В процессе заполнения в статус Ожидает проведения")
-    public void transferPMEventPreventiveVisitStatusLookingForward(String date) throws InterruptedException {
-        clickConfirmButton();
-        setStopDate(date);
+    public String transferPMEventPreventiveVisitStatusLookingForward() throws InterruptedException {
+        setStopDate(currentDate);
         addGroundsPM(grounds);
         addOfficialPM(prefix + "авто ФИО", officialPost);
+        String numberNPA = setBlockOfRequirements("правительство");
         clickSaveButton();
         closeNotification();
-        clickActionsHeaderButton();
-        clickSignatureButton();
-        choiceSignature();
-        clickSignatureButton();
-        closeNotification();
-        closeNotification();
+        electronicSignatureInBrowser();
+        sleep(5000);
         clickConfirmButton();
         closeNotification();
-        checkStatusPM(statusProcessAwaiting);
+        closeNotification();
+        return numberNPA;
     }
 
     /**
@@ -610,28 +598,24 @@ public class ListPreventionEventsPage extends Common {
      * Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено
      */
     @Step("Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено")
-    public void transferPMEventPreventiveVisitStatusCompleted() throws InterruptedException {
-        clickConfirmButton();
+    public void transferPMEventPreventiveVisitStatusCompleted() {
         setResultPMField(prefix + "авто результат");
         clickSaveButton();
         clickConfirmButton();
         closeNotification();
-        checkStatusPM(statusCompleted);
     }
 
     /**
-     * Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении
+     * Перевод Профилактического визита из статуса Ожидает проведения в статус Отказ в проведении
      *
-     * @param date Дата поля Наличие несогласия
      */
-    @Step("Перевод Профилактического визита из статуса Ожидает заполнения в статус отказ в проведении")
-    public void transferPMEventPreventiveVisitStatusRefusalToConduct(String date) throws InterruptedException {
-        clickConfirmButton();
+    @Step("Перевод Профилактического визита из статуса Ожидает проведения в статус Отказ в проведении")
+    public void transferPMEventPreventiveVisitStatusRefusalToConduct() throws InterruptedException {
+        clickedOnNavigationMenuItem(linkInfoAboutDissent);
         setPresenceOfDisagreementDropDown("Да");
-        setDatePresenceOfDisagreementField(date);
+        setDatePresenceOfDisagreementField(currentDate);
         clickSaveButton();
         closeNotification();
-        checkStatusPM(statusRefusalToConduct);
     }
 
     /**
@@ -880,6 +864,17 @@ public class ListPreventionEventsPage extends Common {
             $(By.xpath(sortingByPeriod)).doubleClick();
         }
     }
+
+    /**
+     * Удаление карточки ПМ
+     */
+    @Step("Удаление карточки ПМ")
+    public void deletePM() {
+        clickActionsOnCardButton();
+        clickDeleteOnCardButton();
+        closeNotification();
+    }
+
 
 
 

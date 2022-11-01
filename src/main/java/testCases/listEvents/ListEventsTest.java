@@ -63,7 +63,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard("77210370001100042064");
-        transferEventStatusReadyApproval(currentDate, currentDate, currentDate);
+        transferEventStatusReadyApproval("4.0.15", currentDate, currentDate, currentDate, needCoordination);
         logout();
     }
 
@@ -139,7 +139,7 @@ public class ListEventsTest extends ListEventsPage {
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         createTemplateMandatoryRequirements();
-        transferEventStatusReadyApproval(currentDate, futureDate, futureDate);
+        transferEventStatusReadyApproval("4.0.15", currentDate, futureDate, futureDate, needCoordination);
         transferEventStatusOnApproval();
         logout();
         authorization("prosecutor");

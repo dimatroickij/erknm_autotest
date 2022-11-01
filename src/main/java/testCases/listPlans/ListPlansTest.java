@@ -21,7 +21,7 @@ public class ListPlansTest extends ListPlanPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
-        numberPlan = createPlan();
+        numberPlan = createPlan(nameKNO, prosecutorPlan);
         System.out.println("НОМЕР ПЛАНА " + numberPlan);
         logout();
     }
@@ -37,7 +37,8 @@ public class ListPlansTest extends ListPlanPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
-        addPlannedKNMInPlan(numberPlan);
+        addPlannedKNMInPlan(numberPlan, viewKNOFNS, documentaryVerification, currentDate, currentDate, interactionDays,
+                null, viewEntity, INN, kingObjectForFNS);
         logout();
     }
 
@@ -53,7 +54,7 @@ public class ListPlansTest extends ListPlanPage {
         authorization("supervisor");
         choiceMode(true);
         gotoListPlansPage();
-        transferPlanStatusOnConsideration(numberPlan);
+        transferPlanStatusOnConsideration();
         logout();
     }
 
@@ -67,7 +68,7 @@ public class ListPlansTest extends ListPlanPage {
     public void transferPlanStatusReviewedTest() throws Exception {
         authorization("prosecutor");
         choiceMode(true);
-        transferPlanStatusReviewed(numberPlan);
+        transferPlanStatusReviewed();
         logout();
     }
 

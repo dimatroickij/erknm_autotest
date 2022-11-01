@@ -125,7 +125,7 @@ public class Common {
     //Типы документов для основания проведения КНМ
     public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
-    public String positionDirector = "руководитель";
+    public String positionDirector = "Руководитель";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
     public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
@@ -140,6 +140,9 @@ public class Common {
 
     // Категория риска
     public String righRisk = "Высокий риск (2 класс)";
+    // Статусы публикации
+    public String statusPublished = "Опубликовано";
+    public String statusNotPublished = "Не опубликовано";
 
     // Статусы проверки
     public String statusProcessConducting = "В процессе проведения";
@@ -163,7 +166,7 @@ public class Common {
     public String approvedPlan = "Утверждён";
     //есть замечания
     //исключение обжаловано
-    //не может быть проведено
+    public String statusCannotBeHeld = "Не может быть проведено";
     //решение обжаловано
 
     // Переменные для поиска созданной информации во время bvt теста
@@ -199,7 +202,7 @@ public class Common {
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
     String modalSaveButton = "//div[contains(@class, '_Container_1yq2a_1')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
     String modalAddButton = "//div[contains(@class, '_ModalBody_9nshc_41')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
-    String saveButton = "//div[@class=\"_HeaderContent_5dm4o_13\"]//*[@id='saveButton'][1]"; //кнопка Сохранить
+    String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
@@ -236,7 +239,7 @@ public class Common {
 
     String knmListCell = "//td[contains(@class, 'KnmListTable_CellErpId')]"; // ячейка с номером КНМ или ПМ в таблицах на страницах Список проверок (ЕРП), Список КНМ (ЕРКНМ) и Список ПМ (ЕРКНМ)
 
-    public String numberPlanNotificationText = "//div[contains(@class, 'Notification_ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
+    public String numberPlanNotificationText = "//div[contains(@class, 'ClosingNotificationText')]//a"; // Номер созданного плана из уведомления после создания TODO Должен быть идентификатор
     public String planCheckBox = "//*[@id='%s']"; // Чекбокс у номера плана в списке планов
     public String fillingTextInputs = "Автотест"; // Для заполнения свободных текстовых инпутов
     public String phoneNumber = "77777777777"; // Для заполнения номера телефона
@@ -1024,7 +1027,9 @@ public class Common {
      */
     @Step("Получение номера плана - {number}")
     public String getNumberPlan() {
-        return $(By.xpath(numberPlanNotificationText)).getText();
+        String number = $(By.xpath(numberPlanNotificationText)).getText();
+        System.out.println("НОМЕР ПЛАНА - " + number);
+        return number;
     }
 
     /**

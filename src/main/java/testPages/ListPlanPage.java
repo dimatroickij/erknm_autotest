@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
 
 public class ListPlanPage extends Common {
     //раздел Список планов
@@ -18,26 +19,28 @@ public class ListPlanPage extends Common {
     public String prefix = UUID.randomUUID().toString();
     public String numberPlan;
     public String numberKNM;
-    public String signatureOrNextButton = "//div[contains(@class, 'ModalActions_Container')]//button"; // Кнопка Подписать или далее на модальном окне Подписание плана или Смена статуса TODO Должен быть идентификатор
-    String statusPlan = "//span[contains(@class, 'PlanHeader_Status')]"; // Статус Плана TODO Должен быть идентификатор
-    String signingStatus = "//div[contains(@class, 'PlanHeader_PublishedStatus')]//span[contains(@class, 'PlanHeader_Status')]"; // Статус подписания плана TODO Должен быть идентификатор
-    String addKNMButton = "//*[text()='Добавить КНМ']"; // TODO Должен быть идентификатор
+    String iconToBackPlan = "//div[contains(@class,'_TitleBlock')]/a"; // кнопка назад, вернуться в план
+    public String signatureOrNextButton = "//*[@id='modal']//button[@id=\"signButton\"]"; // Кнопка Подписать или далее на модальном окне Подписание плана или Смена статуса TODO Должен быть идентификатор
+    String statusPlan = "//*[contains(@class,'_TitleBlock')]/span[contains(@class, '_Status')]"; // Статус Плана TODO Должен быть идентификатор
+    String signingStatus = "//div[contains(@class, '_PublishedStatus')]//span[contains(@class, '_Status')]"; // Статус подписания плана TODO Должен быть идентификатор
+    String addKNMButton = "//*[contains(@class,'_PlanBodyHeaderContainer_')]/button"; // TODO Должен быть идентификатор
     String knoDropDown = "//*[@id='kno']"; // выпадающий список Орган контроля на форме создания плана
     String prosecutorDropDown = "//*[@id='prosecutor']"; // выпадающий список Орган прокуратуры на форме создания плана
     String confirmationDeleteButton = "//*[@id='confirmButton']"; // подтверждение удаления
     String submitReviewButton = "//*[@id='planChangeStatusButton']"; // кнопка Отправить на рассмотрение
-    String approveChangeStatusButton = "//div[contains(@class, 'ModalActions_ContainerSpaceBetween')]//button[2]"; // Подтверждение смены статуса TODO Должен быть идентификатор
+    String approveChangeStatusButton = "//*[@id='modal']//div[contains(@class,\"ContainerSpaceBetween\")]/button[2]"; // Подтверждение смены статуса TODO Должен быть идентификатор
     String historyApprovalBlock = "//*[@id='approvedHistoryBlock']"; // блок История согласования
     String historySignedBlock = "//*[@id='signedHistoryBlock']"; // блок История подписания
     String responsesFromNadzorWebBlock = "//*[@id='responsesFromWebBlock']"; // блок Статус обмена с АИК "Надзор-Web"
     String documentsBlock = "//*[@id='documentsBlock']"; // блок Список документа
     String versionsBlock = "//*[@id='versionsBlock']"; // блок Версии плана
-    String reviewedPlanButton = "//div[contains(@class, 'PlanHeaderButtons_Container')]/button"; // кнопка Рассмотрено TODO Должен быть идентификатор
+    String reviewedPlanButton = "//div[contains(@class, '_HeaderContent')]//button[contains(@class, '_ButtonSuccess')]"; // кнопка Рассмотрено TODO Должен быть идентификатор
 
 
     String fioPlanProsecutorField = "//*[@id='fullName']"; // поле на форме смены статуса - ФИО уполномоченного прокурора, осуществившего рассмотрение данного плана
     String positionPlanProsecutorField = "//*[@id='position']"; // поле на форме смены статуса - Должность прокурора, уполномоченного на рассмотрение и осуществившего рассмотрение данного плана
     String filePlanInput = "//input[@id='documentFile']"; // Выберите файл на форме Смена статуса
+    String buttonUpdate = "//div[@id='modal']//div[contains(@class,'_Container_')]/button"; // кнопка Далее в форме Смена статуса
     String approvePlanButton = "//*[@id='planChangeStatusButton']"; // кнопка Утвердить план
 
     // список КНМ
@@ -76,11 +79,20 @@ public class ListPlanPage extends Common {
     }
 
     /**
+     * Вернуться в план
+     */
+    @Step("Вернуться в план")
+    public void backToPlan() {
+        $(By.xpath(iconToBackPlan)).click();
+    }
+
+    /**
      * Открытие КНМ из таблицы Список КНМ
      */
     @Step("Открытие КНМ из таблицы Список КНМ")
     public void openEventFromListEventsTable() {
         $(By.xpath(numberKNMOfTableValue)).scrollIntoView(false).click();
+        switchTo().window(1);
     }
 
     /**
@@ -95,50 +107,65 @@ public class ListPlanPage extends Common {
 
     /**
      * Создание плана КНМ
+     *
+     * @param nameKNO        Наименование органа контроля
+     * @param prosecutorName Наименование прокуратуры
      */
-    @Step("Создание плана КНМ")
-    public String createPlan() {
+    @Step("Создание плана КНМ: Наименование органа контроля - {nameKNO}, Наименование прокуратуры - {prosecutorName}")
+    public String createPlan(String nameKNO, String prosecutorName) {
         clickAddButton();
-        setKNOFormPlanDropDown();
-        setProsecutorDropDown();
+        setKNOFormPlanDropDown(nameKNO);
+        //setProsecutorDropDown(prosecutorName);
         clickCreateButton();
-        String number = getNumberPlan();
-        openCardPlan(number);
-        checkStatusPlan(statusProcessFormation);
-        return number;
+        return getNumberPlan();
     }
 
     /**
      * Создание плановой проверки в плане
      *
-     * @param number Номер плана
+     * @param number         Номер плана
+     * @param viewKNO        Вид контроля (надзора) и его нормер
+     * @param kind           Вид КНМ
+     * @param startDate      Дата начала КНМ
+     * @param stopDate       Дата окончания КНМ
+     * @param days           Срок непосредственного взаимодействия дней
+     * @param hours          Срок непосредственного взаимодействия часов
+     * @param typePerson     Тип контролируемого лица
+     * @param inn            ИНН
+     * @param viewObject     Вид объекта
      */
-    @Step("Создание плана КНМ")
-    public void addPlannedKNMInPlan(String number) throws Exception {
+    @Step("Создание плановой КНМ через план - {number}: Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, " +
+            "Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, Срок непосредственного взаимодействия дней" +
+            " - {days}, Срок непосредственного взаимодействия часов - {hours}, Тип контролируемого лица - {typePerson}, " +
+            "ИНН - {inn}, Вид объекта - {viewObject}")
+    public void addPlannedKNMInPlan(String number, String viewKNO, String kind, String startDate, String stopDate, String days,
+                                    String hours, String typePerson, String inn, String viewObject) throws Exception {
         openCardPlan(number);
         clickAddKNMButton();
         ListEventsPage event = new ListEventsPage();
-        numberKNM = event.addPlannedKNM(viewKNOFNS, controlPurchase, futureDate, INN);
+        numberKNM = event.addPlannedKNM(viewKNO, kind, startDate, stopDate, days, hours, typePerson, inn, viewObject);
     }
 
     /**
      * Подтверждение перевода плана в статус
      */
     @Step("Подтверждение перевода плана в статус")
-    public void approveChangeStatus(String fio, String position) {
-        $(By.xpath(fioPlanProsecutorField)).setValue(fio);
-        $(By.xpath(positionPlanProsecutorField)).setValue(position);
+    public void approveChangeStatus() throws InterruptedException {
+        $(By.xpath(fioPlanProsecutorField)).setValue(prefix + " Авто ФИО");
+        $(By.xpath(positionPlanProsecutorField)).setValue(prefix + " Авто должность");
         $(By.xpath(filePlanInput)).uploadFile(new File(filePath));
-        clickSignatureOrNextButton();
+        $(By.xpath(buttonUpdate)).click();
         clickApproveChangeStatus();
     }
 
 
     /**
      * Выбор органа контроля при создании плана
+     *
+     * @param nameKNO  Наименование органа контроля
      */
-    @Step("Выбор Органа контроля при создании плана")
-    public void setKNOFormPlanDropDown() {
+    @Step("Выбор Органа контроля - {nameKNO} при создании плана")
+    public void setKNOFormPlanDropDown(String nameKNO) {
         $(By.xpath(knoDropDown)).click();
         setValueDropDownToText(nameKNO);
     }
@@ -166,11 +193,13 @@ public class ListPlanPage extends Common {
 
     /**
      * Выбор органа прокуратуры при создании плана
+     *
+     * @param prosecutorName Наименование прокуратуры
      */
-    @Step("Выбор органа прокуратуры при создании плана")
-    public void setProsecutorDropDown() {
+    @Step("Выбор органа прокуратуры - {prosecutorName} при создании плана")
+    public void setProsecutorDropDown(String prosecutorName) {
         $(By.xpath(prosecutorDropDown)).click();
-        setValueDropDownToText(prosecutorPlan);
+        setValueDropDownToText(prosecutorName);
     }
 
     /**
@@ -262,11 +291,11 @@ public class ListPlanPage extends Common {
     }
 
     /**
-     * Проверка статуса подписания плана
+     * Проверка статуса подписи в плане
      *
      * @param status true - Статус Подписан, false - Статус Не подписан
      */
-    @Step("Нажатие на кнопку Рассмотрено в плане")
+    @Step("Проверка статуса подписи в плане")
     public void checkSigningPlan(boolean status) {
         if (status)
             $(By.xpath(signingStatus)).should(Text.text("Подписан"));
@@ -285,45 +314,48 @@ public class ListPlanPage extends Common {
     /**
      * Перевод плана в статус На рассмотрении
      *
-     * @param number номер плана
      */
     @Step("Перевод плана в статус На рассмотрении")
-    public void transferPlanStatusOnConsideration(String number) throws InterruptedException {
-        openCardPlan(number);
+    public void transferPlanStatusOnConsideration() throws InterruptedException {
+        electronicSignatureInBrowser();
+        clickSubmitReviewButton();
+        clickApproveChangeStatus();
+        clickSaveButton();
+        closeNotification();
+    }
+
+    /**
+     * Подписание плана электронной подписью
+     */
+    @Step("Подписание плана электронной подписью")
+    public void electronicSignatureInBrowser() throws InterruptedException {
         clickActionsHeaderButton();
         clickSignatureButton();
         choiceSignature();
         clickSignatureOrNextButton();
         closeNotification();
-        checkSigningPlan(true);
-        clickSubmitReviewButton();
-        clickApproveChangeStatus();
-        clickSaveButton();
-        closeNotification();
-        checkStatusPlan(statusPlanUnderConsideration);
     }
 
 
     /**
      * Перевод плана в статус Рассмотрен
-     *
-     * @param number номер плана
      */
     @Step("Перевод плана в статус Рассмотрен")
-    public void transferPlanStatusReviewed(String number) throws Exception {
-        ListEventsPage event = new ListEventsPage();
-        gotoListKNMPage();
-        event.openCard(numberKNM);
-        event.setDecisionApplicationDropDown(approved, currentDate);
+    public void transferPlanStatusReviewed() throws Exception {
+        clickReviewedPlanButton();
+        approveChangeStatus();
+        closeNotification();
+    }
+
+    /**
+     * Перевод плана в статус Утвержден
+     */
+    @Step("Перевод плана в статус Утвержден")
+    public void transferPlanStatusApproved() throws Exception {
+        clickApprovePlanButton();
+        clickApproveChangeStatus();
         clickSaveButton();
         closeNotification();
-        gotoListPlansPage();
-        openCardPlan(number);
-        clickReviewedPlanButton();
-        approveChangeStatus(fio, "1");
-        closeNotification();
-        checkStatusPlan(statusPlanReviewed);
-        checkSigningPlan(true);
     }
 
     /**
@@ -331,7 +363,7 @@ public class ListPlanPage extends Common {
      */
     @Step("Удаление плана")
     public String deletePlan() {
-        String number = createPlan();
+        String number = createPlan(nameKNO, prosecutorPlan);
         gotoListPlansPage();
         clickPlanCheckBox(number);
         clickDeleteButton();

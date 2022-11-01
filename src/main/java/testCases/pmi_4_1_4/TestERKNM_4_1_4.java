@@ -76,11 +76,11 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
                 buttonAddForRequirements);
         clickSaveButton();
         clickConfirmButton();
-        checkStatusPM("В процессе заполнения");
+        checkStatusPM(statusProcessFilling);
         String numberPM = getNumberPM();
         setBlockOfRequirements("правительство");
         clickSaveButton();
-        checkStatusPM("В процессе заполнения");
+        checkStatusPM(statusProcessFilling);
 
         authorization("prosecutor");
         selectionERKNM();
@@ -101,7 +101,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         electronicSignatureInBrowser();
         sleep(5000);
         clickConfirmButton();
-        checkStatusPM("Предостережение объявлено");
+        checkStatusPM(statusWarningAnnounced);
         clickedOnNavigationMenuItem(linkInfoHistoryOfChanges);
         openHistoryOfChangesPM();
         checkLogInHistory("Значение поля \"ПМ подписан электронной подписью\" изменено с \"Нет\" на \"Да\"");

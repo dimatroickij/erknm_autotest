@@ -91,7 +91,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
-        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
+        transferPMEventPreventiveVisitStatusLookingForward();
         logout();
     }
 
@@ -109,7 +109,7 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
-        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
+        transferPMEventPreventiveVisitStatusLookingForward();
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
         transferPMEventPreventiveVisitStatusCompleted();
@@ -130,10 +130,10 @@ public class ListPreventionEventsTest extends ListPreventionEventsPage {
         choiceMode(true);
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
-        transferPMEventPreventiveVisitStatusLookingForward(currentDate);
+        transferPMEventPreventiveVisitStatusLookingForward();
         gotoListPreventionEventsPage();
         openCard(numberPMPreventiveVisitPublished);
-        transferPMEventPreventiveVisitStatusRefusalToConduct(currentDate);
+        transferPMEventPreventiveVisitStatusRefusalToConduct();
         logout();
     }
 
