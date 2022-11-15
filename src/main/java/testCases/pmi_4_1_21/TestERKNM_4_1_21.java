@@ -33,7 +33,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.1 Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку " +
             "«Список КНМ».")
     public void characterKNMValuesDisplayTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
@@ -47,15 +47,15 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         String[] typeCharacterKNO = {plannedCheck};
         checkInVisibleListCharacterKNMDropDown(typeCharacterKNO);
         setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, plannedCheck, "01.02.2024",
-                "01.02.2024", interactionDays, null, prosecutorsOffice, viewEntity, INN, kingObjectForFNSInPlaned);
+                "01.02.2024", interactionDays, null, viewEntity);
         clickSaveButton();
         getNumberKNM();
         checkElementAvailable("Характер КНМ", characterKNMDropDown);
-        setFieldsNecessaryForHarmonization("4.0.11", "01.02.2024");
+        setFieldsNecessaryForHarmonization("4.0.11", typeActionsRetrievalDocuments,"01.02.2024");
         closeNotification();
         clickSaveButton();
         checkStatusKNM(statusReadyApproval);
-        checkElementAvailable("Характер КНМ", characterKNMDropDown);
+        checkElementNotAvailable("Характер КНМ", characterKNMDropDown);
     }
 
     /**
@@ -70,10 +70,10 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.2 Проверка отображения значений в поле «Вид контроля (надзора) и его номер» при создании" +
             " КНМ через план КНМ.")
     public void characterKNMCreateInPlanValuesDisplayTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPlansPage();
-        openCardPlan("2024003602");
+        openCardPlan("2024063491");
         plan.clickAddKNMButton();
         checkValueForDropDownOfField("Наименование органа контроля", nameKNOFiledText, knoNameTransport);
         checkValueForDropDownOfField("Характер КНМ", characterKNMFieldText, plannedCheck);
@@ -89,7 +89,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
         String[] kindsOfControls = {"066", "052", "037"};
         checkInVisibleListKindOfControlDropDown(kindsOfControls);
         setRequiredFieldsKNM(null, viewKNOFNSForPlan, documentaryVerification, null, "01.02.2024",
-                "01.02.2024", interactionDays, null, null, viewEntity, INN, kingObjectForFNSInPlaned);
+                "01.02.2024", interactionDays, null, viewEntity);
         clickSaveButton();
         sleep(3000);
         checkStatusKNM(statusProcessFilling);
@@ -109,23 +109,23 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.3 Проверка применения валидации требования к КНМ, созданным в системе после выхода " +
             "требования в промышленный контур.")
     public void validationOfRequirementsForPreviouslyCreatedKNMTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
-        setRequiredFieldsKNM(nameKNOFNS, null, null, null, currentDate,
-                currentDate, interactionDays, null, prosecutorsOffice, viewEntity, INN, null);
+        setRequiredFieldsKNM(nameKNOFNS, null, null, null, currentDate, currentDate, interactionDays,
+                null, viewEntity);
         clickSaveButton();
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Необходимо заполнить поле \"Вид контроля (надзора) и его номер\"",
                 "Вид контроля (надзора) и его номер", "Вид КНМ"};
         checkNamesEmptyFields(nameFields);
 
-        authorization("supervisor");
-        selectionERKNM();
-        gotoListKNMPage();
-        openCard("7722231000000027972");  // 77220660001100046634
-        clickSaveButton();
-        checkTextNotification("КНМ успешно сохранено");
+//        authorization("supervisor");
+//        selectionERKNM();
+//        gotoListKNMPage();
+//        openCard("7722231000000027972");  // 77220660001100046634
+//        clickSaveButton();
+//        checkTextNotification("КНМ успешно сохранено");
     }
 }

@@ -34,7 +34,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Story("ПМ")
     @Test(description = "A.1.1.8.1 Проверка требований к разделу «Сведения о предмете профилактического мероприятия» в ПМ")
     public void informationSubjectOfPreventiveEventsTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         clickAddButton();
@@ -42,16 +42,16 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         clickedOnNavigationMenuItem(linkInfoSubjectOfPreventionEvent);
         clickButtonAddForRequirements();
 
-        authorization("supervisor");
-        selectionERKNM();
-        gotoListPreventionEventsPage();
-        openCard("77220521000000065884");
-        clickConfirmButton();
-        clickedOnNavigationMenuItem(linkInfoSubjectOfPreventionEvent);
-        checkElementVisible("Кнопка Добавить в «Обязательные требования, подлежащие проверке»",
-                buttonAddForRequirements);
-        clickOnRequirements();
-        checkValueOfFieldRequirement();
+//        authorization("supervisor");
+//        selectionERKNM();
+//        gotoListPreventionEventsPage();
+//        openCard("77220521000000065884");
+//        clickConfirmButton();
+//        clickedOnNavigationMenuItem(linkInfoSubjectOfPreventionEvent);
+//        checkElementVisible("Кнопка Добавить в «Обязательные требования, подлежащие проверке»",
+//                buttonAddForRequirements);
+//        clickOnRequirements();
+//        checkValueOfFieldRequirement();
     }
 
     /**
@@ -66,12 +66,13 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Test(description = "A.1.1.8.2 Проверка требований к подразделу «Обязательные требования, подлежащие проверке»")
     public void mandatoryRequirementsVerifiedEventsTest() throws Exception {
         installPlugin();
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         clickAddButton();
         setFieldsForPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, kingObjectForFNS);
         setFieldsForSavePMStatusWarningDeclared(currentDate);
+        closeNotification();
         checkElementAvailable("Кнопка Добавить в «Обязательные требования, подлежащие проверке»",
                 buttonAddForRequirements);
         clickSaveButton();
@@ -93,7 +94,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         checkElementNotAvailable("Кнопка Добавить в «Обязательные требования, подлежащие проверке»",
                 buttonAddForRequirements);
 
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         openCard(numberPM);
@@ -106,6 +107,9 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         openHistoryOfChangesPM();
         checkLogInHistory("Значение поля \"ПМ подписан электронной подписью\" изменено с \"Нет\" на \"Да\"");
         clickedOnNavigationMenuItem(linkInfoSubjectOfPreventionEvent);
+        closeNotification();
+        closeNotification();
+        closeNotification();
         clickOnRequirements();
         checkValueOfFieldRequirement();
         checkElementNotAvailable("Кнопка Добавить в «Обязательные требования, подлежащие проверке»",
@@ -123,7 +127,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Story("ПМ")
     @Test(description = "A.1.1.8.3 Проверка добавления записей в подраздел «Обязательные требования, подлежащие проверке»")
     public void addRecordsRequirementsVerifiedEventsTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         clickAddButton();
@@ -153,7 +157,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Story("ПМ")
     @Test(description = "A.1.1.8.3/1 Проверка валидации при добавлении записей в подраздел «Обязательные требования, подлежащие проверке»")
     public void validationForAddRecordsRequirementsVerifiedEventsTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         clickAddButton();
@@ -165,8 +169,6 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         clickButtonSaveForCreateNewNPA();
         checkTextErrorField("Дата утверждения акта", textErrorUnderInputDateNPA, textErrorNotNullInput);
         checkTextErrorField("Наименование НПА", textErrorUnderInputTitleNPA, textErrorNotNullInput);
-//        checkTextErrorField("Еденица в СЕ", errorStopKNMDate, textErrorNotNullInput);
-//        checkTextErrorField("Значение в СЕ", errorStopKNMDate, textErrorNotNullInput);
         clickButtonCancelForCreateNewNPA();
         clickButtonAddForRequirements();
         searchNameNPA("правительство");
@@ -189,7 +191,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Story("ПМ")
     @Test(description = "A.1.1.8.3/2 Проверка редактирования записей в подраздел «Обязательные требования, подлежащие проверке»")
     public void editForRecordsRequirementsVerifiedEventsTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         clickAddButton();
@@ -201,6 +203,8 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
         clickButtonAddForRequirements();
         searchNameNPA(numberNPA);
         String newNumberNPA = editFieldsNPA(numberRandom());
+        clickButtonCancelForCreateNewNPA();
+        clickButtonAddForRequirements();
         searchNameNPA(newNumberNPA);
         checkNumberNPAFromTable(newNumberNPA);
     }
@@ -218,7 +222,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
             "в открытой части ЕРКНМ")
     public void displayFieldsRequiredRequirementsTest() throws Exception {
         installPlugin();
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNSForPlan, typeAnnouncementWarningsPM, currentDate, INN, kingObjectForFNSInPlaned);
@@ -248,7 +252,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
     @Test(description = "A.1.1.8.5 Проверка изменений в паспорте ПМ вида «Объявление предостережения»")
     public void changesInPassportEventsForWarningTest() throws Exception {
         installPlugin();
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, kingObjectForFNS);
@@ -278,7 +282,7 @@ public class TestERKNM_4_1_4 extends ListPreventionEventsPage {
             "требования в промышленный контур")
     public void applyingValidationToOldPMTest() throws Exception {
         installPlugin();
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         while (true){
             sleep(2000);

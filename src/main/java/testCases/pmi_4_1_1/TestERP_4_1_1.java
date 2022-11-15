@@ -31,7 +31,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.6. Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРП.")
     public void createEventsCheckEditGroundsForRegistrationTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERP();
         gotoListKNMPage();
         clickAddButton();
@@ -65,7 +65,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.7. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРП.")
     public void createEventCheckNumberOrderTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERP();
         gotoListKNMPage();
         clickAddButton();
@@ -111,7 +111,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.8. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРП.")
     public void createEventCheckDateOrderTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERP();
         gotoListKNMPage();
         clickAddButton();

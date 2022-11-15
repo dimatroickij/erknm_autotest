@@ -33,11 +33,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1. Сохранение внеплановой КНМ  с незаполненным полем «Дата окончания КНМ»")
     public void createEventOutStopDateTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
-        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+        addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, interactionDays,
+                null, viewEntity);
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Дата окончания КНМ"};
         checkNamesEmptyFields(nameFields);
@@ -61,11 +61,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "одинаковыми датами начала и окончания КНМ при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineSameDatesTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
-        addKNM(knoName, viewKNO, controlPurchase, unplannedCheck, currentDate, currentDate, null, interactionHours,
-                prosecutorsOffice, viewEntity, INN, kingObject);
+        addKNM(nameKNO, viewKNO_037, controlPurchase, unplannedCheck, currentDate, currentDate, null, interactionHours,
+                viewEntity);
         checkValueOfField("Срок проведения дней", durationDaysField,"1");
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -101,11 +101,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "разными датами начала и окончания КНМ при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineDifferentDatesTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck,"16.01.2023", "20.01.2023", null,
-                interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                interactionHours, viewEntity);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -127,11 +127,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "датами выходного дня при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineWeekendDaysTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, "21.01.2023", "22.01.2023", null,
-                interactionHours, prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                interactionHours,  viewEntity);
         getNumberKNM();
         checkTextErrorField(nameInputDurationDaysField, textUnderDurationDaysField,
                 "При проведении КНМ в нерабочие дни поле подлежит изменению");
@@ -154,11 +154,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
             "алгоритмов доступности для ввода значений в поля «Срок непосредственного взаимодействия (дней)» и «Срок " +
             "непосредственного взаимодействия (часов)»")
     public void createEventWitchCheckFieldsInteractionTimeTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, "", "",
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                viewEntity);
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
         checkNamesEmptyFields(nameFields);
@@ -195,12 +195,11 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.4. Проверка обязательности заполнения одного из полей «Срок непосредственного " +
             "взаимодействия (дней)» и «Срок непосредственного взаимодействия (часов)» при сохранении КНМ.")
     public void mandatoryFieldsDirectInteractionTest() throws Exception {
-        authorization("supervisor");
+        authorization("voskhod_qa");
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, null, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
-        clickSaveButton();
+                viewEntity);
         checkTextNotification("Проверка не сохранена. Требуется исправить ошибки.");
         String[] nameFields = {"Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
@@ -275,15 +274,10 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         planPage.openEventFromListEventsTable();
         switchTo().window(1);
         String value = String.valueOf(1 + (int) ( Math.random() * 100 ));
-        sleep(3000);
         editInteractionTime(value);
-        sleep(3000);
         clickSaveButton();
-        sleep(3000);
         gotoListPlansPage();
-        sleep(3000);
         openCardPlan("2023003594");
-        sleep(3000);
         planPage.clickAllEventsOpen();
         planPage.checkValueOfColumnDurationOfDays(value);
     }
@@ -304,8 +298,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, null, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
-        clickSaveButton();
+                viewEntity);
         String[] nameFields = {"Дата окончания КНМ", "Срок непосредственного взаимодействия (дней)",
                 "Срок непосредственного взаимодействия (часов)"};
         checkNamesEmptyFields(nameFields);

@@ -84,7 +84,7 @@ public class ListPreventionEventsPage extends Common {
     public String requirementsNPA = "//div[@id=\"requirementsNpa\"]//span[contains(@class, \"OpenButtonBody\")]"; // НПА в обязательных требованиях подлежащих проверке
     public String contentOfRequirements = "//div[contains(@class, 'BodyIsActive')]//div[contains(@class, 'MandatoryBlockBody')]"; // Текст содержания требования
     String inputNameNPA = "//input[@id=\"npaSearchString\"]"; // поле наименование НПА в форме добавления обязательного требования
-    String buttonSearchNPA = "//div[contains(@class,'RowNoWrap')]//button"; // кнопка Искать в форме добавления обязательного требования
+    String buttonSearchNPA = "//div[contains(@class,'_Row_')]/button"; // кнопка Искать в форме добавления обязательного требования
     String npaInTable = "//div[contains(@class,'NpaNameBlock')]"; // найденный НПА в таблице
     public String buttonAddInFormRequirement = "//form/div[contains(@class,'Container')]//button[1]"; // Кнопка Далее в форме добавления обязательного требования
     String listOfStructuralUnits = "//input[@name=\"structuralUnits\"]"; // список СЕ в форме добавления обязательного требования
@@ -517,7 +517,7 @@ public class ListPreventionEventsPage extends Common {
         electronicSignatureInBrowser();
         sleep(5000);
         clickConfirmButton();
-        closeNotification();
+        //closeNotification();
         return numberNPA;
     }
 
@@ -531,7 +531,7 @@ public class ListPreventionEventsPage extends Common {
         clickSignatureButton();
         choiceSignature();
         clickSignatureButton();
-        closeNotification();
+        //closeNotification();
     }
 
     /**
@@ -599,7 +599,8 @@ public class ListPreventionEventsPage extends Common {
      */
     @Step("Перевод Профилактического визита из статуса Ожидает проведения в статус Завершено")
     public void transferPMEventPreventiveVisitStatusCompleted() {
-        setResultPMField(prefix + "авто результат");
+        setResultPMField(prefix + " Авто результат");
+        closeNotification();
         clickSaveButton();
         clickConfirmButton();
         closeNotification();

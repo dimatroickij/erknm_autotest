@@ -38,7 +38,7 @@ public class ListPlansTest extends ListPlanPage {
         choiceMode(true);
         gotoListPlansPage();
         addPlannedKNMInPlan(numberPlan, viewKNOFNS, documentaryVerification, currentDate, currentDate, interactionDays,
-                null, viewEntity, INN, kingObjectForFNS);
+                null, viewEntity);
         logout();
     }
 

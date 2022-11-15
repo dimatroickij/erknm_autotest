@@ -40,7 +40,7 @@ public class TestERP_4_1_58 extends ListEventsERPPage {
             else {
                 checkElementVisible("«Завершить ПП 336»", completePPButton);
                 clickButtonCompletePP();
-                checkTextModalWindow(textModalForCompletePP, "[Изменение данных" +
+                checkTextContent(textModalForCompletePP, "[Изменение данных" +
                         " в КНМ после его завершения будет недоступно. Перед выполнением действия по завершению КНМ по ПП336, " +
                         "выполните сохранение изменений путем нажатия на кнопку «Сохранить»., Действие по завершению КНМ по ПП336" +
                         " является необратимым и является отменой проведения КНМ на основании постановления Правительства " +

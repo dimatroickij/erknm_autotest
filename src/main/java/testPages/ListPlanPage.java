@@ -50,6 +50,7 @@ public class ListPlanPage extends Common {
     public String openAllKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][1]"; // кнопка Перейти к перечню всех КНМ
     public String openAgreedKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][3]"; // кнопка Перейти к перечню согласованных КНМ
     public String openExcludedKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][4]"; // кнопка Перейти к перечню исключенных КНМ
+    public String openUnderConsiderationKNMButton = "//div[contains(@class,\"PlanBodyComposition\")]//a[contains(@class,\"PlanBodyCompostionItem\")][2]"; // кнопка Перейти к перечню КНМ на рассмотрении
 
     public ListPlanPage() throws Exception {
     }
@@ -76,6 +77,14 @@ public class ListPlanPage extends Common {
     @Step("Нажать Перейти к перечню исключенных КНМ")
     public void clickExcludedEventsOpen() {
         $(By.xpath(openExcludedKNMButton)).click();
+    }
+
+    /**
+     * Нажать Перейти к перечню КНМ на рассмотрении
+     */
+    @Step("Нажать Перейти к перечню КНМ на рассмотрении")
+    public void clickUnderConsiderationEventsOpen() {
+        $(By.xpath(openUnderConsiderationKNMButton)).click();
     }
 
     /**
@@ -131,19 +140,16 @@ public class ListPlanPage extends Common {
      * @param days           Срок непосредственного взаимодействия дней
      * @param hours          Срок непосредственного взаимодействия часов
      * @param typePerson     Тип контролируемого лица
-     * @param inn            ИНН
-     * @param viewObject     Вид объекта
      */
     @Step("Создание плановой КНМ через план - {number}: Вид контроля (надзора) - {viewKNO}, Вид КНМ - {kind}, " +
             "Дата начала КНМ - {startDate}, Дата окончания КНМ - {stopDate}, Срок непосредственного взаимодействия дней" +
-            " - {days}, Срок непосредственного взаимодействия часов - {hours}, Тип контролируемого лица - {typePerson}, " +
-            "ИНН - {inn}, Вид объекта - {viewObject}")
+            " - {days}, Срок непосредственного взаимодействия часов - {hours}, Тип контролируемого лица - {typePerson}")
     public void addPlannedKNMInPlan(String number, String viewKNO, String kind, String startDate, String stopDate, String days,
-                                    String hours, String typePerson, String inn, String viewObject) throws Exception {
+                                    String hours, String typePerson) throws Exception {
         openCardPlan(number);
         clickAddKNMButton();
         ListEventsPage event = new ListEventsPage();
-        numberKNM = event.addPlannedKNM(viewKNO, kind, startDate, stopDate, days, hours, typePerson, inn, viewObject);
+        numberKNM = event.addPlannedKNM(viewKNO, kind, startDate, stopDate, days, hours, typePerson);
     }
 
     /**
@@ -320,6 +326,7 @@ public class ListPlanPage extends Common {
         electronicSignatureInBrowser();
         clickSubmitReviewButton();
         clickApproveChangeStatus();
+
         clickSaveButton();
         closeNotification();
     }

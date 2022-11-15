@@ -24,7 +24,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+               viewEntity);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         numberPublishedKNMBVT = numberKNM;
@@ -63,7 +63,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         openCard("77210370001100042064");
-        transferEventStatusReadyApproval("4.0.15", currentDate, currentDate, currentDate, needCoordination);
+        transferEventStatusReadyApproval("4.0.15", currentDate, currentDate, currentDate, needCoordination, typeActionsRetrievalDocuments);
         logout();
     }
 
@@ -135,11 +135,11 @@ public class ListEventsTest extends ListEventsPage {
         gotoListKNMPage();
         reloadPage();
         addKNM(nameKNO, viewKNOFNS, controlPurchase, unplannedCheck, futureDate, futureDate, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                viewEntity);
         checkStatusKNM(statusProcessFilling);
         numberKNM = getNumberKNM();
         createTemplateMandatoryRequirements();
-        transferEventStatusReadyApproval("4.0.15", currentDate, futureDate, futureDate, needCoordination);
+        transferEventStatusReadyApproval("4.0.15", currentDate, futureDate, futureDate, needCoordination, typeActionsRetrievalDocuments);
         transferEventStatusOnApproval();
         logout();
         authorization("prosecutor");
@@ -174,7 +174,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addKNM(nameKNO, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                viewEntity);
         String number = getNumberKNM();
         clickActionsOnCardButton();
         clickDeleteOnCardButton();
@@ -197,7 +197,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addKNM(nameKNO, viewKNOFNS, raidInspection, unplannedCheck, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                viewEntity);
         String numberKNMTemplate = getNumberKNM();
         addCheckList(prefix);
         clickSaveButton();
@@ -218,7 +218,7 @@ public class ListEventsTest extends ListEventsPage {
         choiceMode(true);
         gotoListKNMPage();
         addKNM(nameKNO, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays, null,
-                prosecutorsOffice, viewEntity, INN, kingObjectForFNS);
+                viewEntity);
         String numberKNMRepresentatives = getNumberKNM();
         addInformationAboutOfficialsParticipatingInTheKNM(officialField);
         clickSaveButton();

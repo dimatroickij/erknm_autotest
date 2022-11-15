@@ -9,8 +9,6 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.*;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 
@@ -32,8 +30,8 @@ public class Common {
 
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "sgk");
-    public String openUrl = readParameters.getParameter("url", "sgkOpen");
+    public String url = readParameters.getParameter("url", "prod");
+    public String openUrl = readParameters.getParameter("url", "prodOpen");
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
@@ -52,7 +50,13 @@ public class Common {
     //режимы ЕРКНМ и ЕРП
     public String modeERKNM = "//*[text()='ЕРКНМ']"; // TODO должен быть идентификатор
     public String modeERP = "//*[text()='ЕРП']"; // TODO должен быть идентификатор
+
+    // типы проверяемого лица
+    public String viewIndividual = "Физические лица";
     public String viewEntity = "Юридические лица";
+    public String viewMerchant = "Индивидуальные предприниматели";
+    public String viewForeignLegalEntity = "Иностранные юридические лица";
+    public String viewForeignLegalEntityNotRegistered = "Иностранные";  // иностранные юридические лица с чекбоксом не зарегистрированные на территории РФ
 
 
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
@@ -69,11 +73,16 @@ public class Common {
     public String kingObjectForFNSInPlaned = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
     public String kingObjectForFNS = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
             "организации и проведению азартных игр в игорной зоне";
-    public String kingObject = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
-    public String viewKNO = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
-    public String viewKNOERP = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
+    public String kingObjectFor_037 = "деятельность медицинских организаций (в том числе медицинских работников)";
+    public String kingObjectFor_066 = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
+    public String kingObjectFor_069 = "строящиеся объекты транспортной инфраструктуры";
+    public String viewKNO_037 = "037 - Федеральный государственный контроль (надзор) качества и безопасности медицинской деятельности";
+    public String viewKNO_066 = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
+    public String viewKNO_069 = "069 - Федеральный государственный контроль (надзор) в области транспортной безопасности";
+    public String viewKNOERP
+            = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
-    public String prosecutorsOffice = "РОССИЯ - состав федеральных округов, Генеральная прокуратура Российской Федерации";
+    public String prosecutorsOffice = "Байконур";
     public String territorialUnitName = "РОССИЯ - состав федеральных округов";
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
@@ -121,11 +130,12 @@ public class Common {
     //Необходимость согласования
     public String needCoordination = "Требует согласования";
     public String doesNotRequire = "Не требует согласования";
+    public String promptCheck = "Незамедлительная проверка, ст. 66";
 
     //Типы документов для основания проведения КНМ
     public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
-    public String positionDirector = "Руководитель";
+    public String positionDirector = "руководитель";
     public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
     public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
     public String familiarWith = "Ознакомлен";
@@ -182,6 +192,7 @@ public class Common {
     public String numberKNM = "//div[contains(@class, 'TitleBlock')]/h3"; // Объект для получения номера КНМ
     String selectValueByText = "//div[contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
     String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
+    String valueOfPlaceholder = "//*[@placeholder='%s']"; // локатор плэйсхолдера
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
     public String successfullySignNotification = "//div[contains(@class, 'ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
 
@@ -199,10 +210,11 @@ public class Common {
 
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//*[@id='searchButton']"; //кнопка Искать
+    String upButton = "//*[@id=\"root\"]/div[1]/button"; // кнопка вверх
     String addButton = "//*[@id='addButton']"; //кнопка Добавить
     String modalSaveButton = "//div[contains(@class, '_Container_1yq2a_1')]//button[contains(text(), 'Сохранить')]"; // Кнопка Сохранить в модальном окне TODO должен быть идентификатор
     String modalAddButton = "//div[contains(@class, '_ModalBody_9nshc_41')]//button[1]"; // Кнопка Добавить в модальном окне TODO должен быть идентификатор
-    String saveButton = "//*[@id='saveButton']"; //кнопка Сохранить
+    String saveButton = "//*[contains(@class,'_Container_')]//*[@id='saveButton']"; //кнопка Сохранить
     String createButton = "//*[@id='createButton']"; //кнопка Создать
     String uploadButton = "//button[text()='Загрузить']"; //кнопка Загрузить
     String actionsButton = "//*[@id='visibleChangeActionsButton']"; //кнопка для открытия выпадающего списка Действия в таблице
@@ -213,10 +225,10 @@ public class Common {
     public String signatureButton = "//*[@id='signButton']";
     String openRequest = "//*[contains(@class,'TBodyRow')]/td[2]//a"; // открытие найденной записи
     String openRequestForPlan   = "//*[contains(@class,'TBodyRow')]/td[3]//a"; // открытие найденной карточки в плане
-    public String closeMessageButton = "//button[contains(@class,'CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
+    public String closeMessageButton = "//button[contains(@class,'_CloseButton')]"; //крестик у сообщения в правом верхнем углу TODO должен быть идентификатор
     public String textMessage = "//div[contains(@class,'ClosingNotificationText')]"; // текст сообщения
     public String iconError = "//div[contains(@class,'TitleBlock')]//div[contains(@class,'Errors')]/span";  // [!] иконка сообщающая об ошибке при заполнении
-    public String emptyFields = "//div[contains(@class,'ErrorsTooltipVisible')]//a"; // незаполненные поля под [!]
+    public String emptyFields = "//div[contains(@class,'ErrorsTooltip')]//a"; // незаполненные поля под [!]
     public String textErrorNotNullInput = "Поле не может быть пустым"; // Текст сообщения об ошибке при незаполненном поле
     public String textErrorIncorrectlyInput = "Номер поручения указан неверно"; // Текст сообщения об ошибке при некорректно заполненном поле
 
@@ -225,6 +237,7 @@ public class Common {
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
     public String typeItemNews = "//*[text()='Новость']";
     public String INN = readParameters.getParameter("information", "inn");// "7811689828";
+    public String INNIndividual = "123456789101";
     public String menuButton = "//*[@id='userMenuButton']";
     public static String currentDate = ""; // Формирует сегодняшнюю дату
     public static String currentDateTime = "";
@@ -497,9 +510,10 @@ public class Common {
      * @param value Номер карточки
      */
     @Step("Открытие найденной карточки - {value}")
-    public void openCard(String value) {
+    public void openCard(String value) throws InterruptedException {
         setSearchField(value);
         clickSearchButton();
+        sleep(4000);
         $(By.xpath(openRequest)).click();
         switchTo().window(getWebDriver().getWindowHandle()).close();
         switchTo().window(0);
@@ -537,6 +551,17 @@ public class Common {
     }
 
     /**
+     * Нажатие на кнопку [^] вверх
+     */
+    @Step("Нажатие на кнопку [^] вверх")
+    public void clickUpButton() {
+        try {
+            $(By.xpath(upButton)).click();
+        } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
+    }
+
+
+    /**
      * Нажатие на кнопку Добавить
      */
     @Step("Нажатие на кнопку Добавить")
@@ -557,6 +582,7 @@ public class Common {
      */
     @Step("Переход в список КНМ")
     public void gotoListKNMPage() {
+        clickUpButton();
         $(By.xpath(listEvents)).scrollTo().click();
     }
 
@@ -565,6 +591,7 @@ public class Common {
      */
     @Step("Переход в список КНМ в режиме ЕРП")
     public void gotoERPListKNMPage() {
+        clickUpButton();
         $(By.xpath(listEventsERP)).click();
     }
 
@@ -573,6 +600,7 @@ public class Common {
      */
     @Step("Переход в список ПМ")
     public void gotoListPreventionEventsPage() {
+        clickUpButton();
         $(By.xpath(listPreventionEvents)).click();
     }
 
@@ -581,7 +609,8 @@ public class Common {
      */
     @Step("Переход в список планов")
     public void gotoListPlansPage() {
-        $(By.xpath(listPlans)).click();
+        clickUpButton();
+        $(By.xpath(listPlans)).scrollIntoView(false).click();
     }
 
     /**
@@ -645,8 +674,12 @@ public class Common {
         String password = readParameters.getParameter("user", person);
         setPassword(password);
         clickEnterButton();
-        //clickMessageButton(); Больше не нужен
-
+        sleep(4000);
+        if (person.equals("voskhod_qa")) {
+            try {
+                $(By.xpath("//*[@id='modal']//button")).click(); // закрыть модалку
+            } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
+        }
     }
 
     /**
@@ -775,13 +808,13 @@ public class Common {
     }
 
     /**
-     * Проверка текста в модальном окне
+     * Проверка содержания текста
      *
      * @param locator Локатор проверяемого поля
      * @param text Ожидаемый текст ошибки
      */
-    @Step("Проверка текста в модальном окне - {text}")
-    public void checkTextModalWindow(String locator, String text) {
+    @Step("Проверка содержания текста - {text}")
+    public void checkTextContent(String locator, String text) {
         //$(By.xpath(locator)).should(visible, Duration.ofSeconds(15)).scrollIntoView(false).should(Text.text(text));
         ElementsCollection elements = $$ (By.xpath(locator));
         String[] messageText = new String[elements.size()];
@@ -1093,6 +1126,16 @@ public class Common {
         int a = (int) ( Math.random() * 1000 ) + 100;
         String randNumber = Integer.toString(a);
         return randNumber;
+    }
+
+    /**
+     * Проверка текста плэйсхолдера
+     *
+     * @param text Текст
+     */
+    @Step("Проверка текста плэйсхолдера - {text}")
+    public void checkTextInPlaceholder(String text) {
+        $(By.xpath(String.format(valueOfPlaceholder, text))).shouldBe(visible);
     }
 
 }

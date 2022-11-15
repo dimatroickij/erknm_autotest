@@ -348,7 +348,7 @@ public class ListEventsERPPage extends Common {
         clickModalTemplateDropDown(); // Открытие выпадающего списка ОТ
         if (addedTest) setValueDropDownToText(templateMandatoryRequirements);
         else {
-            setValueDropDownToText("автотест");
+            setValueDropDownToText("Тестовое");
         }
         clickAddModalButton();
     }

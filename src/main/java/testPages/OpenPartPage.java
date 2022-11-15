@@ -21,7 +21,7 @@ public class OpenPartPage extends Common {
     String searchCheckPage = "//*[@id='/portal/public-search']";//пункт меню Поиск проверок
     String newsPage = "//*[@id='/portal/public-news']"; //пункт меню Новости
     String numberSearchResult = "//*[contains(@class,\"TableSearchData\")]//a"; // номер найденного мероприятия
-    public String fieldTable = "//div[contains(@class, 'styles_ColText') and contains(text(),'%s')]"; // поле в таблице найденного мероприятия
+    public String fieldTable = "//div[contains(@class, '_ColText') and contains(text(),'%s')]"; // поле в таблице найденного мероприятия
     public String fieldAnnouncementDateWarning = "//div[contains(text(), 'Дата объявления предостережения')]";  // поле Дата объявления предостережения в ПМ
     public String captcha ="12345";
 

@@ -45,8 +45,8 @@ public class TestOpenPart_4_1_1 extends OpenPartPage {
         gotoHomeOpenPage();
         searchEventsWithoutCaptcha("772200065889");
         openFoundEvent();
-        checkFieldVisible("Номер поручения");
-        checkFieldVisible("Дата поручения");
+        checkFieldInVisible("Номер поручения");
+        checkFieldInVisible("Дата поручения");
 
         switchTo().window(1).close();
         switchTo().window(0);
@@ -54,7 +54,7 @@ public class TestOpenPart_4_1_1 extends OpenPartPage {
         gotoHomeOpenPage();
         searchEventsWithoutCaptcha("772200065688");
         openFoundEvent();
-        checkFieldVisible("Реквизиты требования");
+        checkFieldInVisible("Реквизиты требования");
     }
 
 }

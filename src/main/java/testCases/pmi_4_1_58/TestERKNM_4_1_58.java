@@ -31,6 +31,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.2.1 Проверка завершения КНМ из паспорта по кнопке «Завершить ПП 336».")
     public void completionKNMFromPassportTest() throws Exception {
+
         String[] events = new String[]{"7722231000000027948",  // ожидает проведения до 11.03.2022
                 "77220370001100042115",  // ожидает завершения
                 "01230511000300047085",  // ожидает проведения после 11.03.2022
@@ -41,6 +42,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
         for(String event : events){
             gotoListKNMPage();
             openCard(event);
+            sleep(3000);
             System.out.println(event);
             if(event == "01230511000300047085" || event == "77220660001100042205"){
                 checkElementInvisible("«Завершить ПП 336»", completePPButton);
@@ -48,7 +50,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
             else {
                 checkElementVisible("«Завершить ПП 336»", completePPButton);
                 clickButtonCompletePP();
-                checkTextModalWindow(textModalForCompletePP, "[Изменение данных" +
+                checkTextContent(textModalForCompletePP, "[Изменение данных" +
                         " в КНМ после его завершения будет недоступно. Перед выполнением действия по завершению КНМ по ПП336, " +
                         "выполните сохранение изменений путем нажатия на кнопку «Сохранить»., Действие по завершению КНМ по ПП336" +
                         " является необратимым и является отменой проведения КНМ на основании постановления Правительства " +
