@@ -26,7 +26,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.9.1 Проверка требований к подразделу «Обязательные требования, подлежащие проверке»")
     public void requirementsSectionMandatoryRequirementsTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
@@ -54,7 +54,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Test(description = "A.1.1.9.2 Проверка добавления записей в подраздел «Обязательные требования, подлежащие проверке» " +
             "для внеплановой КНМ")
     public void addingEntriesSectionMandatoryRequirementsForUnPlanedEventTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
@@ -85,7 +85,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Test(description = "A.1.1.9.2/1 Проверка добавления записей в подраздел «Обязательные требования, подлежащие проверке» " +
             "для плановой КНМ")
     public void addingEntriesSectionMandatoryRequirementsForPlanedEventTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, plannedCheck, currentDate, currentDate, interactionDays,
@@ -113,7 +113,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Test(description = "A.1.1.9.2/2 Проверка добавления записей в подраздел «Обязательные требования, подлежащие проверке» " +
             "с созданием НПА")
     public void addingEntriesSectionMandatoryRequirementsWhichCreateNPATest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNSForPlan, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
@@ -143,7 +143,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Test(description = "A.1.1.9.2/3 Проверка валидации при создании НПА в подразделе «Обязательные требования, " +
             "подлежащие проверке»")
     public void validationForAddRecordsRequirementsVerifiedEventsTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNSForPlan, controlPurchase, unplannedCheck, currentDate, currentDate, interactionDays,
@@ -180,7 +180,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.9.3 Проверка требований к подразделу «Нарушенные обязательные требования»")
     public void subsectionViolatedMandatoryRequirementsTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, documentaryVerification, unplannedCheck, currentDate, currentDate, interactionDays,
@@ -212,7 +212,7 @@ public class TestERKNM_4_1_43 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.9.4 Проверка добавления записей в подраздел «Нарушенные обязательные требования»")
     public void addingEntriesMandatoryRequirementsTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, documentaryVerification, unplannedCheck, currentDate, currentDate, interactionDays,

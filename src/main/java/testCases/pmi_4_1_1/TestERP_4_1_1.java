@@ -31,7 +31,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.6. Проверка поля «Реквизиты требования» в карточке КНМ в системе ЕРП.")
     public void createEventsCheckEditGroundsForRegistrationTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERP();
         gotoListKNMPage();
         clickAddButton();
@@ -65,7 +65,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.7. Проверка поля «Номер поручения» в карточке КНМ в системе ЕРП.")
     public void createEventCheckNumberOrderTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERP();
         gotoListKNMPage();
         clickAddButton();
@@ -111,7 +111,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.8. Проверка поля «Дата поручения» в карточке КНМ в системе ЕРП.")
     public void createEventCheckDateOrderTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERP();
         gotoListKNMPage();
         clickAddButton();
@@ -147,7 +147,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Test(description = "A.1.1.1.9 Проверка доступности полей «Дата поручения», «Номер поручения» и «Реквизиты требования» " +
             "для заполнения в ЕРП.")
     public void openEventsCheckAvailabilityFieldsTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERP();
         gotoListKNMPage();
         openCard("772200054237"); // В процессе формирования
@@ -198,7 +198,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1.10. Проверка фильтрации данных в ЗЧ ЕРП.")
     public void checkFiltrationDataTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERP();
         gotoListKNMPage();
         openFiltrationForm();
@@ -239,7 +239,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
         "772200054230",  // в процессе проведения
         "772200054345"}; // завершено
 
-        authorization("supervisor");
+        authorization(employee);
         selectionERP();
         for(String event : events){
             System.out.println(event);
@@ -268,7 +268,7 @@ public class TestERP_4_1_1 extends ListEventsERPPage {
                 "772200054125",  // в процессе проведения
                 "772200054220"}; // завершено
 
-        authorization("supervisor");
+        authorization(employee);
         selectionERP();
         for(String event : events){
             System.out.println(event);

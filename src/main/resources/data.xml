@@ -22,11 +22,10 @@
             </users>
 
             <data>
-                <information name="inn" value="7840515640"/> <!--1215212198-->
-                <!-- <information name="inn" value ="1215043750" /> -->
-                <!--9103081181 для тест-->
-                <!--7811689828 для СГК-->
-                <!--7743943819 для КУБ-->
+                <information name="inn" value="9103081181"/>
+                <information name="innSGK" value="7811689828"/>
+                <information name="innKUB" value="7743943819"/>
+                <information name="innPROD" value="7840515640"/>
             </data>
 
         </colo>

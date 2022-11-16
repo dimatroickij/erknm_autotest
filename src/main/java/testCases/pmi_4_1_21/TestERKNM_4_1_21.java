@@ -33,7 +33,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.1 Проверка отображения значений в поле «Характер КНМ» при создании КНМ через вкладку " +
             "«Список КНМ».")
     public void characterKNMValuesDisplayTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
@@ -70,7 +70,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.2 Проверка отображения значений в поле «Вид контроля (надзора) и его номер» при создании" +
             " КНМ через план КНМ.")
     public void characterKNMCreateInPlanValuesDisplayTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPlansPage();
         openCardPlan("2024063491");
@@ -109,7 +109,7 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
     @Test(description = "A.1.1.3.3 Проверка применения валидации требования к КНМ, созданным в системе после выхода " +
             "требования в промышленный контур.")
     public void validationOfRequirementsForPreviouslyCreatedKNMTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         clickAddButton();
@@ -121,11 +121,11 @@ public class TestERKNM_4_1_21 extends ListEventsPage {
                 "Вид контроля (надзора) и его номер", "Вид КНМ"};
         checkNamesEmptyFields(nameFields);
 
-//        authorization("supervisor");
-//        selectionERKNM();
-//        gotoListKNMPage();
-//        openCard("7722231000000027972");  // 77220660001100046634
-//        clickSaveButton();
-//        checkTextNotification("КНМ успешно сохранено");
+        authorization(employee);
+        selectionERKNM();
+        gotoListKNMPage();
+        openCard("7722231000000027972");  // 77220660001100046634
+        clickSaveButton();
+        checkTextNotification("КНМ успешно сохранено");
     }
 }

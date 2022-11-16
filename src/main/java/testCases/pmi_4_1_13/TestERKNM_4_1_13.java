@@ -33,7 +33,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Story("КНМ")
     @Test(description = "A.1.1.1. Сохранение внеплановой КНМ  с незаполненным полем «Дата окончания КНМ»")
     public void createEventOutStopDateTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, interactionDays,
@@ -61,7 +61,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "одинаковыми датами начала и окончания КНМ при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineSameDatesTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNO, viewKNO_037, controlPurchase, unplannedCheck, currentDate, currentDate, null, interactionHours,
@@ -101,7 +101,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "разными датами начала и окончания КНМ при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineDifferentDatesTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck,"16.01.2023", "20.01.2023", null,
@@ -127,7 +127,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.2. Проверка автоматического расчета значения в поле «Срок проведения (дней)» с " +
             "датами выходного дня при первом сохранении записи КНМ")
     public void createEventWitchAutoCalculationDeadlineWeekendDaysTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, "21.01.2023", "22.01.2023", null,
@@ -154,7 +154,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
             "алгоритмов доступности для ввода значений в поля «Срок непосредственного взаимодействия (дней)» и «Срок " +
             "непосредственного взаимодействия (часов)»")
     public void createEventWitchCheckFieldsInteractionTimeTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, "", "",
@@ -195,7 +195,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.4. Проверка обязательности заполнения одного из полей «Срок непосредственного " +
             "взаимодействия (дней)» и «Срок непосредственного взаимодействия (часов)» при сохранении КНМ.")
     public void mandatoryFieldsDirectInteractionTest() throws Exception {
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, currentDate, null, null,
@@ -223,7 +223,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.5. Проверка целевых условий доступности поля «Срок непосредственного взаимодействия " +
             "(дней)» для заполнения в КНМ в зависимости от его статуса и роли сотрудника. ")
     public void availabilityFieldsDirectInteractionTest() throws Exception {
-        String[] roles = new String[]{"supervisor", "prosecutor", "ombudsman"};
+        String[] roles = new String[]{employee, prosecutor, ombudsman};
         String[] events = new String[]{"01220511000300047075",  // В процессе заполнения
                                         "77220370001100042327",  // Готова к согласованию
                                         "77220370001100042249",  // Есть замечания
@@ -242,7 +242,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
                 if (event == "77220370001100042369") {
                     checkElementNotAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
                 } else {
-                    if (role == "supervisor") {
+                    if (role == employee) {
                         checkElementAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
                     } else {
                         checkElementNotAvailable("Срок непосредственного взаимодействия (дней)", interactionTimeDays);
@@ -264,7 +264,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.6. Доработка отображения сведений в списке плановых КНМ.")
     public void displayingInformationInListOfPlannedTest() throws Exception {
         ListPlanPage planPage = new ListPlanPage();
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListPlansPage();
         openCardPlan("2023003594");
@@ -294,7 +294,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
     @Test(description = "A.1.1.8. Проверка применения валидации требования к КНМ, созданных в Системе после выхода " +
             "требования в промышленный контур.")
     public void requirementsValidationKNMTest() throws Exception {
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         addKNM(nameKNOFNS, viewKNOFNS, controlPurchase, unplannedCheck, currentDate, null, null, null,
@@ -308,7 +308,7 @@ public class TestERKNM_4_1_13 extends ListEventsPage {
         checkTextErrorField("Срок непосредственного взаимодействия (часов)", errorInteractionTimeHours,
                 textErrorNotNullInput);
 
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListKNMPage();
         openCard("77220061000100056383");

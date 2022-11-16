@@ -29,7 +29,7 @@ public class TestERP_4_1_58 extends ListEventsERPPage {
         String[] events = new String[]{"772200000088",  // ожидает проведения до 11.03.2022
                 "772200054656"  // ожидает завершения, создана до 11.03.2022, плановая, с Датой начала КНМ с 01.04.2022 включительно.
         };
-        authorization("supervisor");
+        authorization(employee);
         selectionERP();
         for(String event : events){
             gotoListKNMPage();

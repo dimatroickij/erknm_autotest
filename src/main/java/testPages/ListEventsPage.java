@@ -183,7 +183,14 @@ public class ListEventsPage extends Common {
     String addInformationAboutOfficialsParticipatingButton = "//*[@id ='erknmInspectorsAddButton']"; // кнопка Добавить в разделе Сведения о должностных лицах, участвующих в КНМ
     String addFIOParticipatingField = "//*[@name='inspectorsErknm[0].fullName']"; // поле Введите ФИО должностного лица
     String addPositionParticipatingDropDown = "//*[@id='inspectorsErknm[0].position']"; // выпадающий список Выберите должность
+    String selectTypeObjectControl = "//div[@id=\"acts[0].organizationTemplate\"]"; // поле выбора объекта контроля в сведениях об акте (для рейдового осмотра)
+    String typesControlledPersonsForAct = "//div[@id=\"acts[0].organization.subjectType\"]"; // выпадающий список Тип контролируемых лиц
+    String innFieldForAct = "//*[@id=\"acts[0].organization.inn\"]"; // ИНН
+    String inputNameEntityForAct = "//*[@name=\"acts[0].organization.organizationName\"]"; // поле наименование проверяемого лица
+    String checkboxNotRegisteredForAct = "//input[@name=\"acts[0].organization.isForeignSubjectAgencyNotRegistredInRf\"]"; // чекбокс Иностранные юр.лица не зарегистрированные на территории РФ
+    String selectCountryForAct = "//div[@id=\"acts[0].organization.country\"]"; // поле Выбор страны регистрации юр.лица
 
+    // проверочные листы
     String checklistCheckbox = "//*[@id='isChecklistsUsed']"; // чек-бокс Отметка об использовании проверочного листа
     String addChecklistButton = "//*[@id='event-subject']/div[6]//button"; // Добавить проверочный лист TODO Должен быть идентификатор
     String nameChecklistDropDown = "//*[contains(@id, 'checklists')]//div[contains(@class, 'SelectInput_SelectInput')]"; // Выпадающий список Наименование проверочного листа TODO Должен быть идентификатор
@@ -515,6 +522,17 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Заполнить поле ИНН в сведениях об Акте, выбрать из появившегося окна
+     *
+     * @param INN ИНН
+     */
+    @Step("Заполнить поле ИНН в сведениях об Акте, выбрать из появившегося окна - {INN}")
+    public void setInnFieldForAct(String INN) {
+        $(By.xpath(innFieldForAct)).setValue(INN);
+        $(By.xpath(innListField)).shouldBe(visible, Duration.ofSeconds(10000)).click();
+    }
+
+    /**
      * Получение номера КНМ
      */
     @Step("Получение номера КНМ")
@@ -792,12 +810,19 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор из выпадающего списка Должность лица, подписавшего решение")
     public void setPositionPersonSignedDecisionsDropDown() {
+        String[] positions = new String[] {"руководитель Федеральной налоговой службы",
+                "Руководитель ФНС России",
+                "руководитель Федеральной службы по надзору в сфере транспорта",
+                "Руководитель Росздравнадзора"};
+
         $(By.xpath(positionPersonSignedDecisionsDropDown)).click();
-        try {
-            setValueDropDownToText("Руководитель");
-        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
-            setValueDropDownToText("руководитель");
+        for (String position : positions) {
+            try {
+                setValueDropDownToText(position);
+                break;
+            } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
         }
+
     }
 
     /**
@@ -1006,24 +1031,26 @@ public class ListEventsPage extends Common {
      */
     @Step("Добавление сведений о контролируемом лице: Тип контролируемого лица - {typePerson}, ИНН - {inn}")
     public void addInformationControlledPerson(String typePerson, String inn, String viewKNO) {
-        clickAddButtonInInformationControlledPerson();
-        setTypeControlledPersonDropDown(typePerson);
-        if (typePerson == viewForeignLegalEntity) {
-            setInnField("9909380589");
-        } else if (typePerson == viewForeignLegalEntityNotRegistered) {
-            setFieldsForeignLegalEntityNotRegistered(prefix + "Авто наименование", "Австралия");
-        } else if(typePerson == viewIndividual) {
-            $(By.xpath(innField)).setValue(INNIndividual);
-            setNamePersonChecked(prefix + "Авто наименование");
-        } else if(typePerson == viewEntity || typePerson == viewMerchant) {
-            setInnField(inn);
-        }
+        if (typePerson != null) {
+            clickAddButtonInInformationControlledPerson();
+            setTypeControlledPersonDropDown(typePerson);
+            if (typePerson == viewForeignLegalEntity) {
+                setInnField(INNForeignLegalEntity);
+            } else if (typePerson == viewForeignLegalEntityNotRegistered) {
+                setFieldsForeignLegalEntityNotRegistered(prefix + " Авто наименование", "Австралия");
+            } else if(typePerson == viewIndividual) {
+                $(By.xpath(innField)).setValue(INNIndividual);
+                setNamePersonChecked(prefix + " Авто наименование");
+            } else if(typePerson == viewEntity || typePerson == viewMerchant) {
+                setInnField(inn);
+            }
 //        if (typePerson != viewEntity) {
 //            clickAddObjectControlKNMButton();
-//            setAddressField(prefix + "Авто местоположение");
+//            setAddressField(prefix + " Авто местоположение");
 //        }
+        }
         clickAddObjectControlKNMButton();
-        setAddressField(prefix + "Авто местоположение");
+        setAddressField(prefix + " Авто местоположение");
         setTypeObjectDropDown();
         String viewObject = "";
         if (viewKNO == viewKNOFNSForPlan) {
@@ -1042,6 +1069,30 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Добавление сведений о контролируемом лице в акте
+     *
+     * @param typePerson    Тип контролируемого лица
+     * @param inn           ИНН
+     */
+    @Step("Добавление сведений о контролируемом лице в акте: Тип контролируемого лица - {typePerson}, ИНН - {inn}")
+    public void addInformationControlledPersonForAct(String typePerson, String inn) {
+        if (typePerson != null) {
+            addNewObjectControl();
+            setTypeControlledPersonForActDropDown(typePerson);
+            if (typePerson == viewForeignLegalEntity) {
+                setInnFieldForAct(INNForeignLegalEntity);
+            } else if (typePerson == viewForeignLegalEntityNotRegistered) {
+                setFieldsForeignLegalEntityNotRegisteredForAct(prefix + " Авто наименование", "Австралия");
+            } else if(typePerson == viewIndividual) {
+                $(By.xpath(innFieldForAct)).setValue(INNIndividual);
+                setNamePersonCheckedForAct(prefix + " Авто наименование");
+            } else if(typePerson == viewEntity || typePerson == viewMerchant) {
+                setInnFieldForAct(inn);
+            }
+        }
+    }
+
+    /**
      * Заполнить поля "Юридические лица, представительства и филиалы, которые не зарегистрированы на территории Российской Федерации"
      *
      * @param name     Наименование проверяемого лица
@@ -1057,6 +1108,22 @@ public class ListEventsPage extends Common {
     }
 
     /**
+     * Заполнить поля "Юридические лица, представительства и филиалы, которые не зарегистрированы на территории Российской Федерации"
+     * в сведениях об Акте
+     *
+     * @param name     Наименование проверяемого лица
+     * @param country  Страна
+     */
+    @Step("Заполнить поля \"Юридические лица, представительства и филиалы, которые не зарегистрированы на территории " +
+            "Российской Федерации\" в сведениях об Акте")
+    public void setFieldsForeignLegalEntityNotRegisteredForAct(String name, String country) {
+        $(By.xpath(checkboxNotRegisteredForAct)).click();  // отмечаем чекбокс
+        setNamePersonCheckedForAct(name);  // заполнить наименование
+        $(By.xpath(selectCountryForAct)).click();
+        setValueDropDownToText(country);  // выбрать государство
+    }
+
+    /**
      * Заполнить наименование проверяемого лица
      *
      * @param name     Наименование проверяемого лица
@@ -1064,6 +1131,16 @@ public class ListEventsPage extends Common {
     @Step("Заполнить наименование проверяемого лица - {name}")
     public void setNamePersonChecked(String name) {
         $(By.xpath(inputNameEntity)).setValue(name);
+    }
+
+    /**
+     * Заполнить наименование проверяемого лица в акте
+     *
+     * @param name     Наименование проверяемого лица
+     */
+    @Step("Заполнить наименование проверяемого лица в акте - {name}")
+    public void setNamePersonCheckedForAct(String name) {
+        $(By.xpath(inputNameEntityForAct)).setValue(name);
     }
 
     /**
@@ -1082,6 +1159,17 @@ public class ListEventsPage extends Common {
     @Step("Выбор типа контролируемого лица - {typePerson}")
     public void setTypeControlledPersonDropDown(String typePerson) {
         $(By.xpath(typesControlledPersons)).scrollIntoView(false).click();
+        setValueDropDownToText(typePerson);
+    }
+
+    /**
+     * Выбор типа контролируемого лица в акте
+     *
+     * @param typePerson    Тип контролируемого лица
+     */
+    @Step("Выбор типа контролируемого лица - {typePerson} в акте")
+    public void setTypeControlledPersonForActDropDown(String typePerson) {
+        $(By.xpath(typesControlledPersonsForAct)).scrollIntoView(false).click();
         setValueDropDownToText(typePerson);
     }
 
@@ -1180,7 +1268,7 @@ public class ListEventsPage extends Common {
     @Step("Заполнение выпадающего списка Тип документа в блоке Основание проведения КНМ - {docType}")
     public void setDocumentTypeDropDown() {
         $(By.xpath(selectDocType)).click();
-        setValueDropDownToText("Мотивированное представление");
+        setValueDropDownToText(motivatedPerformance);
     }
 
     /**
@@ -1302,23 +1390,6 @@ public class ListEventsPage extends Common {
     }
 
     /**
-     * Добавление блока Основания проведения КНМ для плановой КНМ
-     *
-     * @param fPath путь к документу
-     * @param sPath путь к подписи
-     */
-//    @Step("Добавление блока Основания проведения КНМ для плановой КНМ")
-//    public void addGroundsConductingPlanned(String fPath, String sPath) {
-//        clickAddGroundConductingButton();
-//        setGroundConductingDropDown();
-//        clickAddFoundationButton();
-//        setTypeDocumentDropDown();
-//        clickAddFileButton();
-//        addDocumentAndSignatureGroundsConducting(fPath, sPath);
-//        clickUploadButton();
-//    }
-
-    /**
      * Нажатие на кнопку На согласование
      */
     @Step("Нажатие на кнопку На согласование")
@@ -1418,11 +1489,15 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор Должность лица, подписавшего акт из выпадающего списка")
     public void setPositionSignatoryActDropDown() {
+        String[] positions = new String[] {"Главный государственный налоговый инспектор",
+                "Советник",
+                "Старший государственный инспектор отдела в Управлении Росздравнадзора"};
+
         $(By.xpath(positionSignatoryActDropDown)).click();
-        try {
-            setValueDropDownToText("Заместитель");
-        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
-            setValueDropDownToText("старший государственный");
+        for (String position : positions) {
+            try {
+                setValueDropDownToText(position);
+            } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
         }
     }
 
@@ -1450,15 +1525,15 @@ public class ListEventsPage extends Common {
      */
     @Step("Выбор должности - {name} в блоке Должностные лица КНО, участвовавшие в КНМ")
     public void setPositionOfficialsDropDown() {
+        String[] positions = new String[] {"Старший специалист-эксперт 1 разряда отдела Территориального органа Росздравнадзора",
+                "заместитель начальника отдела",
+                "Специалист-эксперт"};
+
         $(By.xpath(positionOfficialsParticipatedDropDown)).click();
-        try {
-            setValueDropDownToText("главный государственный инспектор");
-        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
+        for (String position : positions) {
             try {
-                setValueDropDownToText("Руководитель Территориального органа");
-            } catch (com.codeborne.selenide.ex.ElementNotFound ex) {
-                setValueDropDownToText("Советник");
-            }
+                setValueDropDownToText(position);
+            } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
         }
     }
 
@@ -1532,6 +1607,7 @@ public class ListEventsPage extends Common {
      */
     @Step("Заполнение блока сведения об акте: Вид акта - {typeOfAct}, Номер акта - {numberAct}, Результат ознакомления - {result}")
     public void addInformationAboutAct(String typeOfAct, String numberAct, String result) {
+        String viewKNM = getValueOfField("Вид КНМ", kindKnmDropDownText);
         clickedOnNavigationMenuItem(linkInfoAboutAct);
         clickAddInformationAboutActsButton();
         setTypeOfActDropDown(typeOfAct);
@@ -1545,8 +1621,11 @@ public class ListEventsPage extends Common {
             setDurationDaysActField("1");
             setNameSignatoryActField(prefix + " Авто ФИО");
             setPositionSignatoryActDropDown();
-//            $(By.xpath("//div[@id=\"acts[0].organizationTemplate\"]")).click();
-//            setValueDropDownToText("ИНН:");
+            if (viewKNM.equals(raidInspection)) {
+                try {
+                    setTypeObjectControl();
+                } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
+            }
             clickAddOfficialsParticipatedButton();
             setOfficialsParticipatedEventField(prefix + " Авто ФИО");
             setPositionOfficialsDropDown();
@@ -1559,6 +1638,7 @@ public class ListEventsPage extends Common {
         } else {
             setReasonForImpossibilityDropDown(absenceAtLocation);
         }
+       // добавить если рейдовый осмотр и не нет блоке о КЛ то в акте создаем новый
     }
 
     /**
@@ -1568,16 +1648,40 @@ public class ListEventsPage extends Common {
      */
     @Step("Добавление информации в раздел Сведения о должностных лицах, участвующих в КНМ")
     public void addInformationAboutOfficialsParticipatingInTheKNM(String fio) {
+        String[] positions = new String[] {"Заместитель начальника Управления Росздравнадзора - начальник отдела",
+                "заместитель руководителя Федеральной налоговой службы",
+                "Начальник управления ФНС России",
+                "старший государственный инспектор"};
+
         $(By.xpath(addInformationAboutOfficialsParticipatingButton)).click();
         $(By.xpath(addFIOParticipatingField)).setValue(fio);
         $(By.xpath(addPositionParticipatingDropDown)).click();
-        try {
-            setValueDropDownToText("Начальник");
-        } catch (com.codeborne.selenide.ex.ElementNotFound e) {
-            setValueDropDownToText("начальник");
+        for (String position : positions) {
+            try {
+                setValueDropDownToText(position);
+                break;
+            } catch (com.codeborne.selenide.ex.ElementNotFound e) {}
         }
     }
 
+    /**
+     * Выбор объекта контроля в акте
+     */
+    @Step("Выбор объекта контроля в акте")
+    public void setTypeObjectControl() {
+        $(By.xpath(selectTypeObjectControl)).click();
+        setValueDropDownToText("ИНН:");
+    }
+
+    /**
+     * Создание нового объекта контроля в акте
+     */
+    @Step("Создание нового объекта контроля в акте")
+    public void addNewObjectControl() {
+        $(By.xpath(selectTypeObjectControl)).click();
+        setValueDropDownToText("Создать новый");
+
+    }
 
     /**
      * Добавление проверочного листа в КНМ

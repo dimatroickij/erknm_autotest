@@ -37,7 +37,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
                 "01230511000300047085",  // ожидает проведения после 11.03.2022
                 "77220660001100042205"  // другой статус до 11.03.2022
         };
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         for(String event : events){
             gotoListKNMPage();
@@ -73,7 +73,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
     @Test(description = "A.1.1.2.2 Доработка справочных значений оснований для исключения КНМ из утвержденных планов.")
     public void referenceValuesForGroundsForExclusionTest() throws Exception {
         ListPlanPage planPage = new ListPlanPage();
-        authorization("supervisor");
+        authorization(employee);
         selectionERKNM();
         gotoListPlansPage();
         openCardPlan("2023002609");
@@ -101,7 +101,7 @@ public class TestERKNM_4_1_58 extends ListEventsPage {
     @Test(description = "A.1.1.2.3 Проверка логики отображения исключенных из плана КНМ в модуле аналитики.")
     public void displayOfKNMExcludedFromPlanTest() throws Exception {
         AnalyticsPage analytics = new AnalyticsPage();
-        authorization("prosecutor");
+        authorization(prosecutor);
         selectionERKNM();
         gotoAnalyticsPage();
         sleep(10000);

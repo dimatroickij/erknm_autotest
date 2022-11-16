@@ -28,7 +28,7 @@ public class TestE2EPM extends ListPreventionEventsPage {
     @Test(description = "Проверка перехода по ЖЦ ПМ Объявление предостережения в статус Предостережение объявлено")
     public void declarationCautionInStatusCautionDeclaredTest() throws Exception {
         installPlugin();
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, kingObjectForFNS);
@@ -51,7 +51,7 @@ public class TestE2EPM extends ListPreventionEventsPage {
     @Test(description = "Проверка перехода по ЖЦ ПМ Объявление предостережения в статус Есть возражение")
     public void announcementCautionsInStatusThereObjectionsTest() throws Exception {
         installPlugin();
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typeAnnouncementWarningsPM, currentDate, INN, kingObjectForFNS);
@@ -74,7 +74,7 @@ public class TestE2EPM extends ListPreventionEventsPage {
     @Test(description = "Проверка перехода по ЖЦ ПМ Профилактического визита в статус Завершено")
     public void preventiveVisitStatusCompletedTest() throws Exception {
         installPlugin();
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, kingObjectForFNS);
@@ -100,7 +100,7 @@ public class TestE2EPM extends ListPreventionEventsPage {
     @Test(description = "Проверка перехода по ЖЦ ПМ Профилактического визита в статус Отказ в проведении")
     public void preventiveVisitStatusRefusalCarryOutTest() throws Exception {
         installPlugin();
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, kingObjectForFNS);
@@ -126,7 +126,7 @@ public class TestE2EPM extends ListPreventionEventsPage {
     @Test(description = "Проверка удаления ПМ")
     public void deleteCartPMTest() throws Exception {
         installPlugin();
-        authorization("voskhod_qa");
+        authorization(employee);
         selectionERKNM();
         gotoListPreventionEventsPage();
         addPreventionEvent(nameKNOFNS, viewKNOFNS, typePreventiveVisitPM, currentDate, INN, kingObjectForFNS);

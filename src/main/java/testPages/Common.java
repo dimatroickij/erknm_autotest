@@ -28,10 +28,21 @@ import static java.lang.Thread.sleep;
 
 public class Common {
 
+    // Основные параметры
     public ReadParameters readParameters = new ReadParameters();
 
     public String url = readParameters.getParameter("url", "prod");
     public String openUrl = readParameters.getParameter("url", "prodOpen");
+    public String employee = "supervisor";  // работник КНО
+    public String prosecutor = "prosecutor";  // прокурор
+    public String ombudsman = "ombudsman";  // омбудсмен
+    public String INN = readParameters.getParameter("information", "inn");
+    public String INNIndividual = "123456789101";
+    public String INNForeignLegalEntity = "9909380589";
+    public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
+    public String prosecutorsOffice = "Байконур";
+    public String numberPlan = "2024003601";
+
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
     public String installPluginButton = "//*[text()='Установить']"; //кнопка Установить плагин
     public String prefix = UUID.randomUUID().toString();
@@ -58,32 +69,34 @@ public class Common {
     public String viewForeignLegalEntity = "Иностранные юридические лица";
     public String viewForeignLegalEntityNotRegistered = "Иностранные";  // иностранные юридические лица с чекбоксом не зарегистрированные на территории РФ
 
-
+    // Органы контроля
     public String nameKNO = "Федеральная служба по надзору в сфере здравоохранения";
     public String knoName = "ФЕДЕРАЛЬНАЯ СЛУЖБА ПО НАДЗОРУ В СФЕРЕ ЗДРАВООХРАНЕНИЯ";
     public String nameKNOFNS = "Федеральная налоговая служба";
     public String knoNameTransport = "Федеральная служба по надзору в сфере транспорта";
     public String knoNameGO = "ГЛАВНОЕ УПРАВЛЕНИЕ МИНИСТЕРСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ";
 
+    // виды контроля
     public String viewKNOFNSForPlan = "017 - Федеральный государственный лицензионный контроль (надзор) за производством и " +
             "реализацией защищенной от подделок полиграфической продукции";
     public String viewKNOFNS = "051 - Федеральный государственный контроль (надзор) за организацией и проведением " +
             "азартных игр";
+    public String viewKNO_037 = "037 - Федеральный государственный контроль (надзор) качества и безопасности медицинской деятельности";
+    public String viewKNO_066 = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
+    public String viewKNO_069 = "069 - Федеральный государственный контроль (надзор) в области транспортной безопасности";
+    public String viewKNOERP = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
 
+
+    // виды объекта
     public String kingObjectForFNSInPlaned = "Деятельность по производству и реализации защищенной от подделок полиграфической продукции";
     public String kingObjectForFNS = "Деятельность юридических лиц, имеющих разрешение на осуществление деятельности по " +
             "организации и проведению азартных игр в игорной зоне";
     public String kingObjectFor_037 = "деятельность медицинских организаций (в том числе медицинских работников)";
     public String kingObjectFor_066 = "деятельность контролируемых лиц в сфере обращения лекарственных средств для ветеринарного применения";
     public String kingObjectFor_069 = "строящиеся объекты транспортной инфраструктуры";
-    public String viewKNO_037 = "037 - Федеральный государственный контроль (надзор) качества и безопасности медицинской деятельности";
-    public String viewKNO_066 = "066 - Федеральный государственный контроль (надзор) в сфере обращения лекарственных средств";
-    public String viewKNO_069 = "069 - Федеральный государственный контроль (надзор) в области транспортной безопасности";
-    public String viewKNOERP
-            = "1.111 294 ФЗ  - Федеральный государственный контроль (надзор) в сферах естественных монополий.";
-    public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
-    public String prosecutorsOffice = "Байконур";
-    public String territorialUnitName = "РОССИЯ - состав федеральных округов";
+
+
+    // основания
     public String grounds = "5.0.3 (ФЗ 248) В связи с отношением объектов контроля к категориям чрезвычайно высокого, высокого и значительного риска";
 
     //Основное меню (на всех страницах)
@@ -110,7 +123,7 @@ public class Common {
     public String onsiteInspection = "Выездная проверка";
     public String unscheduledCheck = "Внеплановая проверка";
     public String scheduleCheck = "Плановая проверка";
-    public String numberPlan = "2024003601";
+
 
     //Характер КНМ
     public String plannedCheck = "Плановое КНМ";
@@ -135,9 +148,7 @@ public class Common {
     //Типы документов для основания проведения КНМ
     public String motivatedPerformance = "Мотивированное представление о проведении контрольного (надзорного)";
 
-    public String positionDirector = "руководитель";
-    public String positionDirectorTerritorialAuthority = "Руководитель Территориального органа Росздравнадзора";
-    public String positionSpecialistExpert = "Специалист-эксперт отдела Территориального органа Росздравнадзора";
+    // результат ознакомления
     public String familiarWith = "Ознакомлен";
     public String refusalToFamiliarize = "Отказ в ознакомлении";
     public String absenceAtLocation = "В связи с отсутствием контролируемого лица по месту нахождения  (осуществления деятельности)";
@@ -150,6 +161,7 @@ public class Common {
 
     // Категория риска
     public String righRisk = "Высокий риск (2 класс)";
+
     // Статусы публикации
     public String statusPublished = "Опубликовано";
     public String statusNotPublished = "Не опубликовано";
@@ -191,7 +203,7 @@ public class Common {
 
     public String numberKNM = "//div[contains(@class, 'TitleBlock')]/h3"; // Объект для получения номера КНМ
     String selectValueByText = "//div[contains(text(),'%s')]"; // Локатор для выбора значения в выпадающем списке по тексту
-    String selectValueByNumber = "//div[contains(@class, 'SelectInput')][%s]"; // Локатор для выбора значения в выпадающем списке по номеру
+
     String valueOfPlaceholder = "//*[@placeholder='%s']"; // локатор плэйсхолдера
     String electronicSignature = "//*[@id='certs']/div/div[1]/div[1]";  // ключ электронной подписи из списка
     public String successfullySignNotification = "//div[contains(@class, 'ClosingNotificationText') and text() ='Паспорт КНМ успешно подписан']";
@@ -199,7 +211,8 @@ public class Common {
     //информация для заполнения КНМ
     public String number = "1";
     public String place = "место";
-    public String fio = "ФИО";
+
+    // типы акта
     public String supervisoryAct = "Акт контрольного (надзорного) мероприятия";
     public String actOfImpossibility = "Акт о невозможности проведения контрольного (надзорного) мероприятия";
 
@@ -208,6 +221,7 @@ public class Common {
     String passwordField = "//*[@name='password']"; //поле Пароль
     String enterButton = "//*[@type='submit']"; //кнопка Войти
 
+    // основная навигация
     String searchField = "//*[@name='searchString']"; //поле Поиска
     String searchButton = "//*[@id='searchButton']"; //кнопка Искать
     String upButton = "//*[@id=\"root\"]/div[1]/button"; // кнопка вверх
@@ -236,8 +250,7 @@ public class Common {
     public String visibleNewsItemProsecutor = "//*[text()='Работник прокуратуры']";
     public String visibleNewsItemOpenPart = "//*[text()='Открытая часть']";
     public String typeItemNews = "//*[text()='Новость']";
-    public String INN = readParameters.getParameter("information", "inn");// "7811689828";
-    public String INNIndividual = "123456789101";
+
     public String menuButton = "//*[@id='userMenuButton']";
     public static String currentDate = ""; // Формирует сегодняшнюю дату
     public static String currentDateTime = "";
