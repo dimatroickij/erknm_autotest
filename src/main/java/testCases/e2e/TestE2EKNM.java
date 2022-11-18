@@ -710,7 +710,7 @@ public class TestE2EKNM extends ListEventsPage {
         selectionERKNM();
         gotoListPlansPage();
         openCardPlan(numberPlan);
-        planPage.transferPlanStatusApproved();
+        //planPage.transferPlanStatusApproved();
     }
 
     /**

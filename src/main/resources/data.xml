@@ -16,8 +16,8 @@
             <users>
                 <user name="supervisor" value="P@ssw0rd"/>
                 <user name="voskhod_qa" value="Uzh8IFaQWyh87wRn"/>
-                <user name="prosecutor" value="z26VumZ56X"/>
-                <user name="ombudsman" value="z26VumZ56X"/>
+                <user name="prosecutor" value="P@ssw0rd"/>
+                <user name="ombudsman" value="P@ssw0rd"/>
                 <user name="sysadmin" value="P@ssw0rd"/>
             </users>
 

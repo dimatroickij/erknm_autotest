@@ -1772,6 +1772,7 @@ public class ListEventsPage extends Common {
         if (kindKNM.equals(onsiteInspection)) {
             setFieldsNotificationInformation(currentDate, "Иное");
         }
+        //closeNotification();
         clickSaveButton();
         closeNotification();
         sleep(5000);

@@ -31,8 +31,8 @@ public class Common {
     // Основные параметры
     public ReadParameters readParameters = new ReadParameters();
 
-    public String url = readParameters.getParameter("url", "prod");
-    public String openUrl = readParameters.getParameter("url", "prodOpen");
+    public String url = readParameters.getParameter("url", "test");
+    public String openUrl = readParameters.getParameter("url", "testOpen");
     public String employee = "supervisor";  // работник КНО
     public String prosecutor = "prosecutor";  // прокурор
     public String ombudsman = "ombudsman";  // омбудсмен
@@ -40,7 +40,7 @@ public class Common {
     public String INNIndividual = "123456789101";
     public String INNForeignLegalEntity = "9909380589";
     public String prosecutorPlan = "Генеральная прокуратура Российской Федерации";
-    public String prosecutorsOffice = "Байконур";
+    public String prosecutorsOffice = "РОССИЯ";
     public String numberPlan = "2024003601";
 
     public String urlPlugin = "https://chrome.google.com/webstore/detail/cryptopro-extension-for-c/iifchhfnnmpdbibifmljnfjhpififfog"; //ссылка для установки браузера
